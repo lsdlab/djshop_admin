@@ -19,6 +19,10 @@ import {
   Divider,
   Popconfirm,
 } from 'antd';
+
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+
 import SimpleTable from '@/components/SimpleTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
@@ -29,7 +33,7 @@ const { TextArea } = Input;
 const { Option } = Select;
 
 const CreateForm = Form.create()(props => {
-  const { modalVisible, form, handleAdd, handleModalVisible } = props;
+  const { modalVisible, form, handleAdd, handleModalVisible, } = props;
   const okHandle = () => {
     form.validateFields((err, fieldsValue) => {
       if (err) return;
@@ -43,7 +47,7 @@ const CreateForm = Form.create()(props => {
       centered
       keyboard
       title="新建"
-      width={800}
+      width={1000}
       visible={modalVisible}
       onOk={okHandle}
       onCancel={() => handleModalVisible()}
@@ -53,10 +57,15 @@ const CreateForm = Form.create()(props => {
           rules: [{ required: true, message: '请输入标题！' }],
         })(<Input placeholder="请输入标题" />)}
       </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="副标题">
+        {form.getFieldDecorator('subtitle', {
+          rules: [{ required: true, message: '请输入副标题！' }],
+        })(<Input placeholder="请输入标题" />)}
+      </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="内容">
-        {form.getFieldDecorator('content', {
+        {form.getFieldDecorator('md', {
           rules: [{ required: true, message: '请输入内容！'}],
-        })(<TextArea rows={8} placeholder="请输入内容" />)}
+        })(<TextArea rows={10} placeholder="请输入内容(Markdown)" />)}
       </FormItem>
     </Modal>
   );
@@ -126,38 +135,8 @@ class ArticleList extends PureComponent {
     formValues: {},
     currentRecord: {},
     modalFormValues: {},
+    quillvalue: '',
   };
-
-  columns = [
-    {
-      title: '标题',
-      dataIndex: 'title',
-    },
-    {
-      title: '作者',
-      dataIndex: 'author',
-    },
-    {
-      title: '状态',
-      dataIndex: 'status_name',
-    },
-    {
-      title: '创建时间',
-      dataIndex: 'created_at',
-    },
-    {
-      title: '操作',
-      render: (text, record) => (
-        <Fragment>
-          <a onClick={() => this.handleUpdateModalVisible(true, record)}>编辑</a>
-          <Divider type="vertical" />
-          <Popconfirm title="是否要删除此文章？" onConfirm={() => this.handleRemove(record.id)}>
-              <a>删除</a>
-            </Popconfirm>
-        </Fragment>
-      ),
-    },
-  ];
 
   componentDidMount() {
     const { dispatch } = this.props;
@@ -229,8 +208,6 @@ class ArticleList extends PureComponent {
     });
   };
 
-
-
   handleUpdateModalVisible = (flag, record) => {
     this.setState({
       updateModalVisible: !!flag,
@@ -293,32 +270,6 @@ class ArticleList extends PureComponent {
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
-            <FormItem label="搜索">
-              {getFieldDecorator('search')(<Input placeholder="标题/内容" />)}
-            </FormItem>
-          </Col>
-          <Col md={8} sm={24}>
-            <FormItem label="状态">
-              {getFieldDecorator('status')(
-                <Select placeholder="请选择" style={{ width: '100%' }}>
-                  <Option value="1">上线</Option>
-                  <Option value="2">下线</Option>
-                  <Option value="3">草稿</Option>
-                </Select>
-              )}
-            </FormItem>
-          </Col>
-          <Col md={4} sm={12}>
-            <span className={styles.submitButtons}>
-              <Button type="primary" htmlType="submit">
-                查询
-              </Button>
-              <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>
-                重置
-              </Button>
-            </span>
-          </Col>
-          <Col md={4} sm={12}>
             <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
               新建
             </Button>
@@ -333,7 +284,7 @@ class ArticleList extends PureComponent {
       articles: { data },
       loading,
     } = this.props;
-    const { currentPage, modalVisible, updateModalVisible, currentRecord } = this.state;
+    const { currentPage, pageSize, modalVisible, updateModalVisible, currentRecord } = this.state;
 
     const parentMethods = {
       handleAdd: this.handleAdd,
@@ -343,6 +294,58 @@ class ArticleList extends PureComponent {
       handleUpdateModalVisible: this.handleUpdateModalVisible,
       handleUpdate: this.handleUpdate,
     };
+
+    const columns = [
+      {
+          title: '序号',
+          dataIndex: 'no',
+          key: 'no',
+          render(text, record, index) {
+            const no = (currentPage - 1) * pageSize
+            return no + index + 1;
+          },
+        },
+      {
+        title: '标题',
+        dataIndex: 'title',
+      },
+      {
+        title: '作者',
+        dataIndex: 'author',
+      },
+      {
+        title: '状态',
+        dataIndex: 'deleted',
+        render(text, record, index) {
+          if (text) {
+            return '已删除'
+          } else {
+            return '未删除'
+          }
+        },
+      },
+      {
+        title: '创建时间',
+        dataIndex: 'created_at',
+      },
+      {
+        title: '更新时间',
+        dataIndex: 'updated_at',
+      },
+      {
+        title: '操作',
+        render: (text, record) => (
+          <Fragment>
+            <a onClick={() => this.handleUpdateModalVisible(true, record)}>编辑</a>
+            <Divider type="vertical" />
+            <Popconfirm title="是否要删除此文章？" onConfirm={() => this.handleRemove(record.id)}>
+                <a>删除</a>
+              </Popconfirm>
+          </Fragment>
+        ),
+      },
+    ];
+
     return (
       <PageHeaderWrapper title="文章查询列表">
         <Card bordered={false}>
@@ -351,7 +354,7 @@ class ArticleList extends PureComponent {
             <SimpleTable
               loading={loading}
               data={data}
-              columns={this.columns}
+              columns={columns}
               onChange={this.handleStandardTableChange}
             />
           </div>

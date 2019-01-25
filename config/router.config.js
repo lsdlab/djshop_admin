@@ -41,16 +41,16 @@ export default [
           },
         ],
       },
-      // example
+      // post
       {
-        path: '/example',
-        name: 'example',
+        path: '/post',
+        name: 'post',
         icon: 'dashboard',
         routes: [
           {
-            path: '/example/article-list',
+            path: '/post/article-list',
             name: 'article-list',
-            component: './Example/ArticleList',
+            component: './Post/ArticleList',
           },
         ],
       },

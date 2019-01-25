@@ -126,8 +126,8 @@ export async function getFakeCaptcha(mobile) {
 }
 
 
-const apiHost = 'http://localhost:8000';    // development
-// const apiHost = 'http://localhost:8000';    // production
+const apiHost = 'http://localhost:9000';    // development
+// const apiHost = '';    // production
 const apiVersion = '/api/v1';
 
 function getToken() {
@@ -149,7 +149,7 @@ export async function jwtToken(params) {
 
 export async function fetchCurrent() {
   const token = getToken();
-  return request(`${apiHost}${apiVersion}/users/fetch_current/`, {
+  return request(`${apiHost}${apiVersion}/users/current_user/`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
