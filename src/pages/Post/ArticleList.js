@@ -60,7 +60,7 @@ const CreateForm = Form.create()(props => {
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="副标题">
         {form.getFieldDecorator('subtitle', {
           rules: [{ required: true, message: '请输入副标题！' }],
-        })(<Input placeholder="请输入标题" />)}
+        })(<Input placeholder="请输入副标题" />)}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="内容">
         {form.getFieldDecorator('md', {
@@ -310,6 +310,10 @@ class ArticleList extends PureComponent {
         dataIndex: 'title',
       },
       {
+        title: '副标题',
+        dataIndex: 'subtitle',
+      },
+      {
         title: '作者',
         dataIndex: 'author',
       },
@@ -327,10 +331,6 @@ class ArticleList extends PureComponent {
       {
         title: '创建时间',
         dataIndex: 'created_at',
-      },
-      {
-        title: '更新时间',
-        dataIndex: 'updated_at',
       },
       {
         title: '操作',

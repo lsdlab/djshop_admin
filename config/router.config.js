@@ -45,7 +45,7 @@ export default [
       {
         path: '/post',
         name: 'post',
-        icon: 'dashboard',
+        icon: 'file-word',
         routes: [
           {
             path: '/post/article-list',
