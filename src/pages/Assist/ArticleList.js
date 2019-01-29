@@ -42,7 +42,7 @@ const CreateForm = Form.create()(props => {
       destroyOnClose
       centered
       keyboard
-      title="新建"
+      title="新建专题"
       width={1000}
       visible={modalVisible}
       onOk={okHandle}
@@ -226,7 +226,7 @@ class ArticleList extends PureComponent {
         status: '1',
       }
     }).then((data) => {
-      message.success('添加文章成功');
+      message.success('添加专题成功');
       this.handleModalVisible();
       this.props.dispatch({
         type: 'articles/fetch',
@@ -255,7 +255,7 @@ class ArticleList extends PureComponent {
       type: 'articles/delete',
       articleID: articleID,
     }).then(() => {
-      message.success('删除文章成功！');
+      message.success('删除专题成功！');
       dispatch({
         type: 'articles/fetch',
         payload: {},
@@ -272,7 +272,7 @@ class ArticleList extends PureComponent {
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
             <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
-              新建
+              新建专题
             </Button>
           </Col>
         </Row>
@@ -339,7 +339,7 @@ class ArticleList extends PureComponent {
           <Fragment>
             <a onClick={() => this.handleUpdateModalVisible(true, record)}>编辑</a>
             <Divider type="vertical" />
-            <Popconfirm title="是否要删除此文章？" onConfirm={() => this.handleRemove(record.id)}>
+            <Popconfirm title="是否要删除此专题？" onConfirm={() => this.handleRemove(record.id)}>
                 <a>删除</a>
               </Popconfirm>
           </Fragment>
@@ -348,7 +348,7 @@ class ArticleList extends PureComponent {
     ];
 
     return (
-      <PageHeaderWrapper title="文章查询列表">
+      <PageHeaderWrapper title="专题列表">
         <Card bordered={false}>
           <div className={styles.tableList}>
             <div className={styles.tableListForm}>{this.renderSimpleForm()}</div>

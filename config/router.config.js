@@ -43,19 +43,14 @@ export default [
       },
       // post
       {
-        path: '/post',
-        name: 'post',
+        path: '/assist',
+        name: 'assist',
         icon: 'file-word',
         routes: [
           {
-            path: '/post/article-list',
+            path: '/assist/article-list',
             name: 'article-list',
-            component: './Post/ArticleList',
-          },
-          {
-            path: '/post/upload',
-            name: 'upload',
-            component: './Post/Upload',
+            component: './Assist/ArticleList',
           },
         ],
       },
