@@ -6,6 +6,7 @@ export default {
   'menu.dashboard.workplace': '工作台',
   'menu.post': '文章',
   'menu.post.article-list': '文章查询列表',
+  'menu.post.upload': '上传图片',
   'menu.form': '表单页',
   'menu.form.basicform': '基础表单',
   'menu.form.stepform': '分步表单',

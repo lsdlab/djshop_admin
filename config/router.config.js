@@ -52,6 +52,11 @@ export default [
             name: 'article-list',
             component: './Post/ArticleList',
           },
+          {
+            path: '/post/upload',
+            name: 'upload',
+            component: './Post/Upload',
+          },
         ],
       },
       // forms

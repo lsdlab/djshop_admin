@@ -19,10 +19,6 @@ import {
   Divider,
   Popconfirm,
 } from 'antd';
-
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-
 import SimpleTable from '@/components/SimpleTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
@@ -79,7 +75,7 @@ class UpdateForm extends PureComponent {
     this.state = {
       modalFormVals: {
         title: props.values.title,
-        content: props.values.content
+        subtitle: props.values.subtitle
       },
     };
 
@@ -109,9 +105,15 @@ class UpdateForm extends PureComponent {
             rules: [{ required: true, message: '请输入标题！' }],
           })(<Input placeholder="请输入标题" />)}
         </FormItem>
+        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="副标题">
+          {form.getFieldDecorator('subtitle', {
+            initialValue: modalFormVals.subtitle,
+            rules: [{ required: true, message: '请输入副标题！' }],
+          })(<Input placeholder="请输入副标题" />)}
+        </FormItem>
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="内容">
-          {form.getFieldDecorator('content', {
-            initialValue: modalFormVals.content,
+          {form.getFieldDecorator('md', {
+            initialValue: modalFormVals.md,
             rules: [{ required: true, message: '请输入内容！'}],
           })(<TextArea rows={8} placeholder="请输入内容" />)}
         </FormItem>
@@ -135,7 +137,6 @@ class ArticleList extends PureComponent {
     formValues: {},
     currentRecord: {},
     modalFormValues: {},
-    quillvalue: '',
   };
 
   componentDidMount() {
