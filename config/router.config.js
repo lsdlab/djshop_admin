@@ -29,242 +29,125 @@ export default [
             name: 'analysis',
             component: './Dashboard/Analysis',
           },
+        ],
+      },
+      {
+        path: '/product',
+        name: 'product',
+        icon: 'shopping',
+        routes: [
           {
-            path: '/dashboard/monitor',
-            name: 'monitor',
-            component: './Dashboard/Monitor',
+            path: '/product/category-list',
+            name: 'category-list',
+            component: './Product/CategoryList',
           },
           {
-            path: '/dashboard/workplace',
-            name: 'workplace',
-            component: './Dashboard/Workplace',
+            path: '/product/ProductCreate',
+            name: 'product-create',
+            component: './Product/ProductCreate',
+          },
+          {
+            path: '/product/product-list',
+            name: 'product-list',
+            component: './Product/ProductList',
+          },
+          {
+            path: '/product/product-rec-list',
+            name: 'product-rec-list',
+            component: './Product/ProductRecList',
           },
         ],
       },
-      // post
+      {
+        path: '/bargaingroupon',
+        name: 'bargaingroupon',
+        icon: 'shopping',
+        routes: [
+          {
+            path: '/bargaingroupon/bargain-product-create',
+            name: 'bargain-product-create',
+            component: './BargainGroupon/BargainProductCreate',
+          },
+          {
+            path: '/bargaingroupon/bargain-product-list',
+            name: 'bargain-product-list',
+            component: './BargainGroupon/BargainProductList',
+          },
+          {
+            path: '/bargaingroupon/groupon-product-create',
+            name: 'groupon-product-create',
+            component: './BargainGroupon/GrouponProductCreate',
+          },
+          {
+            path: '/bargaingroupon/groupon-product-list',
+            name: 'groupon-product-list',
+            component: './BargainGroupon/GrouponProductList',
+          },
+        ],
+      },
+      {
+        path: '/coupon',
+        name: 'coupon',
+        icon: 'gift',
+        routes: [
+          {
+            path: '/coupon/coupon-create',
+            name: 'coupon-create',
+            component: './Coupon/CouponCreate',
+          },
+          {
+            path: '/coupon/coupon-list',
+            name: 'coupon-list',
+            component: './Coupon/CouponList',
+          },
+        ],
+      },
+      {
+        path: '/transaction',
+        name: 'transaction',
+        icon: 'audit',
+        routes: [
+          {
+            path: '/transaction/transaction-list',
+            name: 'transaction-list',
+            component: './Transaction/TransactionList',
+          },
+          {
+            path: '/transaction/invoice-list',
+            name: 'invoice-list',
+            component: './Transaction/InvoiceList',
+          },
+          {
+            path: '/transaction/refund-list',
+            name: 'refund-list',
+            component: './Transaction/RefundList',
+          },
+        ],
+      },
       {
         path: '/assist',
         name: 'assist',
-        icon: 'file-word',
+        icon: 'appstore',
         routes: [
+          {
+            path: '/assist/splash-list',
+            name: 'splash-list',
+            component: './Assist/SplashList',
+          },
+          {
+            path: '/assist/banner-list',
+            name: 'banner-list',
+            component: './Assist/BannerList',
+          },
+          {
+            path: '/assist/notice-list',
+            name: 'notice-list',
+            component: './Assist/NoticeList',
+          },
           {
             path: '/assist/article-list',
             name: 'article-list',
             component: './Assist/ArticleList',
-          },
-        ],
-      },
-      // forms
-      {
-        path: '/form',
-        icon: 'form',
-        name: 'form',
-        routes: [
-          {
-            path: '/form/basic-form',
-            name: 'basicform',
-            component: './Forms/BasicForm',
-          },
-          {
-            path: '/form/step-form',
-            name: 'stepform',
-            component: './Forms/StepForm',
-            hideChildrenInMenu: true,
-            routes: [
-              {
-                path: '/form/step-form',
-                redirect: '/form/step-form/info',
-              },
-              {
-                path: '/form/step-form/info',
-                name: 'info',
-                component: './Forms/StepForm/Step1',
-              },
-              {
-                path: '/form/step-form/confirm',
-                name: 'confirm',
-                component: './Forms/StepForm/Step2',
-              },
-              {
-                path: '/form/step-form/result',
-                name: 'result',
-                component: './Forms/StepForm/Step3',
-              },
-            ],
-          },
-          {
-            path: '/form/advanced-form',
-            name: 'advancedform',
-            authority: ['admin'],
-            component: './Forms/AdvancedForm',
-          },
-        ],
-      },
-      // list
-      {
-        path: '/list',
-        icon: 'table',
-        name: 'list',
-        routes: [
-          {
-            path: '/list/table-list',
-            name: 'searchtable',
-            component: './List/TableList',
-          },
-          {
-            path: '/list/basic-list',
-            name: 'basiclist',
-            component: './List/BasicList',
-          },
-          {
-            path: '/list/card-list',
-            name: 'cardlist',
-            component: './List/CardList',
-          },
-          {
-            path: '/list/search',
-            name: 'searchlist',
-            component: './List/List',
-            routes: [
-              {
-                path: '/list/search',
-                redirect: '/list/search/articles',
-              },
-              {
-                path: '/list/search/articles',
-                name: 'articles',
-                component: './List/Articles',
-              },
-              {
-                path: '/list/search/projects',
-                name: 'projects',
-                component: './List/Projects',
-              },
-              {
-                path: '/list/search/applications',
-                name: 'applications',
-                component: './List/Applications',
-              },
-            ],
-          },
-        ],
-      },
-      {
-        path: '/profile',
-        name: 'profile',
-        icon: 'profile',
-        routes: [
-          // profile
-          {
-            path: '/profile/basic',
-            name: 'basic',
-            component: './Profile/BasicProfile',
-          },
-          {
-            path: '/profile/advanced',
-            name: 'advanced',
-            authority: ['admin'],
-            component: './Profile/AdvancedProfile',
-          },
-        ],
-      },
-      {
-        name: 'result',
-        icon: 'check-circle-o',
-        path: '/result',
-        routes: [
-          // result
-          {
-            path: '/result/success',
-            name: 'success',
-            component: './Result/Success',
-          },
-          { path: '/result/fail', name: 'fail', component: './Result/Error' },
-        ],
-      },
-      {
-        name: 'exception',
-        icon: 'warning',
-        path: '/exception',
-        routes: [
-          // exception
-          {
-            path: '/exception/403',
-            name: 'not-permission',
-            component: './Exception/403',
-          },
-          {
-            path: '/exception/404',
-            name: 'not-find',
-            component: './Exception/404',
-          },
-          {
-            path: '/exception/500',
-            name: 'server-error',
-            component: './Exception/500',
-          },
-          {
-            path: '/exception/trigger',
-            name: 'trigger',
-            hideInMenu: true,
-            component: './Exception/TriggerException',
-          },
-        ],
-      },
-      {
-        name: 'account',
-        icon: 'user',
-        path: '/account',
-        routes: [
-          {
-            path: '/account/center',
-            name: 'center',
-            component: './Account/Center/Center',
-            routes: [
-              {
-                path: '/account/center',
-                redirect: '/account/center/articles',
-              },
-              {
-                path: '/account/center/articles',
-                component: './Account/Center/Articles',
-              },
-              {
-                path: '/account/center/applications',
-                component: './Account/Center/Applications',
-              },
-              {
-                path: '/account/center/projects',
-                component: './Account/Center/Projects',
-              },
-            ],
-          },
-          {
-            path: '/account/settings',
-            name: 'settings',
-            component: './Account/Settings/Info',
-            routes: [
-              {
-                path: '/account/settings',
-                redirect: '/account/settings/base',
-              },
-              {
-                path: '/account/settings/base',
-                component: './Account/Settings/BaseView',
-              },
-              {
-                path: '/account/settings/security',
-                component: './Account/Settings/SecurityView',
-              },
-              {
-                path: '/account/settings/binding',
-                component: './Account/Settings/BindingView',
-              },
-              {
-                path: '/account/settings/notification',
-                component: './Account/Settings/NotificationView',
-              },
-            ],
           },
         ],
       },

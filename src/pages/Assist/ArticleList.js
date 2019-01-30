@@ -348,7 +348,7 @@ class ArticleList extends PureComponent {
     ];
 
     return (
-      <PageHeaderWrapper title="专题列表">
+      <PageHeaderWrapper title="专题">
         <Card bordered={false}>
           <div className={styles.tableList}>
             <div className={styles.tableListForm}>{this.renderSimpleForm()}</div>
