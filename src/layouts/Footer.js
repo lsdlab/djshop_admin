@@ -8,8 +8,8 @@ const FooterView = () => (
     <GlobalFooter
       links={[
         {
-          key: 'ade',
-          title: 'ade',
+          key: 'lsdlab/ade',
+          title: 'lsdlab/ade',
           href: 'https://github.com/lsdlab/ade',
           blankTarget: true,
         },

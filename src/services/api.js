@@ -1,5 +1,7 @@
 import { stringify } from 'qs';
 import request from '@/utils/request';
+const axios = require('axios');
+
 
 export async function queryProjectNotice() {
   return request('/api/project/notice');
@@ -130,11 +132,28 @@ const apiHost = 'http://localhost:9000';    // development
 // const apiHost = '';    // production
 const apiVersion = '/api/v1';
 
+function refreshToken(oldToken) {
+  axios.post(`${apiHost}${apiVersion}/jwt/token-refresh/`, {
+    token: oldToken,
+  })
+  .then(function (response) {
+    console.log(response);
+    return response.data.token
+  })
+}
+
 function getToken() {
+  var token = ''
   if (localStorage.getItem("token") !== null) {
-    return localStorage.getItem("token")
+    if (localStorage.getItem('now') + (1 * 24 * 60 * 60 * 1000) < new Date().getTime()) {
+      // token 过期，需要刷新
+      token = refreshToken(localStorage.getItem('token'))
+    } else {
+      // token 未过期
+      token = localStorage.getItem("token")
+    }
+    return token
   }
-  return ''
 }
 
 export async function jwtToken(params) {

@@ -18,6 +18,7 @@ export default {
       let response;
       if (responseJSON) {
         localStorage.setItem('token', responseJSON.token);
+        localStorage.setItem('now', new Date().getTime());
         response = {
           status: 'ok',
           type: 'account',
