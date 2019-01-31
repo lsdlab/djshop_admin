@@ -222,3 +222,26 @@ export async function deleteArticle(aritcleID) {
     },
   });
 }
+
+export async function querySplash(params) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/splash/?${stringify(params)}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+export async function createSplash(params) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/splash/`, {
+    method: 'POST',
+    body: params,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
