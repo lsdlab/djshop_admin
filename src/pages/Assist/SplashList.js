@@ -18,8 +18,10 @@ import {
   message,
   Divider,
   Popconfirm,
+  Badge,
+  Upload,
 } from 'antd';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
+
 import SimpleTable from '@/components/SimpleTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
@@ -274,7 +276,6 @@ class SplashList extends PureComponent {
       {
           title: '序号',
           dataIndex: 'no',
-          key: 'no',
           render(text, record, index) {
             const no = (currentPage - 1) * pageSize
             return no + index + 1;
@@ -284,14 +285,17 @@ class SplashList extends PureComponent {
         title: '名称',
         dataIndex: 'name',
       },
-      {
-        title: '图片链接',
-        dataIndex: 'splash',
-      },
+
       {
         title: '状态',
-        dataIndex: 'status_name',
-
+        dataIndex: 'status',
+        render(val) {
+          if (val === '1') {
+            return <Badge status='success' text='上线' />;
+          } else if (val === '2') {
+            return <Badge status='error' text='下线' />;
+          }
+        },
       },
       {
         title: '创建时间',
