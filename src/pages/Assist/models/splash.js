@@ -1,4 +1,4 @@
-import { queryArticles, createArticle, patchArticle, deleteArticle } from '@/services/api'
+import { querySplash, createSplash, patchSplash, convertSplash } from '@/services/api'
 
 export default {
   namespace: 'splash',
@@ -12,20 +12,20 @@ export default {
 
   effects: {
     *fetch({ payload }, { call, put }) {
-      const response = yield call(queryArticles, payload);
+      const response = yield call(querySplash, payload);
       yield put({
         type: 'save',
         payload: response,
       });
     },
     *create({ payload }, { call, put }) {
-      yield call(createArticle, payload);
+      yield call(createSplash, payload);
     },
-    *patch({ payload, articleID }, { call, put }) {
-      yield call(patchArticle, payload, articleID);
+    *patch({ payload, splashID }, { call, put }) {
+      yield call(patchSplash, payload, splashID);
     },
-    *delete({ payload, articleID }, { call, put }) {
-      yield call(deleteArticle, articleID);
+    *convert({ payload, splashID }, { call, put }) {
+      yield call(convertSplash, payload, splashID);
     },
   },
 

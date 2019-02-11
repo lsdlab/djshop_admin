@@ -19,6 +19,7 @@ import {
   Divider,
   Popconfirm,
 } from 'antd';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import SimpleTable from '@/components/SimpleTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
@@ -28,27 +29,309 @@ const FormItem = Form.Item;
 const { TextArea } = Input;
 const { Option } = Select;
 
-/* eslint react/no-multi-comp:0 */
-// @connect(({ articles, loading }) => ({
-//   articles,
-//   loading: loading.models.articles,
-// }))
-// @Form.create()
-class SplashList extends PureComponent {
-  state = {
+const CreateForm = Form.create()(props => {
+  const { modalVisible, form, handleAdd, handleModalVisible, } = props;
+  const okHandle = () => {
+    form.validateFields((err, fieldsValue) => {
+      if (err) return;
+      form.resetFields();
+      handleAdd(fieldsValue);
+    });
   };
+  return (
+    <Modal
+      destroyOnClose
+      centered
+      keyboard
+      title="新建"
+      width={800}
+      visible={modalVisible}
+      onOk={okHandle}
+      onCancel={() => handleModalVisible()}
+    >
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="名称">
+        {form.getFieldDecorator('name', {
+          rules: [{ required: true, message: '请输入名称！' }],
+        })(<Input placeholder="请输入名称" />)}
+      </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="图片链接">
+        {form.getFieldDecorator('splash', {
+          rules: [{ required: true, message: '请输入图片链接！' }],
+        })(<Input placeholder="请输入图片链接" />)}
+      </FormItem>
+    </Modal>
+  );
+});
 
-  componentDidMount() {
+@Form.create()
+class UpdateForm extends PureComponent {
+  constructor(props) {
+    super(props);
 
+    this.state = {
+      modalFormVals: {
+        name: props.values.name,
+        splash: props.values.splash
+      },
+    };
+
+    this.formLayout = {
+      labelCol: { span: 7 },
+      wrapperCol: { span: 13 },
+    };
   }
 
   render() {
+    const { updateModalVisible, form, handleUpdateModalVisible } = this.props;
+    const { modalFormVals } = this.state;
+
+    return (
+      <Modal
+        destroyOnClose
+        centered
+        keyboard
+        title="编辑"
+        width={800}
+        visible={updateModalVisible}
+        onCancel={() => handleUpdateModalVisible()}
+      >
+        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="名称">
+          {form.getFieldDecorator('name', {
+            initialValue: modalFormVals.name,
+            rules: [{ required: true, message: '请输入名称！' }],
+          })(<Input placeholder="请输入标题" />)}
+        </FormItem>
+        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="图片链接">
+          {form.getFieldDecorator('splash', {
+            initialValue: modalFormVals.splash,
+            rules: [{ required: true, message: '请输入图片链接！' }],
+          })(<Input placeholder="请输入图片链接" />)}
+        </FormItem>
+      </Modal>
+    );
+  }
+}
+
+
+/* eslint react/no-multi-comp:0 */
+@connect(({ splash, loading }) => ({
+  splash,
+  loading: loading.models.splash,
+}))
+@Form.create()
+class SplashList extends PureComponent {
+  state = {
+    currentPage: 1,
+    pageSize: 10,
+    modalVisible: false,
+    updateModalVisible: false,
+    formValues: {},
+    currentRecord: {},
+    modalFormValues: {},
+  };
+
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'splash/fetch',
+    });
+  }
+
+  handleStandardTableChange = (pagination, filtersArg, sorter) => {
+    const { dispatch } = this.props;
+    const { formValues } = this.state;
+
+    const filters = Object.keys(filtersArg).reduce((obj, key) => {
+      const newObj = { ...obj };
+      newObj[key] = getValue(filtersArg[key]);
+      return newObj;
+    }, {});
+
+    const params = {
+      currentPage: pagination.current,
+      pageSize: pagination.pageSize,
+      ...formValues,
+      ...filters,
+    };
+    if (sorter.field) {
+      params.sorter = `${sorter.field}_${sorter.order}`;
+    }
+
+    dispatch({
+      type: 'splash/fetch',
+      payload: params,
+    });
+  };
+
+  handleFormReset = () => {
+    const { form, dispatch } = this.props;
+    form.resetFields();
+    this.setState({
+      formValues: {},
+    });
+    dispatch({
+      type: 'splash/fetch',
+      payload: {},
+    });
+  };
+
+  handleModalVisible = flag => {
+    this.setState({
+      modalVisible: !!flag,
+    });
+  };
+
+  handleUpdateModalVisible = (flag, record) => {
+    this.setState({
+      updateModalVisible: !!flag,
+      currentRecord: record || {},
+    });
+  };
+
+  handleAdd = fields => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'splash/create',
+      payload: {
+        name: fields.name,
+        splash: fields.splash
+      }
+    }).then((data) => {
+      message.success('添加开屏广告成功');
+      this.handleModalVisible();
+      this.props.dispatch({
+        type: 'splash/fetch',
+        payload: {},
+      });
+    });
+  };
+
+  handleUpdate = fields => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'splash/patch',
+      payload: {
+        name: fields.name,
+        splash: fields.splash
+      },
+    });
+
+    message.success('更新成功');
+    this.handleUpdateModalVisible();
+  };
+
+  handleConvert = (splashID) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'splash/convert',
+      payload: {
+        status: 1,
+      },
+      splashID: splashID,
+    }).then(() => {
+      message.success('上线成功！');
+      dispatch({
+        type: 'splash/fetch',
+        payload: {},
+      });
+    });
+  };
+
+  renderSimpleForm() {
+    const {
+      form: { getFieldDecorator },
+    } = this.props;
+    return (
+      <Form layout="inline">
+        <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+          <Col md={8} sm={24}>
+            <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
+              新建开屏广告
+            </Button>
+          </Col>
+        </Row>
+      </Form>
+    );
+  }
+
+  render() {
+    const {
+      splash: { data },
+      loading,
+    } = this.props;
+    const { currentPage, pageSize, modalVisible, updateModalVisible, currentRecord } = this.state;
+
+    const parentMethods = {
+      handleAdd: this.handleAdd,
+      handleModalVisible: this.handleModalVisible,
+    };
+    const updateMethods = {
+      handleUpdateModalVisible: this.handleUpdateModalVisible,
+      handleUpdate: this.handleUpdate,
+    };
+
+    const columns = [
+      {
+          title: '序号',
+          dataIndex: 'no',
+          key: 'no',
+          render(text, record, index) {
+            const no = (currentPage - 1) * pageSize
+            return no + index + 1;
+          },
+        },
+      {
+        title: '名称',
+        dataIndex: 'name',
+      },
+      {
+        title: '图片链接',
+        dataIndex: 'splash',
+      },
+      {
+        title: '状态',
+        dataIndex: 'status_name',
+
+      },
+      {
+        title: '创建时间',
+        dataIndex: 'created_at',
+      },
+      {
+        title: '操作',
+        render: (text, record) => (
+          <Fragment>
+          <a onClick={() => this.handleUpdateModalVisible(true, record)}>编辑</a>
+            <Divider type="vertical" />
+            <Popconfirm title="是否要上线此开屏广告？" onConfirm={() => this.handleConvert(record.id)}>
+                <a>上线</a>
+              </Popconfirm>
+          </Fragment>
+        ),
+      },
+    ];
 
     return (
       <PageHeaderWrapper title="开屏广告">
         <Card bordered={false}>
-
+          <div className={styles.tableList}>
+            <div className={styles.tableListForm}>{this.renderSimpleForm()}</div>
+            <SimpleTable
+              loading={loading}
+              data={data}
+              columns={columns}
+              onChange={this.handleStandardTableChange}
+            />
+          </div>
         </Card>
+        <CreateForm {...parentMethods} modalVisible={modalVisible} />
+        {currentRecord && Object.keys(currentRecord).length ? (
+          <UpdateForm
+            {...updateMethods}
+            updateModalVisible={updateModalVisible}
+            values={currentRecord}
+          />
+        ) : null}
       </PageHeaderWrapper>
     );
   }

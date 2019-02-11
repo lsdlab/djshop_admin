@@ -95,7 +95,7 @@ class UpdateForm extends PureComponent {
         centered
         keyboard
         title="编辑"
-        width={800}
+        width={1000}
         visible={updateModalVisible}
         onCancel={() => handleUpdateModalVisible()}
       >
@@ -245,7 +245,7 @@ class ArticleList extends PureComponent {
       },
     });
 
-    message.success('配置成功');
+    message.success('更新成功');
     this.handleUpdateModalVisible();
   };
 

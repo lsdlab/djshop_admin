@@ -203,7 +203,7 @@ export async function createArticle(params) {
 export async function patchArticle(params, aritcleID) {
   const token = getToken();
   return request(`${apiHost}${apiVersion}/articles/${aritcleID}`, {
-    method: 'patch',
+    method: 'PATCH',
     body: params,
     headers: {
       'Content-Type': 'application/json',
@@ -223,6 +223,7 @@ export async function deleteArticle(aritcleID) {
   });
 }
 
+// 获取开屏广告图片列表
 export async function querySplash(params) {
   const token = getToken();
   return request(`${apiHost}${apiVersion}/splash/?${stringify(params)}`, {
@@ -234,9 +235,36 @@ export async function querySplash(params) {
   });
 }
 
+// 创建开屏广告图片
 export async function createSplash(params) {
   const token = getToken();
   return request(`${apiHost}${apiVersion}/splash/`, {
+    method: 'POST',
+    body: params,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+//开屏广告图片修改
+export async function patchSplash(params, splashID) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/splash/${splashID}`, {
+    method: 'PATCH',
+    body: params,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 开屏广告状态改变
+export async function convertSplash(params, splashID) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/splash/${splashID}/convert/`, {
     method: 'POST',
     body: params,
     headers: {
