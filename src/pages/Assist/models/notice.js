@@ -1,7 +1,7 @@
-import { queryBanner, createBanner, patchBanner, deleteBanner } from '@/services/api'
+import { queryNotice, createNotice, deleteNotice } from '@/services/api'
 
 export default {
-  namespace: 'banner',
+  namespace: 'notice',
 
   state: {
     data: {
@@ -12,20 +12,17 @@ export default {
 
   effects: {
     *fetch({ payload }, { call, put }) {
-      const response = yield call(queryBanner, payload);
+      const response = yield call(queryNotice, payload);
       yield put({
         type: 'save',
         payload: response,
       });
     },
     *create({ payload }, { call, put }) {
-      yield call(createBanner, payload);
+      yield call(createNotice, payload);
     },
-    *patch({ payload, bannerID }, { call, put }) {
-      yield call(patchBanner, payload, bannerID);
-    },
-    *delete({ bannerID }, { call, put }) {
-      yield call(deleteBanner, bannerID);
+    *delete({ noticeID }, { call, put }) {
+      yield call(deleteNotice, noticeID);
     },
   },
 

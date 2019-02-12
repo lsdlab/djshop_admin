@@ -298,14 +298,6 @@ class SplashList extends PureComponent {
 
     const columns = [
       {
-          title: '序号',
-          dataIndex: 'no',
-          render(text, record, index) {
-            const no = (currentPage - 1) * pageSize
-            return no + index + 1;
-          },
-        },
-      {
         title: '名称',
         dataIndex: 'name',
       },

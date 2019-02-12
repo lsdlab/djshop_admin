@@ -1,4 +1,4 @@
-import { queryArticles, createArticle, patchArticle, deleteArticle } from '@/services/api'
+import { queryArticles, createArticle, patchArticle, fetchArticle } from '@/services/api'
 
 export default {
   namespace: 'articles',
@@ -8,6 +8,7 @@ export default {
       results: [],
       count: undefined,
     },
+    currentRecord: {},
   },
 
   effects: {
@@ -24,8 +25,12 @@ export default {
     *patch({ payload, articleID }, { call, put }) {
       yield call(patchArticle, payload, articleID);
     },
-    *delete({ payload, articleID }, { call, put }) {
-      yield call(deleteArticle, articleID);
+    *fetchCurrent({ articleID }, { call, put }) {
+      const response = yield call(fetchArticle, articleID);
+      yield put({
+        type: 'saveCurrent',
+        payload: response,
+      });
     },
   },
 
@@ -34,6 +39,12 @@ export default {
       return {
         ...state,
         data: action.payload,
+      };
+    },
+    saveCurrent(state, action) {
+      return {
+        ...state,
+        currentRecord: action.payload,
       };
     },
   },

@@ -283,16 +283,33 @@ class BannerList extends PureComponent {
     });
   };
 
-  handleConvert = (bannerID) => {
+  handleConvertUp = (bannerID) => {
     const { dispatch } = this.props;
     dispatch({
-      type: 'banner/convert',
+      type: 'banner/patch',
       payload: {
         status: 1,
       },
       bannerID: bannerID,
     }).then(() => {
       message.success('上线成功！');
+      dispatch({
+        type: 'banner/fetch',
+        payload: {},
+      });
+    });
+  };
+
+  handleConvertDown = (bannerID) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'banner/patch',
+      payload: {
+        status: 2,
+      },
+      bannerID: bannerID,
+    }).then(() => {
+      message.success('下线成功！');
       dispatch({
         type: 'banner/fetch',
         payload: {},
@@ -339,6 +356,10 @@ class BannerList extends PureComponent {
         dataIndex: 'name',
       },
       {
+        title: '显示顺序',
+        dataIndex: 'display_order',
+      },
+      {
         title: '状态',
         dataIndex: 'status',
         render(val) {
@@ -348,10 +369,6 @@ class BannerList extends PureComponent {
             return <Badge status='error' text='下线' />;
           }
         },
-      },
-      {
-        title: '显示顺序',
-        dataIndex: 'display_order',
       },
       {
         title: '创建时间',
@@ -364,16 +381,20 @@ class BannerList extends PureComponent {
             <a onClick={() => this.handleUpdateModalVisible(true, record)}>编辑</a>
             <Divider type="vertical" />
             { record.status_name === '上线' ? (
-              <Popconfirm title="是否要下线此轮播图？" onConfirm={() => this.handleConvert(record.id)}>
+              <Popconfirm title="是否要下线此轮播图？" onConfirm={() => this.handleConvertDown(record.id)}>
                 <a>下线</a>
               </Popconfirm>
-            ) : <Popconfirm title="是否要上线此轮播图？" onConfirm={() => this.handleConvert(record.id)}>
+            ) : <Popconfirm title="是否要上线此轮播图？" onConfirm={() => this.handleConvertUp(record.id)}>
                 <a>上线</a>
               </Popconfirm>}
             <Divider type="vertical" />
-            <Popconfirm title="是否要删除此轮播图？" onConfirm={() => this.handleDelete(record.id)}>
-              <a>删除</a>
-            </Popconfirm>
+            { record.status_name === '上线' ? (
+              <Popconfirm title="是否要删除此轮播图？" onConfirm={() => this.handleDelete(record.id)}>
+                <a disabled>删除</a>
+              </Popconfirm>
+            ) : <Popconfirm title="是否要删除此轮播图？" onConfirm={() => this.handleDelete(record.id)}>
+                  <a>删除</a>
+                </Popconfirm>}
           </Fragment>
         ),
       },

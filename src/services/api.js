@@ -202,7 +202,7 @@ export async function createArticle(params) {
 
 export async function patchArticle(params, aritcleID) {
   const token = getToken();
-  return request(`${apiHost}${apiVersion}/articles/${aritcleID}`, {
+  return request(`${apiHost}${apiVersion}/articles/${aritcleID}/`, {
     method: 'PATCH',
     body: params,
     headers: {
@@ -212,10 +212,10 @@ export async function patchArticle(params, aritcleID) {
   });
 }
 
-export async function deleteArticle(aritcleID) {
+export async function fetchArticle(aritcleID) {
   const token = getToken();
-  return request(`${apiHost}${apiVersion}/articles/${aritcleID}`, {
-    method: 'DELETE',
+  return request(`${apiHost}${apiVersion}/articles/${aritcleID}/`, {
+    method: 'GET',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `JWT ${token}`,
@@ -317,6 +317,55 @@ export async function patchBanner(params, bannerID) {
   return request(`${apiHost}${apiVersion}/banners/${bannerID}/`, {
     method: 'PATCH',
     body: params,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 删除轮播图
+export async function deleteBanner(bannerID) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/banners/${bannerID}/`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 获取全网提醒列表
+export async function queryNotice(params) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/notices/?${stringify(params)}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 创建全网提醒
+export async function createNotice(params) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/notices/`, {
+    method: 'POST',
+    body: params,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 删除全网提醒
+export async function deleteNotice(noticesID) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/notices/${noticesID}/`, {
+    method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `JWT ${token}`,

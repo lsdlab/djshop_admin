@@ -17,8 +17,10 @@ import {
   Modal,
   message,
   Divider,
+  Badge,
   Popconfirm,
 } from 'antd';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import SimpleTable from '@/components/SimpleTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
@@ -51,17 +53,22 @@ const CreateForm = Form.create()(props => {
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="标题">
         {form.getFieldDecorator('title', {
           rules: [{ required: true, message: '请输入标题！' }],
-        })(<Input placeholder="请输入标题" />)}
+        })(<Input placeholder="标题" />)}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="副标题">
         {form.getFieldDecorator('subtitle', {
           rules: [{ required: true, message: '请输入副标题！' }],
-        })(<Input placeholder="请输入副标题" />)}
+        })(<Input placeholder="副标题" />)}
+      </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="题图链接">
+        {form.getFieldDecorator('header_image', {
+          rules: [{ required: true, message: '请输入题图链接！' }],
+        })(<Input placeholder="题图链接" />)}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="内容">
         {form.getFieldDecorator('md', {
           rules: [{ required: true, message: '请输入内容！'}],
-        })(<TextArea rows={10} placeholder="请输入内容(Markdown)" />)}
+        })(<TextArea rows={10} placeholder="内容(Markdown)" />)}
       </FormItem>
     </Modal>
   );
@@ -75,7 +82,8 @@ class UpdateForm extends PureComponent {
     this.state = {
       modalFormVals: {
         title: props.values.title,
-        subtitle: props.values.subtitle
+        subtitle: props.values.subtitle,
+        md: props.values.md,
       },
     };
 
@@ -111,6 +119,21 @@ class UpdateForm extends PureComponent {
             rules: [{ required: true, message: '请输入副标题！' }],
           })(<Input placeholder="请输入副标题" />)}
         </FormItem>
+        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="题图链接">
+        {form.getFieldDecorator('header_image', {
+          initialValue: modalFormVals.header_image,
+          rules: [{ required: true, message: '请输入题图链接！' }],
+        })(<Input placeholder="题图链接" />)}
+        <CopyToClipboard
+            text={modalFormVals.header_image}
+            onCopy={() => message.success('复制成功')}
+            style={{ marginTop: 10 }}
+          >
+            <Button block icon="copy">
+              复制图片地址
+            </Button>
+          </CopyToClipboard>
+      </FormItem>
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="内容">
           {form.getFieldDecorator('md', {
             initialValue: modalFormVals.md,
@@ -172,37 +195,6 @@ class ArticleList extends PureComponent {
     });
   };
 
-  handleFormReset = () => {
-    const { form, dispatch } = this.props;
-    form.resetFields();
-    this.setState({
-      formValues: {},
-    });
-    dispatch({
-      type: 'articles/fetch',
-      payload: {},
-    });
-  };
-
-  handleSearch = e => {
-    e.preventDefault();
-    const { dispatch, form } = this.props;
-    const fieldsValue = form.getFieldsValue();
-    const values = {
-      search: fieldsValue.search,
-      status: fieldsValue.status,
-    };
-
-    this.setState({
-      formValues: values,
-    });
-
-    dispatch({
-      type: 'articles/fetch',
-      payload: values,
-    });
-  };
-
   handleModalVisible = flag => {
     this.setState({
       modalVisible: !!flag,
@@ -212,8 +204,18 @@ class ArticleList extends PureComponent {
   handleUpdateModalVisible = (flag, record) => {
     this.setState({
       updateModalVisible: !!flag,
-      currentRecord: record || {},
-    });
+    })
+
+    if (flag && record) {
+      this.props.dispatch({
+        type: 'articles/fetchCurrent',
+        articleID: record.id,
+      })
+    } else {
+      this.setState({
+        currentRecord: {}
+      })
+    }
   };
 
   handleAdd = fields => {
@@ -223,7 +225,10 @@ class ArticleList extends PureComponent {
       payload: {
         title: fields.title,
         content: fields.content,
+        subtitle: fields.subtitle,
         status: '1',
+        md: fields.md,
+        header_image: fields.header_image
       }
     }).then(() => {
       message.success('添加专题成功');
@@ -235,27 +240,17 @@ class ArticleList extends PureComponent {
     });
   };
 
-  handleUpdate = fields => {
+  handleDeleted = (articleID, flag) => {
     const { dispatch } = this.props;
     dispatch({
       type: 'articles/patch',
       payload: {
-        title: fields.title,
-        content: fields.content
+        deleted: flag,
       },
-    });
-
-    message.success('更新成功');
-    this.handleUpdateModalVisible();
-  };
-
-  handleRemove = (articleID) => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'articles/delete',
       articleID: articleID,
     }).then(() => {
-      message.success('删除专题成功！');
+      message.success('删除成功');
+      this.handleUpdateModalVisible();
       dispatch({
         type: 'articles/fetch',
         payload: {},
@@ -268,7 +263,7 @@ class ArticleList extends PureComponent {
       form: { getFieldDecorator },
     } = this.props;
     return (
-      <Form onSubmit={this.handleSearch} layout="inline">
+      <Form layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
             <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
@@ -282,10 +277,10 @@ class ArticleList extends PureComponent {
 
   render() {
     const {
-      articles: { data },
+      articles: { data, currentRecord },
       loading,
     } = this.props;
-    const { currentPage, pageSize, modalVisible, updateModalVisible, currentRecord } = this.state;
+    const { currentPage, pageSize, modalVisible, updateModalVisible } = this.state;
 
     const parentMethods = {
       handleAdd: this.handleAdd,
@@ -297,15 +292,6 @@ class ArticleList extends PureComponent {
     };
 
     const columns = [
-      {
-          title: '序号',
-          dataIndex: 'no',
-          key: 'no',
-          render(text, record, index) {
-            const no = (currentPage - 1) * pageSize
-            return no + index + 1;
-          },
-        },
       {
         title: '标题',
         dataIndex: 'title',
@@ -319,13 +305,13 @@ class ArticleList extends PureComponent {
         dataIndex: 'author',
       },
       {
-        title: '状态',
+        title: '删除',
         dataIndex: 'deleted',
         render(text, record, index) {
           if (text) {
-            return '已删除'
+            return <Badge status='error' text='已删除' />;
           } else {
-            return '未删除'
+            return <Badge status='success' text='未删除' />;
           }
         },
       },
@@ -339,9 +325,13 @@ class ArticleList extends PureComponent {
           <Fragment>
             <a onClick={() => this.handleUpdateModalVisible(true, record)}>编辑</a>
             <Divider type="vertical" />
-            <Popconfirm title="是否要删除此专题？" onConfirm={() => this.handleRemove(record.id)}>
-                <a>删除</a>
+            { record.deleted ? (
+              <Popconfirm title="是否要恢复此专题？" onConfirm={() => this.handleDeleted(record.id, false)}>
+                <a>恢复</a>
               </Popconfirm>
+            ) : <Popconfirm title="是否要删除此专题？" onConfirm={() => this.handleDeleted(record.id, true)}>
+                  <a>删除</a>
+                </Popconfirm>}
           </Fragment>
         ),
       },
