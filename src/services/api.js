@@ -223,10 +223,10 @@ export async function deleteArticle(aritcleID) {
   });
 }
 
-// 获取开屏广告图片列表
+// 获取开屏广告列表
 export async function querySplash(params) {
   const token = getToken();
-  return request(`${apiHost}${apiVersion}/splash/?${stringify(params)}`, {
+  return request(`${apiHost}${apiVersion}/splashs/?${stringify(params)}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -235,10 +235,10 @@ export async function querySplash(params) {
   });
 }
 
-// 创建开屏广告图片
+// 创建开屏广告
 export async function createSplash(params) {
   const token = getToken();
-  return request(`${apiHost}${apiVersion}/splash/`, {
+  return request(`${apiHost}${apiVersion}/splashs/`, {
     method: 'POST',
     body: params,
     headers: {
@@ -248,12 +248,24 @@ export async function createSplash(params) {
   });
 }
 
-//开屏广告图片修改
+//修改开屏广告
 export async function patchSplash(params, splashID) {
   const token = getToken();
-  return request(`${apiHost}${apiVersion}/splash/${splashID}`, {
+  return request(`${apiHost}${apiVersion}/splashs/${splashID}/`, {
     method: 'PATCH',
     body: params,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 删除开屏广告
+export async function deleteSplash(splashID) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/splashs/${splashID}/`, {
+    method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `JWT ${token}`,
@@ -264,8 +276,46 @@ export async function patchSplash(params, splashID) {
 // 开屏广告状态改变
 export async function convertSplash(params, splashID) {
   const token = getToken();
-  return request(`${apiHost}${apiVersion}/splash/${splashID}/convert/`, {
+  return request(`${apiHost}${apiVersion}/splashs/${splashID}/convert/`, {
     method: 'POST',
+    body: params,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 获取轮播图列表
+export async function queryBanner(params) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/banners/?${stringify(params)}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 创建轮播图
+export async function createBanner(params) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/banners/`, {
+    method: 'POST',
+    body: params,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 修改轮播图
+export async function patchBanner(params, bannerID) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/banners/${bannerID}/`, {
+    method: 'PATCH',
     body: params,
     headers: {
       'Content-Type': 'application/json',

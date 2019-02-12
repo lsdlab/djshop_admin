@@ -28,7 +28,7 @@ const FooterView = () => (
       ]}
       copyright={
         <Fragment>
-          <p>Copyright &copy; <a href="https://breakwire.me" target="_blank">Breakwire</a> 2018-2019 All Rights Reserved</p>
+          <p>Copyright &copy; <a href="https://breakwire.me" target="_blank">BreakWire</a> 2018-2019 All Rights Reserved</p>
         </Fragment>
       }
     />

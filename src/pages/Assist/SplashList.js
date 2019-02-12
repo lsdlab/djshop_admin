@@ -7,13 +7,7 @@ import {
   Card,
   Form,
   Input,
-  Select,
-  Icon,
   Button,
-  Dropdown,
-  Menu,
-  InputNumber,
-  DatePicker,
   Modal,
   message,
   Divider,
@@ -21,15 +15,14 @@ import {
   Badge,
   Upload,
 } from 'antd';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
-import SimpleTable from '@/components/SimpleTable';
+import SimpleNonPaginationTable from '@/components/SimpleNonPaginationTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import styles from '../List/TableList.less';
 
 const FormItem = Form.Item;
-const { TextArea } = Input;
-const { Option } = Select;
 
 const CreateForm = Form.create()(props => {
   const { modalVisible, form, handleAdd, handleModalVisible, } = props;
@@ -84,8 +77,16 @@ class UpdateForm extends PureComponent {
   }
 
   render() {
-    const { updateModalVisible, form, handleUpdateModalVisible } = this.props;
+    const { updateModalVisible, form, handleUpdate, handleUpdateModalVisible } = this.props;
     const { modalFormVals } = this.state;
+
+    const okHandle = () => {
+      form.validateFields((err, fieldsValue) => {
+        if (err) return;
+        form.resetFields();
+        handleUpdate(fieldsValue);
+      });
+    };
 
     return (
       <Modal
@@ -95,6 +96,7 @@ class UpdateForm extends PureComponent {
         title="编辑"
         width={800}
         visible={updateModalVisible}
+        onOk={okHandle}
         onCancel={() => handleUpdateModalVisible()}
       >
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="名称">
@@ -108,12 +110,20 @@ class UpdateForm extends PureComponent {
             initialValue: modalFormVals.splash,
             rules: [{ required: true, message: '请输入图片链接！' }],
           })(<Input placeholder="请输入图片链接" />)}
+          <CopyToClipboard
+            text={modalFormVals.splash}
+            onCopy={() => message.success('复制成功')}
+            style={{ marginTop: 10 }}
+          >
+            <Button block icon="copy">
+              复制图片地址
+            </Button>
+          </CopyToClipboard>
         </FormItem>
       </Modal>
     );
   }
 }
-
 
 /* eslint react/no-multi-comp:0 */
 @connect(({ splash, loading }) => ({
@@ -194,12 +204,9 @@ class SplashList extends PureComponent {
     const { dispatch } = this.props;
     dispatch({
       type: 'splash/create',
-      payload: {
-        name: fields.name,
-        splash: fields.splash
-      }
+      payload: fields,
     }).then((data) => {
-      message.success('添加开屏广告成功');
+      message.success('新建成功');
       this.handleModalVisible();
       this.props.dispatch({
         type: 'splash/fetch',
@@ -208,18 +215,35 @@ class SplashList extends PureComponent {
     });
   };
 
-  handleUpdate = fields => {
+  handleUpdate = (fields) => {
     const { dispatch } = this.props;
     dispatch({
       type: 'splash/patch',
-      payload: {
-        name: fields.name,
-        splash: fields.splash
-      },
+      payload: fields,
+      splashID: this.state.currentRecord.id,
+    }).then(() => {
+      message.success('更新成功');
+      this.handleUpdateModalVisible();
+      dispatch({
+        type: 'splash/fetch',
+        payload: {},
+      });
     });
+  };
 
-    message.success('更新成功');
-    this.handleUpdateModalVisible();
+  handleDelete = (splashID) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'splash/delete',
+      splashID: splashID,
+    }).then(() => {
+      message.success('删除成功');
+      this.handleUpdateModalVisible();
+      dispatch({
+        type: 'splash/fetch',
+        payload: {},
+      });
+    });
   };
 
   handleConvert = (splashID) => {
@@ -305,11 +329,29 @@ class SplashList extends PureComponent {
         title: '操作',
         render: (text, record) => (
           <Fragment>
-          <a onClick={() => this.handleUpdateModalVisible(true, record)}>编辑</a>
+
+            { record.status_name === '下线' ? (
+              <a onClick={() => this.handleUpdateModalVisible(true, record)}>编辑</a>
+            ) : <a disabled onClick={() => this.handleUpdateModalVisible(true, record)}>编辑</a>}
+
             <Divider type="vertical" />
-            <Popconfirm title="是否要上线此开屏广告？" onConfirm={() => this.handleConvert(record.id)}>
+
+            { record.status_name === '下线' ? (
+              <Popconfirm title="是否要删除此开屏广告？" onConfirm={() => this.handleDelete(record.id)}>
+                <a>删除</a>
+              </Popconfirm>
+            ) : <Popconfirm title="是否要删除此开屏广告？" onConfirm={() => this.handleDelete(record.id)}>
+                <a disabled>删除</a>
+              </Popconfirm>}
+
+            <Divider type="vertical" />
+            { record.status_name === '下线' ? (
+              <Popconfirm title="是否要上线此开屏广告？" onConfirm={() => this.handleConvert(record.id)}>
                 <a>上线</a>
               </Popconfirm>
+            ) : <Popconfirm title="是否要上线此开屏广告？" onConfirm={() => this.handleConvert(record.id)}>
+                <a disabled>上线</a>
+              </Popconfirm>}
           </Fragment>
         ),
       },
@@ -320,7 +362,7 @@ class SplashList extends PureComponent {
         <Card bordered={false}>
           <div className={styles.tableList}>
             <div className={styles.tableListForm}>{this.renderSimpleForm()}</div>
-            <SimpleTable
+            <SimpleNonPaginationTable
               loading={loading}
               data={data}
               columns={columns}
@@ -329,6 +371,7 @@ class SplashList extends PureComponent {
           </div>
         </Card>
         <CreateForm {...parentMethods} modalVisible={modalVisible} />
+
         {currentRecord && Object.keys(currentRecord).length ? (
           <UpdateForm
             {...updateMethods}

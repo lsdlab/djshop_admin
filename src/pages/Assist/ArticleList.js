@@ -225,7 +225,7 @@ class ArticleList extends PureComponent {
         content: fields.content,
         status: '1',
       }
-    }).then((data) => {
+    }).then(() => {
       message.success('添加专题成功');
       this.handleModalVisible();
       this.props.dispatch({
