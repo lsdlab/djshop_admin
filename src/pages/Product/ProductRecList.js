@@ -45,7 +45,7 @@ class ProductRecList extends PureComponent {
   render() {
 
     return (
-      <PageHeaderWrapper title="商品推荐列表">
+      <PageHeaderWrapper title="推荐商品列表">
         <Card bordered={false}>
 
         </Card>
