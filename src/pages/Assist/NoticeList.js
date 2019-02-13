@@ -7,14 +7,12 @@ import {
   Card,
   Form,
   Input,
-  InputNumber,
   Button,
   Modal,
   message,
   Divider,
   Popconfirm,
   Badge,
-  Upload,
 } from 'antd';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
@@ -49,12 +47,12 @@ const CreateForm = Form.create()(props => {
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="标题">
         {form.getFieldDecorator('title', {
           rules: [{ required: true, message: '请输入标题！' }],
-        })(<Input placeholder="请输入名称" />)}
+        })(<Input placeholder="名称" />)}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="内容">
         {form.getFieldDecorator('desc', {
           rules: [{ required: true, message: '请输入内容！'}],
-        })(<TextArea rows={10} placeholder="请输入内容(纯文本)" />)}
+        })(<TextArea rows={10} placeholder="内容(纯文本)" />)}
       </FormItem>
     </Modal>
   );

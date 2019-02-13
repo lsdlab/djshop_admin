@@ -15,7 +15,6 @@ import {
   Divider,
   Popconfirm,
   Badge,
-  Upload,
 } from 'antd';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
@@ -50,12 +49,12 @@ const CreateForm = Form.create()(props => {
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="名称">
         {form.getFieldDecorator('name', {
           rules: [{ required: true, message: '请输入名称！' }],
-        })(<Input placeholder="请输入名称" />)}
+        })(<Input placeholder="名称" />)}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="图片链接">
         {form.getFieldDecorator('banner', {
           rules: [{ required: true, message: '请输入图片链接！' }],
-        })(<Input placeholder="请输入图片链接" />)}
+        })(<Input placeholder="图片链接" />)}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="显示顺序">
         {form.getFieldDecorator('display_order', {
@@ -123,13 +122,13 @@ class UpdateForm extends PureComponent {
           {form.getFieldDecorator('name', {
             initialValue: modalFormVals.name,
             rules: [{ required: true, message: '请输入名称！' }],
-          })(<Input placeholder="请输入标题" />)}
+          })(<Input placeholder="标题" />)}
         </FormItem>
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="图片链接">
           {form.getFieldDecorator('banner', {
             initialValue: modalFormVals.banner,
             rules: [{ required: true, message: '请输入图片链接！' }],
-          })(<Input placeholder="请输入图片链接" />)}
+          })(<Input placeholder="图片链接" />)}
           <CopyToClipboard
             text={modalFormVals.banner}
             onCopy={() => message.success('复制成功')}

@@ -372,3 +372,41 @@ export async function deleteNotice(noticesID) {
     },
   });
 }
+
+// 分类列表
+export async function queryCategory() {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/category/`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 创建分类
+export async function createCategory(params) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/category/`, {
+    method: 'POST',
+    body: params,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 修改分类
+export async function patchCategory(params, categoryID) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/category/${categoryID}/`, {
+    method: 'PATCH',
+    body: params,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}

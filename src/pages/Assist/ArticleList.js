@@ -7,13 +7,8 @@ import {
   Card,
   Form,
   Input,
-  Select,
   Icon,
   Button,
-  Dropdown,
-  Menu,
-  InputNumber,
-  DatePicker,
   Modal,
   message,
   Divider,
@@ -28,7 +23,6 @@ import styles from '../List/TableList.less';
 
 const FormItem = Form.Item;
 const { TextArea } = Input;
-const { Option } = Select;
 
 const CreateForm = Form.create()(props => {
   const { modalVisible, form, handleAdd, handleModalVisible, } = props;
@@ -111,13 +105,13 @@ class UpdateForm extends PureComponent {
           {form.getFieldDecorator('title', {
             initialValue: modalFormVals.title,
             rules: [{ required: true, message: '请输入标题！' }],
-          })(<Input placeholder="请输入标题" />)}
+          })(<Input placeholder="标题" />)}
         </FormItem>
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="副标题">
           {form.getFieldDecorator('subtitle', {
             initialValue: modalFormVals.subtitle,
             rules: [{ required: true, message: '请输入副标题！' }],
-          })(<Input placeholder="请输入副标题" />)}
+          })(<Input placeholder="副标题" />)}
         </FormItem>
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="题图链接">
         {form.getFieldDecorator('header_image', {
@@ -138,7 +132,7 @@ class UpdateForm extends PureComponent {
           {form.getFieldDecorator('md', {
             initialValue: modalFormVals.md,
             rules: [{ required: true, message: '请输入内容！'}],
-          })(<TextArea rows={8} placeholder="请输入内容" />)}
+          })(<TextArea rows={8} placeholder="内容" />)}
         </FormItem>
       </Modal>
     );
