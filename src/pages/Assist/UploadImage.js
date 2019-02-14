@@ -10,14 +10,9 @@ import {
   Select,
   Icon,
   Button,
-  Dropdown,
-  Menu,
-  InputNumber,
-  DatePicker,
   Modal,
   message,
-  Divider,
-  Popconfirm,
+  Upload,
 } from 'antd';
 import SimpleTable from '@/components/SimpleTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
@@ -34,7 +29,7 @@ const { Option } = Select;
 //   loading: loading.models.articles,
 // }))
 // @Form.create()
-class ProductCreate extends PureComponent {
+class UploadImage extends PureComponent {
   state = {
   };
 
@@ -45,7 +40,7 @@ class ProductCreate extends PureComponent {
   render() {
 
     return (
-      <PageHeaderWrapper title="商品上架">
+      <PageHeaderWrapper title="上传图片">
         <Card bordered={false}>
 
         </Card>
@@ -54,4 +49,4 @@ class ProductCreate extends PureComponent {
   }
 }
 
-export default ProductCreate;
+export default UploadImage;

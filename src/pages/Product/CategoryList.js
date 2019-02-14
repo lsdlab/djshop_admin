@@ -61,7 +61,7 @@ const CreateForm = Form.create()(props => {
         {form.getFieldDecorator('category_type', {
             rules: [{ required: true, message: '请选择类型！' }],
           })(
-            <Select style={{ width: '100%' }}>
+            <Select style={{ width: '100%' }} placeholder="类型">
               <Option value="2">一级分类</Option>
               <Option value="3">二级分类</Option>
             </Select>
@@ -76,7 +76,7 @@ const CreateForm = Form.create()(props => {
         {form.getFieldDecorator('parent_category', {
             rules: [{ required: false, message: '请选择一级分类！' }],
           })(
-            <Select style={{ width: '100%' }}>
+            <Select style={{ width: '100%' }} placeholder="一级分类">
               <Option value="1">一级分类</Option>
             </Select>
           )}
@@ -94,11 +94,6 @@ const CreateForm = Form.create()(props => {
 class CategoryList extends PureComponent {
   state = {
     modalVisible: false,
-    treeData: [
-      { title: 'Expand to load', key: '0' },
-      { title: 'Expand to load', key: '1' },
-      { title: 'Tree Node', key: '2', isLeaf: true },
-    ],
   };
 
   componentDidMount() {
@@ -203,6 +198,7 @@ class CategoryList extends PureComponent {
             <Col md={8} sm={24}>
               { treeData ? (
                 <Tree
+                  autoExpandParent={true}
                   defaultExpandAll={true}
                   defaultExpandParent={true}
                   onSelect={this.onSelect}
@@ -227,7 +223,7 @@ class CategoryList extends PureComponent {
                   {form.getFieldDecorator('category_type', {
                       rules: [{ required: true, message: '请选择类型！' }],
                     })(
-                      <Select style={{ width: '100%' }}>
+                      <Select style={{ width: '100%' }} placeholder="类型">
                         <Option value="2">一级分类</Option>
                         <Option value="3">二级分类</Option>
                       </Select>

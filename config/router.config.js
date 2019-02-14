@@ -42,9 +42,31 @@ export default [
             component: './Product/CategoryList',
           },
           {
-            path: '/product/ProductCreate',
-            name: 'product-create',
-            component: './Product/ProductCreate',
+            path: '/product/product-create-step-form',
+            name: 'product-create-step-form',
+            component: './Product/ProductCreateStepForm',
+            hideChildrenInMenu: true,
+            routes: [
+              {
+                path: '/product/product-create-step-form',
+                redirect: '/product/product-create-step-form/product',
+              },
+              {
+                path: '/product/product-create-step-form/product',
+                name: 'product',
+                component: './Product/ProductCreateStepForm/Step1',
+              },
+              {
+                path: '/product/product-create-step-form/spec',
+                name: 'spec',
+                component: './Product/ProductCreateStepForm/Step2',
+              },
+              {
+                path: '/product/product-create-step-form/finish',
+                name: 'finish',
+                component: './Product/ProductCreateStepForm/Step3',
+              },
+            ],
           },
           {
             path: '/product/product-list',
@@ -148,6 +170,11 @@ export default [
             path: '/assist/article-list',
             name: 'article-list',
             component: './Assist/ArticleList',
+          },
+          {
+            path: '/assist/upload-image',
+            name: 'upload-image',
+            component: './Assist/UploadImage',
           },
         ],
       },

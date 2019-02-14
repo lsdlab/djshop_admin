@@ -410,3 +410,82 @@ export async function patchCategory(params, categoryID) {
     },
   });
 }
+
+// 创建商品
+export async function createProduct(params) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/products/`, {
+    method: 'POST',
+    body: params,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 创建商品规格
+export async function createProductSpec(params, productID) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/products/${productID}/`, {
+    method: 'POST',
+    body: params,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 获取商品列表
+export async function queryProduct(params) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/products/?${stringify(params)}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+
+// 修改商品信息
+export async function patchProduct(params, productID) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/products/${productID}/`, {
+    method: 'PATCH',
+    body: params,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+
+// 修改商品规格信息
+export async function patchProductSpec(params, productSpecID) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/products/${productSpecID}/`, {
+    method: 'PATCH',
+    body: params,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+
+// 获取商品评价列表
+export async function queryProductReview(params, productID) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/products/${productID}/reviews/?${stringify(params)}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
