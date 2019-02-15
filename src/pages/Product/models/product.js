@@ -1,11 +1,12 @@
 import { routerRedux } from 'dva/router';
 import { message } from 'antd';
-import { fakeSubmitForm } from '@/services/api';
+import { fakeSubmitForm, queryCategory } from '@/services/api';
 
 export default {
-  namespace: 'form',
+  namespace: 'product',
 
   state: {
+    categoryData: [],
     step: {
       payAccount: 'ant-design@alipay.com',
       receiverAccount: 'test@example.com',
@@ -31,6 +32,13 @@ export default {
       yield call(fakeSubmitForm, payload);
       message.success('提交成功');
     },
+    *fetchCategory({ }, { call, put }) {
+      const response = yield call(queryCategory);
+      yield put({
+        type: 'saveCategory',
+        payload: response,
+      });
+    },
   },
 
   reducers: {
@@ -41,6 +49,12 @@ export default {
           ...state.step,
           ...payload,
         },
+      };
+    },
+    saveCategory(state, action) {
+      return {
+        ...state,
+        categoryData: action.payload,
       };
     },
   },
