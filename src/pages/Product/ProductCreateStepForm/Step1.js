@@ -1,10 +1,19 @@
 import React, { Fragment } from 'react';
 import { connect } from 'dva';
-import { Form, Input, Button, Select, Divider } from 'antd';
+import { Form,
+         Input,
+         InputNumber,
+         Button,
+         Select,
+         Checkbox,
+         Divider,
+} from 'antd';
 import router from 'umi/router';
 import styles from './style.less';
 
+const FormItem = Form.Item;
 const { Option } = Select;
+const { TextArea } = Input;
 
 const formItemLayout = {
   labelCol: {
@@ -36,50 +45,112 @@ class Step1 extends React.PureComponent {
     };
     return (
       <Fragment>
-        <Form layout="horizontal" className={styles.stepForm} hideRequiredMark>
-          <Form.Item {...formItemLayout} label="付款账户">
-            {getFieldDecorator('payAccount', {
-              initialValue: data.payAccount,
-              rules: [{ required: true, message: '请选择付款账户' }],
+        <Form layout="horizontal" className={styles.stepForm}>
+
+          <FormItem {...formItemLayout} label="名称">
+            {getFieldDecorator('name', {
+              initialValue: data.name,
+              rules: [{ required: true, message: '请输入名称！' }],
+            })(<Input placeholder="商品名称" />)}
+          </FormItem>
+          <FormItem {...formItemLayout} label="副标题">
+            {getFieldDecorator('subtitle', {
+              initialValue: data.subtitle,
+              rules: [{ required: true, message: '请输入副标题！' }],
+            })(<Input placeholder="商品副标题，十个字符以内" />)}
+          </FormItem>
+          <FormItem {...formItemLayout} label="单位">
+            {getFieldDecorator('unit', {
+              initialValue: data.unit,
+              rules: [{ required: true, message: '请输入单位！' }],
+            })(<Input placeholder="商品单位" />)}
+          </FormItem>
+          <FormItem {...formItemLayout} label="重量">
+            {getFieldDecorator('weight', {
+              initialValue: data.weight,
+              rules: [{ required: true, message: '请输入重量！' }],
+            })(<Input placeholder="商品重量" />)}
+          </FormItem>
+
+          <FormItem {...formItemLayout} label="限购数量">
+            {getFieldDecorator('limit', {
+              initialValue: data.limit,
+              rules: [{ required: true, message: '请输入限购数量！' }],
+            })(<InputNumber min={1} max={10} style={{ width: '100%' }} placeholder="商品限购数量"/>)}
+          </FormItem>
+
+          <FormItem {...formItemLayout} label="是否开发票">
+            {getFieldDecorator('has_invoice', {
+              initialValue: data.has_invoice,
+              rules: [{ required: false }],
             })(
-              <Select placeholder="test@example.com">
-                <Option value="ant-design@alipay.com">ant-design@alipay.com</Option>
+              <Checkbox></Checkbox>
+            )}
+          </FormItem>
+          <FormItem {...formItemLayout} label="是否免运费">
+            {getFieldDecorator('ship_free', {
+              initialValue: data.ship_free,
+              rules: [{ required: false }],
+            })(
+              <Checkbox></Checkbox>
+            )}
+          </FormItem>
+          <FormItem {...formItemLayout} label="是否可退货">
+            {getFieldDecorator('refund', {
+              initialValue: data.refund,
+              rules: [{ required: false }],
+            })(
+              <Checkbox></Checkbox>
+            )}
+          </FormItem>
+          <FormItem {...formItemLayout} label="是否是新品">
+            {getFieldDecorator('is_new', {
+              initialValue: data.is_new,
+              rules: [{ required: false }],
+            })(
+              <Checkbox></Checkbox>
+            )}
+          </FormItem>
+
+          <FormItem {...formItemLayout} label="轮播图链接">
+            {getFieldDecorator('carousel', {
+              initialValue: data.carousel,
+              rules: [{ required: true, message: '请输入轮播图链接！'}],
+            })(<TextArea rows={5} placeholder="轮播图链接可填写多个，使用英文逗号 , 进行分隔" />)}
+          </FormItem>
+          <FormItem {...formItemLayout} label="题图链接">
+            {getFieldDecorator('header_image', {
+              initialValue: data.header_image,
+              rules: [{ required: true, message: '请输入题图链接！' }],
+            })(<Input placeholder="题图链接，单个链接" />)}
+          </FormItem>
+          <FormItem {...formItemLayout} label="视频链接">
+            {getFieldDecorator('header_video', {
+              initialValue: data.header_video,
+              rules: [{ required: false, message: '请输入视频链接！' }],
+            })(<Input placeholder="视频链接，单个链接" />)}
+          </FormItem>
+
+          <FormItem {...formItemLayout} label="商品详情">
+            {getFieldDecorator('md', {
+              initialValue: data.md,
+              rules: [{ required: true, message: '请输入商品详情！'}],
+            })(<TextArea rows={10} placeholder="商品详情，图片文字混排，使用 Markdown 格式" />)}
+          </FormItem>
+
+          <Form.Item {...formItemLayout} label="上架状态">
+            {getFieldDecorator('status', {
+              initialValue: data.status,
+              rules: [{ required: true, message: '请选择上架状态！' }],
+            })(
+              <Select placeholder="">
+                <Option value="1">上架</Option>
+                <Option value="2">下架</Option>
+                <Option value="3">预售</Option>
               </Select>
             )}
           </Form.Item>
-          <Form.Item {...formItemLayout} label="收款账户">
-            <Input.Group compact>
-              <Select defaultValue="alipay" style={{ width: 100 }}>
-                <Option value="alipay">支付宝</Option>
-                <Option value="bank">银行账户</Option>
-              </Select>
-              {getFieldDecorator('receiverAccount', {
-                initialValue: data.receiverAccount,
-                rules: [
-                  { required: true, message: '请输入收款人账户' },
-                  { type: 'email', message: '账户名应为邮箱格式' },
-                ],
-              })(<Input style={{ width: 'calc(100% - 100px)' }} placeholder="test@example.com" />)}
-            </Input.Group>
-          </Form.Item>
-          <Form.Item {...formItemLayout} label="收款人姓名">
-            {getFieldDecorator('receiverName', {
-              initialValue: data.receiverName,
-              rules: [{ required: true, message: '请输入收款人姓名' }],
-            })(<Input placeholder="请输入收款人姓名" />)}
-          </Form.Item>
-          <Form.Item {...formItemLayout} label="转账金额">
-            {getFieldDecorator('amount', {
-              initialValue: data.amount,
-              rules: [
-                { required: true, message: '请输入转账金额' },
-                {
-                  pattern: /^(\d+)((?:\.\d+)?)$/,
-                  message: '请输入合法金额数字',
-                },
-              ],
-            })(<Input prefix="￥" placeholder="请输入金额" />)}
-          </Form.Item>
+
           <Form.Item
             wrapperCol={{
               xs: { span: 24, offset: 0 },
@@ -97,10 +168,10 @@ class Step1 extends React.PureComponent {
         </Form>
         <Divider style={{ margin: '40px 0 24px' }} />
         <div className={styles.desc}>
-          <h3>说明</h3>
-          <h4>商品信息</h4>
+          <h3>商品信息填写说明</h3>
+          <h4>轮播图</h4>
           <p>
-
+            轮播图链接可填写多个，使用英文逗号 , 进行分隔
           </p>
         </div>
       </Fragment>

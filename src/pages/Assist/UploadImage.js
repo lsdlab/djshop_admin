@@ -27,7 +27,6 @@ const { Option } = Select;
 
 const client = (self) => {
   const {token} = self.state
-  console.log(token);
   return new oss({
     accessKeyId: token.access_key_id,
     accessKeySecret: token.access_key_secret,
