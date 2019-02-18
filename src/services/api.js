@@ -427,7 +427,7 @@ export async function createProduct(params) {
 // 创建商品规格
 export async function createProductSpec(params, productID) {
   const token = getToken();
-  return request(`${apiHost}${apiVersion}/products/${productID}/`, {
+  return request(`${apiHost}${apiVersion}/products/${productID}/specs/`, {
     method: 'POST',
     body: params,
     headers: {
@@ -438,7 +438,7 @@ export async function createProductSpec(params, productID) {
 }
 
 // 获取商品列表
-export async function queryProduct(params) {
+export async function queryProducts(params) {
   const token = getToken();
   return request(`${apiHost}${apiVersion}/products/?${stringify(params)}`, {
     method: 'GET',
@@ -449,6 +449,17 @@ export async function queryProduct(params) {
   });
 }
 
+// 获取单个商品详细信息
+export async function fetchProduct(productID) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/products/${productID}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
 
 // 修改商品信息
 export async function patchProduct(params, productID) {
@@ -456,6 +467,18 @@ export async function patchProduct(params, productID) {
   return request(`${apiHost}${apiVersion}/products/${productID}/`, {
     method: 'PATCH',
     body: params,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 获取商品规格信息
+export async function queryProductSpecs(params, productID) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/products/${productID}/specs/`, {
+    method: 'GET',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `JWT ${token}`,
@@ -479,7 +502,7 @@ export async function patchProductSpec(params, productSpecID) {
 
 
 // 获取商品评价列表
-export async function queryProductReview(params, productID) {
+export async function queryProductReviews(params, productID) {
   const token = getToken();
   return request(`${apiHost}${apiVersion}/products/${productID}/reviews/?${stringify(params)}`, {
     method: 'GET',

@@ -1,18 +1,23 @@
 import { routerRedux } from 'dva/router';
 import { message } from 'antd';
-import { fakeSubmitForm, queryCategory } from '@/services/api';
+import { fakeSubmitForm, queryCategory, queryProducts, fetchProduct, patchProduct, createProduct, createProductSpec } from '@/services/api';
 
 export default {
   namespace: 'product',
 
   state: {
-    categoryData: [],
     step: {
       payAccount: 'ant-design@alipay.com',
       receiverAccount: 'test@example.com',
       receiverName: 'Alex',
       amount: '500',
     },
+    categoryData: [],
+    data: {
+      results: [],
+      count: undefined,
+    },
+    currentRecord: {},
   },
 
   effects: {
@@ -39,6 +44,31 @@ export default {
         payload: response,
       });
     },
+
+    *fetch({ }, { call, put }) {
+      const response = yield call(queryProducts);
+      yield put({
+        type: 'save',
+        payload: response,
+      });
+    },
+    *fetchCurrent({ productID }, { call, put }) {
+      const response = yield call(fetchProduct, productID);
+      yield put({
+        type: 'saveCurrent',
+        payload: response,
+      });
+    },
+    *patch({ payload, productID }, { call, put }) {
+      yield call(patchProduct, payload, productID);
+    },
+
+    *createProduct({ payload }, { call, put }) {
+      yield call(createProduct, payload);
+    },
+    *createProductSpec({ payload, productID }, { call, put }) {
+      yield call(createProductSpec, payload, productID);
+    },
   },
 
   reducers: {
@@ -55,6 +85,18 @@ export default {
       return {
         ...state,
         categoryData: action.payload,
+      };
+    },
+    save(state, action) {
+      return {
+        ...state,
+        data: action.payload,
+      };
+    },
+    saveCurrent(state, action) {
+      return {
+        ...state,
+        currentRecord: action.payload,
       };
     },
   },

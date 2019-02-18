@@ -8,6 +8,7 @@ import { Form,
          Checkbox,
          Divider,
          TreeSelect,
+         message,
 } from 'antd';
 import router from 'umi/router';
 import styles from './style.less';
@@ -54,16 +55,30 @@ class Step1 extends React.PureComponent {
     const { product: { categoryData }, form, dispatch } = this.props;
     const treeData = categoryData;
 
-
     const { getFieldDecorator, validateFields } = form;
     const onValidateForm = () => {
       validateFields((err, values) => {
         if (!err) {
+          // 默认这一步已经 post 成功数据，商品 deleted=true carousel 整理成 list 加入 values
+          values['deleted'] = true;
+          var newCarousel = [];
+          if (values['carousel'].indexOf(',') > -1) {
+            var oldCarousel = values['carousel'].split(',');
+            for (let i = 0; i < oldCarousel.length(); i += 1) {
+              newCarousel.push(oldCarousel[i]);
+            }
+          } else {
+            newCarousel.push(values['carousel']);
+          }
+          values['carousel'] = newCarousel;
+          console.log(values);
           dispatch({
-            type: 'form/saveStepFormData',
+            type: 'product/createProduct',
             payload: values,
+          }).then(() => {
+            message.success('添加商品成功！')
+            router.push('/product/product-create-step-form/spec');
           });
-          router.push('/product/product-create-step-form/spec');
         }
       });
     };

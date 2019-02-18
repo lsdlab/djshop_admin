@@ -72,7 +72,7 @@ const CreateForm = Form.create()(props => {
           rules: [{ required: true, message: '请输入图标链接！' }],
         })(<Input placeholder="图标链接" />)}
       </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="一级分类"style={{display: form.getFieldValue('category_type') === '3' ? 'block' : 'none'}}>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="一级分类" style={{display: form.getFieldValue('category_type') === '3' ? 'block' : 'none'}}>
         {form.getFieldDecorator('parent_category', {
             rules: [{ required: false, message: '请选择一级分类！' }],
           })(
@@ -94,6 +94,7 @@ const CreateForm = Form.create()(props => {
 class CategoryList extends PureComponent {
   state = {
     modalVisible: false,
+    editFormVisible: false,
   };
 
   componentDidMount() {
@@ -137,6 +138,9 @@ class CategoryList extends PureComponent {
 
   onSelect = (selectedKeys, info) => {
     const { form } = this.props;
+    this.setState({
+      editFormVisible: true,
+    })
     form.setFieldsValue({
       name: info.selectedNodes[0].props.dataRef.name,
       category_type: info.selectedNodes[0].props.dataRef.category_type,
@@ -195,7 +199,7 @@ class CategoryList extends PureComponent {
             </Col>
           </Row>
           <Row gutter={{ md: 12, lg: 24, xl: 48 }} style={{ marginTop: 10 }}>
-            <Col md={8} sm={24}>
+            <Col md={6} sm={24}>
               { treeData ? (
                 <Tree
                   autoExpandParent={true}
@@ -207,7 +211,10 @@ class CategoryList extends PureComponent {
                 </Tree>
                 ) : null}
             </Col>
-            <Col md={16} sm={24}>
+            <Col md={18} sm={24} style={{display: this.state.editFormVisible ? 'none' : 'block'}}>
+              <h3>请点击左侧分类名称进行编辑</h3>
+            </Col>
+            <Col md={18} sm={24} style={{display: this.state.editFormVisible ? 'block' : 'none'}}>
               <Form onSubmit={this.handleSubmit} style={{ marginTop: 8 }}>
                 <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="名称">
                   {form.getFieldDecorator('name', {
