@@ -15,13 +15,12 @@ const formItemLayout = {
 };
 
 @connect(({ form, loading }) => ({
-  submitting: loading.effects['form/submitStepForm'],
-  data: form.step,
+  submitting: loading.effects['form/createProductSpec'],
 }))
 @Form.create()
 class Step2 extends React.PureComponent {
   render() {
-    const { form, data, dispatch, submitting } = this.props;
+    const { form, dispatch, submitting } = this.props;
     const { getFieldDecorator, validateFields } = form;
     const onPrev = () => {
       router.push('/product/product-create-step-form/product');
@@ -30,36 +29,24 @@ class Step2 extends React.PureComponent {
       e.preventDefault();
       validateFields((err, values) => {
         if (!err) {
-          dispatch({
-            type: 'form/submitStepForm',
-            payload: {
-              ...data,
-              ...values,
-            },
-          });
+          // dispatch({
+          //   type: 'form/submitStepForm',
+          //   payload: {
+          //     ...data,
+          //     ...values,
+          //   },
+          // });
         }
       });
     };
     return (
       <Form layout="horizontal" className={styles.stepForm}>
-        <Alert
-          closable
-          showIcon
-          message="确认转账后，资金将直接打入对方账户，无法退回。"
-          style={{ marginBottom: 24 }}
-        />
         <Form.Item {...formItemLayout} className={styles.stepFormText} label="付款账户">
-          {data.payAccount}
+
         </Form.Item>
         <Form.Item {...formItemLayout} className={styles.stepFormText} label="收款账户">
-          {data.receiverAccount}
         </Form.Item>
         <Form.Item {...formItemLayout} className={styles.stepFormText} label="收款人姓名">
-          {data.receiverName}
-        </Form.Item>
-        <Form.Item {...formItemLayout} className={styles.stepFormText} label="转账金额">
-          <span className={styles.money}>{data.amount}</span>
-          <span className={styles.uppercase}>（{digitUppercase(data.amount)}）</span>
         </Form.Item>
         <Divider style={{ margin: '24px 0' }} />
         <Form.Item {...formItemLayout} label="支付密码" required={false}>
