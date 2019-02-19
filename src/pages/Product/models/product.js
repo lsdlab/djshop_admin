@@ -18,6 +18,7 @@ export default {
       count: undefined,
     },
     currentRecord: {},
+    newProduct: {},
   },
 
   effects: {
@@ -64,7 +65,16 @@ export default {
     },
 
     *createProduct({ payload }, { call, put }) {
-      yield call(createProduct, payload);
+      const response = yield call(createProduct, payload);
+      yield put({
+        type: 'saveNew',
+        payload: response,
+      });
+    },
+    *clearNewProduct({ }, { call, put }) {
+      yield put({
+        type: 'clearNew',
+      });
     },
     *createProductSpec({ payload, productID }, { call, put }) {
       yield call(createProductSpec, payload, productID);
@@ -97,6 +107,18 @@ export default {
       return {
         ...state,
         currentRecord: action.payload,
+      };
+    },
+    saveNew(state, action) {
+      return {
+        ...state,
+        newProduct: action.payload,
+      };
+    },
+    clearNew(state, action) {
+      return {
+        ...state,
+        newProduct: {},
       };
     },
   },

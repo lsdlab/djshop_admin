@@ -5,12 +5,19 @@ import router from 'umi/router';
 import Result from '@/components/Result';
 import styles from './style.less';
 
-@connect(({ form }) => ({
-  data: form.step,
+@connect(({ product }) => ({
+  product,
 }))
 class Step3 extends React.PureComponent {
+
+  componentDidMount() {
+    const { dispatch, location } = this.props;
+    console.log(location);
+  }
+
   render() {
-    const { data } = this.props;
+    const { product: { currentRecord }, } = this.props;
+
     const onFinish = () => {
       router.push('/product/product-create-step-form/product');
     };
@@ -18,51 +25,26 @@ class Step3 extends React.PureComponent {
       <div className={styles.information}>
         <Row>
           <Col xs={24} sm={8} className={styles.label}>
-            付款账户：
+            商品名称：
           </Col>
           <Col xs={24} sm={16}>
-            {data.payAccount}
+            xx
           </Col>
         </Row>
-        <Row>
-          <Col xs={24} sm={8} className={styles.label}>
-            收款账户：
-          </Col>
-          <Col xs={24} sm={16}>
-            {data.receiverAccount}
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={24} sm={8} className={styles.label}>
-            收款人姓名：
-          </Col>
-          <Col xs={24} sm={16}>
-            {data.receiverName}
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={24} sm={8} className={styles.label}>
-            转账金额：
-          </Col>
-          <Col xs={24} sm={16}>
-            <span className={styles.money}>{data.amount}</span> 元
-          </Col>
-        </Row>
+
       </div>
     );
     const actions = (
       <Fragment>
         <Button type="primary" onClick={onFinish}>
-          再转一笔
+          再次上架产品
         </Button>
-        <Button>查看账单</Button>
       </Fragment>
     );
     return (
       <Result
         type="success"
-        title="操作成功"
-        description="预计两小时内到账"
+        title="上架成功"
         extra={information}
         actions={actions}
         className={styles.result}
