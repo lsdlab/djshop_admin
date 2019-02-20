@@ -40,10 +40,22 @@ class Step2 extends React.PureComponent {
   }
 
   render() {
-    const { product: { newProduct }, form, dispatch, submitting, location } = this.props;
-    const { getFieldDecorator, validateFields } = form;
+    const { product: { newProductSpec }, form, dispatch, submitting, location } = this.props;
+    const { getFieldDecorator, validateFields, getFieldValue } = form;
 
     const onPrev = () => {
+      let specTempData = {};
+      specTempData['name'] = getFieldValue('name');
+      specTempData['header_image'] = getFieldValue('header_image');
+      specTempData['price'] = getFieldValue('price');
+      specTempData['market_price'] = getFieldValue('market_price');
+      specTempData['cost_price'] = getFieldValue('cost_price');
+      specTempData['stock'] = getFieldValue('stock');
+      specTempData['sn'] = getFieldValue('sn');
+      dispatch({
+        type: 'product/saveSpecTemp',
+        payload: specTempData,
+      });
       router.push({pathname: '/product/product-create-step-form/product', state: {"backto": true }});
     };
 
@@ -61,14 +73,6 @@ class Step2 extends React.PureComponent {
             })
             router.push({pathname: '/product/product-create-step-form/finish', state: {"productID": location.state.productID }});
           });
-
-          // const newProductData = JSON.parse(localStorage.getItem('newProductData'));
-          // dispatch({
-          //   type: 'product/createProduct',
-          //   payload: newProductData,
-          // }).then(() => {
-
-          // })
         }
       });
     };
@@ -78,42 +82,49 @@ class Step2 extends React.PureComponent {
         <Form layout="horizontal" className={styles.stepForm}>
           <FormItem {...formItemLayout} label="规格名称">
             {getFieldDecorator('name', {
+              initialValue: newProductSpec.name,
               rules: [{ required: true, message: '请输入规格名称！' }],
             })(<Input placeholder="规格名称" />)}
           </FormItem>
 
           <FormItem {...formItemLayout} label="题图链接">
             {getFieldDecorator('header_image', {
+              initialValue: newProductSpec.header_image,
               rules: [{ required: true, message: '请输入题图链接！' }],
             })(<Input placeholder="题图链接，单个链接" />)}
           </FormItem>
 
           <FormItem {...formItemLayout} label="售价">
             {getFieldDecorator('price', {
+              initialValue: newProductSpec.price,
               rules: [{ required: true, message: '请输入售价！' }],
             })(<InputNumber min={0.01} step={0.01} style={{ width: '100%' }} placeholder="售价"/>)}
           </FormItem>
 
           <FormItem {...formItemLayout} label="市场价">
             {getFieldDecorator('market_price', {
+              initialValue: newProductSpec.market_price,
               rules: [{ required: true, message: '请输入市场价！' }],
             })(<InputNumber min={0.01} step={0.01} style={{ width: '100%' }} placeholder="市场价"/>)}
           </FormItem>
 
           <FormItem {...formItemLayout} label="成本价">
             {getFieldDecorator('cost_price', {
+              initialValue: newProductSpec.cost_price,
               rules: [{ required: true, message: '请输入限成本价！' }],
             })(<InputNumber min={0.01} step={0.01} style={{ width: '100%' }} placeholder="成本价"/>)}
           </FormItem>
 
           <FormItem {...formItemLayout} label="库存数量">
             {getFieldDecorator('stock', {
+              initialValue: newProductSpec.stock,
               rules: [{ required: true, message: '请输入库存数量！' }],
             })(<InputNumber min={1} max={9999} style={{ width: '100%' }} placeholder="库存数量"/>)}
           </FormItem>
 
           <FormItem {...formItemLayout} label="商品货号">
             {getFieldDecorator('sn', {
+              initialValue: newProductSpec.sn,
               rules: [{ required: true, message: '请输入商品货号！'}],
             })(<Input placeholder="商品货号" />)}
           </FormItem>

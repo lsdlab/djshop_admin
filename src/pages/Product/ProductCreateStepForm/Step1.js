@@ -32,7 +32,6 @@ const formItemLayout = {
 @Form.create()
 class Step1 extends React.PureComponent {
   state = {
-    newProduct: {},
   };
 
   componentDidMount() {

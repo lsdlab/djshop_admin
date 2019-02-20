@@ -28,7 +28,7 @@ const RadioGroup = Radio.Group;
 const { TreeNode } = Tree;
 
 const CreateForm = Form.create()(props => {
-  const { modalVisible, form, handleAdd, handleModalVisible, } = props;
+  const { modalVisible, categoryData, form, handleAdd, handleModalVisible, } = props;
   const okHandle = () => {
     form.validateFields((err, fieldsValue) => {
       if (err) return;
@@ -36,6 +36,17 @@ const CreateForm = Form.create()(props => {
       handleAdd(fieldsValue);
     });
   };
+
+  const buildOptions = (CategoryOneData) => {
+    if (CategoryOneData) {
+      const arr = [];
+      for (let i = 0; i < CategoryOneData.length; i++) {
+        arr.push(<Option key={CategoryOneData[i].id}>{CategoryOneData[i].name}</Option>)
+      }
+      return arr;
+    }
+  }
+
   return (
     <Modal
       destroyOnClose
@@ -72,15 +83,17 @@ const CreateForm = Form.create()(props => {
           rules: [{ required: true, message: '请输入图标链接！' }],
         })(<Input placeholder="图标链接" />)}
       </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="一级分类" style={{display: form.getFieldValue('category_type') === '3' ? 'block' : 'none'}}>
-        {form.getFieldDecorator('parent_category', {
-            rules: [{ required: false, message: '请选择一级分类！' }],
-          })(
-            <Select style={{ width: '100%' }} placeholder="一级分类">
-              <Option value="1">一级分类</Option>
-            </Select>
-          )}
-      </FormItem>
+      { categoryData ? (
+        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="一级分类" style={{display: form.getFieldValue('category_type') === '3' ? 'block' : 'none'}}>
+          {form.getFieldDecorator('parent_category', {
+              rules: [{ required: false, message: '请选择一级分类！' }],
+            })(
+              <Select style={{ width: '100%' }} placeholder="一级分类">
+                {buildOptions(categoryData)}
+              </Select>
+            )}
+        </FormItem>
+      ) : null}
     </Modal>
   );
 });
@@ -95,6 +108,7 @@ class CategoryList extends PureComponent {
   state = {
     modalVisible: false,
     editFormVisible: false,
+    currentSelected: {},
   };
 
   componentDidMount() {
@@ -139,12 +153,14 @@ class CategoryList extends PureComponent {
   onSelect = (selectedKeys, info) => {
     const { form } = this.props;
     this.setState({
+      currentSelected: info.selectedNodes[0].props.dataRef,
       editFormVisible: true,
     })
     form.setFieldsValue({
       name: info.selectedNodes[0].props.dataRef.name,
       category_type: info.selectedNodes[0].props.dataRef.category_type,
       icon: info.selectedNodes[0].props.dataRef.icon,
+      parent_category: info.selectedNodes[0].props.dataRef.parent_category,
     });
   }
 
@@ -156,12 +172,26 @@ class CategoryList extends PureComponent {
         dispatch({
           type: 'category/patch',
           payload: values,
+          categoryID: this.state.currentSelected.id,
         }).then(() => {
-          message.success('修改专题成功');
+          message.success('修改分类成功');
+          dispatch({
+            type: 'category/fetch'
+          });
         });
       }
     });
   };
+
+  buildOptions(CategoryOneData) {
+    if (CategoryOneData) {
+      const arr = [];
+      for (let i = 0; i < CategoryOneData.length; i++) {
+        arr.push(<Option key={CategoryOneData[i].id} value={CategoryOneData[i].id}>{CategoryOneData[i].name}</Option>)
+      }
+      return arr;
+    }
+  }
 
   renderTreeNodes = data => data.map((item) => {
     if (item && item.children) {
@@ -176,7 +206,6 @@ class CategoryList extends PureComponent {
 
   render() {
     const { category: { data }, submitting, form } = this.props;
-    const treeData = data;
     const { modalVisible } = this.state;
 
     const parentMethods = {
@@ -195,21 +224,21 @@ class CategoryList extends PureComponent {
               <Button icon="retweet" type="primary" onClick={() => this.handleRefresh()} style={{ marginLeft: 10 }}>
                 刷新
               </Button>
-              <CreateForm {...parentMethods} modalVisible={modalVisible} />
+              <CreateForm {...parentMethods} modalVisible={modalVisible} categoryData={data} />
             </Col>
           </Row>
           <Row gutter={{ md: 12, lg: 24, xl: 48 }} style={{ marginTop: 10 }}>
             <Col md={6} sm={24}>
-              { treeData ? (
+              { data ? (
                 <Tree
                   autoExpandParent={true}
                   defaultExpandAll={true}
                   defaultExpandParent={true}
                   onSelect={this.onSelect}
                 >
-                  {this.renderTreeNodes(treeData)}
+                  {this.renderTreeNodes(data)}
                 </Tree>
-                ) : null}
+              ) : null}
             </Col>
             <Col md={18} sm={24} style={{display: this.state.editFormVisible ? 'none' : 'block'}}>
               <h3>请点击左侧分类名称进行编辑</h3>
@@ -241,6 +270,19 @@ class CategoryList extends PureComponent {
                     rules: [{ required: true, message: '请输入图标链接！' }],
                   })(<Input placeholder="图标链接" />)}
                 </FormItem>
+
+                { data ? (
+                  <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="一级分类" style={{display: form.getFieldValue('category_type') === '3' ? 'block' : 'none'}}>
+                    {form.getFieldDecorator('parent_category', {
+                        rules: [{ required: false, message: '请选择一级分类！' }],
+                      })(
+                        <Select style={{ width: '100%' }} placeholder="一级分类">
+                          {this.buildOptions(data)}
+                        </Select>
+                      )}
+                  </FormItem>
+                ) : null}
+
                 <FormItem wrapperCol={{ span: 10, offset: 5 }} style={{ marginTop: 32 }}>
                   <Button type="primary" htmlType="submit" loading={submitting}>
                     保存

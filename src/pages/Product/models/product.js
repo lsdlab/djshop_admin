@@ -6,12 +6,6 @@ export default {
   namespace: 'product',
 
   state: {
-    step: {
-      payAccount: 'ant-design@alipay.com',
-      receiverAccount: 'test@example.com',
-      receiverName: 'Alex',
-      amount: '500',
-    },
     categoryData: [],
     data: {
       results: [],
@@ -19,6 +13,7 @@ export default {
     },
     currentRecord: {},
     newProduct: {},
+    newProductSpec: {},
   },
 
   effects: {
@@ -79,6 +74,12 @@ export default {
     *createProductSpec({ payload, productID }, { call, put }) {
       yield call(createProductSpec, payload, productID);
     },
+    *saveSpecTemp({ payload }, { call, put }) {
+      yield put({
+        type: 'saveNewSpec',
+        payload: payload,
+      });
+    }
   },
 
   reducers: {
@@ -119,6 +120,13 @@ export default {
       return {
         ...state,
         newProduct: {},
+        newProductSpec: {},
+      };
+    },
+    saveNewSpec(state, action) {
+      return {
+        ...state,
+        newProductSpec: action.payload,
       };
     },
   },
