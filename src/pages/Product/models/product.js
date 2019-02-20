@@ -34,15 +34,15 @@ export default {
       message.success('提交成功');
     },
     *fetchCategory({ }, { call, put }) {
-      const response = yield call(queryCategory);
+      const response = yield call(queryCategory, );
       yield put({
         type: 'saveCategory',
         payload: response,
       });
     },
 
-    *fetch({ }, { call, put }) {
-      const response = yield call(queryProducts);
+    *fetch({ payload }, { call, put }) {
+      const response = yield call(queryProducts, payload);
       yield put({
         type: 'save',
         payload: response,

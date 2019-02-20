@@ -21,6 +21,7 @@ class SimpleTable extends PureComponent {
       data: { results, count },
       loading,
       columns,
+      scroll,
       size,
       rowKey,
     } = this.props;
@@ -39,6 +40,7 @@ class SimpleTable extends PureComponent {
           rowKey={rowKey || 'key'}
           dataSource={results}
           columns={columns}
+          scroll={scroll}
           size={size || 'default'}
           pagination={paginationProps}
           onChange={this.handleTableChange}
