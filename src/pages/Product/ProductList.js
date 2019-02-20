@@ -214,6 +214,17 @@ class ProductList extends PureComponent {
         title: '创建时间',
         dataIndex: 'created_at',
       },
+      {
+        title: '操作',
+        render: (text, record) => (
+          <Fragment>
+            <a>编辑</a>
+            <Divider type="vertical" />
+            <a>详情</a>
+            <Divider type="vertical" />
+          </Fragment>
+        ),
+      },
     ];
 
     return (
