@@ -48,10 +48,10 @@ export default {
         payload: response,
       });
     },
-    *fetchCurrent({ productID }, { call, put }) {
+    *fetchDetail({ productID }, { call, put }) {
       const response = yield call(fetchProduct, productID);
       yield put({
-        type: 'saveCurrent',
+        type: 'saveDetail',
         payload: response,
       });
     },
@@ -104,7 +104,7 @@ export default {
         data: action.payload,
       };
     },
-    saveCurrent(state, action) {
+    saveDetail(state, action) {
       return {
         ...state,
         currentRecord: action.payload,

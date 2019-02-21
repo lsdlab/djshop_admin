@@ -452,7 +452,7 @@ export async function queryProducts(params) {
 // 获取单个商品详细信息
 export async function fetchProduct(productID) {
   const token = getToken();
-  return request(`${apiHost}${apiVersion}/products/${productID}`, {
+  return request(`${apiHost}${apiVersion}/products/${productID}/`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

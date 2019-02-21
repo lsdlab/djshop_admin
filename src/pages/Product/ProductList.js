@@ -8,17 +8,11 @@ import {
   Form,
   Input,
   Select,
-  Icon,
   Button,
-  Dropdown,
-  Menu,
-  InputNumber,
-  DatePicker,
-  Modal,
-  message,
   Divider,
   Badge,
-  Popconfirm,
+  Drawer,
+  Checkbox,
 } from 'antd';
 import SimpleTable from '@/components/SimpleTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
@@ -26,8 +20,126 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import styles from '../List/TableList.less';
 
 const FormItem = Form.Item;
-const { TextArea } = Input;
 const { Option } = Select;
+
+const pStyle = {
+  fontSize: 16,
+  color: 'rgba(0,0,0,0.85)',
+  lineHeight: '24px',
+  display: 'block',
+  marginBottom: 16,
+};
+
+const DescriptionItem = ({ title, content }) => (
+  <div
+    style={{
+      fontSize: 14,
+      lineHeight: '22px',
+      marginBottom: 7,
+      color: 'rgba(0,0,0,0.65)',
+    }}
+  >
+    <p
+      style={{
+        marginRight: 8,
+        display: 'inline-block',
+        color: 'rgba(0,0,0,0.85)',
+      }}
+    >
+      {title}:
+    </p>
+    {content}
+  </div>
+);
+
+const BadgeItem = ({ title, status, content }) => (
+  <div
+    style={{
+      fontSize: 14,
+      lineHeight: '22px',
+      marginBottom: 7,
+      color: 'rgba(0,0,0,0.65)',
+    }}
+  >
+    <p
+      style={{
+        marginRight: 8,
+        display: 'inline-block',
+        color: 'rgba(0,0,0,0.85)',
+      }}
+    >
+      {title}:
+    </p>
+    <Badge status={status} text={content} />
+  </div>
+);
+
+const CheckboxItem = ({ title, status }) => (
+  <div
+    style={{
+      fontSize: 14,
+      lineHeight: '22px',
+      marginBottom: 7,
+      color: 'rgba(0,0,0,0.65)',
+    }}
+  >
+    <p
+      style={{
+        marginRight: 8,
+        display: 'inline-block',
+        color: 'rgba(0,0,0,0.85)',
+      }}
+    >
+      {title}:
+    </p>
+    <Checkbox disabled checked={status}></Checkbox>
+  </div>
+);
+
+const ImgItem = ({ title, src }) => (
+  <div
+    style={{
+      fontSize: 14,
+      lineHeight: '22px',
+      marginBottom: 7,
+      color: 'rgba(0,0,0,0.65)',
+    }}
+  >
+    <p
+      style={{
+        marginRight: 8,
+        display: 'inline-block',
+        color: 'rgba(0,0,0,0.85)',
+      }}
+    >
+      {title}:
+    </p>
+    <img style={{ width: '20%', height: '20%' }} src={src} />
+  </div>
+);
+
+const ImgListItem = ({ title, src }) => (
+  <div
+    style={{
+      fontSize: 14,
+      lineHeight: '22px',
+      marginBottom: 7,
+      color: 'rgba(0,0,0,0.65)',
+    }}
+  >
+    <p
+      style={{
+        marginRight: 8,
+        display: 'inline-block',
+        color: 'rgba(0,0,0,0.85)',
+      }}
+    >
+      {title}:
+    </p>
+    <img style={{ width: '20%', height: '20%' }} src={src} />
+  </div>
+);
+
 
 /* eslint react/no-multi-comp:0 */
 @connect(({ product, loading }) => ({
@@ -40,6 +152,7 @@ class ProductList extends PureComponent {
     currentPage: 1,
     pageSize: 10,
     formValues: {},
+    visible: false,
   };
 
   componentDidMount() {
@@ -47,7 +160,30 @@ class ProductList extends PureComponent {
     dispatch({
       type: 'product/fetch',
     });
-  }
+  };
+
+  showDrawer = (flag, productID) => {
+    this.setState({
+      visible: !!flag,
+    });
+
+    if (flag && productID) {
+      this.props.dispatch({
+        type: 'product/fetchDetail',
+        productID: productID,
+      });
+    } else {
+      this.setState({
+        currentRecord: {}
+      })
+    }
+  };
+
+  onClose = () => {
+    this.setState({
+      visible: false,
+    });
+  };
 
   handleStandardTableChange = (pagination, filtersArg, sorter) => {
     const { dispatch } = this.props;
@@ -126,8 +262,8 @@ class ProductList extends PureComponent {
             <FormItem label="商品状态">
               {getFieldDecorator('status')(
                 <Select placeholder="请选择" style={{ width: '100%' }}>
-                  <Option value="0">上架</Option>
-                  <Option value="1">下架</Option>
+                  <Option value="1">上架</Option>
+                  <Option value="2">下架</Option>
                 </Select>
               )}
             </FormItem>
@@ -147,9 +283,21 @@ class ProductList extends PureComponent {
     );
   }
 
+  buildCarousel(srcList) {
+    if (srcList) {
+      const arr = [];
+      for (let i = 0; i < srcList.length; i++) {
+        arr.push(<img style={{ width: '20%', height: '20%' }} src={srcList[i]} />)
+      }
+      return arr;
+    } else {
+      return <div></div>
+    }
+  }
+
   render() {
     const {
-      product: { data },
+      product: { data, currentRecord },
       loading,
     } = this.props;
     const { currentPage, pageSize } = this.state;
@@ -220,8 +368,9 @@ class ProductList extends PureComponent {
           <Fragment>
             <a>编辑</a>
             <Divider type="vertical" />
-            <a>详情</a>
+            <a onClick={() => this.showDrawer(true, record.id)}>详情</a>
             <Divider type="vertical" />
+            <a onClick={() => this.showDrawer(true, record)}>规格详情</a>
           </Fragment>
         ),
       },
@@ -236,10 +385,98 @@ class ProductList extends PureComponent {
               loading={loading}
               data={data}
               columns={columns}
-              scroll={{ x: 1200 }}
               onChange={this.handleStandardTableChange}
             />
           </div>
+          <Drawer
+            width={800}
+            placement="right"
+            closable={true}
+            onClose={this.onClose}
+            visible={this.state.visible}
+          >
+            <p style={pStyle}>商品详情</p>
+            <Row>
+              <Col span={24}>
+                <DescriptionItem title="名称" content={currentRecord.name} />
+              </Col>
+            </Row>
+            <Row>
+              <Col span={24}>
+                <DescriptionItem title="副标题" content={currentRecord.subtitle} />
+              </Col>
+            </Row>
+            <Row>
+              <Col span={8}>
+                <DescriptionItem title="上架用户" content={currentRecord.uploader} />
+              </Col>
+              <Col span={8}>
+                { currentRecord.status === '1' ? (
+                  <BadgeItem title="状态" status='success' content="上架" />
+                ) : <BadgeItem title="状态" status='error' content='下架' />}
+              </Col>
+              <Col span={8}>
+                <DescriptionItem title="分类" content={currentRecord.category_name} />
+              </Col>
+            </Row>
+            <Row>
+              <Col span={6}>
+                <DescriptionItem title="单位" content={currentRecord.unit} />
+              </Col>
+              <Col span={6}>
+                <DescriptionItem title="重量" content={currentRecord.weight} />
+              </Col>
+              <Col span={6}>
+                <DescriptionItem title="限购" content={currentRecord.limit} />
+              </Col>
+              <Col span={6}>
+                <DescriptionItem title="总库存" content={currentRecord.total_stock} />
+              </Col>
+            </Row>
+            <Row>
+              <Col span={6}>
+                <DescriptionItem title="销量" content={currentRecord.sold} />
+              </Col>
+              <Col span={6}>
+                <DescriptionItem title="浏览量" content={currentRecord.pv} />
+              </Col>
+              <Col span={6}>
+                <DescriptionItem title="收藏量" content={currentRecord.fav} />
+              </Col>
+              <Col span={6}>
+                <DescriptionItem title="评论量" content={currentRecord.review} />
+              </Col>
+            </Row>
+            <Row>
+              <Col span={6}>
+                <CheckboxItem title="开发票" status={currentRecord.has_invoice} />
+              </Col>
+              <Col span={6}>
+                <CheckboxItem title="免运费" content={currentRecord.shop_free} />
+              </Col>
+              <Col span={6}>
+                <CheckboxItem title="可退货" content={currentRecord.refund} />
+              </Col>
+              <Col span={6}>
+                <CheckboxItem title="新品" content={currentRecord.is_new} />
+              </Col>
+            </Row>
+
+            <Row>
+              <Col span={24}>
+                <DescriptionItem title="题图" />
+                <img style={{ width: '20%', height: '20%' }} src={currentRecord.header_image} />
+              </Col>
+            </Row>
+
+            <Row style={{ marginTop: 20 }}>
+              <Col span={24}>
+                <DescriptionItem title="轮播图" />
+                {this.buildCarousel(currentRecord.carousel)}
+              </Col>
+            </Row>
+            <Divider />
+          </Drawer>
         </Card>
       </PageHeaderWrapper>
     );
