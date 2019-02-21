@@ -449,7 +449,7 @@ class ProductList extends PureComponent {
             </Row>
             <Row>
               <Col span={6}>
-                <CheckboxItem title="开发票" status={currentRecord.has_invoice} />
+                <CheckboxItem title="可开发票" status={currentRecord.has_invoice} />
               </Col>
               <Col span={6}>
                 <CheckboxItem title="免运费" content={currentRecord.shop_free} />
@@ -465,7 +465,9 @@ class ProductList extends PureComponent {
             <Row>
               <Col span={24}>
                 <DescriptionItem title="题图" />
-                <img style={{ width: '20%', height: '20%' }} src={currentRecord.header_image} />
+                { currentRecord.header_image ? (
+                  <img style={{ width: '20%', height: '20%' }} src={currentRecord.header_image} />
+                ) : null }
               </Col>
             </Row>
 
