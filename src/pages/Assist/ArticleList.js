@@ -37,7 +37,7 @@ const CreateForm = Form.create()(props => {
       destroyOnClose
       centered
       keyboard
-      title="新建专题"
+      title="新增专题"
       width={1000}
       visible={modalVisible}
       onOk={okHandle}
@@ -260,7 +260,7 @@ class ArticleList extends PureComponent {
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
             <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
-              新建专题
+              新增专题
             </Button>
           </Col>
         </Row>

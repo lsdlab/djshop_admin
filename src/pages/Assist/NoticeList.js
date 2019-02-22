@@ -38,7 +38,7 @@ const CreateForm = Form.create()(props => {
       destroyOnClose
       centered
       keyboard
-      title="新建"
+      title="新增"
       width={800}
       visible={modalVisible}
       onOk={okHandle}
@@ -215,7 +215,7 @@ class BannerList extends PureComponent {
       type: 'notice/create',
       payload: fields,
     }).then((data) => {
-      message.success('新建成功');
+      message.success('新增成功');
       this.handleModalVisible();
       this.props.dispatch({
         type: 'notice/fetch',
@@ -264,7 +264,7 @@ class BannerList extends PureComponent {
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
             <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
-              新建全网提醒
+              新增全网提醒
             </Button>
           </Col>
         </Row>
