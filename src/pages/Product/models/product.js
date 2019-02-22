@@ -1,17 +1,11 @@
 import { routerRedux } from 'dva/router';
 import { message } from 'antd';
-import { fakeSubmitForm, queryCategory, queryProducts, fetchProduct, patchProduct, createProduct, createProductSpec } from '@/services/api';
+import { queryCategory, queryProducts, fetchProduct, patchProduct, createProduct, createProductSpec, queryProductSpecs } from '@/services/api';
 
 export default {
   namespace: 'product',
 
   state: {
-    step: {
-      payAccount: 'ant-design@alipay.com',
-      receiverAccount: 'test@example.com',
-      receiverName: 'Alex',
-      amount: '500',
-    },
     categoryData: [],
     data: {
       results: [],
@@ -19,51 +13,35 @@ export default {
     },
     currentRecord: {},
     newProduct: {},
+    newProductSpec: {},
+    specData: [],
   },
 
   effects: {
-    *submitRegularForm({ payload }, { call }) {
-      yield call(fakeSubmitForm, payload);
-      message.success('提交成功');
-    },
-    *submitStepForm({ payload }, { call, put }) {
-      yield call(fakeSubmitForm, payload);
-      yield put({
-        type: 'saveStepFormData',
-        payload,
-      });
-      yield put(routerRedux.push('/product/product-create-step-form/finish'));
-    },
-    *submitAdvancedForm({ payload }, { call }) {
-      yield call(fakeSubmitForm, payload);
-      message.success('提交成功');
-    },
     *fetchCategory({ }, { call, put }) {
-      const response = yield call(queryCategory);
+      const response = yield call(queryCategory, );
       yield put({
         type: 'saveCategory',
         payload: response,
       });
     },
-
-    *fetch({ }, { call, put }) {
-      const response = yield call(queryProducts);
+    *fetch({ payload }, { call, put }) {
+      const response = yield call(queryProducts, payload);
       yield put({
         type: 'save',
         payload: response,
       });
     },
-    *fetchCurrent({ productID }, { call, put }) {
+    *fetchDetail({ productID }, { call, put }) {
       const response = yield call(fetchProduct, productID);
       yield put({
-        type: 'saveCurrent',
+        type: 'saveDetail',
         payload: response,
       });
     },
     *patch({ payload, productID }, { call, put }) {
       yield call(patchProduct, payload, productID);
     },
-
     *createProduct({ payload }, { call, put }) {
       const response = yield call(createProduct, payload);
       yield put({
@@ -79,18 +57,22 @@ export default {
     *createProductSpec({ payload, productID }, { call, put }) {
       yield call(createProductSpec, payload, productID);
     },
+    *saveSpecTemp({ payload }, { call, put }) {
+      yield put({
+        type: 'saveNewSpec',
+        payload: payload,
+      });
+    },
+    *fetchProductSpec({ productID }, { call, put }) {
+      const response = yield call(queryProductSpecs, productID);
+      yield put({
+        type: 'saveSpec',
+        payload: response,
+      });
+    },
   },
 
   reducers: {
-    saveStepFormData(state, { payload }) {
-      return {
-        ...state,
-        step: {
-          ...state.step,
-          ...payload,
-        },
-      };
-    },
     saveCategory(state, action) {
       return {
         ...state,
@@ -103,7 +85,7 @@ export default {
         data: action.payload,
       };
     },
-    saveCurrent(state, action) {
+    saveDetail(state, action) {
       return {
         ...state,
         currentRecord: action.payload,
@@ -119,7 +101,20 @@ export default {
       return {
         ...state,
         newProduct: {},
+        newProductSpec: {},
       };
     },
+    saveNewSpec(state, action) {
+      return {
+        ...state,
+        newProductSpec: action.payload,
+      };
+    },
+    saveSpec(state, action) {
+      return {
+        ...state,
+        specData: action.payload,
+      };
+    }
   },
 };

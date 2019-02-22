@@ -7,7 +7,6 @@ import {
   Card,
   Form,
   Input,
-  Icon,
   Button,
   Modal,
   message,
@@ -204,11 +203,11 @@ class ArticleList extends PureComponent {
       this.props.dispatch({
         type: 'articles/fetchCurrent',
         articleID: record.id,
-      })
+      });
     } else {
       this.setState({
         currentRecord: {}
-      })
+      });
     }
   };
 
