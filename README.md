@@ -1,5 +1,7 @@
 # djshop_admin
 
+![Language](https://img.shields.io/badge/language-JavaScript-orange.svg?style=flat-square) ![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)
+
 B2C 电商系统后台管理
 
 - React
