@@ -1,6 +1,17 @@
 import { routerRedux } from 'dva/router';
 import { message } from 'antd';
-import { queryCategory, queryProducts, fetchProduct, patchProduct, createProduct, createProductSpec, queryProductSpecs } from '@/services/api';
+import { queryCategory,
+         queryProducts,
+         fetchProduct,
+         createProduct,
+         patchProduct,
+         createProductSpec,
+         queryProductSpecs,
+         queryRecommendations,
+         createRecommendations,
+         patchRecommendations,
+} from '@/services/api';
+
 
 export default {
   namespace: 'product',
@@ -15,6 +26,11 @@ export default {
     newProduct: {},
     newProductSpec: {},
     specData: [],
+    recData: {
+      results: [],
+      count: undefined,
+    },
+    newRecProduct: {},
   },
 
   effects: {
@@ -39,15 +55,15 @@ export default {
         payload: response,
       });
     },
-    *patch({ payload, productID }, { call, put }) {
-      yield call(patchProduct, payload, productID);
-    },
     *createProduct({ payload }, { call, put }) {
       const response = yield call(createProduct, payload);
       yield put({
         type: 'saveNew',
         payload: response,
       });
+    },
+    *patch({ payload, productID }, { call, put }) {
+      yield call(patchProduct, payload, productID);
     },
     *clearNewProduct({ }, { call, put }) {
       yield put({
@@ -69,6 +85,23 @@ export default {
         type: 'saveSpec',
         payload: response,
       });
+    },
+    *fetchRecProduct({ }, { call, put }) {
+      const response = yield call(queryRecommendations);
+      yield put({
+        type: 'saveRec',
+        payload: response,
+      });
+    },
+    *createRecProduct({ payload }, { call, put }) {
+      const response = yield call(createRecommendations, payload);
+      yield put({
+        type: 'saveNewRecProduct',
+        payload: response,
+      });
+    },
+    *patchRecProduct({ payload, recProductID }, { call, put }) {
+      yield call(patchRecommendations, payload, recProductID);
     },
   },
 
@@ -115,6 +148,18 @@ export default {
         ...state,
         specData: action.payload,
       };
-    }
+    },
+    saveRec(state, action) {
+      return {
+        ...state,
+        recData: action.payload,
+      };
+    },
+    saveNewRecProduct(state, action) {
+      return {
+        ...state,
+        newRecProduct: action.payload,
+      };
+    },
   },
 };

@@ -512,3 +512,41 @@ export async function queryProductReviews(params, productID) {
     },
   });
 }
+
+// 获取推荐商品列表
+export async function queryRecommendations(params) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/product/recommendations/?${stringify(params)}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 创建推荐商品
+export async function createRecommendations(params) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/product/recommendations/`, {
+    method: 'POST',
+    body: params,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 修改推荐商品
+export async function patchRecommendations(params, recProductID) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/product/recommendations/${recProductID}/`, {
+    method: 'PATCH',
+    body: params,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}

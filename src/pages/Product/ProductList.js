@@ -277,42 +277,42 @@ class ProductList extends PureComponent {
   }
 
   buildSpecs(specData) {
-  if (specData) {
-    const arr = [];
-    for (let i = 0; i < specData.length; i++) {
-      arr.push(<Card style={{ marginBottom: 20 }} bodyStyle={{ padding: '20px 24px 8px 24px' }} key={i} type="inner" title={specData[i].name}>
-                 <Row>
-                   <Col span={6}>
-                     <DescriptionItem title="售价" content={specData[i].price} />
-                   </Col>
-                   <Col span={6}>
-                     <DescriptionItem title="市场价" content={specData[i].market_price} />
-                   </Col>
-                   <Col span={6}>
-                     <DescriptionItem title="成本价" content={specData[i].cost_price} />
-                   </Col>
-                   <Col span={6}>
-                     <DescriptionItem title="库存" content={specData[i].stock} />
-                   </Col>
-                 </Row>
-                 <Row>
-                   <Col span={8}>
-                     <DescriptionItem title="货号" content={specData[i].sn} />
-                   </Col>
-                 </Row>
-                 <Row>
-                   <Col span={24}>
-                     <DescriptionItem title="题图" />
-                       { specData[i].header_image ? (
-                         <img style={{ width: '20%', height: '20%' }} src={specData[i].header_image} />
-                       ) : null }
-                   </Col>
-                 </Row>
-                </Card>)
-      }
-      return arr;
-    } else {
-      return <div></div>
+    if (specData) {
+      const arr = [];
+      for (let i = 0; i < specData.length; i++) {
+        arr.push(<Card style={{ marginBottom: 20 }} bodyStyle={{ padding: '20px 24px 8px 24px' }} key={i} type="inner" title={specData[i].name}>
+                   <Row>
+                     <Col span={6}>
+                       <DescriptionItem title="售价" content={specData[i].price} />
+                     </Col>
+                     <Col span={6}>
+                       <DescriptionItem title="市场价" content={specData[i].market_price} />
+                     </Col>
+                     <Col span={6}>
+                       <DescriptionItem title="成本价" content={specData[i].cost_price} />
+                     </Col>
+                     <Col span={6}>
+                       <DescriptionItem title="库存" content={specData[i].stock} />
+                     </Col>
+                   </Row>
+                   <Row>
+                     <Col span={8}>
+                       <DescriptionItem title="货号" content={specData[i].sn} />
+                     </Col>
+                   </Row>
+                   <Row>
+                     <Col span={24}>
+                       <DescriptionItem title="题图" />
+                         { specData[i].header_image ? (
+                           <img style={{ width: '20%', height: '20%' }} src={specData[i].header_image} />
+                         ) : null }
+                     </Col>
+                   </Row>
+                  </Card>)
+        }
+        return arr;
+      } else {
+        return <div></div>
     }
   }
 
@@ -507,6 +507,7 @@ class ProductList extends PureComponent {
           >
             <p style={pStyle}>规格详情</p>
             {this.buildSpecs(specData)}
+            <Divider />
           </Drawer>
         </Card>
       </PageHeaderWrapper>
