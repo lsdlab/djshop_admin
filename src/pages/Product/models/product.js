@@ -1,6 +1,6 @@
 import { routerRedux } from 'dva/router';
 import { message } from 'antd';
-import { fakeSubmitForm, queryCategory, queryProducts, fetchProduct, patchProduct, createProduct, createProductSpec } from '@/services/api';
+import { queryCategory, queryProducts, fetchProduct, patchProduct, createProduct, createProductSpec, queryProductSpecs } from '@/services/api';
 
 export default {
   namespace: 'product',
@@ -14,25 +14,10 @@ export default {
     currentRecord: {},
     newProduct: {},
     newProductSpec: {},
+    specData: [],
   },
 
   effects: {
-    *submitRegularForm({ payload }, { call }) {
-      yield call(fakeSubmitForm, payload);
-      message.success('提交成功');
-    },
-    *submitStepForm({ payload }, { call, put }) {
-      yield call(fakeSubmitForm, payload);
-      yield put({
-        type: 'saveStepFormData',
-        payload,
-      });
-      yield put(routerRedux.push('/product/product-create-step-form/finish'));
-    },
-    *submitAdvancedForm({ payload }, { call }) {
-      yield call(fakeSubmitForm, payload);
-      message.success('提交成功');
-    },
     *fetchCategory({ }, { call, put }) {
       const response = yield call(queryCategory, );
       yield put({
@@ -40,7 +25,6 @@ export default {
         payload: response,
       });
     },
-
     *fetch({ payload }, { call, put }) {
       const response = yield call(queryProducts, payload);
       yield put({
@@ -58,7 +42,6 @@ export default {
     *patch({ payload, productID }, { call, put }) {
       yield call(patchProduct, payload, productID);
     },
-
     *createProduct({ payload }, { call, put }) {
       const response = yield call(createProduct, payload);
       yield put({
@@ -79,19 +62,17 @@ export default {
         type: 'saveNewSpec',
         payload: payload,
       });
-    }
+    },
+    *fetchProductSpec({ productID }, { call, put }) {
+      const response = yield call(queryProductSpecs, productID);
+      yield put({
+        type: 'saveSpec',
+        payload: response,
+      });
+    },
   },
 
   reducers: {
-    saveStepFormData(state, { payload }) {
-      return {
-        ...state,
-        step: {
-          ...state.step,
-          ...payload,
-        },
-      };
-    },
     saveCategory(state, action) {
       return {
         ...state,
@@ -129,5 +110,11 @@ export default {
         newProductSpec: action.payload,
       };
     },
+    saveSpec(state, action) {
+      return {
+        ...state,
+        specData: action.payload,
+      };
+    }
   },
 };

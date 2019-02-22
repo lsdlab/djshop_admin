@@ -16,11 +16,12 @@ import {
 } from 'antd';
 import SimpleTable from '@/components/SimpleTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-
+import DescriptionList from '@/components/DescriptionList';
 import styles from '../List/TableList.less';
 
 const FormItem = Form.Item;
 const { Option } = Select;
+const { Description } = DescriptionList;
 
 const pStyle = {
   fontSize: 16,
@@ -96,50 +97,6 @@ const CheckboxItem = ({ title, status }) => (
   </div>
 );
 
-const ImgItem = ({ title, src }) => (
-  <div
-    style={{
-      fontSize: 14,
-      lineHeight: '22px',
-      marginBottom: 7,
-      color: 'rgba(0,0,0,0.65)',
-    }}
-  >
-    <p
-      style={{
-        marginRight: 8,
-        display: 'inline-block',
-        color: 'rgba(0,0,0,0.85)',
-      }}
-    >
-      {title}:
-    </p>
-    <img style={{ width: '20%', height: '20%' }} src={src} />
-  </div>
-);
-
-const ImgListItem = ({ title, src }) => (
-  <div
-    style={{
-      fontSize: 14,
-      lineHeight: '22px',
-      marginBottom: 7,
-      color: 'rgba(0,0,0,0.65)',
-    }}
-  >
-    <p
-      style={{
-        marginRight: 8,
-        display: 'inline-block',
-        color: 'rgba(0,0,0,0.85)',
-      }}
-    >
-      {title}:
-    </p>
-    <img style={{ width: '20%', height: '20%' }} src={src} />
-  </div>
-);
-
 
 /* eslint react/no-multi-comp:0 */
 @connect(({ product, loading }) => ({
@@ -153,6 +110,7 @@ class ProductList extends PureComponent {
     pageSize: 10,
     formValues: {},
     visible: false,
+    specDrawerVisible: false,
   };
 
   componentDidMount() {
@@ -179,9 +137,32 @@ class ProductList extends PureComponent {
     }
   };
 
+  showSpecDrawer = (flag, productID) => {
+    this.setState({
+      specDrawerVisible: !!flag,
+    });
+
+    if (flag && productID) {
+      this.props.dispatch({
+        type: 'product/fetchProductSpec',
+        productID: productID,
+      });
+    } else {
+      this.setState({
+        specData: {}
+      })
+    }
+  };
+
   onClose = () => {
     this.setState({
       visible: false,
+    });
+  };
+
+  onSpecDrawerClose = () => {
+    this.setState({
+      specDrawerVisible: false,
     });
   };
 
@@ -287,7 +268,47 @@ class ProductList extends PureComponent {
     if (srcList) {
       const arr = [];
       for (let i = 0; i < srcList.length; i++) {
-        arr.push(<img style={{ width: '20%', height: '20%' }} src={srcList[i]} />)
+        arr.push(<img key={i} style={{ width: '20%', height: '20%' }} src={srcList[i]} />)
+      }
+      return arr;
+    } else {
+      return <div></div>
+    }
+  }
+
+  buildSpecs(specData) {
+  if (specData) {
+    const arr = [];
+    for (let i = 0; i < specData.length; i++) {
+      arr.push(<Card style={{ marginBottom: 20 }} bodyStyle={{ padding: '20px 24px 8px 24px' }} key={i} type="inner" title={specData[i].name}>
+                 <Row>
+                   <Col span={6}>
+                     <DescriptionItem title="售价" content={specData[i].price} />
+                   </Col>
+                   <Col span={6}>
+                     <DescriptionItem title="市场价" content={specData[i].market_price} />
+                   </Col>
+                   <Col span={6}>
+                     <DescriptionItem title="成本价" content={specData[i].cost_price} />
+                   </Col>
+                   <Col span={6}>
+                     <DescriptionItem title="库存" content={specData[i].stock} />
+                   </Col>
+                 </Row>
+                 <Row>
+                   <Col span={8}>
+                     <DescriptionItem title="货号" content={specData[i].sn} />
+                   </Col>
+                 </Row>
+                 <Row>
+                   <Col span={24}>
+                     <DescriptionItem title="题图" />
+                       { specData[i].header_image ? (
+                         <img style={{ width: '20%', height: '20%' }} src={specData[i].header_image} />
+                       ) : null }
+                   </Col>
+                 </Row>
+                </Card>)
       }
       return arr;
     } else {
@@ -297,7 +318,7 @@ class ProductList extends PureComponent {
 
   render() {
     const {
-      product: { data, currentRecord },
+      product: { data, currentRecord, specData },
       loading,
     } = this.props;
     const { currentPage, pageSize } = this.state;
@@ -370,7 +391,7 @@ class ProductList extends PureComponent {
             <Divider type="vertical" />
             <a onClick={() => this.showDrawer(true, record.id)}>详情</a>
             <Divider type="vertical" />
-            <a onClick={() => this.showDrawer(true, record)}>规格详情</a>
+            <a onClick={() => this.showSpecDrawer(true, record.id)}>规格</a>
           </Fragment>
         ),
       },
@@ -461,7 +482,6 @@ class ProductList extends PureComponent {
                 <CheckboxItem title="新品" content={currentRecord.is_new} />
               </Col>
             </Row>
-
             <Row>
               <Col span={24}>
                 <DescriptionItem title="题图" />
@@ -470,7 +490,6 @@ class ProductList extends PureComponent {
                 ) : null }
               </Col>
             </Row>
-
             <Row style={{ marginTop: 20 }}>
               <Col span={24}>
                 <DescriptionItem title="轮播图" />
@@ -478,6 +497,16 @@ class ProductList extends PureComponent {
               </Col>
             </Row>
             <Divider />
+          </Drawer>
+          <Drawer
+            width={800}
+            placement="right"
+            closable={true}
+            onClose={this.onSpecDrawerClose}
+            visible={this.state.specDrawerVisible}
+          >
+            <p style={pStyle}>规格详情</p>
+            {this.buildSpecs(specData)}
           </Drawer>
         </Card>
       </PageHeaderWrapper>

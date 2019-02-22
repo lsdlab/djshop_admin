@@ -2,15 +2,10 @@ import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
 import moment from 'moment';
 import {
-  Row,
-  Col,
   Card,
-  Form,
-  Input,
   Select,
   Icon,
   Button,
-  Modal,
   message,
   Upload,
 } from 'antd';
@@ -21,8 +16,6 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import styles from '../List/TableList.less';
 
-const FormItem = Form.Item;
-const { TextArea } = Input;
 const { Option } = Select;
 
 const client = (self) => {

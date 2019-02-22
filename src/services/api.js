@@ -475,7 +475,7 @@ export async function patchProduct(params, productID) {
 }
 
 // 获取商品规格信息
-export async function queryProductSpecs(params, productID) {
+export async function queryProductSpecs(productID) {
   const token = getToken();
   return request(`${apiHost}${apiVersion}/products/${productID}/specs/`, {
     method: 'GET',
