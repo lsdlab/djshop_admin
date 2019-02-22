@@ -15,6 +15,7 @@ import SimpleTable from '@/components/SimpleTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import styles from '../List/TableList.less';
+import { Base64 } from 'js-base64';
 
 const { Option } = Select;
 
@@ -46,17 +47,17 @@ class UploadImage extends PureComponent {
   state = {
     loading: false,
     token: {
-      access_key_id: 'LTAI4sk1hmZ8fz2Y',
-      access_key_secret: 'AnvkrzXybT5kCo8XLbedDXn7i3ctOP',
-      OSS_ENDPOINT: 'https://oss-cn-shanghai.aliyuncs.com',
-      OSS_BUCKET: 'djshopmedia',
+      access_key_id: Base64.decode('TFRBSTNncmRldGlhMlVJdw=='),
+      access_key_secret: Base64.decode('emtQcGJsRnhYMXJrejlXWkVPQWtNV3lkNzJJOVBx'),
+      OSS_ENDPOINT: Base64.decode('aHR0cHM6Ly9vc3MtY24tc2hhbmdoYWkuYWxpeXVuY3MuY29t'),
+      OSS_BUCKET: Base64.decode('ZGpzaG9wbWVkaWE='),
     }
   };
 
   beforeUpload = (file) => {
     const isJPG = file.type === 'image/jpeg';
     const isPNG = file.type === 'image/png';
-    if (!isJPG || !isPNG) {
+    if (!isJPG && !isPNG) {
       message.error('You can only upload JPG or PNG file!');
     }
     let reader = new FileReader();
