@@ -8,12 +8,9 @@ import {
   Form,
   Input,
   Select,
-  Radio,
-  Icon,
   Button,
   Modal,
   message,
-  Divider,
   Popconfirm,
   Tree,
 } from 'antd';
@@ -24,7 +21,6 @@ import styles from '../List/TableList.less';
 
 const FormItem = Form.Item;
 const { Option } = Select;
-const RadioGroup = Radio.Group;
 const { TreeNode } = Tree;
 
 const CreateForm = Form.create()(props => {

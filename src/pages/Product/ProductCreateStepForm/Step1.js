@@ -8,7 +8,6 @@ import { Form,
          Checkbox,
          Divider,
          TreeSelect,
-         message,
 } from 'antd';
 import router from 'umi/router';
 import styles from './style.less';

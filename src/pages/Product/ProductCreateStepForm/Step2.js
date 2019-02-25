@@ -4,18 +4,13 @@ import { Form,
          Input,
          InputNumber,
          Button,
-         Select,
-         Checkbox,
          Divider,
-         TreeSelect,
          message,
 } from 'antd';
 import router from 'umi/router';
 import styles from './style.less';
 
 const FormItem = Form.Item;
-const { Option } = Select;
-const { TextArea } = Input;
 
 const formItemLayout = {
   labelCol: {

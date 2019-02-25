@@ -78,6 +78,12 @@ export default [
             name: 'product-rec-list',
             component: './Product/ProductRecList',
           },
+          {
+            path: '/product/product-detail/:id',
+            hideInMenu: true,
+            name: 'product-detail',
+            component: './Product/ProductDetail',
+          },
         ],
       },
       {

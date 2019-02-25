@@ -12,6 +12,7 @@ export default {
   'menu.product.product-create-step-form.finish': '商品上架（完成）',
   'menu.product.product-list': '商品列表',
   'menu.product.product-rec-list': '推荐商品列表',
+  'menu.product.product-detail': '商品详情',
   'menu.bargaingroupon': '砍价&拼团',
   'menu.bargaingroupon.bargain-product-create': '砍价商品上架',
   'menu.bargaingroupon.bargain-product-list': '砍价商品列表',

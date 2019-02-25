@@ -3,7 +3,6 @@ import { connect } from 'dva';
 import moment from 'moment';
 import {
   Card,
-  Select,
   Icon,
   Button,
   message,
@@ -17,7 +16,6 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import styles from '../List/TableList.less';
 import { Base64 } from 'js-base64';
 
-const { Option } = Select;
 
 const client = (self) => {
   const {token} = self.state

@@ -15,7 +15,6 @@ import {
   Badge,
 } from 'antd';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-
 import SimpleNonPaginationTable from '@/components/SimpleNonPaginationTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 

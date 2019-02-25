@@ -1,6 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
-import moment from 'moment';
 import {
   Row,
   Col,
@@ -10,15 +9,10 @@ import {
   Select,
   Icon,
   Button,
-  Dropdown,
-  Menu,
-  InputNumber,
-  DatePicker,
   Modal,
   message,
   Badge,
   Divider,
-  Popconfirm,
 } from 'antd';
 import SimpleTable from '@/components/SimpleTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
@@ -45,6 +39,39 @@ class ProductRecList extends PureComponent {
     });
   }
 
+  recProductDeleted = (flag, recProductID) => {
+    const { dispatch } = this.props;
+    if (flag && recProductID) {
+      dispatch({
+        type: 'product/patchRecProduct',
+        payload: {
+          deleted: true,
+        },
+        recProductID: recProductID,
+      }).then(() => {
+        message.success('下架推荐商品成功！');
+        dispatch({
+          type: 'product/fetchRecProduct',
+        });
+      });
+    } else {
+      dispatch({
+        type: 'product/patchRecProduct',
+        payload: {
+          deleted: false,
+        },
+        recProductID: recProductID,
+      }).then(() => {
+        message.success('上架推荐商品成功！');
+        dispatch({
+          type: 'product/fetchRecProduct',
+        });
+      });
+    }
+
+
+  };
+
   render() {
     const {
       product: { recData },
@@ -66,17 +93,21 @@ class ProductRecList extends PureComponent {
         dataIndex: 'subsubtitle',
       },
       {
+        title: '商品名称',
+        dataIndex: 'product.name',
+      },
+      {
         title: '展示顺序',
         dataIndex: 'display_order',
       },
       {
-        title: '是否下架',
+        title: '状态',
         dataIndex: 'deleted',
         render(text, record, index) {
           if (text) {
-            return <Badge status='error' text='是' />;
+            return <Badge status='error' text='下架中' />;
           } else {
-            return <Badge status='success' text='否' />;
+            return <Badge status='success' text='上架中' />;
           }
         },
       },
@@ -90,11 +121,9 @@ class ProductRecList extends PureComponent {
           <Fragment>
             <a>编辑</a>
             <Divider type="vertical" />
-            <a>商品详情</a>
-            <Divider type="vertical" />
             { record.deleted ? (
-              <a>上架</a>
-            ) : <a>下架</a>}
+              <a onClick={() => this.recProductDeleted(false, record.id)}>上架</a>
+            ) : <a onClick={() => this.recProductDeleted(true, record.id)}>下架</a>}
           </Fragment>
         ),
       },
