@@ -10,6 +10,7 @@ import { queryCategory,
          queryRecommendations,
          createRecommendations,
          patchRecommendations,
+         fetchProductAllIds,
 } from '@/services/api';
 
 
@@ -31,6 +32,7 @@ export default {
       count: undefined,
     },
     newRecProduct: {},
+    allProductIds: [],
   },
 
   effects: {
@@ -103,6 +105,13 @@ export default {
     *patchRecProduct({ payload, recProductID }, { call, put }) {
       yield call(patchRecommendations, payload, recProductID);
     },
+    *fetchProductAllIds({}, { call, put }) {
+      const response = yield call(fetchProductAllIds);
+      yield put({
+        type: 'saveProductAllIds',
+        payload: response,
+      });
+    }
   },
 
   reducers: {
@@ -159,6 +168,12 @@ export default {
       return {
         ...state,
         newRecProduct: action.payload,
+      };
+    },
+    saveProductAllIds(state, action) {
+      return {
+        ...state,
+        allProductIds: action.payload,
       };
     },
   },

@@ -6,6 +6,7 @@ import {
   Card,
   Form,
   Input,
+  InputNumber,
   Select,
   Icon,
   Button,
@@ -22,6 +23,72 @@ import styles from '../List/TableList.less';
 const FormItem = Form.Item;
 const { Option } = Select;
 
+const CreateForm = Form.create()(props => {
+  const { modalVisible, allProductIds, form, handleAdd, handleModalVisible, } = props;
+  const okHandle = () => {
+    form.validateFields((err, fieldsValue) => {
+      if (err) return;
+      form.resetFields();
+      handleAdd(fieldsValue);
+    });
+  };
+
+  const buildOptions = (optionData) => {
+    if (optionData) {
+      const arr = [];
+      for (let i = 0; i < optionData.length; i++) {
+        arr.push(<Option name={optionData[i].combined_name} value={optionData[i].id} key={optionData[i].id}>{optionData[i].combined_name}</Option>)
+      }
+      return arr;
+    }
+  }
+
+  return (
+    <Modal
+      destroyOnClose
+      centered
+      keyboard
+      title="添加推荐商品"
+      width={1000}
+      visible={modalVisible}
+      onOk={okHandle}
+      onCancel={() => handleModalVisible()}
+    >
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="标题">
+        {form.getFieldDecorator('title', {
+          rules: [{ required: true, message: "请输入标题！" }],
+        })(<Input placeholder="标题" />)}
+      </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="副标题">
+        {form.getFieldDecorator('subtitle', {
+          rules: [{ required: true, message: "请输入副标题！" }],
+        })(<Input placeholder="副标题" />)}
+      </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="副副标题">
+        {form.getFieldDecorator('subsubtitle', {
+          rules: [{ required: true, message: "请输入副副标题！" }],
+        })(<Input placeholder="标题" />)}
+      </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="显示顺序">
+        {form.getFieldDecorator('display_order', {
+          rules: [{ required: true, message: '请输入显示顺序！' }],
+        })(<InputNumber min={1} max={9999} style={{ width: '100%' }} placeholder="显示顺序"/>)}
+      </FormItem>
+      { allProductIds ? (
+        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="商品">
+          {form.getFieldDecorator('product', {
+              rules: [{ required: true, message: '请选择商品！' }],
+            })(
+              <Select style={{ width: '100%' }} placeholder="商品" showSearch={true} optionFilterProp="name">
+                {buildOptions(allProductIds)}
+              </Select>
+            )}
+        </FormItem>
+      ) : null}
+    </Modal>
+  );
+});
+
 /* eslint react/no-multi-comp:0 */
 @connect(({ product, loading }) => ({
   product,
@@ -30,6 +97,8 @@ const { Option } = Select;
 @Form.create()
 class ProductRecList extends PureComponent {
   state = {
+    modalVisible: false,
+    updateModalVisible: false,
   };
 
   componentDidMount() {
@@ -37,7 +106,57 @@ class ProductRecList extends PureComponent {
     dispatch({
       type: 'product/fetchRecProduct',
     });
-  }
+  };
+
+  handleModalVisible = flag => {
+    this.setState({
+      modalVisible: !!flag,
+    });
+
+    if (flag) {
+      this.props.dispatch({
+        type: 'product/fetchProductAllIds',
+      });
+    }
+  };
+
+  handleUpdateModalVisible = (flag, record) => {
+    this.setState({
+      updateModalVisible: !!flag,
+      currentRecord: record || {},
+    });
+  };
+
+  handleAdd = fields => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'product/createRecProduct',
+      payload: fields,
+    }).then((data) => {
+      message.success('新增成功');
+      this.handleModalVisible();
+      this.props.dispatch({
+        type: 'product/fetchRecProduct',
+        payload: {},
+      });
+    });
+  };
+
+  handleUpdate = (fields) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'product/patchRecProduct',
+      payload: fields,
+      splashID: this.state.currentRecord.id,
+    }).then(() => {
+      message.success('更新成功');
+      this.handleUpdateModalVisible();
+      dispatch({
+        type: 'splash/fetchRecProduct',
+        payload: {},
+      });
+    });
+  };
 
   recProductDeleted = (flag, recProductID) => {
     const { dispatch } = this.props;
@@ -68,16 +187,36 @@ class ProductRecList extends PureComponent {
         });
       });
     }
-
-
   };
+
+  renderSimpleForm() {
+    const {
+      form: { getFieldDecorator },
+    } = this.props;
+    return (
+      <Form layout="inline">
+        <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+          <Col md={8} sm={24}>
+            <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
+              新增推荐商品
+            </Button>
+          </Col>
+        </Row>
+      </Form>
+    );
+  }
 
   render() {
     const {
-      product: { recData },
+      product: { recData, allProductIds },
       loading,
     } = this.props;
-    const { currentPage, pageSize } = this.state;
+    const { currentPage, pageSize, modalVisible, updateModalVisible } = this.state;
+
+    const parentMethods = {
+      handleAdd: this.handleAdd,
+      handleModalVisible: this.handleModalVisible,
+    };
 
     const columns = [
       {
@@ -133,6 +272,7 @@ class ProductRecList extends PureComponent {
       <PageHeaderWrapper title="推荐商品列表">
         <Card bordered={false}>
           <div className={styles.tableList}>
+            <div className={styles.tableListForm}>{this.renderSimpleForm()}</div>
             <SimpleTable
               loading={loading}
               data={recData}
@@ -141,6 +281,7 @@ class ProductRecList extends PureComponent {
             />
           </div>
         </Card>
+        <CreateForm {...parentMethods} modalVisible={modalVisible} allProductIds={allProductIds} />
       </PageHeaderWrapper>
     );
   }

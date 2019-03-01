@@ -360,7 +360,7 @@ class SplashList extends PureComponent {
             />
           </div>
         </Card>
-        <CreateForm {...parentMethods} modalVisible={modalVisible} />
+        <CreateForm {...parentMethods} modalVisible={modalVisible}  />
 
         {currentRecord && Object.keys(currentRecord).length ? (
           <UpdateForm

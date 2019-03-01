@@ -33,11 +33,11 @@ const CreateForm = Form.create()(props => {
     });
   };
 
-  const buildOptions = (CategoryOneData) => {
-    if (CategoryOneData) {
+  const buildOptions = (optionData) => {
+    if (optionData) {
       const arr = [];
-      for (let i = 0; i < CategoryOneData.length; i++) {
-        arr.push(<Option key={CategoryOneData[i].id}>{CategoryOneData[i].name}</Option>)
+      for (let i = 0; i < optionData.length; i++) {
+        arr.push(<Option value={optionData[i].id} key={optionData[i].id}>{optionData[i].name}</Option>)
       }
       return arr;
     }
@@ -56,16 +56,12 @@ const CreateForm = Form.create()(props => {
     >
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="名称">
         {form.getFieldDecorator('name', {
-          rules: [
-            {
-              required: true,
-              message: "请输入名称！"
-            },
-          ],
+          rules: [{ required: true, message: "请输入名称！" }],
         })(<Input placeholder="名称" />)}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="类型">
         {form.getFieldDecorator('category_type', {
+            initialValue: '2',
             rules: [{ required: true, message: '请选择类型！' }],
           })(
             <Select style={{ width: '100%' }} placeholder="类型">
@@ -82,6 +78,7 @@ const CreateForm = Form.create()(props => {
       { categoryData ? (
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="一级分类" style={{display: form.getFieldValue('category_type') === '3' ? 'block' : 'none'}}>
           {form.getFieldDecorator('parent_category', {
+              initialValue: categoryData[0].id,
               rules: [{ required: false, message: '请选择一级分类！' }],
             })(
               <Select style={{ width: '100%' }} placeholder="一级分类">
@@ -266,7 +263,6 @@ class CategoryList extends PureComponent {
                     rules: [{ required: true, message: '请输入图标链接！' }],
                   })(<Input placeholder="图标链接" />)}
                 </FormItem>
-
                 { data ? (
                   <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="一级分类" style={{display: form.getFieldValue('category_type') === '3' ? 'block' : 'none'}}>
                     {form.getFieldDecorator('parent_category', {

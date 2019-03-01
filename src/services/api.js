@@ -550,3 +550,14 @@ export async function patchRecommendations(params, recProductID) {
     },
   });
 }
+
+export async function fetchProductAllIds() {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/products/all_ids/`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
