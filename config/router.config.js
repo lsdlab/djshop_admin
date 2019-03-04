@@ -97,9 +97,19 @@ export default [
             component: './BargainGroupon/BargainProductList',
           },
           {
+            path: '/bargaingroupon/bargain-list',
+            name: 'bargain-list',
+            component: './BargainGroupon/BargainList',
+          },
+          {
             path: '/bargaingroupon/groupon-product-list',
             name: 'groupon-product-list',
             component: './BargainGroupon/GrouponProductList',
+          },
+          {
+            path: '/bargaingroupon/groupon-list',
+            name: 'groupon-list',
+            component: './BargainGroupon/GrouponList',
           },
         ],
       },
