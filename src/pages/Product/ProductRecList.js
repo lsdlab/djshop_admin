@@ -37,7 +37,7 @@ const CreateForm = Form.create()(props => {
     if (optionData) {
       const arr = [];
       for (let i = 0; i < optionData.length; i++) {
-        arr.push(<Option name={optionData[i].name} value={optionData[i].id} key={optionData[i].id}>{optionData[i].name}</Option>)
+        arr.push(<Option name={optionData[i].combined_name} value={optionData[i].id} key={optionData[i].id}>{optionData[i].combined_name}</Option>)
       }
       return arr;
     }
@@ -100,7 +100,8 @@ class UpdateForm extends PureComponent {
         subtitle: props.values.subtitle,
         subsubtitle: props.values.subsubtitle,
         display_order: props.values.display_order,
-        product: props.values.product.name,
+        // product: props.values.product.name,
+        product: props.values.product.category_first_name + '-' + props.values.product.category_name + '-' + props.values.product.name,
       },
     };
   }
@@ -121,7 +122,7 @@ class UpdateForm extends PureComponent {
       if (optionData) {
         const arr = [];
         for (let i = 0; i < optionData.length; i++) {
-          arr.push(<Option name={optionData[i].name} value={optionData[i].id} key={optionData[i].id}>{optionData[i].name}</Option>)
+          arr.push(<Option name={optionData[i].combined_name} value={optionData[i].id} key={optionData[i].id}>{optionData[i].combined_name}</Option>)
         }
         return arr;
       }
@@ -217,6 +218,12 @@ class ProductRecList extends PureComponent {
       updateModalVisible: !!flag,
       currentRecord: record || {},
     });
+
+    if (flag) {
+      this.props.dispatch({
+        type: 'product/fetchProductAllIds',
+      });
+    }
   };
 
   handleAdd = fields => {

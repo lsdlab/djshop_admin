@@ -10,10 +10,6 @@ import {
   Select,
   Icon,
   Button,
-  Dropdown,
-  Menu,
-  InputNumber,
-  DatePicker,
   Modal,
   message,
   Divider,
@@ -34,7 +30,7 @@ const { Option } = Select;
 //   loading: loading.models.articles,
 // }))
 // @Form.create()
-class BargainProductCreate extends PureComponent {
+class BargainList extends PureComponent {
   state = {
   };
 
@@ -45,7 +41,7 @@ class BargainProductCreate extends PureComponent {
   render() {
 
     return (
-      <PageHeaderWrapper title="砍价商品上架">
+      <PageHeaderWrapper title="砍价列表">
         <Card bordered={false}>
 
         </Card>
@@ -54,4 +50,4 @@ class BargainProductCreate extends PureComponent {
   }
 }
 
-export default BargainProductCreate;
+export default BargainList;

@@ -49,7 +49,7 @@ const CreateForm = Form.create()(props => {
       centered
       keyboard
       title="添加分类"
-      width={1000}
+      width={800}
       visible={modalVisible}
       onOk={okHandle}
       onCancel={() => handleModalVisible()}
@@ -78,7 +78,7 @@ const CreateForm = Form.create()(props => {
       { categoryData ? (
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="一级分类" style={{display: form.getFieldValue('category_type') === '3' ? 'block' : 'none'}}>
           {form.getFieldDecorator('parent_category', {
-              initialValue: categoryData[0].id,
+              initialValue: categoryData[0] ? categoryData[0].id : '',
               rules: [{ required: false, message: '请选择一级分类！' }],
             })(
               <Select style={{ width: '100%' }} placeholder="一级分类">

@@ -388,9 +388,11 @@ class ProductList extends PureComponent {
           <Fragment>
             <a>编辑</a>
             <Divider type="vertical" />
-            <a onClick={() => this.showDrawer(true, record.id)}>详情</a>
+            <a >跳转详情</a>
             <Divider type="vertical" />
-            <a onClick={() => this.showSpecDrawer(true, record.id)}>规格</a>
+            <a onClick={() => this.showDrawer(true, record.id)}>Drawer详情</a>
+            <Divider type="vertical" />
+            <a onClick={() => this.showSpecDrawer(true, record.id)}>Drawer规格</a>
           </Fragment>
         ),
       },

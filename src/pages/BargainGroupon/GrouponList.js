@@ -10,10 +10,6 @@ import {
   Select,
   Icon,
   Button,
-  Dropdown,
-  Menu,
-  InputNumber,
-  DatePicker,
   Modal,
   message,
   Divider,
@@ -34,7 +30,7 @@ const { Option } = Select;
 //   loading: loading.models.articles,
 // }))
 // @Form.create()
-class GrouponProductCreate extends PureComponent {
+class GrouponList extends PureComponent {
   state = {
   };
 
@@ -45,7 +41,7 @@ class GrouponProductCreate extends PureComponent {
   render() {
 
     return (
-      <PageHeaderWrapper title="拼团商品上架">
+      <PageHeaderWrapper title="拼团列表">
         <Card bordered={false}>
 
         </Card>
@@ -54,4 +50,4 @@ class GrouponProductCreate extends PureComponent {
   }
 }
 
-export default GrouponProductCreate;
+export default GrouponList;

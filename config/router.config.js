@@ -92,19 +92,9 @@ export default [
         icon: 'shopping',
         routes: [
           {
-            path: '/bargaingroupon/bargain-product-create',
-            name: 'bargain-product-create',
-            component: './BargainGroupon/BargainProductCreate',
-          },
-          {
             path: '/bargaingroupon/bargain-product-list',
             name: 'bargain-product-list',
             component: './BargainGroupon/BargainProductList',
-          },
-          {
-            path: '/bargaingroupon/groupon-product-create',
-            name: 'groupon-product-create',
-            component: './BargainGroupon/GrouponProductCreate',
           },
           {
             path: '/bargaingroupon/groupon-product-list',
