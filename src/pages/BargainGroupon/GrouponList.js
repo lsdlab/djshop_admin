@@ -21,15 +21,14 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import styles from '../List/TableList.less';
 
 const FormItem = Form.Item;
-const { TextArea } = Input;
-const { Option } = Select;
+
 
 /* eslint react/no-multi-comp:0 */
-// @connect(({ articles, loading }) => ({
-//   articles,
-//   loading: loading.models.articles,
-// }))
-// @Form.create()
+@connect(({ groupon, loading }) => ({
+  groupon,
+  loading: loading.models.groupon,
+}))
+@Form.create()
 class GrouponList extends PureComponent {
   state = {
   };

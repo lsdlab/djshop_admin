@@ -3,6 +3,7 @@ import { message } from 'antd';
 import { queryGrouponsProduct,
          createGrouponsProduct,
          patchGrouponsProduct,
+         fetchProductSpecAllIds,
 } from '@/services/api';
 
 
@@ -14,6 +15,7 @@ export default {
       results: [],
       count: undefined,
     },
+    allProductSpecIds: [],
   },
 
   effects: {
@@ -30,6 +32,13 @@ export default {
     *patch({ payload, grouponProductID }, { call, put }) {
       yield call(patchGrouponsProduct, payload, grouponProductID);
     },
+    *fetchProductSpecAllIds({}, { call, put }) {
+      const response = yield call(fetchProductSpecAllIds);
+      yield put({
+        type: 'saveProductSpecAllIds',
+        payload: response,
+      });
+    }
   },
 
   reducers: {
@@ -37,6 +46,12 @@ export default {
       return {
         ...state,
         data: action.payload,
+      };
+    },
+    saveProductSpecAllIds(state, action) {
+      return {
+        ...state,
+        allProductSpecIds: action.payload,
       };
     },
   },

@@ -3,7 +3,7 @@ import { message } from 'antd';
 import { queryBargainsProduct,
          createBargainsProduct,
          patchBargainsProduct,
-         fetchProductSpecAllIds
+         fetchProductSpecAllIds,
 } from '@/services/api';
 
 
