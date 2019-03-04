@@ -37,7 +37,7 @@ const CreateForm = Form.create()(props => {
     if (optionData) {
       const arr = [];
       for (let i = 0; i < optionData.length; i++) {
-        arr.push(<Option name={optionData[i].combined_name} value={optionData[i].id} key={optionData[i].id}>{optionData[i].combined_name}</Option>)
+        arr.push(<Option name={optionData[i].name} value={optionData[i].id} key={optionData[i].id}>{optionData[i].name}</Option>)
       }
       return arr;
     }
@@ -49,7 +49,7 @@ const CreateForm = Form.create()(props => {
       centered
       keyboard
       title="添加推荐商品"
-      width={1000}
+      width={800}
       visible={modalVisible}
       onOk={okHandle}
       onCancel={() => handleModalVisible()}
@@ -89,6 +89,96 @@ const CreateForm = Form.create()(props => {
   );
 });
 
+@Form.create()
+class UpdateForm extends PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      modalFormVals: {
+        title: props.values.title,
+        subtitle: props.values.subtitle,
+        subsubtitle: props.values.subsubtitle,
+        display_order: props.values.display_order,
+        product: props.values.product.name,
+      },
+    };
+  }
+
+  render() {
+    const { updateModalVisible, allProductIds, form, handleUpdate, handleUpdateModalVisible } = this.props;
+    const { modalFormVals } = this.state;
+
+    const okHandle = () => {
+      form.validateFields((err, fieldsValue) => {
+        if (err) return;
+        form.resetFields();
+        handleUpdate(fieldsValue);
+      });
+    };
+
+    const buildOptions = (optionData) => {
+      if (optionData) {
+        const arr = [];
+        for (let i = 0; i < optionData.length; i++) {
+          arr.push(<Option name={optionData[i].name} value={optionData[i].id} key={optionData[i].id}>{optionData[i].name}</Option>)
+        }
+        return arr;
+      }
+    }
+
+    return (
+      <Modal
+        destroyOnClose
+        centered
+        keyboard
+        title="编辑"
+        width={800}
+        visible={updateModalVisible}
+        onOk={okHandle}
+        onCancel={() => handleUpdateModalVisible()}
+      >
+        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="标题">
+          {form.getFieldDecorator('title', {
+            initialValue: modalFormVals.title,
+            rules: [{ required: true, message: "请输入标题！" }],
+          })(<Input placeholder="标题" />)}
+        </FormItem>
+        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="副标题">
+          {form.getFieldDecorator('subtitle', {
+            initialValue: modalFormVals.subtitle,
+            rules: [{ required: true, message: "请输入副标题！" }],
+          })(<Input placeholder="副标题" />)}
+        </FormItem>
+        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="副副标题">
+          {form.getFieldDecorator('subsubtitle', {
+            initialValue: modalFormVals.subsubtitle,
+            rules: [{ required: true, message: "请输入副副标题！" }],
+          })(<Input placeholder="标题" />)}
+        </FormItem>
+        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="显示顺序">
+          {form.getFieldDecorator('display_order', {
+            initialValue: modalFormVals.display_order,
+            rules: [{ required: true, message: '请输入显示顺序！' }],
+          })(<InputNumber min={1} max={9999} style={{ width: '100%' }} placeholder="显示顺序"/>)}
+        </FormItem>
+        { allProductIds ? (
+          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="商品">
+            {form.getFieldDecorator('product', {
+                initialValue: modalFormVals.product,
+                rules: [{ required: true, message: '请选择商品！' }],
+              })(
+                <Select style={{ width: '100%' }} placeholder="商品" showSearch={true} optionFilterProp="name">
+                  {buildOptions(allProductIds)}
+                </Select>
+              )}
+          </FormItem>
+        ) : null}
+      </Modal>
+    );
+  }
+}
+
 /* eslint react/no-multi-comp:0 */
 @connect(({ product, loading }) => ({
   product,
@@ -99,6 +189,8 @@ class ProductRecList extends PureComponent {
   state = {
     modalVisible: false,
     updateModalVisible: false,
+    currentRecord: {},
+    modalFormValues: {},
   };
 
   componentDidMount() {
@@ -147,12 +239,12 @@ class ProductRecList extends PureComponent {
     dispatch({
       type: 'product/patchRecProduct',
       payload: fields,
-      splashID: this.state.currentRecord.id,
+      recProductID: this.state.currentRecord.id,
     }).then(() => {
       message.success('更新成功');
       this.handleUpdateModalVisible();
       dispatch({
-        type: 'splash/fetchRecProduct',
+        type: 'product/fetchRecProduct',
         payload: {},
       });
     });
@@ -211,11 +303,15 @@ class ProductRecList extends PureComponent {
       product: { recData, allProductIds },
       loading,
     } = this.props;
-    const { currentPage, pageSize, modalVisible, updateModalVisible } = this.state;
+    const { currentPage, pageSize, modalVisible, updateModalVisible, currentRecord } = this.state;
 
     const parentMethods = {
       handleAdd: this.handleAdd,
       handleModalVisible: this.handleModalVisible,
+    };
+    const updateMethods = {
+      handleUpdateModalVisible: this.handleUpdateModalVisible,
+      handleUpdate: this.handleUpdate,
     };
 
     const columns = [
@@ -258,7 +354,9 @@ class ProductRecList extends PureComponent {
         title: '操作',
         render: (text, record) => (
           <Fragment>
-            <a>编辑</a>
+            { record.deleted ? (
+              <a onClick={() => this.handleUpdateModalVisible(true, record)}>编辑</a>
+            ) : <a disabled onClick={() => this.handleUpdateModalVisible(true, record)}>编辑</a>}
             <Divider type="vertical" />
             { record.deleted ? (
               <a onClick={() => this.recProductDeleted(false, record.id)}>上架</a>
@@ -282,6 +380,15 @@ class ProductRecList extends PureComponent {
           </div>
         </Card>
         <CreateForm {...parentMethods} modalVisible={modalVisible} allProductIds={allProductIds} />
+
+        {currentRecord && Object.keys(currentRecord).length ? (
+          <UpdateForm
+            {...updateMethods}
+            updateModalVisible={updateModalVisible}
+            values={currentRecord}
+            allProductIds={allProductIds}
+          />
+        ) : null}
       </PageHeaderWrapper>
     );
   }

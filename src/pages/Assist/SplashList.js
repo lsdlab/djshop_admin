@@ -137,7 +137,6 @@ class SplashList extends PureComponent {
     updateModalVisible: false,
     formValues: {},
     currentRecord: {},
-    modalFormValues: {},
   };
 
   componentDidMount() {
