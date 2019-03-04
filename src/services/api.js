@@ -551,9 +551,122 @@ export async function patchRecommendations(params, recProductID) {
   });
 }
 
+// 获取所有商品 id name
 export async function fetchProductAllIds() {
   const token = getToken();
-  return request(`${apiHost}${apiVersion}/products/all_ids/`, {
+  return request(`${apiHost}${apiVersion}/products/all_product_ids/`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 获取所有商品规格 id name
+export async function fetchProductSpecAllIds() {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/products/all_product_specs_ids/`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 获取可砍价商品列表
+export async function queryBargainsProduct(params) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/bargains/products/?${stringify(params)}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 创建可砍价商品
+export async function createBargainsProduct(params) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/bargains/products/`, {
+    method: 'POST',
+    body: params,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 修改可砍价商品
+export async function patchBargainsProduct(params, bargainProductSpecID) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/bargains/products/${bargainProductSpecID}/`, {
+    method: 'PATCH',
+    body: params,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 获取砍价列表
+export async function queryBargains(params) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/bargains/?${stringify(params)}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 获取可团购商品列表
+export async function queryGrouponsProduct(params) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/groupons/products/?${stringify(params)}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 创建可团购商品
+export async function createGrouponsProduct(params) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/groupons/products/`, {
+    method: 'POST',
+    body: params,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 修改可团购商品
+export async function patchGrouponsProduct(params, grouponProductID) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/groupons/products/${grouponProductID}/`, {
+    method: 'PATCH',
+    body: params,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 获取团购列表
+export async function queryGroupons(params) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/groupons/?${stringify(params)}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

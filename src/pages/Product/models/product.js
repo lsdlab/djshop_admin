@@ -63,6 +63,7 @@ export default {
         type: 'saveNew',
         payload: response,
       });
+      yield put(routerRedux.push({pathname: '/product/product-create-step-form/spec', state: {"productID": response.id }}));
     },
     *patch({ payload, productID }, { call, put }) {
       yield call(patchProduct, payload, productID);

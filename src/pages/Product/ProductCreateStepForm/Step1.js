@@ -69,10 +69,9 @@ class Step1 extends React.PureComponent {
             dispatch({
               type: 'product/createProduct',
               payload: values,
-            }).then(() => {
-              router.push({pathname: '/product/product-create-step-form/spec', state: {"productID": newProduct.id }});
             });
           } else {
+            console.log(newProduct.id);
             router.push({pathname: '/product/product-create-step-form/spec', state: {"productID": newProduct.id }});
           }
         }
@@ -82,6 +81,36 @@ class Step1 extends React.PureComponent {
     return (
       <Fragment>
         <Form layout="horizontal" className={styles.stepForm}>
+
+          { categoryData ? (
+            <Form.Item {...formItemLayout} label="分类">
+              {getFieldDecorator('category', {
+                initialValue: newProduct.category,
+                rules: [{ required: true, message: '请选择分类！' }],
+              })(
+                <TreeSelect
+                  style={{ width: '100%' }}
+                  treeData={categoryData}
+                  placeholder="商品分类"
+                  treeDefaultExpandAll={true}
+                  showSearch={true}
+                />
+              )}
+            </Form.Item>
+          ) : null}
+
+          <Form.Item {...formItemLayout} label="上架状态">
+            {getFieldDecorator('status', {
+              initialValue: newProduct.status,
+              rules: [{ required: true, message: '请选择上架状态！' }],
+            })(
+              <Select placeholder="商品上架状态" style={{ width: '100%' }}>
+                <Option value="1">上架</Option>
+                <Option value="2">下架</Option>
+              </Select>
+            )}
+          </Form.Item>
+
           <FormItem {...formItemLayout} label="名称">
             {getFieldDecorator('name', {
               initialValue: newProduct.name,
@@ -159,12 +188,6 @@ class Step1 extends React.PureComponent {
               rules: [{ required: true, message: '请输入题图链接！' }],
             })(<Input placeholder="题图链接，单个链接" />)}
           </FormItem>
-          <FormItem {...formItemLayout} label="视频链接">
-            {getFieldDecorator('header_video', {
-              initialValue: newProduct.header_video,
-              rules: [{ required: false, message: '请输入视频链接！' }],
-            })(<Input placeholder="视频链接，单个链接" />)}
-          </FormItem>
 
           <FormItem {...formItemLayout} label="商品详情">
             {getFieldDecorator('md', {
@@ -172,35 +195,6 @@ class Step1 extends React.PureComponent {
               rules: [{ required: true, message: '请输入商品详情！'}],
             })(<TextArea rows={10} placeholder="商品详情，图片文字混排，使用 Markdown 格式" />)}
           </FormItem>
-
-          { categoryData ? (
-            <Form.Item {...formItemLayout} label="分类">
-              {getFieldDecorator('category', {
-                initialValue: newProduct.category,
-                rules: [{ required: true, message: '请选择分类！' }],
-              })(
-                <TreeSelect
-                  style={{ width: '100%' }}
-                  treeData={categoryData}
-                  placeholder="商品分类"
-                  treeDefaultExpandAll={true}
-                  showSearch={true}
-                />
-              )}
-            </Form.Item>
-          ) : null}
-
-          <Form.Item {...formItemLayout} label="上架状态">
-            {getFieldDecorator('status', {
-              initialValue: newProduct.status,
-              rules: [{ required: true, message: '请选择上架状态！' }],
-            })(
-              <Select placeholder="商品上架状态" style={{ width: '100%' }}>
-                <Option value="1">上架</Option>
-                <Option value="2">下架</Option>
-              </Select>
-            )}
-          </Form.Item>
 
           <Form.Item
             wrapperCol={{

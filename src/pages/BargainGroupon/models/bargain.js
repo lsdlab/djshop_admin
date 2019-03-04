@@ -1,37 +1,33 @@
-import { queryBasicProfile, queryAdvancedProfile } from '@/services/api';
+import { routerRedux } from 'dva/router';
+import { message } from 'antd';
+import { queryBargains } from '@/services/api';
+
 
 export default {
   namespace: 'bargain',
 
   state: {
-    basicGoods: [],
-    advancedOperation1: [],
-    advancedOperation2: [],
-    advancedOperation3: [],
+    data: {
+      results: [],
+      count: undefined,
+    },
   },
 
   effects: {
-    *fetchBasic(_, { call, put }) {
-      const response = yield call(queryBasicProfile);
+    *fetch({ payload }, { call, put }) {
+      const response = yield call(queryBargains, payload);
       yield put({
-        type: 'show',
-        payload: response,
-      });
-    },
-    *fetchAdvanced(_, { call, put }) {
-      const response = yield call(queryAdvancedProfile);
-      yield put({
-        type: 'show',
+        type: 'save',
         payload: response,
       });
     },
   },
 
   reducers: {
-    show(state, { payload }) {
+    save(state, action) {
       return {
         ...state,
-        ...payload,
+        data: action.payload,
       };
     },
   },

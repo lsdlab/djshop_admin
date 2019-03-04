@@ -38,6 +38,7 @@ class Step2 extends React.PureComponent {
     const { product: { newProductSpec }, form, dispatch, submitting, location } = this.props;
     const { getFieldDecorator, validateFields, getFieldValue } = form;
 
+
     const onPrev = () => {
       let specTempData = {};
       specTempData['name'] = getFieldValue('name');

@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { connect } from 'dva';
-import { Button, Row, Col } from 'antd';
+import { Button, Row, Col, Badge } from 'antd';
 import router from 'umi/router';
 import Result from '@/components/Result';
 import styles from './style.less';
@@ -12,11 +12,22 @@ class Step3 extends React.PureComponent {
 
   componentDidMount() {
     const { dispatch, location } = this.props;
-    console.log(location);
+
+    if (location.state.productID) {
+      dispatch({
+        type: 'product/fetchDetail',
+        productID: location.state.productID,
+      }).then(() => {
+        dispatch({
+          type: 'product/fetchProductSpec',
+          productID: location.state.productID,
+        });
+      });
+    }
   }
 
   render() {
-    const { product: { currentRecord }, } = this.props;
+    const { product: { currentRecord } } = this.props;
 
     const onFinish = () => {
       router.push('/product/product-create-step-form/product');
@@ -28,10 +39,43 @@ class Step3 extends React.PureComponent {
             商品名称：
           </Col>
           <Col xs={24} sm={16}>
-            xx
+            {currentRecord.name}
           </Col>
         </Row>
-
+        <Row>
+          <Col xs={24} sm={8} className={styles.label}>
+            副标题：
+          </Col>
+          <Col xs={24} sm={16}>
+            {currentRecord.subtitle}
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={24} sm={8} className={styles.label}>
+            上架用户：
+          </Col>
+          <Col xs={24} sm={16}>
+            {currentRecord.uploader}
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={24} sm={8} className={styles.label}>
+            分类：
+          </Col>
+          <Col xs={24} sm={16}>
+            {currentRecord.category_name}
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={24} sm={8} className={styles.label}>
+            状态：
+          </Col>
+          <Col xs={24} sm={16}>
+            {currentRecord.status === '1' ? (
+              <Badge status='success' text='上架' />
+            ) : <Badge status='error' text='下架' />}
+          </Col>
+        </Row>
       </div>
     );
     const actions = (

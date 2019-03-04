@@ -48,7 +48,7 @@ const CreateForm = Form.create()(props => {
       destroyOnClose
       centered
       keyboard
-      title="添加分类"
+      title="新增分类"
       width={800}
       visible={modalVisible}
       onOk={okHandle}
@@ -135,7 +135,7 @@ class CategoryList extends PureComponent {
         parent_category: fields.parent_category,
       }
     }).then(() => {
-      message.success('添加分类成功');
+      message.success('新增分类成功');
       this.handleModalVisible();
       this.props.dispatch({
         type: 'category/fetch'
@@ -212,7 +212,7 @@ class CategoryList extends PureComponent {
           <Row gutter={{ md: 12, lg: 24, xl: 48 }}>
             <Col md={12} sm={24}>
               <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
-                添加分类
+                新增分类
               </Button>
               <Button icon="retweet" type="primary" onClick={() => this.handleRefresh()} style={{ marginLeft: 10 }}>
                 刷新

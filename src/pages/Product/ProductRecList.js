@@ -14,6 +14,7 @@ import {
   message,
   Badge,
   Divider,
+  Popconfirm,
 } from 'antd';
 import SimpleTable from '@/components/SimpleTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
@@ -48,7 +49,7 @@ const CreateForm = Form.create()(props => {
       destroyOnClose
       centered
       keyboard
-      title="添加推荐商品"
+      title="新增推荐商品"
       width={800}
       visible={modalVisible}
       onOk={okHandle}
@@ -188,6 +189,8 @@ class UpdateForm extends PureComponent {
 @Form.create()
 class ProductRecList extends PureComponent {
   state = {
+    currentPage: 1,
+    pageSize: 10,
     modalVisible: false,
     updateModalVisible: false,
     currentRecord: {},
@@ -288,6 +291,32 @@ class ProductRecList extends PureComponent {
     }
   };
 
+  handleStandardTableChange = (pagination, filtersArg, sorter) => {
+    const { dispatch } = this.props;
+    const { formValues } = this.state;
+
+    const filters = Object.keys(filtersArg).reduce((obj, key) => {
+      const newObj = { ...obj };
+      newObj[key] = getValue(filtersArg[key]);
+      return newObj;
+    }, {});
+
+    const params = {
+      currentPage: pagination.current,
+      pageSize: pagination.pageSize,
+      ...formValues,
+      ...filters,
+    };
+    if (sorter.field) {
+      params.sorter = `${sorter.field}_${sorter.order}`;
+    }
+
+    dispatch({
+      type: 'product/fetchRecProduct',
+      payload: params,
+    });
+  };
+
   renderSimpleForm() {
     const {
       form: { getFieldDecorator },
@@ -366,8 +395,12 @@ class ProductRecList extends PureComponent {
             ) : <a disabled onClick={() => this.handleUpdateModalVisible(true, record)}>编辑</a>}
             <Divider type="vertical" />
             { record.deleted ? (
-              <a onClick={() => this.recProductDeleted(false, record.id)}>上架</a>
-            ) : <a onClick={() => this.recProductDeleted(true, record.id)}>下架</a>}
+              <Popconfirm title="是否要上架此推荐商品？" onConfirm={() => this.recProductDeleted(false, record.id)}>
+                <a>上架</a>
+              </Popconfirm>
+            ) : <Popconfirm title="是否要下架此推荐商品？" onConfirm={() => this.recProductDeleted(true, record.id)}>
+                <a>下架</a>
+              </Popconfirm>}
           </Fragment>
         ),
       },
