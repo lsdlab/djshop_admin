@@ -13,6 +13,7 @@ import {
   Drawer,
   Checkbox,
 } from 'antd';
+import router from 'umi/router';
 import SimpleTable from '@/components/SimpleTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import DescriptionList from '@/components/DescriptionList';
@@ -118,6 +119,10 @@ class ProductList extends PureComponent {
       type: 'product/fetch',
     });
   };
+
+  routerPushDetail = (recordID) => {
+    router.push('/product/product-detail/' + recordID);
+  }
 
   showDrawer = (flag, productID) => {
     this.setState({
@@ -388,7 +393,7 @@ class ProductList extends PureComponent {
           <Fragment>
             <a>编辑</a>
             <Divider type="vertical" />
-            <a >跳转详情</a>
+            <a onClick={() => this.routerPushDetail(record.id)}>详情</a>
             <Divider type="vertical" />
             <a onClick={() => this.showDrawer(true, record.id)}>Drawer详情</a>
             <Divider type="vertical" />
