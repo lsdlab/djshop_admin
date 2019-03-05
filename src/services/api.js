@@ -625,6 +625,18 @@ export async function queryBargains(params) {
   });
 }
 
+// 获取砍价记录
+export async function queryBargainsLogs(bargainID) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/bargains/${bargainID}/logs/`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
 // 获取可团购商品列表
 export async function queryGrouponsProduct(params) {
   const token = getToken();
@@ -667,6 +679,18 @@ export async function patchGrouponsProduct(params, grouponProductID) {
 export async function queryGroupons(params) {
   const token = getToken();
   return request(`${apiHost}${apiVersion}/groupons/?${stringify(params)}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 获取团购记录
+export async function queryGrouponsLogs(grouponID) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/groupons/${grouponID}/logs/`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

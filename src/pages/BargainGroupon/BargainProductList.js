@@ -16,6 +16,7 @@ import {
   Divider,
   Popconfirm,
   Badge,
+  TreeSelect,
 } from 'antd';
 import SimpleTable from '@/components/SimpleTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
@@ -105,7 +106,7 @@ const CreateForm = Form.create()(props => {
           {form.getFieldDecorator('product_spec', {
               rules: [{ required: true, message: '请选择商品规格！' }],
             })(
-              <Select style={{ width: '100%' }} placeholder="商品" showSearch={true} optionFilterProp="name">
+              <Select style={{ width: '100%' }} placeholder="商品规格" showSearch={true} optionFilterProp="name">
                 {buildOptions(allProductSpecIds)}
               </Select>
             )}

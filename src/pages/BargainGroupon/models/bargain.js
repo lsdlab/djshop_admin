@@ -1,6 +1,6 @@
 import { routerRedux } from 'dva/router';
 import { message } from 'antd';
-import { queryBargains } from '@/services/api';
+import { queryBargains, queryBargainsLogs } from '@/services/api';
 
 
 export default {
@@ -8,6 +8,10 @@ export default {
 
   state: {
     data: {
+      results: [],
+      count: undefined,
+    },
+    logData: {
       results: [],
       count: undefined,
     },
@@ -21,6 +25,13 @@ export default {
         payload: response,
       });
     },
+    *fetchLog({ bargainID }, { call, put }) {
+      const response = yield call(queryBargainsLogs, bargainID);
+      yield put({
+        type: 'saveLog',
+        payload: response,
+      });
+    },
   },
 
   reducers: {
@@ -28,6 +39,12 @@ export default {
       return {
         ...state,
         data: action.payload,
+      };
+    },
+    saveLog(state, action) {
+      return {
+        ...state,
+        logData: action.payload,
       };
     },
   },

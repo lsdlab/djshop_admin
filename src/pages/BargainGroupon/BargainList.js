@@ -5,23 +5,24 @@ import {
   Row,
   Col,
   Card,
-  Form,
-  Input,
-  Select,
-  Icon,
-  Button,
-  Modal,
-  message,
-  Divider,
-  Popconfirm,
   Badge,
+  Drawer,
+  Table,
 } from 'antd';
 import SimpleTable from '@/components/SimpleTable';
+import SmallTable from '@/components/SmallTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import styles from '../List/TableList.less';
 
-const FormItem = Form.Item;
+
+const pStyle = {
+  fontSize: 16,
+  color: 'rgba(0,0,0,0.85)',
+  lineHeight: '24px',
+  display: 'block',
+  marginBottom: 16,
+};
 
 
 /* eslint react/no-multi-comp:0 */
@@ -29,11 +30,11 @@ const FormItem = Form.Item;
   bargain,
   loading: loading.models.bargain,
 }))
-@Form.create()
 class BargainList extends PureComponent {
   state = {
     currentPage: 1,
     pageSize: 10,
+    visible: false,
   };
 
   componentDidMount() {
@@ -43,9 +44,36 @@ class BargainList extends PureComponent {
     });
   }
 
+  showDrawer = (flag, currentRecord) => {
+    this.setState({
+      visible: !!flag,
+    });
+
+    if (flag && currentRecord) {
+      this.setState({
+        currentRecord: currentRecord,
+      });
+
+      this.props.dispatch({
+        type: 'bargain/fetchLog',
+        bargainID: currentRecord.id,
+      });
+    } else {
+      this.setState({
+        currentRecord: {},
+      });
+    }
+  };
+
+  onClose = () => {
+    this.setState({
+      visible: false,
+    });
+  };
+
   render() {
     const {
-      bargain: { data },
+      bargain: { data, logData },
       loading,
     } = this.props;
     const { currentPage, pageSize } = this.state;
@@ -56,14 +84,17 @@ class BargainList extends PureComponent {
         dataIndex: 'bargain_product.product_spec.product.name',
       },
       {
+        title: '商品规格名称',
+        dataIndex: 'bargain_product.product_spec.name',
+      },
+      {
+        title: '用户',
+        dataIndex: 'user.username',
+      },
+      {
         title: '当前价格',
         dataIndex: 'current_price',
       },
-      // TODO 用户名
-      // {
-      //   title: '当前价格',
-      //   dataIndex: 'current_price',
-      // },
       {
         title: '起始价格',
         dataIndex: 'bargain_product.start_price',
@@ -71,14 +102,6 @@ class BargainList extends PureComponent {
       {
         title: '结束价格',
         dataIndex: 'bargain_product.end_price',
-      },
-      {
-        title: '开始时间',
-        dataIndex: 'start_datetime',
-      },
-      {
-        title: '结束时间',
-        dataIndex: 'end_datetime',
       },
       {
         title: '状态',
@@ -92,6 +115,14 @@ class BargainList extends PureComponent {
         },
       },
       {
+        title: '开始时间',
+        dataIndex: 'start_datetime',
+      },
+      {
+        title: '结束时间',
+        dataIndex: 'end_datetime',
+      },
+      {
         title: '创建时间',
         dataIndex: 'created_at',
       },
@@ -100,9 +131,50 @@ class BargainList extends PureComponent {
         fixed: 'right',
         render: (text, record) => (
           <Fragment>
-            <a>详情</a>
+            <a onClick={() => this.showDrawer(true, record)}>砍价记录</a>
           </Fragment>
         ),
+      },
+    ];
+
+    const drawerColumns = [
+      {
+        title: '注册用户',
+        dataIndex: 'user.username',
+        render(text, record) {
+          if (text) {
+            return text;
+          } else {
+            return '-';
+          }
+        },
+      },
+      {
+        title: '匿名用户',
+        dataIndex: 'anony_user.username',
+        render(text, record) {
+          if (text) {
+            return text;
+          } else {
+            return '-';
+          }
+        },
+      },
+      {
+        title: '开始价格',
+        dataIndex: 'from_price',
+      },
+      {
+        title: '结束价格',
+        dataIndex: 'to_price',
+      },
+      {
+        title: '折扣',
+        dataIndex: 'discount',
+      },
+      {
+        title: '创建时间',
+        dataIndex: 'created_at',
       },
     ];
 
@@ -114,10 +186,28 @@ class BargainList extends PureComponent {
               loading={loading}
               data={data}
               columns={columns}
-              scroll={{ x: 1200 }}
+              scroll={{ x: 1500 }}
               onChange={this.handleStandardTableChange}
             />
           </div>
+          <Drawer
+            width={800}
+            placement="right"
+            closable={false}
+            onClose={this.onClose}
+            visible={this.state.visible}
+          >
+            <p style={{ ...pStyle, marginBottom: 24 }}>砍价记录</p>
+            <Row>
+              {logData && Object.keys(logData).length ? (
+                <SmallTable
+                  size='small'
+                  data={logData}
+                  columns={drawerColumns}
+                />
+              ) : null}
+            </Row>
+          </Drawer>
         </Card>
       </PageHeaderWrapper>
     );
