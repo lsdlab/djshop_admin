@@ -8,8 +8,8 @@ import { queryCategory,
          createProductSpec,
          queryProductSpecs,
          queryRecommendations,
-         createRecommendations,
-         patchRecommendations,
+         createRecommendation,
+         patchRecommendation,
          fetchProductAllIds,
 } from '@/services/api';
 
@@ -97,14 +97,14 @@ export default {
       });
     },
     *createRecProduct({ payload }, { call, put }) {
-      const response = yield call(createRecommendations, payload);
+      const response = yield call(createRecommendation, payload);
       yield put({
         type: 'saveNewRecProduct',
         payload: response,
       });
     },
     *patchRecProduct({ payload, recProductID }, { call, put }) {
-      yield call(patchRecommendations, payload, recProductID);
+      yield call(patchRecommendation, payload, recProductID);
     },
     *fetchProductAllIds({}, { call, put }) {
       const response = yield call(fetchProductAllIds);

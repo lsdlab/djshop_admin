@@ -526,7 +526,7 @@ export async function queryRecommendations(params) {
 }
 
 // 创建推荐商品
-export async function createRecommendations(params) {
+export async function createRecommendation(params) {
   const token = getToken();
   return request(`${apiHost}${apiVersion}/product/recommendations/`, {
     method: 'POST',
@@ -539,7 +539,7 @@ export async function createRecommendations(params) {
 }
 
 // 修改推荐商品
-export async function patchRecommendations(params, recProductID) {
+export async function patchRecommendation(params, recProductID) {
   const token = getToken();
   return request(`${apiHost}${apiVersion}/product/recommendations/${recProductID}/`, {
     method: 'PATCH',
@@ -692,6 +692,31 @@ export async function queryGrouponsLogs(grouponID) {
   const token = getToken();
   return request(`${apiHost}${apiVersion}/groupons/${grouponID}/logs/`, {
     method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 获取优惠卷
+export async function queryCoupons(params) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/coupons/?${stringify(params)}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 创建优惠卷
+export async function createCoupon(params) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/coupons/`, {
+    method: 'POST',
+    body: params,
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `JWT ${token}`,
