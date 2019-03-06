@@ -58,17 +58,17 @@ const CreateForm = Form.create()(props => {
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="标题">
         {form.getFieldDecorator('title', {
           rules: [{ required: true, message: "请输入标题！" }],
-        })(<Input placeholder="标题" />)}
+        })(<Input placeholder="标题，八个中文字符" />)}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="副标题">
         {form.getFieldDecorator('subtitle', {
           rules: [{ required: true, message: "请输入副标题！" }],
-        })(<Input placeholder="副标题" />)}
+        })(<Input placeholder="副标题，六个中午字符" />)}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="副副标题">
         {form.getFieldDecorator('subsubtitle', {
           rules: [{ required: true, message: "请输入副副标题！" }],
-        })(<Input placeholder="标题" />)}
+        })(<Input placeholder="副副标题，四个中文字符" />)}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="显示顺序">
         {form.getFieldDecorator('display_order', {

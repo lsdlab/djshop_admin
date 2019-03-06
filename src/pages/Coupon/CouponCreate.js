@@ -196,7 +196,7 @@ class CouponCreate extends PureComponent {
             <FormItem {...formItemLayout} label="描述">
               {getFieldDecorator('desc', {
                 rules: [{ required: true, message: '请输入描述！'}],
-              })(<TextArea rows={5} placeholder="描述，长文本" />)}
+              })(<TextArea rows={5} placeholder="优惠卷描述，长文本" />)}
             </FormItem>
 
             <FormItem {...formItemLayout} label="有效日期">
@@ -208,6 +208,12 @@ class CouponCreate extends PureComponent {
                   placeholder={[ "开始日期", "结束日期" ]}
                 />
               )}
+            </FormItem>
+
+            <FormItem {...formItemLayout} label="发放总数">
+              {getFieldDecorator('total', {
+                rules: [{ required: true, message: '请输入发放总数！' }],
+              })(<InputNumber min={1} max={10} style={{ width: '100%' }} placeholder="发放总数"/>)}
             </FormItem>
 
             <Form.Item {...formItemLayout}
