@@ -1,6 +1,6 @@
 import { routerRedux } from 'dva/router';
 import { message } from 'antd';
-import { queryCoupons, createCoupon } from '@/services/api';
+import { queryCoupons, createCoupon, queryCategory, fetchProductAllIds } from '@/services/api';
 
 
 export default {
@@ -11,6 +11,8 @@ export default {
       results: [],
       count: undefined,
     },
+    categoryData: [],
+    allProductIds: [],
   },
 
   effects: {
@@ -24,6 +26,20 @@ export default {
     *create({ payload }, { call, put }) {
       yield call(createCoupon, payload);
     },
+    *fetchCategory({ }, { call, put }) {
+      const response = yield call(queryCategory, );
+      yield put({
+        type: 'saveCategory',
+        payload: response,
+      });
+    },
+    *fetchProductAllIds({}, { call, put }) {
+      const response = yield call(fetchProductAllIds);
+      yield put({
+        type: 'saveProductAllIds',
+        payload: response,
+      });
+    }
   },
 
   reducers: {
@@ -31,6 +47,18 @@ export default {
       return {
         ...state,
         data: action.payload,
+      };
+    },
+    saveCategory(state, action) {
+      return {
+        ...state,
+        categoryData: action.payload,
+      };
+    },
+    saveProductAllIds(state, action) {
+      return {
+        ...state,
+        allProductIds: action.payload,
       };
     },
   },
