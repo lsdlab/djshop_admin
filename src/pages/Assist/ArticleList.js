@@ -231,7 +231,7 @@ class ArticleList extends PureComponent {
       },
       articleID: articleID,
     }).then(() => {
-      message.success('删除成功');
+      message.success('删除文章成功');
       this.handleUpdateModalVisible();
       dispatch({
         type: 'articles/fetch',

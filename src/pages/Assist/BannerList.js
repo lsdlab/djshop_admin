@@ -256,13 +256,13 @@ class BannerList extends PureComponent {
     });
   };
 
-  handleDelete = (bannerID) => {
+  handleDeleted = (bannerID) => {
     const { dispatch } = this.props;
     dispatch({
       type: 'banner/delete',
       bannerID: bannerID,
     }).then(() => {
-      message.success('删除成功');
+      message.success('删除轮播图成功');
       this.handleUpdateModalVisible();
       dispatch({
         type: 'banner/fetch',
@@ -377,10 +377,10 @@ class BannerList extends PureComponent {
               </Popconfirm>}
             <Divider type="vertical" />
             { record.status_name === '上线' ? (
-              <Popconfirm title="是否要删除此轮播图？" onConfirm={() => this.handleDelete(record.id)}>
+              <Popconfirm title="是否要删除此轮播图？" onConfirm={() => this.handleDeleted(record.id)}>
                 <a disabled>删除</a>
               </Popconfirm>
-            ) : <Popconfirm title="是否要删除此轮播图？" onConfirm={() => this.handleDelete(record.id)}>
+            ) : <Popconfirm title="是否要删除此轮播图？" onConfirm={() => this.handleDeleted(record.id)}>
                   <a>删除</a>
                 </Popconfirm>}
           </Fragment>

@@ -12,6 +12,8 @@ import {
   Badge,
   Drawer,
   Checkbox,
+  Popconfirm,
+  message,
 } from 'antd';
 import router from 'umi/router';
 import SimpleTable from '@/components/SimpleTable';
@@ -155,6 +157,39 @@ class ProductList extends PureComponent {
       this.setState({
         specData: {}
       })
+    }
+  };
+
+  handleDeleted = (flag, productID) => {
+    const { dispatch } = this.props;
+    if (flag && productID) {
+      dispatch({
+        type: 'product/patch',
+        payload: {
+          deleted: true,
+          status: '2',
+        },
+        productID: productID,
+      }).then(() => {
+        message.success('下架商品成功！');
+        dispatch({
+          type: 'product/fetch',
+        });
+      });
+    } else {
+      dispatch({
+        type: 'product/patch',
+        payload: {
+          deleted: false,
+          status: '1',
+        },
+        productID: productID,
+      }).then(() => {
+        message.success('上架商品成功！');
+        dispatch({
+          type: 'product/fetch',
+        });
+      });
     }
   };
 
@@ -322,10 +357,6 @@ class ProductList extends PureComponent {
         title: '名称',
         dataIndex: 'name',
       },
-      // {
-      //   title: '副标题',
-      //   dataIndex: 'subtitle',
-      // },
       {
         title: '状态',
         dataIndex: 'status',
@@ -353,22 +384,6 @@ class ProductList extends PureComponent {
         title: '库存',
         dataIndex: 'total_stock',
       },
-      // {
-      //   title: '评论数量',
-      //   dataIndex: 'review',
-      // },
-      // {
-      //   title: '收藏数量',
-      //   dataIndex: 'fav',
-      // },
-      // {
-      //   title: '浏览量',
-      //   dataIndex: 'pv',
-      // },
-      // {
-      //   title: '限购数量',
-      //   dataIndex: 'limit',
-      // },
       {
         title: '起价',
         dataIndex: 'start_price',
@@ -385,9 +400,17 @@ class ProductList extends PureComponent {
             <Divider type="vertical" />
             <a onClick={() => this.routerPushDetail(record.id)}>详情</a>
             <Divider type="vertical" />
-            <a onClick={() => this.showDrawer(true, record.id)}>Drawer详情</a>
+            <a onClick={() => this.showDrawer(true, record.id)}>商品详情</a>
             <Divider type="vertical" />
-            <a onClick={() => this.showSpecDrawer(true, record.id)}>Drawer规格</a>
+            <a onClick={() => this.showSpecDrawer(true, record.id)}>商品规格</a>
+            <Divider type="vertical" />
+            { record.status === '1' ? (
+              <Popconfirm title="是否要下架此商品？" onConfirm={() => this.handleDeleted(true, record.id)}>
+                <a>下架</a>
+              </Popconfirm>
+            ) : <Popconfirm title="是否要上架此商品？" onConfirm={() => this.handleDeleted(false, record.id)}>
+                  <a>上架</a>
+                </Popconfirm>}
           </Fragment>
         ),
       },

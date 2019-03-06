@@ -138,7 +138,7 @@ class UpdateForm extends PureComponent {
   loading: loading.models.notice,
 }))
 @Form.create()
-class BannerList extends PureComponent {
+class NoticeList extends PureComponent {
   state = {
     currentPage: 1,
     pageSize: 10,
@@ -217,7 +217,7 @@ class BannerList extends PureComponent {
     dispatch({
       type: 'notice/patch',
       payload: fields,
-      bannerID: this.state.currentRecord.id,
+      noticeID: this.state.currentRecord.id,
     }).then(() => {
       message.success('更新成功');
       this.handleUpdateModalVisible();
@@ -228,13 +228,13 @@ class BannerList extends PureComponent {
     });
   };
 
-  handleDeleted = (bannerID) => {
+  handleDeleted = (noticeID) => {
     const { dispatch } = this.props;
     dispatch({
       type: 'notice/delete',
-      bannerID: bannerID,
+      noticeID: noticeID,
     }).then(() => {
-      message.success('删除成功');
+      message.success('删除全网通知成功');
       this.handleUpdateModalVisible();
       dispatch({
         type: 'notice/fetch',
@@ -318,10 +318,10 @@ class BannerList extends PureComponent {
             <a onClick={() => this.handleUpdateModalVisible(true, record)}>详情</a>
             <Divider type="vertical" />
             { record.deleted ? (
-              <Popconfirm title="是否要删除此全网通知？" onConfirm={() => this.handleDelete(record.id)}>
+              <Popconfirm title="是否要删除此全网通知？" onConfirm={() => this.handleDeleted(record.id)}>
                 <a disabled>删除</a>
               </Popconfirm>
-            ) : <Popconfirm title="是否要删除此全网通知？" onConfirm={() => this.handleDelete(record.id)}>
+            ) : <Popconfirm title="是否要删除此全网通知？" onConfirm={() => this.handleDeleted(record.id)}>
                   <a>删除</a>
                 </Popconfirm>}
           </Fragment>
@@ -355,4 +355,4 @@ class BannerList extends PureComponent {
   }
 }
 
-export default BannerList;
+export default NoticeList;

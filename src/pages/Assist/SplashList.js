@@ -217,13 +217,13 @@ class SplashList extends PureComponent {
     });
   };
 
-  handleDelete = (splashID) => {
+  handleDeleted = (splashID) => {
     const { dispatch } = this.props;
     dispatch({
       type: 'splash/delete',
       splashID: splashID,
     }).then(() => {
-      message.success('删除成功');
+      message.success('删除开屏广告成功');
       this.handleUpdateModalVisible();
       dispatch({
         type: 'splash/fetch',
@@ -315,10 +315,10 @@ class SplashList extends PureComponent {
             <Divider type="vertical" />
 
             { record.status_name === '下线' ? (
-              <Popconfirm title="是否要删除此开屏广告？" onConfirm={() => this.handleDelete(record.id)}>
+              <Popconfirm title="是否要删除此开屏广告？" onConfirm={() => this.handleDeleted(record.id)}>
                 <a>删除</a>
               </Popconfirm>
-            ) : <Popconfirm title="是否要删除此开屏广告？" onConfirm={() => this.handleDelete(record.id)}>
+            ) : <Popconfirm title="是否要删除此开屏广告？" onConfirm={() => this.handleDeleted(record.id)}>
                 <a disabled>删除</a>
               </Popconfirm>}
 
