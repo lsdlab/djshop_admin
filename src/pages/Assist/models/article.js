@@ -1,7 +1,13 @@
-import { queryArticles, createArticle, patchArticle, fetchArticle } from '@/services/api'
+import { queryArticles,
+         createArticle,
+         patchArticle,
+         fetchArticle,
+         fetchProductAllIds,
+} from '@/services/api'
+
 
 export default {
-  namespace: 'articles',
+  namespace: 'article',
 
   state: {
     data: {
@@ -9,6 +15,7 @@ export default {
       count: undefined,
     },
     currentRecord: {},
+    allProductIds: [],
   },
 
   effects: {
@@ -32,6 +39,13 @@ export default {
         payload: response,
       });
     },
+    *fetchProductAllIds({}, { call, put }) {
+      const response = yield call(fetchProductAllIds);
+      yield put({
+        type: 'saveProductAllIds',
+        payload: response,
+      });
+    },
   },
 
   reducers: {
@@ -45,6 +59,12 @@ export default {
       return {
         ...state,
         currentRecord: action.payload,
+      };
+    },
+    saveProductAllIds(state, action) {
+      return {
+        ...state,
+        allProductIds: action.payload,
       };
     },
   },

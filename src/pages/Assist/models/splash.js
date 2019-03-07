@@ -1,4 +1,11 @@
-import { querySplash, createSplash, patchSplash, deleteSplash, convertSplash } from '@/services/api'
+import { querySplash,
+         createSplash,
+         patchSplash,
+         deleteSplash,
+         convertSplash,
+         fetchProductAllIds,
+} from '@/services/api'
+
 
 export default {
   namespace: 'splash',
@@ -8,6 +15,7 @@ export default {
       results: [],
       count: undefined,
     },
+    allProductIds: [],
   },
 
   effects: {
@@ -30,6 +38,13 @@ export default {
     *convert({ payload, splashID }, { call, put }) {
       yield call(convertSplash, payload, splashID);
     },
+    *fetchProductAllIds({}, { call, put }) {
+      const response = yield call(fetchProductAllIds);
+      yield put({
+        type: 'saveProductAllIds',
+        payload: response,
+      });
+    },
   },
 
   reducers: {
@@ -37,6 +52,12 @@ export default {
       return {
         ...state,
         data: action.payload,
+      };
+    },
+    saveProductAllIds(state, action) {
+      return {
+        ...state,
+        allProductIds: action.payload,
       };
     },
   },

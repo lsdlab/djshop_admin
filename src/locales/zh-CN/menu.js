@@ -19,7 +19,7 @@ export default {
   'menu.bargaingroupon.groupon-product-list': '拼团商品列表',
   'menu.bargaingroupon.groupon-list': '拼团列表',
   'menu.coupon': '优惠卷',
-  'menu.coupon.coupon-create': '添加优惠卷',
+  'menu.coupon.coupon-create': '新增优惠卷',
   'menu.coupon.coupon-list': '优惠卷列表',
   'menu.transaction': '订单',
   'menu.transaction.transaction-list': '订单列表',

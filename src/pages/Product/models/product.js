@@ -112,7 +112,7 @@ export default {
         type: 'saveProductAllIds',
         payload: response,
       });
-    }
+    },
   },
 
   reducers: {

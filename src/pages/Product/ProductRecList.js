@@ -24,8 +24,20 @@ import styles from '../List/TableList.less';
 const FormItem = Form.Item;
 const { Option } = Select;
 
+
+const buildOptions = (optionData) => {
+  if (optionData) {
+    const arr = [];
+    for (let i = 0; i < optionData.length; i++) {
+      arr.push(<Option name={optionData[i].combined_name} value={optionData[i].id} key={optionData[i].id}>{optionData[i].combined_name}</Option>)
+    }
+    return arr;
+  }
+}
+
 const CreateForm = Form.create()(props => {
   const { modalVisible, allProductIds, form, handleAdd, handleModalVisible, } = props;
+
   const okHandle = () => {
     form.validateFields((err, fieldsValue) => {
       if (err) return;
@@ -33,16 +45,6 @@ const CreateForm = Form.create()(props => {
       handleAdd(fieldsValue);
     });
   };
-
-  const buildOptions = (optionData) => {
-    if (optionData) {
-      const arr = [];
-      for (let i = 0; i < optionData.length; i++) {
-        arr.push(<Option name={optionData[i].combined_name} value={optionData[i].id} key={optionData[i].id}>{optionData[i].combined_name}</Option>)
-      }
-      return arr;
-    }
-  }
 
   return (
     <Modal
@@ -114,27 +116,16 @@ class UpdateForm extends PureComponent {
     const okHandle = () => {
       form.validateFields((err, fieldsValue) => {
         if (err) return;
-        form.resetFields();
         handleUpdate(fieldsValue);
       });
     };
-
-    const buildOptions = (optionData) => {
-      if (optionData) {
-        const arr = [];
-        for (let i = 0; i < optionData.length; i++) {
-          arr.push(<Option name={optionData[i].combined_name} value={optionData[i].id} key={optionData[i].id}>{optionData[i].combined_name}</Option>)
-        }
-        return arr;
-      }
-    }
 
     return (
       <Modal
         destroyOnClose
         centered
         keyboard
-        title="编辑"
+        title="编辑推荐商品"
         width={800}
         visible={updateModalVisible}
         onOk={okHandle}
@@ -409,6 +400,7 @@ class ProductRecList extends PureComponent {
             />
           </div>
         </Card>
+
         <CreateForm {...parentMethods} modalVisible={modalVisible} allProductIds={allProductIds} />
 
         {currentRecord && Object.keys(currentRecord).length ? (

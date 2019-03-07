@@ -25,6 +25,16 @@ const FormItem = Form.Item;
 const InputGroup = Input.Group;
 const { Option } = Select;
 
+const buildOptions = (optionData) => {
+  if (optionData) {
+    const arr = [];
+    for (let i = 0; i < optionData.length; i++) {
+      arr.push(<Option name={optionData[i].combined_name} value={optionData[i].id} key={optionData[i].id}>{optionData[i].combined_name}</Option>)
+    }
+    return arr;
+  }
+}
+
 const CreateForm = Form.create()(props => {
   const { modalVisible, allProductSpecIds, form, handleAdd, handleModalVisible, } = props;
   const okHandle = () => {
@@ -35,16 +45,6 @@ const CreateForm = Form.create()(props => {
       handleAdd(fieldsValue);
     });
   };
-
-  const buildOptions = (optionData) => {
-    if (optionData) {
-      const arr = [];
-      for (let i = 0; i < optionData.length; i++) {
-        arr.push(<Option name={optionData[i].combined_name} value={optionData[i].id} key={optionData[i].id}>{optionData[i].combined_name}</Option>)
-      }
-      return arr;
-    }
-  }
 
   return (
     <Modal
@@ -105,27 +105,16 @@ class UpdateForm extends PureComponent {
     const okHandle = () => {
       form.validateFields((err, fieldsValue) => {
         if (err) return;
-        form.resetFields();
         handleUpdate(fieldsValue);
       });
     };
-
-    const buildOptions = (optionData) => {
-      if (optionData) {
-        const arr = [];
-        for (let i = 0; i < optionData.length; i++) {
-          arr.push(<Option name={optionData[i].combined_name} value={optionData[i].id} key={optionData[i].id}>{optionData[i].combined_name}</Option>)
-        }
-        return arr;
-      }
-    }
 
     return (
       <Modal
         destroyOnClose
         centered
         keyboard
-        title="编辑"
+        title="编辑团购商品"
         width={1000}
         visible={updateModalVisible}
         onOk={okHandle}

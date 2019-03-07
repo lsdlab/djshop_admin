@@ -12,6 +12,7 @@ import {
   Divider,
   Popconfirm,
   Badge,
+  Select,
 } from 'antd';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import SimpleNonPaginationTable from '@/components/SimpleNonPaginationTable';
@@ -20,9 +21,21 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import styles from '../List/TableList.less';
 
 const FormItem = Form.Item;
+const { Option } = Select;
+
+
+const buildOptions = (optionData) => {
+  if (optionData) {
+    const arr = [];
+    for (let i = 0; i < optionData.length; i++) {
+      arr.push(<Option name={optionData[i].combined_name} value={optionData[i].id} key={optionData[i].id}>{optionData[i].combined_name}</Option>)
+    }
+    return arr;
+  }
+}
 
 const CreateForm = Form.create()(props => {
-  const { modalVisible, form, handleAdd, handleModalVisible, } = props;
+  const { modalVisible, allProductIds, form, handleAdd, handleModalVisible, } = props;
   const okHandle = () => {
     form.validateFields((err, fieldsValue) => {
       if (err) return;
@@ -30,12 +43,13 @@ const CreateForm = Form.create()(props => {
       handleAdd(fieldsValue);
     });
   };
+
   return (
     <Modal
       destroyOnClose
       centered
       keyboard
-      title="新增"
+      title="新增开屏广告"
       width={800}
       visible={modalVisible}
       onOk={okHandle}
@@ -51,6 +65,17 @@ const CreateForm = Form.create()(props => {
           rules: [{ required: true, message: '请输入图片链接！' }],
         })(<Input placeholder="图片链接" />)}
       </FormItem>
+      { allProductIds ? (
+        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="商品">
+          {form.getFieldDecorator('product', {
+              rules: [{ required: false, message: '请选择商品！' }],
+            })(
+              <Select style={{ width: '100%' }} placeholder="商品" showSearch={true} optionFilterProp="name">
+                {buildOptions(allProductIds)}
+              </Select>
+            )}
+        </FormItem>
+      ) : null}
     </Modal>
   );
 });
@@ -63,7 +88,8 @@ class UpdateForm extends PureComponent {
     this.state = {
       modalFormVals: {
         name: props.values.name,
-        splash: props.values.splash
+        splash: props.values.splash,
+        product: props.values.product.category_first_name + '-' + props.values.product.category_name + '-' + props.values.product.name,
       },
     };
 
@@ -74,13 +100,12 @@ class UpdateForm extends PureComponent {
   }
 
   render() {
-    const { updateModalVisible, form, handleUpdate, handleUpdateModalVisible } = this.props;
+    const { updateModalVisible, allProductIds, form, handleUpdate, handleUpdateModalVisible } = this.props;
     const { modalFormVals } = this.state;
 
     const okHandle = () => {
       form.validateFields((err, fieldsValue) => {
         if (err) return;
-        form.resetFields();
         handleUpdate(fieldsValue);
       });
     };
@@ -90,7 +115,7 @@ class UpdateForm extends PureComponent {
         destroyOnClose
         centered
         keyboard
-        title="编辑"
+        title="编辑开屏广告"
         width={800}
         visible={updateModalVisible}
         onOk={okHandle}
@@ -117,6 +142,18 @@ class UpdateForm extends PureComponent {
             </Button>
           </CopyToClipboard>
         </FormItem>
+        { allProductIds ? (
+          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="商品">
+            {form.getFieldDecorator('product', {
+                initialValue: modalFormVals.product,
+                rules: [{ required: false, message: '请选择商品！' }],
+              })(
+                <Select style={{ width: '100%' }} placeholder="商品" showSearch={true} optionFilterProp="name">
+                  {buildOptions(allProductIds)}
+                </Select>
+              )}
+          </FormItem>
+        ) : null}
       </Modal>
     );
   }
@@ -177,6 +214,12 @@ class SplashList extends PureComponent {
     this.setState({
       modalVisible: !!flag,
     });
+
+    if (flag) {
+      this.props.dispatch({
+        type: 'splash/fetchProductAllIds',
+      });
+    }
   };
 
   handleUpdateModalVisible = (flag, record) => {
@@ -184,6 +227,12 @@ class SplashList extends PureComponent {
       updateModalVisible: !!flag,
       currentRecord: record || {},
     });
+
+    if (flag) {
+      this.props.dispatch({
+        type: 'splash/fetchProductAllIds',
+      });
+    }
   };
 
   handleAdd = fields => {
@@ -192,7 +241,7 @@ class SplashList extends PureComponent {
       type: 'splash/create',
       payload: fields,
     }).then((data) => {
-      message.success('新增成功');
+      message.success('新增开屏广告成功');
       this.handleModalVisible();
       this.props.dispatch({
         type: 'splash/fetch',
@@ -241,7 +290,7 @@ class SplashList extends PureComponent {
       },
       splashID: splashID,
     }).then(() => {
-      message.success('上线成功！');
+      message.success('上线开屏广告成功！');
       dispatch({
         type: 'splash/fetch',
         payload: {},
@@ -268,7 +317,7 @@ class SplashList extends PureComponent {
 
   render() {
     const {
-      splash: { data },
+      splash: { data, allProductIds },
       loading,
     } = this.props;
     const { currentPage, pageSize, modalVisible, updateModalVisible, currentRecord } = this.state;
@@ -287,7 +336,10 @@ class SplashList extends PureComponent {
         title: '名称',
         dataIndex: 'name',
       },
-
+      {
+        title: '商品名称',
+        dataIndex: 'product.name',
+      },
       {
         title: '状态',
         dataIndex: 'status',
@@ -348,13 +400,15 @@ class SplashList extends PureComponent {
             />
           </div>
         </Card>
-        <CreateForm {...parentMethods} modalVisible={modalVisible}  />
+
+        <CreateForm {...parentMethods} modalVisible={modalVisible} allProductIds={allProductIds} />
 
         {currentRecord && Object.keys(currentRecord).length ? (
           <UpdateForm
             {...updateMethods}
             updateModalVisible={updateModalVisible}
             values={currentRecord}
+            allProductIds={allProductIds}
           />
         ) : null}
       </PageHeaderWrapper>

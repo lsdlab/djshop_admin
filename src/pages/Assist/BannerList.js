@@ -25,8 +25,18 @@ import styles from '../List/TableList.less';
 const FormItem = Form.Item;
 const { Option } = Select;
 
+const buildOptions = (optionData) => {
+  if (optionData) {
+    const arr = [];
+    for (let i = 0; i < optionData.length; i++) {
+      arr.push(<Option name={optionData[i].combined_name} value={optionData[i].id} key={optionData[i].id}>{optionData[i].combined_name}</Option>)
+    }
+    return arr;
+  }
+}
+
 const CreateForm = Form.create()(props => {
-  const { modalVisible, form, handleAdd, handleModalVisible, } = props;
+  const { modalVisible, allProductIds, form, handleAdd, handleModalVisible, } = props;
   const okHandle = () => {
     form.validateFields((err, fieldsValue) => {
       if (err) return;
@@ -39,7 +49,7 @@ const CreateForm = Form.create()(props => {
       destroyOnClose
       centered
       keyboard
-      title="新增"
+      title="新增轮播图"
       width={800}
       visible={modalVisible}
       onOk={okHandle}
@@ -70,6 +80,17 @@ const CreateForm = Form.create()(props => {
             </Select>
           )}
       </FormItem>
+      { allProductIds ? (
+        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="商品">
+          {form.getFieldDecorator('product', {
+              rules: [{ required: false, message: '请选择商品！' }],
+            })(
+              <Select style={{ width: '100%' }} placeholder="商品" showSearch={true} optionFilterProp="name">
+                {buildOptions(allProductIds)}
+              </Select>
+            )}
+        </FormItem>
+      ) : null}
     </Modal>
   );
 });
@@ -85,6 +106,7 @@ class UpdateForm extends PureComponent {
         banner: props.values.banner,
         display_order: props.values.display_order,
         status: props.values.status,
+        product: props.values.product.category_first_name + '-' + props.values.product.category_name + '-' + props.values.product.name,
       },
     };
 
@@ -95,13 +117,12 @@ class UpdateForm extends PureComponent {
   }
 
   render() {
-    const { updateModalVisible, form, handleUpdate, handleUpdateModalVisible } = this.props;
+    const { updateModalVisible, allProductIds, form, handleUpdate, handleUpdateModalVisible } = this.props;
     const { modalFormVals } = this.state;
 
     const okHandle = () => {
       form.validateFields((err, fieldsValue) => {
         if (err) return;
-        form.resetFields();
         handleUpdate(fieldsValue);
       });
     };
@@ -111,7 +132,7 @@ class UpdateForm extends PureComponent {
         destroyOnClose
         centered
         keyboard
-        title="编辑"
+        title="编辑轮播图"
         width={800}
         visible={updateModalVisible}
         onOk={okHandle}
@@ -155,6 +176,18 @@ class UpdateForm extends PureComponent {
             </Select>
           )}
       </FormItem>
+      { allProductIds ? (
+        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="商品">
+          {form.getFieldDecorator('product', {
+              initialValue: modalFormVals.product,
+              rules: [{ required: true, message: '请选择商品！' }],
+            })(
+              <Select style={{ width: '100%' }} placeholder="商品" showSearch={true} optionFilterProp="name">
+                {buildOptions(allProductIds)}
+              </Select>
+            )}
+        </FormItem>
+      ) : null}
       </Modal>
     );
   }
@@ -216,6 +249,12 @@ class BannerList extends PureComponent {
     this.setState({
       modalVisible: !!flag,
     });
+
+    if (flag) {
+      this.props.dispatch({
+        type: 'banner/fetchProductAllIds',
+      });
+    }
   };
 
   handleUpdateModalVisible = (flag, record) => {
@@ -223,6 +262,12 @@ class BannerList extends PureComponent {
       updateModalVisible: !!flag,
       currentRecord: record || {},
     });
+
+    if (flag) {
+      this.props.dispatch({
+        type: 'banner/fetchProductAllIds',
+      });
+    }
   };
 
   handleAdd = fields => {
@@ -324,7 +369,7 @@ class BannerList extends PureComponent {
 
   render() {
     const {
-      banner: { data },
+      banner: { data, allProductIds },
       loading,
     } = this.props;
     const { currentPage, pageSize, modalVisible, updateModalVisible, currentRecord } = this.state;
@@ -346,6 +391,10 @@ class BannerList extends PureComponent {
       {
         title: '显示顺序',
         dataIndex: 'display_order',
+      },
+      {
+        title: '商品名称',
+        dataIndex: 'product.name',
       },
       {
         title: '状态',
@@ -401,12 +450,15 @@ class BannerList extends PureComponent {
             />
           </div>
         </Card>
-        <CreateForm {...parentMethods} modalVisible={modalVisible} />
+
+        <CreateForm {...parentMethods} modalVisible={modalVisible} allProductIds={allProductIds} />
+
         {currentRecord && Object.keys(currentRecord).length ? (
           <UpdateForm
             {...updateMethods}
             updateModalVisible={updateModalVisible}
             values={currentRecord}
+            allProductIds={allProductIds}
           />
         ) : null}
       </PageHeaderWrapper>

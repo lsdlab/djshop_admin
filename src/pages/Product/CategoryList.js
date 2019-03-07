@@ -22,6 +22,18 @@ const FormItem = Form.Item;
 const { Option } = Select;
 const { TreeNode } = Tree;
 
+
+const buildOptions = (optionData) => {
+  if (optionData) {
+    const arr = [];
+    for (let i = 0; i < optionData.length; i++) {
+      arr.push(<Option value={optionData[i].id} key={optionData[i].id}>{optionData[i].name}</Option>)
+    }
+    return arr;
+  }
+}
+
+
 const CreateForm = Form.create()(props => {
   const { modalVisible, categoryData, form, handleAdd, handleModalVisible, } = props;
   const okHandle = () => {
@@ -31,16 +43,6 @@ const CreateForm = Form.create()(props => {
       handleAdd(fieldsValue);
     });
   };
-
-  const buildOptions = (optionData) => {
-    if (optionData) {
-      const arr = [];
-      for (let i = 0; i < optionData.length; i++) {
-        arr.push(<Option value={optionData[i].id} key={optionData[i].id}>{optionData[i].name}</Option>)
-      }
-      return arr;
-    }
-  }
 
   return (
     <Modal
@@ -78,7 +80,7 @@ const CreateForm = Form.create()(props => {
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="一级分类" style={{display: form.getFieldValue('category_type') === '3' ? 'block' : 'none'}}>
           {form.getFieldDecorator('parent_category', {
               initialValue: categoryData[0] ? categoryData[0].id : '',
-              rules: [{ required: false, message: '请选择一级分类！' }],
+              rules: [{ required: form.getFieldValue('category_type') === '3' ? true : false, message: '请选择一级分类！' }],
             })(
               <Select style={{ width: '100%' }} placeholder="一级分类">
                 {buildOptions(categoryData)}
@@ -175,16 +177,6 @@ class CategoryList extends PureComponent {
     });
   };
 
-  buildOptions(CategoryOneData) {
-    if (CategoryOneData) {
-      const arr = [];
-      for (let i = 0; i < CategoryOneData.length; i++) {
-        arr.push(<Option key={CategoryOneData[i].id} value={CategoryOneData[i].id}>{CategoryOneData[i].name}</Option>)
-      }
-      return arr;
-    }
-  }
-
   renderTreeNodes = data => data.map((item) => {
     if (item && item.children) {
       return (
@@ -265,10 +257,10 @@ class CategoryList extends PureComponent {
                 { data ? (
                   <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="一级分类" style={{display: form.getFieldValue('category_type') === '3' ? 'block' : 'none'}}>
                     {form.getFieldDecorator('parent_category', {
-                        rules: [{ required: false, message: '请选择一级分类！' }],
+                        rules: [{ required: form.getFieldValue('category_type') === '3' ? true : false, message: '请选择一级分类！' }],
                       })(
                         <Select style={{ width: '100%' }} placeholder="一级分类">
-                          {this.buildOptions(data)}
+                          {buildOptions(data)}
                         </Select>
                       )}
                   </FormItem>

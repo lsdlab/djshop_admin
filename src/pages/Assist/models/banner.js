@@ -1,4 +1,10 @@
-import { queryBanner, createBanner, patchBanner, deleteBanner } from '@/services/api'
+import { queryBanner,
+         createBanner,
+         patchBanner,
+         deleteBanner,
+         fetchProductAllIds,
+} from '@/services/api'
+
 
 export default {
   namespace: 'banner',
@@ -8,6 +14,7 @@ export default {
       results: [],
       count: undefined,
     },
+    allProductIds: [],
   },
 
   effects: {
@@ -27,6 +34,13 @@ export default {
     *delete({ bannerID }, { call, put }) {
       yield call(deleteBanner, bannerID);
     },
+    *fetchProductAllIds({}, { call, put }) {
+      const response = yield call(fetchProductAllIds);
+      yield put({
+        type: 'saveProductAllIds',
+        payload: response,
+      });
+    },
   },
 
   reducers: {
@@ -34,6 +48,12 @@ export default {
       return {
         ...state,
         data: action.payload,
+      };
+    },
+    saveProductAllIds(state, action) {
+      return {
+        ...state,
+        allProductIds: action.payload,
       };
     },
   },

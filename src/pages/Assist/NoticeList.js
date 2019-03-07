@@ -36,7 +36,7 @@ const CreateForm = Form.create()(props => {
       destroyOnClose
       centered
       keyboard
-      title="新增"
+      title="新增全网通知"
       width={800}
       visible={modalVisible}
       onOk={okHandle}
@@ -79,15 +79,22 @@ class UpdateForm extends PureComponent {
   }
 
   render() {
-    const { updateModalVisible, form, handleUpdateModalVisible } = this.props;
+    const { updateModalVisible, form, handleUpdate, handleUpdateModalVisible } = this.props;
     const { modalFormVals } = this.state;
+
+    const okHandle = () => {
+      form.validateFields((err, fieldsValue) => {
+        if (err) return;
+        handleUpdate(fieldsValue);
+      });
+    };
 
     return (
       <Modal
         destroyOnClose
         centered
         keyboard
-        title="详情"
+        title="编辑全网通知"
         width={800}
         visible={updateModalVisible}
         footer={null}
@@ -219,7 +226,7 @@ class NoticeList extends PureComponent {
       payload: fields,
       noticeID: this.state.currentRecord.id,
     }).then(() => {
-      message.success('更新成功');
+      message.success('更新全网通知成功');
       this.handleUpdateModalVisible();
       dispatch({
         type: 'notice/fetch',
@@ -315,7 +322,7 @@ class NoticeList extends PureComponent {
         title: '操作',
         render: (text, record) => (
           <Fragment>
-            <a onClick={() => this.handleUpdateModalVisible(true, record)}>详情</a>
+            <a onClick={() => this.handleUpdateModalVisible(true, record)}>编辑</a>
             <Divider type="vertical" />
             { record.deleted ? (
               <Popconfirm title="是否要删除此全网通知？" onConfirm={() => this.handleDeleted(record.id)}>

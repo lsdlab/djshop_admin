@@ -264,8 +264,8 @@ class ProductList extends PureComponent {
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
-            <FormItem label="商品名称">
-              {getFieldDecorator('search')(<Input placeholder="请输入" />)}
+            <FormItem label="搜索">
+              {getFieldDecorator('search')(<Input placeholder="名称" />)}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>

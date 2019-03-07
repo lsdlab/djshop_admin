@@ -45,7 +45,7 @@ const buildOptions = (optionData) => {
   submitting: loading.effects['coupon/create'],
 }))
 @Form.create()
-class CouponCreate extends PureComponent {
+class CouponEdit extends PureComponent {
   state = {
 
   };
@@ -261,4 +261,4 @@ class CouponCreate extends PureComponent {
   }
 }
 
-export default CouponCreate;
+export default CouponEdit;
