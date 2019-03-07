@@ -14,7 +14,6 @@ import {
   InputNumber,
   DatePicker,
   message,
-  Divider,
   Tooltip,
   TreeSelect,
 } from 'antd';
@@ -217,19 +216,7 @@ class CouponCreate extends PureComponent {
               })(<InputNumber min={1} max={10} style={{ width: '100%' }} placeholder="发放总数"/>)}
             </FormItem>
 
-            <Form.Item {...formItemLayout}
-              label={
-                <span>
-                  是否启用
-                  <span> </span>
-                  <em className={formStyles.optional}>
-                    <Tooltip title="新增时可选择不启用，开放领取前启用。">
-                      <Icon type="info-circle-o" style={{ marginRight: 4 }} />
-                    </Tooltip>
-                  </em>
-                </span>
-              }
-            >
+            <Form.Item {...formItemLayout} label='是否启用'>
               {getFieldDecorator('in_use', {
                 initialValue: 'true',
                 rules: [{ required: true, message: '请选择是否启用！' }],
@@ -247,14 +234,6 @@ class CouponCreate extends PureComponent {
               </Button>
             </Form.Item>
           </Form>
-          <Divider style={{ margin: '40px 0 24px' }} />
-          <div className={styles.desc}>
-            <h3>优惠卷信息填写说明</h3>
-            <h4>是否启用</h4>
-            <p>
-              新增时可选择不启用，开放领取前启用。
-            </p>
-          </div>
         </Card>
       </PageHeaderWrapper>
     );

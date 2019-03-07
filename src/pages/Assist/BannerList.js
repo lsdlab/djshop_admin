@@ -308,7 +308,6 @@ class BannerList extends PureComponent {
       bannerID: bannerID,
     }).then(() => {
       message.success('删除轮播图成功');
-      this.handleUpdateModalVisible();
       dispatch({
         type: 'banner/fetch',
         payload: {},

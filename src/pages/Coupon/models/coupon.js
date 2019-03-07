@@ -1,6 +1,12 @@
 import { routerRedux } from 'dva/router';
 import { message } from 'antd';
-import { queryCoupons, createCoupon, queryCategory, fetchProductAllIds } from '@/services/api';
+import { queryCoupons,
+         createCoupon,
+         patchCoupon,
+         queryCouponsLogs,
+         queryCategory,
+         fetchProductAllIds,
+} from '@/services/api';
 
 
 export default {
@@ -13,6 +19,10 @@ export default {
     },
     categoryData: [],
     allProductIds: [],
+    logData: {
+      results: [],
+      count: undefined,
+    },
   },
 
   effects: {
@@ -26,6 +36,9 @@ export default {
     *create({ payload }, { call, put }) {
       yield call(createCoupon, payload);
     },
+    *patch({ payload, couponID }, { call, put }) {
+      yield call(patchCoupon, payload, couponID);
+    },
     *fetchCategory({ }, { call, put }) {
       const response = yield call(queryCategory, );
       yield put({
@@ -37,6 +50,13 @@ export default {
       const response = yield call(fetchProductAllIds);
       yield put({
         type: 'saveProductAllIds',
+        payload: response,
+      });
+    },
+    *fetchLog({ couponID }, { call, put }) {
+      const response = yield call(queryCouponsLogs, couponID);
+      yield put({
+        type: 'saveLogData',
         payload: response,
       });
     }
@@ -59,6 +79,12 @@ export default {
       return {
         ...state,
         allProductIds: action.payload,
+      };
+    },
+    saveLogData(state, action) {
+      return {
+        ...state,
+        logData: action.payload,
       };
     },
   },

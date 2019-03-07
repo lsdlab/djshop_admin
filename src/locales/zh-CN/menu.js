@@ -21,6 +21,7 @@ export default {
   'menu.coupon': '优惠卷',
   'menu.coupon.coupon-create': '新增优惠卷',
   'menu.coupon.coupon-list': '优惠卷列表',
+  'menu.coupon.coupon-edit': '编辑优惠卷',
   'menu.transaction': '订单',
   'menu.transaction.transaction-list': '订单列表',
   'menu.transaction.invoice-list': '发票',

@@ -16,8 +16,12 @@ import {
   Divider,
   Popconfirm,
   Badge,
+  Drawer,
+  Table,
 } from 'antd';
+import router from 'umi/router';
 import SimpleTable from '@/components/SimpleTable';
+import SmallTable from '@/components/SmallTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import styles from '../List/TableList.less';
@@ -25,6 +29,14 @@ import styles from '../List/TableList.less';
 const FormItem = Form.Item;
 const { TextArea } = Input;
 const { Option } = Select;
+
+const pStyle = {
+  fontSize: 16,
+  color: 'rgba(0,0,0,0.85)',
+  lineHeight: '24px',
+  display: 'block',
+  marginBottom: 16,
+};
 
 /* eslint react/no-multi-comp:0 */
 @connect(({ coupon, loading }) => ({
@@ -44,10 +56,40 @@ class CouponList extends PureComponent {
     const { dispatch } = this.props;
     dispatch({
       type: 'coupon/fetch',
-      payload: {
-        type: 'normal',
-      },
+      payload: {},
     });
+  }
+
+  showDrawer = (flag, currentRecord) => {
+    this.setState({
+      visible: !!flag,
+    });
+
+    if (flag && currentRecord) {
+      this.setState({
+        currentRecord: currentRecord,
+      });
+
+      this.props.dispatch({
+        type: 'coupon/fetchLog',
+        couponID: currentRecord.id,
+      });
+    } else {
+      this.setState({
+        currentRecord: {},
+      });
+    }
+  };
+
+  onClose = () => {
+    this.setState({
+      visible: false,
+    });
+  };
+
+  routerPushDetail = (record) => {
+    router.push();
+    router.push({pathname: '/coupon/coupon-edit/' + record.id, state: {"currentRecord": record }});
   }
 
   handleStandardTableChange = (pagination) => {
@@ -141,7 +183,7 @@ class CouponList extends PureComponent {
 
   render() {
     const {
-      coupon: { data },
+      coupon: { data, logData },
       loading,
     } = this.props;
     const { currentPage, pageSize } = this.state;
@@ -243,11 +285,59 @@ class CouponList extends PureComponent {
         fixed: 'right',
         render: (text, record) => (
           <Fragment>
-            <a>编辑</a>
+            { record.in_use ? (
+              <a disabled onClick={() => this.routerPushDetail(record)}>编辑</a>
+            ) : <a onClick={() => this.routerPushDetail(record)}>编辑</a>}
+
             <Divider type="vertical" />
-            <a>领取详情</a>
+            <a onClick={() => this.showDrawer(true, record)}>领取详情</a>
+
           </Fragment>
         ),
+      },
+    ];
+
+    const drawerColumns = [
+      {
+        title: 'ID',
+        dataIndex: 'id',
+      },
+      {
+        title: '领取用户',
+        dataIndex: 'user.username',
+        render(text, record) {
+          if (text) {
+            return text;
+          } else {
+            return '-';
+          }
+        },
+      },
+      {
+        title: '领取时间',
+        dataIndex: 'created_at',
+      },
+      {
+        title: '是否使用',
+        dataIndex: 'used',
+        render(text, record) {
+          if (text) {
+            return text;
+          } else {
+            return '-';
+          }
+        },
+      },
+      {
+        title: '使用时间',
+        dataIndex: 'used_datetime',
+        render(text, record) {
+          if (text) {
+            return text;
+          } else {
+            return '-';
+          }
+        },
       },
     ];
 
@@ -260,10 +350,28 @@ class CouponList extends PureComponent {
               loading={loading}
               data={data}
               columns={columns}
-              scroll={{ x: 1800 }}
+              scroll={{ x: 1700 }}
               onChange={this.handleStandardTableChange}
             />
           </div>
+          <Drawer
+            width={800}
+            placement="right"
+            closable={false}
+            onClose={this.onClose}
+            visible={this.state.visible}
+          >
+            <p style={{ ...pStyle, marginBottom: 24 }}>优惠卷领取记录</p>
+            <Row>
+              {logData && Object.keys(logData).length ? (
+                <SmallTable
+                  size='small'
+                  data={logData}
+                  columns={drawerColumns}
+                />
+              ) : null}
+            </Row>
+          </Drawer>
         </Card>
       </PageHeaderWrapper>
     );

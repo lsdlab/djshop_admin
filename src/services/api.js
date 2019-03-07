@@ -723,3 +723,28 @@ export async function createCoupon(params) {
     },
   });
 }
+
+// 修改优惠卷
+export async function patchCoupon(params, couponID) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/coupons/${couponID}/`, {
+    method: 'PATCH',
+    body: params,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 优惠卷领取记录
+export async function queryCouponsLogs(couponID) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/coupons/${couponID}/logs/`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}

@@ -128,6 +128,12 @@ export default [
             name: 'coupon-list',
             component: './Coupon/CouponList',
           },
+          {
+            path: '/coupon/coupon-edit/:id',
+            hideInMenu: true,
+            name: 'coupon-edit',
+            component: './Coupon/CouponEdit',
+          },
         ],
       },
       {

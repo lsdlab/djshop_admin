@@ -273,7 +273,6 @@ class SplashList extends PureComponent {
       splashID: splashID,
     }).then(() => {
       message.success('删除开屏广告成功');
-      this.handleUpdateModalVisible();
       dispatch({
         type: 'splash/fetch',
         payload: {},

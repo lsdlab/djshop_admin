@@ -242,7 +242,6 @@ class NoticeList extends PureComponent {
       noticeID: noticeID,
     }).then(() => {
       message.success('删除全网通知成功');
-      this.handleUpdateModalVisible();
       dispatch({
         type: 'notice/fetch',
         payload: {},

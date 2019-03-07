@@ -298,7 +298,7 @@ class ArticleList extends PureComponent {
     });
   };
 
-  handleDeleted = (articleID, flag) => {
+  handleDeleted = (flag, articleID) => {
     const { dispatch } = this.props;
     dispatch({
       type: 'article/patch',
@@ -312,7 +312,6 @@ class ArticleList extends PureComponent {
       } else {
         message.success('恢复专题成功')
       }
-      this.handleUpdateModalVisible();
       dispatch({
         type: 'article/fetch',
         payload: {},
@@ -388,10 +387,10 @@ class ArticleList extends PureComponent {
             <a onClick={() => this.handleUpdateModalVisible(true, record)}>编辑</a>
             <Divider type="vertical" />
             { record.deleted ? (
-              <Popconfirm title="是否要恢复此专题？" onConfirm={() => this.handleDeleted(record.id, false)}>
+              <Popconfirm title="是否要恢复此专题？" onConfirm={() => this.handleDeleted(false, record.id )}>
                 <a>恢复</a>
               </Popconfirm>
-            ) : <Popconfirm title="是否要删除此专题？" onConfirm={() => this.handleDeleted(record.id, true)}>
+            ) : <Popconfirm title="是否要删除此专题？" onConfirm={() => this.handleDeleted(true, record.id)}>
                   <a>删除</a>
                 </Popconfirm>}
           </Fragment>
