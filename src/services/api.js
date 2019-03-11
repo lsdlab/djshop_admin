@@ -772,3 +772,43 @@ export async function fetchTransaction(transactionID) {
     },
   });
 }
+
+// 修改订单 只可修改实付金额/地址/备注
+export async function patchTransaction(params, transactionID) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/transactions/${transactionID}/`, {
+    method: 'PATCH',
+    body: params,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// is_superuser 手动关闭订单
+export async function manualCloseTransaction(transactionID) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/transactions/${transactionID}/manual_close/`, {
+    method: 'POST',
+    body: params,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// is_superuser 手动确认收货
+export async function receivePackageTransaction(transactionID) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/transactions/${transactionID}/receive_package/`, {
+    method: 'POST',
+    body: params,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+

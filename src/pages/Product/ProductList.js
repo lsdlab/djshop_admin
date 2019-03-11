@@ -378,6 +378,9 @@ class ProductList extends PureComponent {
       {
         title: '分类',
         dataIndex: 'category_name',
+        render(text, record) {
+          return <span>{record.category_first_name} / {record.category_name}</span>
+        },
       },
       {
         title: '销量',
@@ -401,6 +404,7 @@ class ProductList extends PureComponent {
       },
       {
         title: '操作',
+        fixed: 'right',
         render: (text, record) => (
           <Fragment>
             <a>编辑</a>
@@ -432,6 +436,7 @@ class ProductList extends PureComponent {
               loading={loading}
               data={data}
               columns={columns}
+              scroll={{ x: 1300 }}
               onChange={this.handleStandardTableChange}
             />
           </div>

@@ -2,6 +2,9 @@ import { routerRedux } from 'dva/router';
 import { message } from 'antd';
 import { queryTransactions,
          fetchTransaction,
+         patchTransaction,
+         manualCloseTransaction,
+         receivePackageTransaction,
 } from '@/services/api';
 
 
@@ -30,6 +33,15 @@ export default {
         type: 'saveDetail',
         payload: response,
       });
+    },
+    *patch({ payload, transactionID }, { call, put }) {
+      yield call(patchTransaction, payload, transactionID);
+    },
+    *manualClose({ transactionID }, { call, put }) {
+      yield call(manualCloseTransaction, transactionID);
+    },
+    *receivePackage({ transactionID }, { call, put }) {
+      yield call(receivePackageTransaction, transactionID);
     },
   },
 
