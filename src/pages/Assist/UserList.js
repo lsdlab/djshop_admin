@@ -31,7 +31,7 @@ class UserList extends PureComponent {
   render() {
 
     return (
-      <PageHeaderWrapper title="用户">
+      <PageHeaderWrapper title="用户列表">
         <Card bordered={false}>
 
         </Card>

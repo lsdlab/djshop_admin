@@ -26,7 +26,7 @@ const FormItem = Form.Item;
 const { TextArea } = Input;
 const { Option } = Select;
 const { RangePicker } = DatePicker;
-
+const timeFormat= "YYYY-MM-DD HH:mm:ss";
 
 const buildOptions = (optionData) => {
   if (optionData) {
@@ -222,6 +222,7 @@ class CouponEdit extends PureComponent {
 
             <FormItem {...formItemLayout} label="有效日期">
               {getFieldDecorator('date_range', {
+                initialValue: [moment(currentRecord.start_datetime, timeFormat), moment(currentRecord.end_datetime, timeFormat)],
                 rules: [{ required: true, message: '请选择有效日期' }],
               })(
                 <RangePicker

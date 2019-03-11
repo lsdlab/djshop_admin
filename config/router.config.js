@@ -184,6 +184,11 @@ export default [
             component: './Assist/ArticleList',
           },
           {
+            path: '/assist/user-list',
+            name: 'user-list',
+            component: './Assist/UserList',
+          },
+          {
             path: '/assist/upload-image',
             name: 'upload-image',
             component: './Assist/UploadImage',

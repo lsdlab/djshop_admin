@@ -32,6 +32,7 @@ export default {
   'menu.assist.notice-list': '全网提醒',
   'menu.assist.article-list': '专题',
   'menu.assist.upload-image': '上传图片',
+  'menu.assist.user-list': '用户列表',
   'menu.form': '表单页',
   'menu.form.basicform': '基础表单',
   'menu.form.stepform': '分步表单',

@@ -206,13 +206,13 @@ class CouponList extends PureComponent {
         dataIndex: 'internal_type_name',
       },
       {
-        title: '是否删除',
-        dataIndex: 'deleted',
+        title: '已有领用',
+        dataIndex: 'logged',
         render(text, record, index) {
           if (text) {
-            return <Badge status='error' text='已删除' />;
+            return <Badge status='success' text='已领用' />;
           } else {
-            return <Badge status='success' text='未删除' />;
+            return <Badge status='error' text='未领用' />;
           }
         },
       },
@@ -285,7 +285,7 @@ class CouponList extends PureComponent {
         fixed: 'right',
         render: (text, record) => (
           <Fragment>
-            { record.in_use ? (
+            { record.in_use && record.logged ? (
               <a disabled onClick={() => this.routerPushDetail(record)}>编辑</a>
             ) : <a onClick={() => this.routerPushDetail(record)}>编辑</a>}
 
