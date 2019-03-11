@@ -21,6 +21,7 @@ import styles from '../List/TableList.less';
 const FormItem = Form.Item;
 const { Option } = Select;
 const { TreeNode } = Tree;
+const Search = Input.Search;
 
 
 const buildOptions = (optionData) => {
@@ -212,7 +213,8 @@ class CategoryList extends PureComponent {
             </Col>
           </Row>
           <Row gutter={{ md: 12, lg: 24, xl: 48 }} style={{ marginTop: 10 }}>
-            <Col md={6} sm={24}>
+            <Col md={8} sm={24}>
+              <Search style={{ marginBottom: 8 }} placeholder="搜索" />
               { data ? (
                 <Tree
                   autoExpandParent={true}
@@ -224,10 +226,10 @@ class CategoryList extends PureComponent {
                 </Tree>
               ) : null}
             </Col>
-            <Col md={18} sm={24} style={{display: this.state.editFormVisible ? 'none' : 'block'}}>
+            <Col md={16} sm={24} style={{display: this.state.editFormVisible ? 'none' : 'block'}}>
               <h3>请点击左侧分类名称进行编辑</h3>
             </Col>
-            <Col md={18} sm={24} style={{display: this.state.editFormVisible ? 'block' : 'none'}}>
+            <Col md={16} sm={24} style={{display: this.state.editFormVisible ? 'block' : 'none'}}>
               <Form onSubmit={this.handleSubmit} style={{ marginTop: 8 }}>
                 <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="名称">
                   {form.getFieldDecorator('name', {
