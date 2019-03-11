@@ -5,6 +5,7 @@ import { queryTransactions,
          patchTransaction,
          manualCloseTransaction,
          receivePackageTransaction,
+         createExpress,
 } from '@/services/api';
 
 
@@ -40,9 +41,10 @@ export default {
     *manualClose({ transactionID }, { call, put }) {
       yield call(manualCloseTransaction, transactionID);
     },
-    *receivePackage({ transactionID }, { call, put }) {
-      yield call(receivePackageTransaction, transactionID);
+    *createExpress({ params }, { call, put }) {
+      yield call(createExpress, params);
     },
+
   },
 
   reducers: {

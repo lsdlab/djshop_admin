@@ -812,3 +812,16 @@ export async function receivePackageTransaction(transactionID) {
   });
 }
 
+
+// 发货
+export async function createExpress(params) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/express/`, {
+    method: 'POST',
+    body: params,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
