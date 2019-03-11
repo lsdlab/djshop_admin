@@ -2,9 +2,9 @@ module.exports = {
   "navTheme": "light",
   "primaryColor": "#1890FF",
   "layout": "topmenu",
-  "contentWidth": "Fixed",
-  "fixedHeader": true,
-  "autoHideHeader": true,
+  "contentWidth": "Fluid",
+  "fixedHeader": false,
+  "autoHideHeader": false,
   "fixSiderbar": false,
   "menu": {
     "disableLocal": false

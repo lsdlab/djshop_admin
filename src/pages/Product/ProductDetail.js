@@ -4,30 +4,19 @@ import {
   Row,
   Col,
   Card,
-  Form,
   Input,
   Select,
   Icon,
   Button,
   Dropdown,
   Menu,
-  InputNumber,
-  DatePicker,
-  Modal,
-  message,
   Badge,
-  Divider,
-  Popconfirm,
-  Steps,
-  Popover,
-  Table,
-  Tooltip,
+  Checkbox,
 } from 'antd';
 import DescriptionList from '@/components/DescriptionList';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import styles from './AdvancedProfile.less';
 
-const { Step } = Steps;
 const { Description } = DescriptionList;
 const ButtonGroup = Button.Group;
 
@@ -39,13 +28,55 @@ const menu = (
   </Menu>
 );
 
+const DescriptionItem = ({ title, content }) => (
+  <div
+    style={{
+      fontSize: 14,
+      lineHeight: '22px',
+      marginBottom: 7,
+      color: 'rgba(0,0,0,0.65)',
+    }}
+  >
+    <p
+      style={{
+        marginRight: 8,
+        display: 'inline-block',
+        color: 'rgba(0,0,0,0.85)',
+      }}
+    >
+      {title}:
+    </p>
+    {content}
+  </div>
+);
+
+const CheckboxItem = ({ title, status }) => (
+  <div
+    style={{
+      fontSize: 14,
+      lineHeight: '22px',
+      marginBottom: 7,
+      color: 'rgba(0,0,0,0.65)',
+    }}
+  >
+    <p
+      style={{
+        marginRight: 8,
+        display: 'inline-block',
+        color: 'rgba(0,0,0,0.85)',
+      }}
+    >
+      {title}:
+    </p>
+    <Checkbox disabled checked={status}></Checkbox>
+  </div>
+);
 
 /* eslint react/no-multi-comp:0 */
 @connect(({ product, loading }) => ({
   product,
   loading: loading.models.product,
 }))
-@Form.create()
 class ProductDetail extends PureComponent {
   state = {
   };
@@ -87,7 +118,7 @@ class ProductDetail extends PureComponent {
   buildExtra(currentRecord) {
     return (
       <Row>
-        <Col xs={24} sm={12}>
+        <Col xs={12} sm={8}>
           <div className={styles.textSecondary}>状态</div>
           <div className={styles.heading}>
             { currentRecord.status === '1' ? (
@@ -95,9 +126,21 @@ class ProductDetail extends PureComponent {
             ) : <Badge status='error' text='下架' />}
           </div>
         </Col>
-        <Col xs={24} sm={12}>
+        <Col xs={36} sm={16}>
           <div className={styles.textSecondary}>分类</div>
-          <div className={styles.heading}>{currentRecord.category_name}</div>
+          <div className={styles.heading}>{currentRecord.category_first_name} / {currentRecord.category_name}</div>
+        </Col>
+        <Col xs={12} sm={8} style={{ marginTop: 8 }}>
+          <div className={styles.textSecondary}>销量</div>
+          <div className={styles.heading}>{currentRecord.sold}</div>
+        </Col>
+        <Col xs={12} sm={8} style={{ marginTop: 8 }}>
+          <div className={styles.textSecondary}>库存</div>
+          <div className={styles.heading}>{currentRecord.total_stock}</div>
+        </Col>
+        <Col xs={12} sm={8} style={{ marginTop: 8 }}>
+          <div className={styles.textSecondary}>起价</div>
+          <div className={styles.heading}>{currentRecord.start_price}</div>
         </Col>
       </Row>
     )
@@ -110,8 +153,66 @@ class ProductDetail extends PureComponent {
         <Description term="上架用户">{currentRecord.uploader}</Description>
         <Description term="创建时间">{currentRecord.created_at}</Description>
         <Description term="更新时间">{currentRecord.updated_at}</Description>
+        <Description term="ID">{currentRecord.id}</Description>
       </DescriptionList>
     )
+  };
+
+  buildCarousel(srcList) {
+    if (srcList) {
+      const arr = [];
+      for (let i = 0; i < srcList.length; i++) {
+        arr.push(<img key={i} style={{ width: '10%', height: '10%' }} src={srcList[i]} />)
+      }
+      return arr;
+    } else {
+      return <div></div>
+    }
+  };
+
+  buildSpecs(specData) {
+    if (specData) {
+      const arr = [];
+      for (let i = 0; i < specData.length; i++) {
+        arr.push(<Card style={{ marginBottom: 20 }} bodyStyle={{ padding: '20px 24px 8px 24px' }} key={i} type="inner" title={specData[i].name}>
+                   <Row>
+                     <Col span={24}>
+                       <DescriptionItem title="ID" content={specData[i].id} />
+                     </Col>
+                   </Row>
+                   <Row>
+                     <Col span={6}>
+                       <DescriptionItem title="售价" content={specData[i].price} />
+                     </Col>
+                     <Col span={6}>
+                       <DescriptionItem title="市场价" content={specData[i].market_price} />
+                     </Col>
+                     <Col span={6}>
+                       <DescriptionItem title="成本价" content={specData[i].cost_price} />
+                     </Col>
+                     <Col span={6}>
+                       <DescriptionItem title="库存" content={specData[i].stock} />
+                     </Col>
+                   </Row>
+                   <Row>
+                     <Col span={8}>
+                       <DescriptionItem title="货号" content={specData[i].sn} />
+                     </Col>
+                   </Row>
+                   <Row>
+                     <Col span={24}>
+                       <DescriptionItem title="题图" />
+                         { specData[i].header_image ? (
+                           <img style={{ width: '10%', height: '10%' }} src={specData[i].header_image} />
+                         ) : null }
+                     </Col>
+                   </Row>
+                  </Card>)
+        }
+        return arr;
+      } else {
+        return <div></div>
+    }
   };
 
   render() {
@@ -130,61 +231,66 @@ class ProductDetail extends PureComponent {
         content={this.buildDescription(currentRecord)}
         extraContent={this.buildExtra(currentRecord)}
       >
-        <Card title="用户信息" style={{ marginBottom: 24 }} bordered={false}>
-          <DescriptionList style={{ marginBottom: 24 }}>
-            <Description term="用户姓名">付小小</Description>
-            <Description term="会员卡号">32943898021309809423</Description>
-            <Description term="身份证">3321944288191034921</Description>
-            <Description term="联系方式">18112345678</Description>
-            <Description term="联系地址">
-              曲丽丽 18100000000 浙江省杭州市西湖区黄姑山路工专路交叉路口
-            </Description>
-          </DescriptionList>
-          <DescriptionList style={{ marginBottom: 24 }} title="信息组">
-            <Description term="某某数据">725</Description>
-            <Description term="该数据更新时间">2017-08-08</Description>
-            <Description>&nbsp;</Description>
-            <Description
-              term={
-                <span>
-                  某某数据
-                  <Tooltip title="数据说明">
-                    <Icon
-                      style={{ color: 'rgba(0, 0, 0, 0.43)', marginLeft: 4 }}
-                      type="info-circle-o"
-                    />
-                  </Tooltip>
-                </span>
-              }
-            >
-              725
-            </Description>
-            <Description term="该数据更新时间">2017-08-08</Description>
-          </DescriptionList>
-          <h4 style={{ marginBottom: 16 }}>信息组</h4>
-          <Card type="inner" title="多层级信息组">
-            <DescriptionList size="small" style={{ marginBottom: 16 }} title="组名称">
-              <Description term="负责人">林东东</Description>
-              <Description term="角色码">1234567</Description>
-              <Description term="所属部门">XX公司 - YY部</Description>
-              <Description term="过期时间">2017-08-08</Description>
-              <Description term="描述">
-                这段描述很长很长很长很长很长很长很长很长很长很长很长很长很长很长...
-              </Description>
-            </DescriptionList>
-            <Divider style={{ margin: '16px 0' }} />
-            <DescriptionList size="small" style={{ marginBottom: 16 }} title="组名称" col="1">
-              <Description term="学名">
-                Citrullus lanatus (Thunb.) Matsum. et
-                Nakai一年生蔓生藤本；茎、枝粗壮，具明显的棱。卷须较粗..
-              </Description>
-            </DescriptionList>
-            <Divider style={{ margin: '16px 0' }} />
-            <DescriptionList size="small" title="组名称">
-              <Description term="负责人">付小小</Description>
-              <Description term="角色码">1234568</Description>
-            </DescriptionList>
-          </Card>
+        <Card title="商品信息" style={{ marginBottom: 24 }} bordered={false}>
+          <Row>
+            <Col span={6}>
+              <DescriptionItem title="销量" content={currentRecord.sold} />
+            </Col>
+            <Col span={6}>
+              <DescriptionItem title="浏览量" content={currentRecord.pv} />
+            </Col>
+            <Col span={6}>
+              <DescriptionItem title="收藏量" content={currentRecord.fav} />
+            </Col>
+            <Col span={6}>
+              <DescriptionItem title="评论量" content={currentRecord.review} />
+            </Col>
+          </Row>
+          <Row>
+              <Col span={6}>
+                <DescriptionItem title="销量" content={currentRecord.sold} />
+              </Col>
+              <Col span={6}>
+                <DescriptionItem title="浏览量" content={currentRecord.pv} />
+              </Col>
+              <Col span={6}>
+                <DescriptionItem title="收藏量" content={currentRecord.fav} />
+              </Col>
+              <Col span={6}>
+                <DescriptionItem title="评论量" content={currentRecord.review} />
+              </Col>
+            </Row>
+            <Row>
+              <Col span={6}>
+                <CheckboxItem title="可开发票" status={currentRecord.has_invoice} />
+              </Col>
+              <Col span={6}>
+                <CheckboxItem title="免运费" content={currentRecord.shop_free} />
+              </Col>
+              <Col span={6}>
+                <CheckboxItem title="可退货" content={currentRecord.refund} />
+              </Col>
+              <Col span={6}>
+                <CheckboxItem title="新品" content={currentRecord.is_new} />
+              </Col>
+            </Row>
+            <Row>
+              <Col span={24}>
+                <DescriptionItem title="题图" />
+                { currentRecord.header_image ? (
+                  <img style={{ width: '10%', height: '10%' }} src={currentRecord.header_image} />
+                ) : null }
+              </Col>
+            </Row>
+            <Row style={{ marginTop: 20 }}>
+              <Col span={24}>
+                <DescriptionItem title="轮播图" />
+                {this.buildCarousel(currentRecord.carousel)}
+              </Col>
+            </Row>
+        </Card>
+        <Card title="商品规格信息" style={{ marginBottom: 24 }} bordered={false}>
+          {this.buildSpecs(specData)}
         </Card>
       </PageHeaderWrapper>
     );

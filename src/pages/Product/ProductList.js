@@ -18,12 +18,10 @@ import {
 import router from 'umi/router';
 import SimpleTable from '@/components/SimpleTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import DescriptionList from '@/components/DescriptionList';
 import styles from '../List/TableList.less';
 
 const FormItem = Form.Item;
 const { Option } = Select;
-const { Description } = DescriptionList;
 
 const pStyle = {
   fontSize: 16,
@@ -303,13 +301,18 @@ class ProductList extends PureComponent {
     } else {
       return <div></div>
     }
-  }
+  };
 
   buildSpecs(specData) {
     if (specData) {
       const arr = [];
       for (let i = 0; i < specData.length; i++) {
         arr.push(<Card style={{ marginBottom: 20 }} bodyStyle={{ padding: '20px 24px 8px 24px' }} key={i} type="inner" title={specData[i].name}>
+                   <Row>
+                     <Col span={24}>
+                       <DescriptionItem title="ID" content={specData[i].id} />
+                     </Col>
+                   </Row>
                    <Row>
                      <Col span={6}>
                        <DescriptionItem title="售价" content={specData[i].price} />
@@ -343,7 +346,7 @@ class ProductList extends PureComponent {
       } else {
         return <div></div>
     }
-  }
+  };
 
   render() {
     const {
@@ -358,6 +361,10 @@ class ProductList extends PureComponent {
         dataIndex: 'name',
       },
       {
+        title: '上架用户',
+        dataIndex: 'uploader',
+      },
+      {
         title: '状态',
         dataIndex: 'status',
         render(val) {
@@ -367,10 +374,6 @@ class ProductList extends PureComponent {
             return <Badge status='error' text='下架' />;
           }
         },
-      },
-      {
-        title: '上架用户',
-        dataIndex: 'uploader',
       },
       {
         title: '分类',
@@ -393,6 +396,10 @@ class ProductList extends PureComponent {
         dataIndex: 'created_at',
       },
       {
+        title: '更新时间',
+        dataIndex: 'updated_at',
+      },
+      {
         title: '操作',
         render: (text, record) => (
           <Fragment>
@@ -400,10 +407,10 @@ class ProductList extends PureComponent {
             <Divider type="vertical" />
             <a onClick={() => this.routerPushDetail(record.id)}>详情</a>
             <Divider type="vertical" />
-            <a onClick={() => this.showDrawer(true, record.id)}>商品详情</a>
+            {/*<a onClick={() => this.showDrawer(true, record.id)}>商品详情</a>
             <Divider type="vertical" />
             <a onClick={() => this.showSpecDrawer(true, record.id)}>商品规格</a>
-            <Divider type="vertical" />
+            <Divider type="vertical" />*/}
             { record.status === '1' ? (
               <Popconfirm title="是否要下架此商品？" onConfirm={() => this.handleDeleted(true, record.id)}>
                 <a>下架</a>
@@ -438,6 +445,11 @@ class ProductList extends PureComponent {
             <p style={pStyle}>商品详情</p>
             <Row>
               <Col span={24}>
+                <DescriptionItem title="ID" content={currentRecord.id} />
+              </Col>
+            </Row>
+            <Row>
+              <Col span={24}>
                 <DescriptionItem title="名称" content={currentRecord.name} />
               </Col>
             </Row>
@@ -470,7 +482,7 @@ class ProductList extends PureComponent {
                 <DescriptionItem title="限购" content={currentRecord.limit} />
               </Col>
               <Col span={6}>
-                <DescriptionItem title="总库存" content={currentRecord.total_stock} />
+                <DescriptionItem title="库存" content={currentRecord.total_stock} />
               </Col>
             </Row>
             <Row>

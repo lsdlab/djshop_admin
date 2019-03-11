@@ -748,3 +748,27 @@ export async function queryCouponsLogs(couponID) {
     },
   });
 }
+
+// 获取订单列表
+export async function queryTransactions(params) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/transactions/?${stringify(params)}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 获取单个商品详细信息
+export async function fetchTransaction(transactionID) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/transactions/${transactionID}/`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}

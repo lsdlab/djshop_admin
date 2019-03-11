@@ -24,13 +24,14 @@ const { TextArea } = Input;
 const { Option } = Select;
 
 /* eslint react/no-multi-comp:0 */
-// @connect(({ articles, loading }) => ({
-//   articles,
-//   loading: loading.models.articles,
-// }))
-// @Form.create()
+@connect(({ transacction, loading }) => ({
+  transacction,
+  loading: loading.models.transacction,
+}))
+@Form.create()
 class TransactionList extends PureComponent {
   state = {
+
   };
 
   componentDidMount() {
@@ -40,7 +41,7 @@ class TransactionList extends PureComponent {
   render() {
 
     return (
-      <PageHeaderWrapper title="订单">
+      <PageHeaderWrapper title="订单列表">
         <Card bordered={false}>
 
         </Card>
