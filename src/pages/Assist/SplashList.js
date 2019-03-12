@@ -302,7 +302,7 @@ class SplashList extends PureComponent {
       form: { getFieldDecorator },
     } = this.props;
     return (
-      <Form layout="inline">
+      <Form layout="inline" style={{ marginBottom: 15 }}>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
             <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
