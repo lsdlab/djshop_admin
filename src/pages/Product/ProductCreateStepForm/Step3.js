@@ -17,11 +17,6 @@ class Step3 extends React.PureComponent {
       dispatch({
         type: 'product/fetchDetail',
         productID: location.state.productID,
-      }).then(() => {
-        dispatch({
-          type: 'product/fetchProductSpec',
-          productID: location.state.productID,
-        });
       });
     }
   }

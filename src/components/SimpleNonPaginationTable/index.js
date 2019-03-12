@@ -28,7 +28,7 @@ class SimpleNonPaginationTable extends PureComponent {
     const paginationProps = {
       showSizeChanger: false,
       showQuickJumper: false,
-      defaultPageSize: 100,
+      defaultPageSize: 1000,
       total: count,
       showTotal: total => `共 ${total} 条`
     };

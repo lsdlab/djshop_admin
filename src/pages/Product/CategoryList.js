@@ -104,6 +104,9 @@ class CategoryList extends PureComponent {
     modalVisible: false,
     editFormVisible: false,
     currentSelected: {},
+    expandedKeys: [],
+    searchValue: '',
+    autoExpandParent: true,
   };
 
   componentDidMount() {
@@ -212,7 +215,7 @@ class CategoryList extends PureComponent {
               <CreateForm {...parentMethods} modalVisible={modalVisible} categoryData={data} />
             </Col>
           </Row>
-          <Row gutter={{ md: 12, lg: 24, xl: 48 }} style={{ marginTop: 10 }}>
+          <Row gutter={{ md: 12, lg: 24, xl: 48 }} style={{ marginTop: 15 }}>
             <Col md={8} sm={24}>
               <Search style={{ marginBottom: 8 }} placeholder="搜索" />
               { data ? (

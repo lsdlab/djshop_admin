@@ -10,7 +10,7 @@ import { queryTransactions,
 
 
 export default {
-  namespace: 'transacction',
+  namespace: 'transaction',
 
   state: {
     data: {

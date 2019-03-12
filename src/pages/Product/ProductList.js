@@ -14,6 +14,7 @@ import {
   Checkbox,
   Popconfirm,
   message,
+  TreeSelect,
 } from 'antd';
 import router from 'umi/router';
 import SimpleTable from '@/components/SimpleTable';
@@ -117,6 +118,10 @@ class ProductList extends PureComponent {
     const { dispatch } = this.props;
     dispatch({
       type: 'product/fetch',
+    }).then(() => {
+      dispatch({
+        type: 'product/fetchCategory',
+      });
     });
   };
 
@@ -148,7 +153,7 @@ class ProductList extends PureComponent {
 
     if (flag && productID) {
       this.props.dispatch({
-        type: 'product/fetchProductSpec',
+        type: 'product/fetchProductSpecs',
         productID: productID,
       });
     } else {
@@ -256,18 +261,19 @@ class ProductList extends PureComponent {
 
   renderSimpleForm() {
     const {
+      product: { categoryData },
       form: { getFieldDecorator },
     } = this.props;
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
-        <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-          <Col md={8} sm={24}>
+        <Row gutter={{ md: 6, lg: 24, xl: 48 }}>
+          <Col md={6} sm={18}>
             <FormItem label="搜索">
-              {getFieldDecorator('search')(<Input placeholder="名称" />)}
+              {getFieldDecorator('search')(<Input placeholder="名称/副标题" />)}
             </FormItem>
           </Col>
-          <Col md={8} sm={24}>
-            <FormItem label="商品状态">
+          <Col md={6} sm={18}>
+            <FormItem label="状态">
               {getFieldDecorator('status')(
                 <Select placeholder="请选择" style={{ width: '100%' }}>
                   <Option value="1">上架</Option>
@@ -276,7 +282,22 @@ class ProductList extends PureComponent {
               )}
             </FormItem>
           </Col>
-          <Col md={8} sm={24}>
+          <Col md={6} sm={18}>
+            { categoryData ? (
+              <FormItem label="分类">
+                {getFieldDecorator('category')(
+                  <TreeSelect
+                    style={{ width: '100%' }}
+                    treeData={categoryData}
+                    placeholder="请选择"
+                    treeDefaultExpandAll={true}
+                    showSearch={true}
+                  />
+                )}
+              </FormItem>
+            ) : null}
+          </Col>
+          <Col md={6} sm={18}>
             <span className={styles.submitButtons}>
               <Button type="primary" htmlType="submit">
                 查询
@@ -395,6 +416,14 @@ class ProductList extends PureComponent {
         dataIndex: 'start_price',
       },
       {
+        title: '浏览量',
+        dataIndex: 'pv',
+      },
+      {
+        title: '收藏量',
+        dataIndex: 'fav',
+      },
+      {
         title: '创建时间',
         dataIndex: 'created_at',
       },
@@ -407,8 +436,6 @@ class ProductList extends PureComponent {
         fixed: 'right',
         render: (text, record) => (
           <Fragment>
-            <a>编辑</a>
-            <Divider type="vertical" />
             <a onClick={() => this.routerPushDetail(record.id)}>详情</a>
             <Divider type="vertical" />
             {/*<a onClick={() => this.showDrawer(true, record.id)}>商品详情</a>
@@ -436,7 +463,7 @@ class ProductList extends PureComponent {
               loading={loading}
               data={data}
               columns={columns}
-              scroll={{ x: 1300 }}
+              scroll={{ x: 1380 }}
               onChange={this.handleStandardTableChange}
             />
           </div>

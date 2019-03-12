@@ -13,6 +13,8 @@ export default {
   'menu.product.product-list': '商品列表',
   'menu.product.product-rec-list': '推荐商品列表',
   'menu.product.product-detail': '商品详情',
+  'menu.product.product-edit': '商品编辑',
+  'menu.product.product-spec-edit': '商品编辑',
   'menu.bargaingroupon': '砍价&拼团',
   'menu.bargaingroupon.bargain-product-list': '砍价商品列表',
   'menu.bargaingroupon.bargain-list': '砍价列表',

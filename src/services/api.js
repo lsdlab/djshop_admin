@@ -437,6 +437,31 @@ export async function createProductSpec(params, productID) {
   });
 }
 
+// 修改商品规格
+export async function patchProductSpec(params, productSpecID) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/products/specs/${productSpecID}/`, {
+    method: 'PATCH',
+    body: params,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 获取单个商品规格详情
+export async function fetchProductSpec(productSpecID) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/products/specs/${productSpecID}/`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
 // 获取商品列表
 export async function queryProducts(params) {
   const token = getToken();
@@ -479,20 +504,6 @@ export async function queryProductSpecs(productID) {
   const token = getToken();
   return request(`${apiHost}${apiVersion}/products/${productID}/specs/`, {
     method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
-    },
-  });
-}
-
-
-// 修改商品规格信息
-export async function patchProductSpec(params, productSpecID) {
-  const token = getToken();
-  return request(`${apiHost}${apiVersion}/products/${productSpecID}/`, {
-    method: 'PATCH',
-    body: params,
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `JWT ${token}`,

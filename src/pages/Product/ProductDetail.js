@@ -13,6 +13,7 @@ import {
   Badge,
   Checkbox,
 } from 'antd';
+import router from 'umi/router';
 import DescriptionList from '@/components/DescriptionList';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import styles from './AdvancedProfile.less';
@@ -92,11 +93,19 @@ class ProductDetail extends PureComponent {
       productID: productID,
     }).then(() => {
       this.props.dispatch({
-        type: 'product/fetchProductSpec',
+        type: 'product/fetchProductSpecs',
         productID: productID,
       });
     });
   };
+
+  routerPushEdit = (productID) => {
+    router.push('/product/product-edit/' + productID);
+  }
+
+  routerPushSpecEdit = (specID, productID) => {
+    router.push({pathname: '/product/product-spec-edit/' + specID, state: {"productID": productID }});
+  }
 
   buildAction() {
     return (
@@ -170,11 +179,11 @@ class ProductDetail extends PureComponent {
     }
   };
 
-  buildSpecs(specData) {
+  buildSpecs(specData, productID) {
     if (specData) {
       const arr = [];
       for (let i = 0; i < specData.length; i++) {
-        arr.push(<Card style={{ marginBottom: 20 }} bodyStyle={{ padding: '20px 24px 8px 24px' }} key={i} type="inner" title={specData[i].name}>
+        arr.push(<Card style={{ marginBottom: 20 }} bodyStyle={{ padding: '20px 24px 8px 24px' }} key={i} type="inner" title={specData[i].name} extra={<a onClick={() => this.routerPushSpecEdit(specData[i].id, productID)}>编辑商品规格</a>}>
                    <Row>
                      <Col span={24}>
                        <DescriptionItem title="ID" content={specData[i].id} />
@@ -231,7 +240,7 @@ class ProductDetail extends PureComponent {
         content={this.buildDescription(currentRecord)}
         extraContent={this.buildExtra(currentRecord)}
       >
-        <Card title="商品信息" style={{ marginBottom: 24 }} bordered={false}>
+        <Card title="商品信息" style={{ marginBottom: 24 }} bordered={false} extra={<a onClick={() => this.routerPushEdit(currentRecord.id)}>编辑商品</a>}>
           <Row>
             <Col span={6}>
               <DescriptionItem title="销量" content={currentRecord.sold} />
@@ -290,7 +299,7 @@ class ProductDetail extends PureComponent {
             </Row>
         </Card>
         <Card title="商品规格信息" style={{ marginBottom: 24 }} bordered={false}>
-          {this.buildSpecs(specData)}
+          {this.buildSpecs(specData, currentRecord.id)}
         </Card>
       </PageHeaderWrapper>
     );

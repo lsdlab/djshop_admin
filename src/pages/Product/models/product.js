@@ -7,6 +7,8 @@ import { queryCategory,
          patchProduct,
          createProductSpec,
          queryProductSpecs,
+         patchProductSpec,
+         fetchProductSpec,
          queryRecommendations,
          createRecommendation,
          patchRecommendation,
@@ -27,6 +29,7 @@ export default {
     newProduct: {},
     newProductSpec: {},
     specData: [],
+    specCurrentRecord: {},
     recData: {
       results: [],
       count: undefined,
@@ -82,10 +85,20 @@ export default {
         payload: payload,
       });
     },
-    *fetchProductSpec({ productID }, { call, put }) {
+    *fetchProductSpecs({ productID }, { call, put }) {
       const response = yield call(queryProductSpecs, productID);
       yield put({
-        type: 'saveSpec',
+        type: 'saveSpecs',
+        payload: response,
+      });
+    },
+    *patchProductSpec({ payload, productSpecID }, { call, put }) {
+      yield call(patchProductSpec, payload, productSpecID);
+    },
+    *fetchProductSpecDetail({ productSpecID }, { call, put }) {
+      const response = yield call(fetchProductSpec, productSpecID);
+      yield put({
+        type: 'saveSpecDetail',
         payload: response,
       });
     },
@@ -153,10 +166,16 @@ export default {
         newProductSpec: action.payload,
       };
     },
-    saveSpec(state, action) {
+    saveSpecs(state, action) {
       return {
         ...state,
         specData: action.payload,
+      };
+    },
+    saveSpecDetail(state, action) {
+      return {
+        ...state,
+        specCurrentRecord: action.payload,
       };
     },
     saveRec(state, action) {

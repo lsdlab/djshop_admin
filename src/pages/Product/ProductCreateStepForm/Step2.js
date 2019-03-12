@@ -38,7 +38,6 @@ class Step2 extends React.PureComponent {
     const { product: { newProductSpec }, form, dispatch, submitting, location } = this.props;
     const { getFieldDecorator, validateFields, getFieldValue } = form;
 
-
     const onPrev = () => {
       let specTempData = {};
       specTempData['name'] = getFieldValue('name');
@@ -66,7 +65,7 @@ class Step2 extends React.PureComponent {
             message.success('商品上架成功！');
             dispatch({
               type: 'product/clearNewProduct',
-            })
+            });
             router.push({pathname: '/product/product-create-step-form/finish', state: {"productID": location.state.productID }});
           });
         }
@@ -144,13 +143,6 @@ class Step2 extends React.PureComponent {
           </Form.Item>
         </Form>
         <Divider style={{ margin: '40px 0 24px' }} />
-        <div className={styles.desc}>
-          <h3>商品信息填写说明</h3>
-          <h4>轮播图</h4>
-          <p>
-            轮播图链接可填写多个，使用英文逗号 , 进行分隔
-          </p>
-        </div>
       </Fragment>
     );
   }

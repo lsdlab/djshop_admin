@@ -29,7 +29,7 @@ class SimpleTable extends PureComponent {
     const paginationProps = {
       showSizeChanger: true,
       showQuickJumper: true,
-      defaultPageSize: 10,
+      defaultPageSize: 20,
       total: count,
     };
 

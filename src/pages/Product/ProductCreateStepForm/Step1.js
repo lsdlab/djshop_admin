@@ -25,8 +25,9 @@ const formItemLayout = {
   },
 };
 
-@connect(({ product }) => ({
+@connect(({ product, loading }) => ({
   product,
+  submitting: loading.effects['product/createProduct'],
 }))
 @Form.create()
 class Step1 extends React.PureComponent {
@@ -41,7 +42,7 @@ class Step1 extends React.PureComponent {
   }
 
   render() {
-    const { product: { categoryData, newProduct }, form, dispatch, location } = this.props;
+    const { product: { categoryData, newProduct }, form, dispatch, submitting, location } = this.props;
     const { getFieldDecorator, validateFields } = form;
 
     const onValidateForm = () => {
@@ -206,7 +207,7 @@ class Step1 extends React.PureComponent {
             }}
             label=""
           >
-            <Button type="primary" onClick={onValidateForm}>
+            <Button type="primary" onClick={onValidateForm} loading={submitting}>
               下一步
             </Button>
           </Form.Item>

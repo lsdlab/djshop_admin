@@ -84,6 +84,18 @@ export default [
             name: 'product-detail',
             component: './Product/ProductDetail',
           },
+          {
+            path: '/product/product-edit/:id',
+            hideInMenu: true,
+            name: 'product-edit',
+            component: './Product/ProductEdit',
+          },
+          {
+            path: '/product/product-spec-edit/:id',
+            hideInMenu: true,
+            name: 'product-spec-edit',
+            component: './Product/ProductSpecEdit',
+          },
         ],
       },
       {
