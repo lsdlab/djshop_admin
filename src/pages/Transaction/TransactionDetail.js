@@ -101,15 +101,16 @@ class TransactionDetail extends PureComponent {
     return (
       <Fragment>
         <ButtonGroup>
-          <Button>操作</Button>
-          <Button>操作</Button>
-          <Dropdown overlay={menu} placement="bottomRight">
+          <Button>发货</Button>
+          <Button>修改订单</Button>
+          <Button>关闭订单</Button>
+          {/*<Dropdown overlay={menu} placement="bottomRight">
             <Button>
               <Icon type="ellipsis" />
             </Button>
-          </Dropdown>
+          </Dropdown>*/}
         </ButtonGroup>
-        <Button type="primary">主操作</Button>
+        {/*<Button type="primary">主操作</Button>*/}
       </Fragment>
     )
   };
