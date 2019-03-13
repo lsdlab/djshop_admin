@@ -16,7 +16,7 @@ import {
 import router from 'umi/router';
 import DescriptionList from '@/components/DescriptionList';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import styles from './AdvancedProfile.less';
+import styles from '../Profile/AdvancedProfile.less';
 
 const { Description } = DescriptionList;
 const ButtonGroup = Button.Group;
@@ -74,9 +74,8 @@ const CheckboxItem = ({ title, status }) => (
 );
 
 /* eslint react/no-multi-comp:0 */
-@connect(({ product, loading }) => ({
+@connect(({ product }) => ({
   product,
-  loading: loading.models.product,
 }))
 class ProductDetail extends PureComponent {
   state = {
@@ -127,17 +126,18 @@ class ProductDetail extends PureComponent {
   buildExtra(currentRecord) {
     return (
       <Row>
-        <Col xs={12} sm={8}>
+
+        <Col xs={24} sm={24}>
+          <div className={styles.textSecondary}>分类</div>
+          <div className={styles.heading}>{currentRecord.category_first_name} / {currentRecord.category_name}</div>
+        </Col>
+        <Col xs={24} sm={24} style={{ marginTop: 8 }}>
           <div className={styles.textSecondary}>状态</div>
           <div className={styles.heading}>
             { currentRecord.status === '1' ? (
               <Badge status='success' text='上架' />
             ) : <Badge status='error' text='下架' />}
           </div>
-        </Col>
-        <Col xs={36} sm={16}>
-          <div className={styles.textSecondary}>分类</div>
-          <div className={styles.heading}>{currentRecord.category_first_name} / {currentRecord.category_name}</div>
         </Col>
         <Col xs={12} sm={8} style={{ marginTop: 8 }}>
           <div className={styles.textSecondary}>销量</div>
@@ -227,7 +227,6 @@ class ProductDetail extends PureComponent {
   render() {
     const {
       product: { currentRecord, specData },
-      loading,
     } = this.props;
 
     return (

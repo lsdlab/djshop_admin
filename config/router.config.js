@@ -159,6 +159,12 @@ export default [
             component: './Transaction/TransactionList',
           },
           {
+            path: '/transaction/transaction-detail/:id',
+            hideInMenu: true,
+            name: 'transaction-detail',
+            component: './Transaction/TransactionDetail',
+          },
+          {
             path: '/transaction/invoice-list',
             name: 'invoice-list',
             component: './Transaction/InvoiceList',

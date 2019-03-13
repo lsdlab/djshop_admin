@@ -94,7 +94,7 @@ class UpdateForm extends PureComponent {
         destroyOnClose
         centered
         keyboard
-        title="编辑全网通知"
+        title="全网通知"
         width={800}
         visible={updateModalVisible}
         footer={null}
@@ -321,7 +321,7 @@ class NoticeList extends PureComponent {
         title: '操作',
         render: (text, record) => (
           <Fragment>
-            <a onClick={() => this.handleUpdateModalVisible(true, record)}>编辑</a>
+            <a onClick={() => this.handleUpdateModalVisible(true, record)}>详情</a>
             <Divider type="vertical" />
             { record.deleted ? (
               <Popconfirm title="是否要删除此全网通知？" onConfirm={() => this.handleDeleted(record.id)}>

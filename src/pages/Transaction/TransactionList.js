@@ -14,6 +14,7 @@ import {
   Divider,
   Popconfirm,
 } from 'antd';
+import router from 'umi/router';
 import SimpleTable from '@/components/SimpleTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
@@ -41,6 +42,10 @@ class TransactionList extends PureComponent {
     dispatch({
       type: 'transaction/fetch',
     });
+  }
+
+  routerPushDetail = (recordID) => {
+    router.push('/transaction/transaction-detail/' + recordID);
   }
 
   handleStandardTableChange = (pagination) => {
@@ -100,7 +105,7 @@ class TransactionList extends PureComponent {
     } = this.props;
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
-        <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+        <Row gutter={{ md: 6, lg: 24, xl: 48 }}>
           <Col md={6} sm={24}>
             <FormItem label="sn">
               {getFieldDecorator('sn')(<Input placeholder="sn" />)}
@@ -189,9 +194,7 @@ class TransactionList extends PureComponent {
         fixed: 'right',
         render: (text, record) => (
           <Fragment>
-            <a>编辑</a>
-            <Divider type="vertical" />
-            <a>详情</a>
+            <a onClick={() => this.routerPushDetail(record.id)}>详情</a>
           </Fragment>
         ),
       },
@@ -206,7 +209,7 @@ class TransactionList extends PureComponent {
               loading={loading}
               data={data}
               columns={columns}
-              scroll={{ x: 1600 }}
+              scroll={{ x: 1400 }}
               onChange={this.handleStandardTableChange}
             />
           </div>

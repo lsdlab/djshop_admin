@@ -445,7 +445,6 @@ class BannerList extends PureComponent {
               loading={loading}
               data={data}
               columns={columns}
-              onChange={this.handleStandardTableChange}
             />
           </div>
         </Card>
