@@ -392,6 +392,10 @@ class BargainProductList extends PureComponent {
 
     const columns = [
       {
+        title: 'ID',
+        dataIndex: 'id',
+      },
+      {
         title: '商品名称',
         dataIndex: 'product_spec.product.name',
       },
@@ -462,7 +466,7 @@ class BargainProductList extends PureComponent {
               loading={loading}
               data={data}
               columns={columns}
-              scroll={{ x: 1200 }}
+              scroll={{ x: 1280 }}
               onChange={this.handleStandardTableChange}
             />
           </div>

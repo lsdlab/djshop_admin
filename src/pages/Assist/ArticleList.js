@@ -354,6 +354,10 @@ class ArticleList extends PureComponent {
 
     const columns = [
       {
+        title: 'ID',
+        dataIndex: 'id',
+      },
+      {
         title: '标题',
         dataIndex: 'title',
       },

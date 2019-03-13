@@ -321,6 +321,10 @@ class GrouponProductList extends PureComponent {
 
     const columns = [
       {
+        title: 'ID',
+        dataIndex: 'id',
+      },
+      {
         title: '商品名称',
         dataIndex: 'product_spec.product.name',
       },

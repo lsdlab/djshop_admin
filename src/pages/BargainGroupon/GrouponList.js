@@ -79,6 +79,10 @@ class GrouponList extends PureComponent {
 
     const columns = [
       {
+        title: 'ID',
+        dataIndex: 'id',
+      },
+      {
         title: '商品名称',
         dataIndex: 'groupon_product.product_spec.product.name',
       },
@@ -154,7 +158,7 @@ class GrouponList extends PureComponent {
               loading={loading}
               data={data}
               columns={columns}
-              scroll={{ x: 1300 }}
+              scroll={{ x: 1380 }}
               onChange={this.handleStandardTableChange}
             />
           </div>

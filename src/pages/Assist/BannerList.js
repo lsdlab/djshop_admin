@@ -384,6 +384,10 @@ class BannerList extends PureComponent {
 
     const columns = [
       {
+        title: 'ID',
+        dataIndex: 'id',
+      },
+      {
         title: '名称',
         dataIndex: 'name',
       },
