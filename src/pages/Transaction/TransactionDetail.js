@@ -103,7 +103,8 @@ class TransactionDetail extends PureComponent {
         <ButtonGroup>
           <Button>发货</Button>
           <Button>修改订单</Button>
-          <Button>关闭订单</Button>
+          {/*<Button>关闭订单</Button>
+          <Button>确认收货</Button>*/}
           {/*<Dropdown overlay={menu} placement="bottomRight">
             <Button>
               <Icon type="ellipsis" />
@@ -126,13 +127,17 @@ class TransactionDetail extends PureComponent {
           <div className={styles.textSecondary}>订单类型</div>
           <div className={styles.heading}>{currentRecord.deal_type_name}</div>
         </Col>
-        <Col xs={24} sm={12} style={{ marginTop: 8 }}>
+        <Col xs={24} sm={8} style={{ marginTop: 8 }}>
           <div className={styles.textSecondary}>支付渠道</div>
           <div className={styles.heading}>{currentRecord.payment_name}</div>
         </Col>
-        <Col xs={24} sm={12} style={{ marginTop: 8 }}>
+        <Col xs={24} sm={8} style={{ marginTop: 8 }}>
           <div className={styles.textSecondary}>总价</div>
           <div className={styles.heading}>{currentRecord.total_amount}</div>
+        </Col>
+        <Col xs={24} sm={8} style={{ marginTop: 8 }}>
+          <div className={styles.textSecondary}>实际支付</div>
+          <div className={styles.heading}>{currentRecord.paid}</div>
         </Col>
       </Row>
     )
@@ -153,7 +158,7 @@ class TransactionDetail extends PureComponent {
                                 {currentRecord.user.username}</Description>
         ) : null}
         <Description term="备注">{currentRecord.note ? currentRecord.note : '-'}</Description>
-        <Description term="卖家备注">{currentRecord.seller_note ? currentRecord.seller_note : '-'}</Description>
+        <Description term="商家备注">{currentRecord.seller_note ? currentRecord.seller_note : '-'}</Description>
       </DescriptionList>
     )
   };

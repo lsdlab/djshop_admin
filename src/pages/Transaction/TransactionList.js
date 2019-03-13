@@ -182,6 +182,10 @@ class TransactionList extends PureComponent {
         dataIndex: 'total_amount',
       },
       {
+        title: '实付',
+        dataIndex: 'paid',
+      },
+      {
         title: '创建时间',
         dataIndex: 'created_at',
       },
