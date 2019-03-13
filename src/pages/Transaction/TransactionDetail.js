@@ -4,8 +4,6 @@ import {
   Row,
   Col,
   Card,
-  Input,
-  Select,
   Icon,
   Button,
   Dropdown,

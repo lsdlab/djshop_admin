@@ -7,12 +7,10 @@ import {
   Form,
   Input,
   Select,
-  Icon,
   Button,
   Modal,
   message,
   Divider,
-  Popconfirm,
 } from 'antd';
 import router from 'umi/router';
 import SimpleTable from '@/components/SimpleTable';
@@ -199,6 +197,10 @@ class TransactionList extends PureComponent {
         render: (text, record) => (
           <Fragment>
             <a onClick={() => this.routerPushDetail(record.id)}>详情</a>
+            <Divider type="vertical" />
+            <a>发货</a>
+            <Divider type="vertical" />
+            <a>修改订单</a>
           </Fragment>
         ),
       },
@@ -213,7 +215,7 @@ class TransactionList extends PureComponent {
               loading={loading}
               data={data}
               columns={columns}
-              scroll={{ x: 1400 }}
+              scroll={{ x: 1480 }}
               onChange={this.handleStandardTableChange}
             />
           </div>

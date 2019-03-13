@@ -4,8 +4,6 @@ import {
   Row,
   Col,
   Card,
-  Input,
-  Select,
   Icon,
   Button,
   Dropdown,
@@ -235,7 +233,7 @@ class ProductDetail extends PureComponent {
         logo={
           <img alt="" src="https://djshopmedia.oss-cn-shanghai.aliyuncs.com/nxkuOJlFJuAUhzlMTCEe.png" />
         }
-        action={this.buildAction()}
+        // action={this.buildAction()}
         content={this.buildDescription(currentRecord)}
         extraContent={this.buildExtra(currentRecord)}
       >
