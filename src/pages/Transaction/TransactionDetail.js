@@ -1,4 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
+import Debounce from 'lodash-decorators/debounce';
+import Bind from 'lodash-decorators/bind';
 import { connect } from 'dva';
 import {
   Row,
@@ -11,7 +13,10 @@ import {
   Badge,
   Checkbox,
   Avatar,
+  Steps,
+  Popover,
 } from 'antd';
+import classNames from 'classnames';
 import router from 'umi/router';
 import DescriptionList from '@/components/DescriptionList';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
@@ -20,6 +25,9 @@ import SimpleTransactionTable from '@/components/SimpleTransactionTable';
 
 const { Description } = DescriptionList;
 const ButtonGroup = Button.Group;
+const { Step } = Steps;
+
+const getWindowWidth = () => window.innerWidth || document.documentElement.clientWidth;
 
 const menu = (
   <Menu>
@@ -27,6 +35,49 @@ const menu = (
     <Menu.Item key="2">选项二</Menu.Item>
     <Menu.Item key="3">选项三</Menu.Item>
   </Menu>
+);
+
+const popoverContent = (
+  <div style={{ width: 160 }}>
+    吴加号
+    <span className={styles.textSecondary} style={{ float: 'right' }}>
+      <Badge status="default" text={<span style={{ color: 'rgba(0, 0, 0, 0.45)' }}>未响应</span>} />
+    </span>
+    <div className={styles.textSecondary} style={{ marginTop: 4 }}>
+      耗时：2小时25分钟
+    </div>
+  </div>
+);
+
+const customDot = (dot, { status }) =>
+  status === 'process' ? (
+    <Popover placement="topLeft" arrowPointAtCenter content={popoverContent}>
+      {dot}
+    </Popover>
+  ) : (
+    dot
+  );
+
+const desc1 = (
+  <div className={classNames(styles.textSecondary, styles.stepDescription)}>
+    <Fragment>
+      曲丽丽
+      <Icon type="dingding-o" style={{ marginLeft: 8 }} />
+    </Fragment>
+    <div>2016-12-12 12:32</div>
+  </div>
+);
+
+const desc2 = (
+  <div className={styles.stepDescription}>
+    <Fragment>
+      周毛毛
+      <Icon type="dingding-o" style={{ color: '#00A0E9', marginLeft: 8 }} />
+    </Fragment>
+    <div>
+      <a href="">催一下</a>
+    </div>
+  </div>
 );
 
 const DescriptionItem = ({ title, content }) => (
@@ -79,6 +130,7 @@ const CheckboxItem = ({ title, status }) => (
 }))
 class TransactionDetail extends PureComponent {
   state = {
+    stepDirection: 'horizontal',
   };
 
   componentDidMount() {
@@ -93,7 +145,31 @@ class TransactionDetail extends PureComponent {
     }).then(() => {
 
     });
+
+    this.setStepDirection();
+    window.addEventListener('resize', this.setStepDirection, { passive: true });
   };
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.setStepDirection);
+    this.setStepDirection.cancel();
+  }
+
+  @Bind()
+  @Debounce(200)
+  setStepDirection() {
+    const { stepDirection } = this.state;
+    const w = getWindowWidth();
+    if (stepDirection !== 'vertical' && w <= 576) {
+      this.setState({
+        stepDirection: 'vertical',
+      });
+    } else if (stepDirection !== 'horizontal' && w > 576) {
+      this.setState({
+        stepDirection: 'horizontal',
+      });
+    }
+  }
 
   buildAction() {
     return (
@@ -162,9 +238,8 @@ class TransactionDetail extends PureComponent {
   };
 
   render() {
-    const {
-      transaction: { currentRecord },
-    } = this.props;
+    const { transaction: { currentRecord } } = this.props;
+    const { stepDirection } = this.state;
 
     const transactionProductColumns = [
       {
@@ -195,6 +270,14 @@ class TransactionDetail extends PureComponent {
         content={currentRecord ? this.buildDescription(currentRecord) : null}
         extraContent={currentRecord ? this.buildExtra(currentRecord) : null}
       >
+        <Card title="订单进度" style={{ marginBottom: 24 }} bordered={false}>
+          <Steps direction={stepDirection} progressDot={customDot} current={1}>
+            <Step title="创建项目" description={desc1} />
+            <Step title="部门初审" description={desc2} />
+            <Step title="财务复核" />
+            <Step title="完成" />
+          </Steps>
+        </Card>
 
         <Card title="支付信息 & 优惠卷信息" style={{ marginBottom: 24 }} bordered={false} >
           <DescriptionList style={{ marginBottom: 24 }} title="支付信息">
