@@ -192,7 +192,7 @@ class TransactionDetail extends PureComponent {
         extraContent={currentRecord ? this.buildExtra(currentRecord) : null}
       >
 
-        <Card title="支付信息 & 优惠卷" style={{ marginBottom: 24 }} bordered={false} >
+        <Card title="支付信息 & 优惠卷信息" style={{ marginBottom: 24 }} bordered={false} >
           <DescriptionList style={{ marginBottom: 24 }} title="支付信息">
             <Description term="支付渠道">{currentRecord.payment_name}</Description>
             <Description term="总价">{currentRecord.total_amount}</Description>
@@ -201,7 +201,7 @@ class TransactionDetail extends PureComponent {
           </DescriptionList>
 
           {currentRecord.coupon_log ? (
-            <DescriptionList style={{ marginBottom: 24 }} title="优惠卷">
+            <DescriptionList style={{ marginBottom: 24 }} title="优惠卷信息">
               <Description term="优惠卷领取记录ID">{currentRecord.coupon_log.id}</Description>
               <Description term="领取时间">{currentRecord.coupon_log.created_at}</Description>
               <Description term="使用时间">{currentRecord.coupon_log.used_datetime}</Description>
@@ -210,10 +210,11 @@ class TransactionDetail extends PureComponent {
               <Description term="优惠卷类型">{currentRecord.coupon_log.coupon.type_name}</Description>
               <Description term="优惠卷内部类型">{currentRecord.coupon_log.coupon.internal_type_name}</Description>
             </DescriptionList>
-          ) : null}
+          ) : <DescriptionList style={{ marginBottom: 24 }} title="未使用优惠卷">
+            </DescriptionList>}
         </Card>
 
-        <Card title="地址 & 快递" style={{ marginBottom: 24 }} bordered={false} >
+        <Card title="地址 & 快递信息" style={{ marginBottom: 24 }} bordered={false} >
           {currentRecord.address ? (
             <DescriptionList style={{ marginBottom: 24 }} title="地址">
               <Description term="姓名">{currentRecord.address.name}</Description>
@@ -223,17 +224,18 @@ class TransactionDetail extends PureComponent {
           ) : null}
 
           {currentRecord.express ? (
-            <DescriptionList style={{ marginBottom: 24 }} title="快递">
+            <DescriptionList style={{ marginBottom: 24 }} title="快递信息">
               <Description term="状态">{currentRecord.express.status_name}</Description>
               <Description term="快递信息提供商">{currentRecord.express.shipper_info_provider ? currentRecord.express.shipper_info_provider : '-'}</Description>
               <Description term="shipper_code">{currentRecord.address.shipper_code ? currentRecord.address.shipper_code: '-' }</Description>
               <Description term="shipper_name">{currentRecord.address.shipper_name ? currentRecord.address.shipper_name : '-'}</Description>
             </DescriptionList>
-          ) : null}
+          ) : <DescriptionList style={{ marginBottom: 24 }} title="无快递信息">
+            </DescriptionList>}
         </Card>
 
         {currentRecord.products ? (
-          <Card title="包含商品" style={{ marginBottom: 24 }} bordered={false}>
+          <Card title="订单包含商品" style={{ marginBottom: 24 }} bordered={false}>
             <SimpleTransactionTable
               data={currentRecord.products}
               columns={transactionProductColumns}
