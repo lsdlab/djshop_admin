@@ -152,8 +152,8 @@ class TransactionList extends PureComponent {
 
     const columns = [
       {
-        title: 'ID',
-        dataIndex: 'id',
+        title: 'sn',
+        dataIndex: 'sn',
       },
       {
         title: '用户名',
@@ -162,10 +162,6 @@ class TransactionList extends PureComponent {
       // {
       //   title: '名称',
       //   dataIndex: 'name',
-      // },
-      // {
-      //   title: 'sn',
-      //   dataIndex: 'sn',
       // },
       {
         title: '状态',
