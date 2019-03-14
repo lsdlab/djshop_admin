@@ -37,48 +37,11 @@ const menu = (
   </Menu>
 );
 
-const popoverContent = (
-  <div style={{ width: 160 }}>
-    吴加号
-    <span className={styles.textSecondary} style={{ float: 'right' }}>
-      <Badge status="default" text={<span style={{ color: 'rgba(0, 0, 0, 0.45)' }}>未响应</span>} />
-    </span>
-    <div className={styles.textSecondary} style={{ marginTop: 4 }}>
-      耗时：2小时25分钟
-    </div>
-  </div>
-);
-
 const customDot = (dot, { status }) =>
-  status === 'process' ? (
-    <Popover placement="topLeft" arrowPointAtCenter content={popoverContent}>
-      {dot}
-    </Popover>
-  ) : (
+  (
     dot
   );
 
-const desc1 = (
-  <div className={classNames(styles.textSecondary, styles.stepDescription)}>
-    <Fragment>
-      曲丽丽
-      <Icon type="dingding-o" style={{ marginLeft: 8 }} />
-    </Fragment>
-    <div>2016-12-12 12:32</div>
-  </div>
-);
-
-const desc2 = (
-  <div className={styles.stepDescription}>
-    <Fragment>
-      周毛毛
-      <Icon type="dingding-o" style={{ color: '#00A0E9', marginLeft: 8 }} />
-    </Fragment>
-    <div>
-      <a href="">催一下</a>
-    </div>
-  </div>
-);
 
 const DescriptionItem = ({ title, content }) => (
   <div
@@ -237,6 +200,41 @@ class TransactionDetail extends PureComponent {
     )
   };
 
+  buildCreatedAt(currentRecord) {
+    return (
+      <span>
+        {currentRecord.created_at}
+      </span>)
+  }
+
+  buildClosedAt(currentRecord) {
+    return (
+      <span>
+        {currentRecord.closed_datetime}
+      </span>)
+  }
+
+  buildPaymentAt(currentRecord) {
+    return (
+      <span>
+        {currentRecord.payment_datetime}
+      </span>)
+  }
+
+  buildReceivedAt(currentRecord) {
+    return (
+      <span>
+        {currentRecord.received_datetime}
+      </span>)
+  }
+
+  buildReviewedAt(currentRecord) {
+    return (
+      <span>
+        {currentRecord.review_datetime}
+      </span>)
+  }
+
   render() {
     const { transaction: { currentRecord } } = this.props;
     const { stepDirection } = this.state;
@@ -260,6 +258,21 @@ class TransactionDetail extends PureComponent {
       },
     ];
 
+    let stepCurrent = 1;
+    if (currentRecord.status == '1') {
+      stepCurrent = 0;
+    } else if (currentRecord.status == '2') {
+      stepCurrent = 1;
+    } else if (currentRecord.status == '3') {
+      stepCurrent = 2;
+    } else if (currentRecord.status == '4') {
+      stepCurrent = 1;
+    } else if (currentRecord.status == '5') {
+      stepCurrent = 2;
+    } else if (currentRecord.status == '6') {
+      stepCurrent = 3;
+    }
+
     return (
       <PageHeaderWrapper
         title={currentRecord.name}
@@ -271,11 +284,20 @@ class TransactionDetail extends PureComponent {
         extraContent={currentRecord ? this.buildExtra(currentRecord) : null}
       >
         <Card title="订单进度" style={{ marginBottom: 24 }} bordered={false}>
-          <Steps direction={stepDirection} progressDot={customDot} current={1}>
-            <Step title="创建项目" description={desc1} />
-            <Step title="部门初审" description={desc2} />
-            <Step title="财务复核" />
-            <Step title="完成" />
+          <Steps direction={stepDirection} progressDot={customDot} current={stepCurrent}>
+            <Step title="创建成功-待支付" description={this.buildCreatedAt(currentRecord)} />
+
+            {currentRecord.status == '2' ? (
+              <Step title="支付超时-订单关闭" description={currentRecord ? this.buildClosedAt(currentRecord) : null} />
+            ) : null}
+
+            {currentRecord.status == '3' ? (
+              <Step title="手动关闭订单" description={currentRecord ? this.buildClosedAt(currentRecord) : null} />
+            ) : null}
+
+            <Step title="支付完成-待收货" description={currentRecord ? this.buildPaymentAt(currentRecord) : null} />
+            <Step title="已收货-待评价" description={currentRecord ? this.buildReceivedAt(currentRecord) : null} />
+            <Step title="已评价-交易完成" description={currentRecord ? this.buildReviewedAt(currentRecord) : null} />
           </Steps>
         </Card>
 
