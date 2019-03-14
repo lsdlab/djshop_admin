@@ -186,7 +186,6 @@ class TransactionDetail extends PureComponent {
         <Description term="创建时间">{currentRecord.created_at}</Description>
         <Description term="更新时间">{currentRecord.updated_at}</Description>
         <Description term="过期时间">{currentRecord.expired_datetime}</Description>
-        <Description term="确认收货时间">{currentRecord.received_datetime ? currentRecord.received_datetime : '-'}</Description>
 
         <Description term="sn">{currentRecord.sn}</Description>
         <Description term="ID">{currentRecord.id}</Description>
@@ -218,6 +217,13 @@ class TransactionDetail extends PureComponent {
     return (
       <span>
         {currentRecord.payment_datetime}
+      </span>)
+  }
+
+  buildPackagedAt(currentRecord) {
+    return (
+      <span>
+        {currentRecord.seller_packaged_datetime}
       </span>)
   }
 
@@ -258,19 +264,28 @@ class TransactionDetail extends PureComponent {
       },
     ];
 
-    let stepCurrent = 1;
+    let stepCurrent = 0;
     if (currentRecord.status == '1') {
+      // 创建成功-待支付
       stepCurrent = 0;
     } else if (currentRecord.status == '2') {
+      // 支付超时-订单关闭
       stepCurrent = 1;
     } else if (currentRecord.status == '3') {
+      // 手动关闭订单
       stepCurrent = 2;
     } else if (currentRecord.status == '4') {
+      // 支付完成-待发货
       stepCurrent = 1;
     } else if (currentRecord.status == '5') {
+      // 已发货-待收货
       stepCurrent = 2;
     } else if (currentRecord.status == '6') {
+      // 已收货-待评价
       stepCurrent = 3;
+    } else if (currentRecord.status == '6') {
+      // 已评价-交易完成
+      stepCurrent = 4;
     }
 
     return (
@@ -295,7 +310,8 @@ class TransactionDetail extends PureComponent {
               <Step title="手动关闭订单" description={currentRecord ? this.buildClosedAt(currentRecord) : null} />
             ) : null}
 
-            <Step title="支付完成-待收货" description={currentRecord ? this.buildPaymentAt(currentRecord) : null} />
+            <Step title="支付完成-待发货" description={currentRecord ? this.buildPaymentAt(currentRecord) : null} />
+            <Step title="已发货-待收货" description={currentRecord ? this.buildPackagedAt(currentRecord) : null} />
             <Step title="已收货-待评价" description={currentRecord ? this.buildReceivedAt(currentRecord) : null} />
             <Step title="已评价-交易完成" description={currentRecord ? this.buildReviewedAt(currentRecord) : null} />
           </Steps>
