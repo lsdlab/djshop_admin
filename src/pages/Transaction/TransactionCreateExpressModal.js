@@ -59,7 +59,7 @@ class TransactionCreateExpressModal extends PureComponent {
 
   render() {
     const {
-      transactionID, createExpressModalVisible, form, mark,
+      currentTransaction, createExpressModalVisible, form, mark,
     } = this.props;
 
     const okHandle = (transactionID) => {
@@ -77,13 +77,13 @@ class TransactionCreateExpressModal extends PureComponent {
         title="发货"
         width={800}
         visible={createExpressModalVisible}
-        onOk={() => okHandle(transactionID, mark)}
+        onOk={() => okHandle(currentTransaction.id, mark)}
         onCancel={() => this.handleModalVisible()}
       >
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="快递名称">
           {form.getFieldDecorator('shipper', {
             initialValue: '顺丰',
-            rules: [{ required: true, message: '请输入快递名称！' }],
+            rules: [{ required: true, message: '请选择快递名称！' }],
           })(<Select style={{ width: "100%" }}>
               <Option value="顺丰">顺丰</Option>
               <Option value="京东">京东</Option>

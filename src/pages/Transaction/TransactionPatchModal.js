@@ -3,13 +3,26 @@ import { connect } from 'dva';
 import {
   Form,
   Input,
+  InputNumber,
   Select,
   Modal,
   message,
+  DatePicker,
 } from 'antd';
 
 const FormItem = Form.Item;
 const { Option } = Select;
+const { TextArea } = Input;
+
+const buildOptions = (optionData) => {
+  if (optionData) {
+    const arr = [];
+    for (let i = 0; i < optionData.length; i++) {
+      arr.push(<Option name={optionData[i].combined_name} value={optionData[i].id} key={optionData[i].id}>{optionData[i].combined_name}</Option>)
+    }
+    return arr;
+  }
+}
 
 /* eslint react/no-multi-comp:0 */
 @connect(({ transaction, loading }) => ({
@@ -36,7 +49,7 @@ class TransactionPatchModal extends PureComponent {
         seller_packaged_datetime: fields.seller_packaged_datetime,
       }
     }).then(() => {
-      message.success('发货成功');
+      message.success('修改订单成功');
       this.handleModalVisible();
       if (mark == 'list') {
         dispatch({
@@ -59,7 +72,7 @@ class TransactionPatchModal extends PureComponent {
 
   render() {
     const {
-      transactionID, createExpressModalVisible, form, mark,
+      currentTransaction, userAllAddress, patchModalVisible, form, mark,
     } = this.props;
 
     const okHandle = (transactionID) => {
@@ -76,34 +89,29 @@ class TransactionPatchModal extends PureComponent {
         keyboard
         title="修改订单"
         width={800}
-        visible={createExpressModalVisible}
-        onOk={() => okHandle(transactionID, mark)}
+        visible={patchModalVisible}
+        onOk={() => okHandle(currentTransaction.id, mark)}
         onCancel={() => this.handleModalVisible()}
       >
-        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="快递名称">
-          {form.getFieldDecorator('shipper', {
-            initialValue: '顺丰',
-            rules: [{ required: true, message: '请输入快递名称！' }],
-          })(<Select style={{ width: "100%" }}>
-              <Option value="顺丰">顺丰</Option>
-              <Option value="京东">京东</Option>
-              <Option value="邮政">邮政</Option>
-              <Option value="EMS">EMS</Option>
-              <Option value="韵达">韵达</Option>
-              <Option value="圆通">圆通</Option>
-              <Option value="申通">申通</Option>
-              <Option value="中通">中通</Option>
-              <Option value="百世">百世</Option>
-              <Option value="德邦">德邦</Option>
-              <Option value="天天">天天</Option>
-              <Option value="优速">优速</Option>
-              <Option value="宅急送">宅急送</Option>
+        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="收货地址">
+          {form.getFieldDecorator('address', {
+            initialValue: currentTransaction.address,
+            rules: [{ required: true, message: '请选择收货地址！' }],
+          })(<Select style={{ width: "100%" }} placeholder="收货地址">
+              {buildOptions(userAllAddress)}
             </Select>)}
         </FormItem>
-        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="快递单号">
-          {form.getFieldDecorator('sn', {
-            rules: [{ required: true, message: '请输入快递单号！' }],
-          })(<Input placeholder="快递单号" />)}
+        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="实付价格">
+          {form.getFieldDecorator('paid', {
+            initialValue: currentTransaction.paid,
+            rules: [{ required: true, message: '请输入实付价格！' }],
+          })(<InputNumber min={0.01} step={0.01} style={{ width: '100%' }} placeholder="实付价格" />)}
+        </FormItem>
+        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="卖家备注">
+          {form.getFieldDecorator('seller_note', {
+            initialValue: currentTransaction.seller_note,
+            rules: [{ required: false, message: '请输入卖家备注！' }],
+          })(<TextArea autosize={{ minRows: 4, maxRows: 8 }} placeholder="卖家备注" />)}
         </FormItem>
       </Modal>
     );

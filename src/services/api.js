@@ -836,3 +836,15 @@ export async function createExpress(params) {
     },
   });
 }
+
+// 获取一个用户的所有地址
+export async function queryUserAllAddress(userID) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/address/${userID}/all/`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}

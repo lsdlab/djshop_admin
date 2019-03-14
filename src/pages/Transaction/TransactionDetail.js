@@ -23,6 +23,7 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import styles from '../Profile/AdvancedProfile.less';
 import SimpleTransactionTable from '@/components/SimpleTransactionTable';
 import TransactionCreateExpressModal from './TransactionCreateExpressModal'
+import TransactionPatchModal from './TransactionPatchModal'
 
 const { Description } = DescriptionList;
 const ButtonGroup = Button.Group;
@@ -42,7 +43,6 @@ const customDot = (dot, { status }) =>
   (
     dot
   );
-
 
 const DescriptionItem = ({ title, content }) => (
   <div
@@ -96,7 +96,7 @@ class TransactionDetail extends PureComponent {
   state = {
     stepDirection: 'horizontal',
     createExpressModalVisible: false,
-    transactionID: '',
+    patchModalVisible: false,
   };
 
   componentDidMount() {
@@ -143,7 +143,10 @@ class TransactionDetail extends PureComponent {
             <Button onClick={() => this.handleCreateExpressModalVisible(true, currentRecord.id)}>发货</Button>
           ) : <Button disabled>发货</Button>}
 
-          <Button>修改订单</Button>
+          { currentRecord.status == '1' ? (
+            <Button onClick={() => this.handlePatchModalVisible(true)}>修改订单</Button>
+          ) : <Button disabled>修改订单</Button>}
+
           {/*<Button>关闭订单</Button>
           <Button>确认收货</Button>*/}
           {/*<Dropdown overlay={menu} placement="bottomRight">
@@ -168,15 +171,15 @@ class TransactionDetail extends PureComponent {
           <div className={styles.textSecondary}>订单类型</div>
           <div className={styles.heading}>{currentRecord.deal_type_name}</div>
         </Col>
-        <Col xs={24} sm={8} style={{ marginTop: 8 }}>
+        <Col xs={24} sm={10} style={{ marginTop: 8 }}>
           <div className={styles.textSecondary}>支付渠道</div>
           <div className={styles.heading}>{currentRecord.payment_name}</div>
         </Col>
-        <Col xs={24} sm={8} style={{ marginTop: 8 }}>
+        <Col xs={24} sm={7} style={{ marginTop: 8 }}>
           <div className={styles.textSecondary}>总价</div>
           <div className={styles.heading}>{currentRecord.total_amount}</div>
         </Col>
-        <Col xs={24} sm={8} style={{ marginTop: 8 }}>
+        <Col xs={24} sm={7} style={{ marginTop: 8 }}>
           <div className={styles.textSecondary}>实际支付</div>
           <div className={styles.heading}>{currentRecord.paid}</div>
         </Col>
@@ -252,9 +255,15 @@ class TransactionDetail extends PureComponent {
     });
   };
 
+  handlePatchModalVisible = (flag) => {
+    this.setState({
+      patchModalVisible: !!flag,
+    });
+  };
+
   render() {
     const { transaction: { currentRecord } } = this.props;
-    const { stepDirection, createExpressModalVisible, transactionID } = this.state;
+    const { stepDirection, createExpressModalVisible, patchModalVisible } = this.state;
 
     const transactionProductColumns = [
       {
@@ -381,9 +390,16 @@ class TransactionDetail extends PureComponent {
 
         <TransactionCreateExpressModal
           createExpressModalVisible={createExpressModalVisible}
-          transactionID={this.state.transactionID}
+          currentTransaction={currentRecord}
           mark='detail'
           onCancel={this.handleCreateExpressModalVisible}
+        />
+
+        <TransactionPatchModal
+          patchModalVisible={patchModalVisible}
+          currentTransaction={currentRecord}
+          mark='list'
+          onCancel={this.handlePatchModalVisible}
         />
 
       </PageHeaderWrapper>

@@ -196,7 +196,7 @@ class ProductEdit extends React.PureComponent {
                 {getFieldDecorator('carousel', {
                   initialValue: currentRecord.carousel.join(','),
                   rules: [{ required: true, message: '请输入轮播图链接！'}],
-                })(<TextArea rows={5} placeholder="轮播图链接可填写多个，使用英文逗号 , 进行分隔" />)}
+                })(<TextArea autosize={{ minRows: 5, maxRows: 8 }} placeholder="轮播图链接可填写多个，使用英文逗号 , 进行分隔" />)}
               </FormItem>
               <FormItem {...formItemLayout} label="题图链接">
                 {getFieldDecorator('header_image', {
@@ -209,7 +209,7 @@ class ProductEdit extends React.PureComponent {
                 {getFieldDecorator('md', {
                   initialValue: currentRecord.md,
                   rules: [{ required: true, message: '请输入商品详情！'}],
-                })(<TextArea rows={10} placeholder="商品详情，图片文字混排，使用 Markdown 格式" />)}
+                })(<TextArea autosize={{ minRows: 8, maxRows: 16 }} placeholder="商品详情，图片文字混排，使用 Markdown 格式" />)}
               </FormItem>
 
               <Form.Item

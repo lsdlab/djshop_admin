@@ -196,7 +196,7 @@ class CouponCreate extends PureComponent {
             <FormItem {...formItemLayout} label="描述">
               {getFieldDecorator('desc', {
                 rules: [{ required: true, message: '请输入描述！'}],
-              })(<TextArea rows={5} placeholder="优惠卷描述，长文本" />)}
+              })(<TextArea autosize={{ minRows: 4, maxRows: 6 }} placeholder="优惠卷描述，长文本" />)}
             </FormItem>
 
             <FormItem {...formItemLayout} label="有效日期">

@@ -6,6 +6,7 @@ import { queryTransactions,
          manualCloseTransaction,
          receivePackageTransaction,
          createExpress,
+         queryUserAllAddress,
 } from '@/services/api';
 
 
@@ -18,6 +19,7 @@ export default {
       count: undefined,
     },
     currentRecord: {},
+    userAllAddress: [],
   },
 
   effects: {
@@ -44,7 +46,13 @@ export default {
     *createExpress({ payload }, { call, put }) {
       yield call(createExpress, payload);
     },
-
+    *fetchUserAllAddress({ userID }, { call, put }) {
+      const response = yield call(queryUserAllAddress, userID);
+      yield put({
+        type: 'saveUserAllAddress',
+        payload: response,
+      });
+    }
   },
 
   reducers: {
@@ -58,6 +66,12 @@ export default {
       return {
         ...state,
         currentRecord: action.payload,
+      };
+    },
+    saveUserAllAddress(state, action) {
+      return {
+        ...state,
+        userAllAddress: action.payload,
       };
     },
   },
