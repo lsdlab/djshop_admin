@@ -15,8 +15,8 @@ import {
 import router from 'umi/router';
 import SimpleTable from '@/components/SimpleTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import TransactionCreateExpressModal from './TransactionCreateExpressModal'
-import TransactionPatchModal from './TransactionPatchModal'
+// import TransactionCreateExpressModal from './TransactionCreateExpressModal'
+// import TransactionPatchModal from './TransactionPatchModal'
 
 import styles from '../List/TableList.less';
 
@@ -223,18 +223,6 @@ class TransactionList extends PureComponent {
         render: (text, record) => (
           <Fragment>
             <a onClick={() => this.routerPushDetail(record.id)}>详情</a>
-            <Divider type="vertical" />
-
-            { record.status == '4' ? (
-              <a onClick={() => this.handleCreateExpressModalVisible(true, record.id)}>发货</a>
-            ) : <a disabled>发货</a>}
-
-            <Divider type="vertical" />
-
-            { record.status == '1' ? (
-              <a onClick={() => this.handlePatchModalVisible(true, record)}>修改订单</a>
-            ) : <a disabled>修改订单</a>}
-
           </Fragment>
         ),
       },
@@ -254,7 +242,7 @@ class TransactionList extends PureComponent {
             />
           </div>
 
-          <TransactionCreateExpressModal
+          {/*<TransactionCreateExpressModal
             createExpressModalVisible={createExpressModalVisible}
             currentTransaction={this.state.currentTransaction}
             mark='list'
@@ -266,7 +254,7 @@ class TransactionList extends PureComponent {
             currentTransaction={this.state.currentTransaction}
             userAllAddress={userAllAddress}
             mark='list'
-            onCancel={this.handlePatchModalVisible}
+            onCancel={this.handlePatchModalVisible}*/}
           />
 
         </Card>

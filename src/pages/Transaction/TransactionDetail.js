@@ -140,11 +140,11 @@ class TransactionDetail extends PureComponent {
       <Fragment>
         <ButtonGroup>
           { currentRecord.status == '4' ? (
-            <Button onClick={() => this.handleCreateExpressModalVisible(true, currentRecord.id)}>发货</Button>
+            <Button onClick={() => this.handleCreateExpressModalVisible(true)}>发货</Button>
           ) : <Button disabled>发货</Button>}
 
           { currentRecord.status == '1' ? (
-            <Button onClick={() => this.handlePatchModalVisible(true)}>修改订单</Button>
+            <Button onClick={() => this.handlePatchModalVisible(true, currentRecord)}>修改订单</Button>
           ) : <Button disabled>修改订单</Button>}
 
           {/*<Button>关闭订单</Button>
@@ -248,21 +248,27 @@ class TransactionDetail extends PureComponent {
       </span>)
   }
 
-  handleCreateExpressModalVisible = (flag, transactionID) => {
+  handleCreateExpressModalVisible = (flag) => {
     this.setState({
       createExpressModalVisible: !!flag,
-      transactionID: transactionID || '',
     });
   };
 
-  handlePatchModalVisible = (flag) => {
+  handlePatchModalVisible = (flag, record) => {
     this.setState({
       patchModalVisible: !!flag,
     });
+
+    if (flag) {
+      this.props.dispatch({
+        type: 'transaction/fetchUserAllAddress',
+        userID: record.user.id,
+      });
+    }
   };
 
   render() {
-    const { transaction: { currentRecord } } = this.props;
+    const { transaction: { currentRecord, userAllAddress } } = this.props;
     const { stepDirection, createExpressModalVisible, patchModalVisible } = this.state;
 
     const transactionProductColumns = [
@@ -359,7 +365,7 @@ class TransactionDetail extends PureComponent {
             </DescriptionList>}
         </Card>
 
-        <Card title="地址 & 快递信息" style={{ marginBottom: 24 }} bordered={false} >
+        <Card title="地址 & 快递信息" style={{ marginBottom: 24 }} bordered={false} extra={<a onClick={() => this.handleCreateExpressModalVisible(true)}>发货</a>} >
           {currentRecord.address ? (
             <DescriptionList style={{ marginBottom: 24 }} title="地址">
               <Description term="姓名">{currentRecord.address.name}</Description>
@@ -398,6 +404,7 @@ class TransactionDetail extends PureComponent {
         <TransactionPatchModal
           patchModalVisible={patchModalVisible}
           currentTransaction={currentRecord}
+          userAllAddress={userAllAddress}
           mark='list'
           onCancel={this.handlePatchModalVisible}
         />
