@@ -14,10 +14,10 @@ const { Option } = Select;
 /* eslint react/no-multi-comp:0 */
 @connect(({ transaction, loading }) => ({
   transaction,
-  submitting: loading.effects['transaction/createExpress'],
+  submitting: loading.effects['transaction/patch'],
 }))
 @Form.create()
-class TransactionCreateExpressModal extends PureComponent {
+class TransactionPatchModal extends PureComponent {
   state = {
   };
 
@@ -28,12 +28,12 @@ class TransactionCreateExpressModal extends PureComponent {
   handleAdd = (fields, transactionID, mark) => {
     const { dispatch } = this.props;
     dispatch({
-      type: 'transaction/createExpress',
+      type: 'transaction/patch',
       payload: {
-        transaction: transactionID.toString(),
-        status: '0',
-        shipper: fields.shipper,
-        sn: fields.sn,
+        paid: fields.paid,
+        address: transactionID.toString(),
+        seller_note: fields.seller_note,
+        seller_packaged_datetime: fields.seller_packaged_datetime,
       }
     }).then(() => {
       message.success('发货成功');
@@ -74,7 +74,7 @@ class TransactionCreateExpressModal extends PureComponent {
         destroyOnClose
         centered
         keyboard
-        title="发货"
+        title="修改订单"
         width={800}
         visible={createExpressModalVisible}
         onOk={() => okHandle(transactionID, mark)}
@@ -110,4 +110,4 @@ class TransactionCreateExpressModal extends PureComponent {
   }
 }
 
-export default TransactionCreateExpressModal;
+export default TransactionPatchModal;

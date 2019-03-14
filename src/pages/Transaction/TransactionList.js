@@ -15,6 +15,7 @@ import {
 import router from 'umi/router';
 import SimpleTable from '@/components/SimpleTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import TransactionCreateExpressModal from './TransactionCreateExpressModal'
 
 import styles from '../List/TableList.less';
 
@@ -33,6 +34,8 @@ class TransactionList extends PureComponent {
     currentPage: 1,
     pageSize: 10,
     formValues: {},
+    createExpressModalVisible: false,
+    transactionID: '',
   };
 
   componentDidMount() {
@@ -42,8 +45,8 @@ class TransactionList extends PureComponent {
     });
   }
 
-  routerPushDetail = (recordID) => {
-    router.push('/transaction/transaction-detail/' + recordID);
+  routerPushDetail = (transactionID) => {
+    router.push('/transaction/transaction-detail/' + transactionID);
   }
 
   handleStandardTableChange = (pagination) => {
@@ -97,6 +100,13 @@ class TransactionList extends PureComponent {
     });
   };
 
+  handleCreateExpressModalVisible = (flag, transactionID) => {
+    this.setState({
+      createExpressModalVisible: !!flag,
+      transactionID: transactionID || '',
+    });
+  };
+
   renderSimpleForm() {
     const {
       form: { getFieldDecorator },
@@ -145,10 +155,10 @@ class TransactionList extends PureComponent {
 
   render() {
     const {
-      transaction: { data, currentRecord },
+      transaction: { data },
       loading,
     } = this.props;
-    const { currentPage, pageSize } = this.state;
+    const { currentPage, pageSize, createExpressModalVisible, transactionID } = this.state;
 
     const columns = [
       {
@@ -198,7 +208,11 @@ class TransactionList extends PureComponent {
           <Fragment>
             <a onClick={() => this.routerPushDetail(record.id)}>详情</a>
             <Divider type="vertical" />
-            <a>发货</a>
+
+            { record.status == '4' ? (
+              <a onClick={() => this.handleCreateExpressModalVisible(true, record.id)}>发货</a>
+            ) : <a disabled>发货</a>}
+
             <Divider type="vertical" />
             <a>修改订单</a>
           </Fragment>
@@ -219,6 +233,14 @@ class TransactionList extends PureComponent {
               onChange={this.handleStandardTableChange}
             />
           </div>
+
+          <TransactionCreateExpressModal
+            createExpressModalVisible={createExpressModalVisible}
+            transactionID={this.state.transactionID}
+            mark='list'
+            onCancel={this.handleCreateExpressModalVisible}
+          />
+
         </Card>
       </PageHeaderWrapper>
     );

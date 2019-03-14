@@ -22,6 +22,7 @@ import DescriptionList from '@/components/DescriptionList';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import styles from '../Profile/AdvancedProfile.less';
 import SimpleTransactionTable from '@/components/SimpleTransactionTable';
+import TransactionCreateExpressModal from './TransactionCreateExpressModal'
 
 const { Description } = DescriptionList;
 const ButtonGroup = Button.Group;
@@ -94,6 +95,8 @@ const CheckboxItem = ({ title, status }) => (
 class TransactionDetail extends PureComponent {
   state = {
     stepDirection: 'horizontal',
+    createExpressModalVisible: false,
+    transactionID: '',
   };
 
   componentDidMount() {
@@ -105,8 +108,6 @@ class TransactionDetail extends PureComponent {
     this.props.dispatch({
       type: 'transaction/fetchDetail',
       transactionID: transactionID,
-    }).then(() => {
-
     });
 
     this.setStepDirection();
@@ -134,11 +135,14 @@ class TransactionDetail extends PureComponent {
     }
   }
 
-  buildAction() {
+  buildAction(currentRecord) {
     return (
       <Fragment>
         <ButtonGroup>
-          <Button>发货</Button>
+          { currentRecord.status == '4' ? (
+            <Button onClick={() => this.handleCreateExpressModalVisible(true, currentRecord.id)}>发货</Button>
+          ) : <Button disabled>发货</Button>}
+
           <Button>修改订单</Button>
           {/*<Button>关闭订单</Button>
           <Button>确认收货</Button>*/}
@@ -241,9 +245,16 @@ class TransactionDetail extends PureComponent {
       </span>)
   }
 
+  handleCreateExpressModalVisible = (flag, transactionID) => {
+    this.setState({
+      createExpressModalVisible: !!flag,
+      transactionID: transactionID || '',
+    });
+  };
+
   render() {
     const { transaction: { currentRecord } } = this.props;
-    const { stepDirection } = this.state;
+    const { stepDirection, createExpressModalVisible, transactionID } = this.state;
 
     const transactionProductColumns = [
       {
@@ -294,7 +305,7 @@ class TransactionDetail extends PureComponent {
         logo={
           <img alt="" src="https://djshopmedia.oss-cn-shanghai.aliyuncs.com/nxkuOJlFJuAUhzlMTCEe.png" />
         }
-        action={this.buildAction()}
+        action={currentRecord ? this.buildAction(currentRecord) : null}
         content={currentRecord ? this.buildDescription(currentRecord) : null}
         extraContent={currentRecord ? this.buildExtra(currentRecord) : null}
       >
@@ -367,6 +378,13 @@ class TransactionDetail extends PureComponent {
             />
           </Card>
         ) : null}
+
+        <TransactionCreateExpressModal
+          createExpressModalVisible={createExpressModalVisible}
+          transactionID={this.state.transactionID}
+          mark='detail'
+          onCancel={this.handleCreateExpressModalVisible}
+        />
 
       </PageHeaderWrapper>
     );

@@ -41,8 +41,8 @@ export default {
     *manualClose({ transactionID }, { call, put }) {
       yield call(manualCloseTransaction, transactionID);
     },
-    *createExpress({ params }, { call, put }) {
-      yield call(createExpress, params);
+    *createExpress({ payload }, { call, put }) {
+      yield call(createExpress, payload);
     },
 
   },
