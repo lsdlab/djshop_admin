@@ -8,9 +8,9 @@ const FooterView = () => (
     <GlobalFooter
       links={[
         {
-          key: 'lsdlab/ade',
-          title: 'lsdlab/ade',
-          href: 'https://github.com/lsdlab/ade',
+          key: 'breakwire',
+          title: "JC's blog",
+          href: 'https://breakwire.me',
           blankTarget: true,
         },
         {
@@ -24,11 +24,12 @@ const FooterView = () => (
           title: 'ant-design/ant-design-pro',
           href: 'https://github.com/ant-design/ant-design-pro',
           blankTarget: true,
-        },,
+        },
       ]}
       copyright={
         <Fragment>
-          <p>Copyright &copy; <a href="https://breakwire.me" target="_blank">BreakWire</a> 2018-2019 All Rights Reserved</p>
+          <p>Site made by JC, powered by React and Ant Design Pro.</p>
+          <p>Copyright &copy; 闪算科技 2018-2019 All Rights Reserved</p>
         </Fragment>
       }
     />
