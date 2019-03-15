@@ -15,10 +15,9 @@ import {
 import router from 'umi/router';
 import SimpleTable from '@/components/SimpleTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-// import TransactionCreateExpressModal from './TransactionCreateExpressModal'
-// import TransactionPatchModal from './TransactionPatchModal'
 
 import styles from '../List/TableList.less';
+
 
 const FormItem = Form.Item;
 const { TextArea } = Input;
@@ -35,9 +34,6 @@ class TransactionList extends PureComponent {
     currentPage: 1,
     pageSize: 10,
     formValues: {},
-    createExpressModalVisible: false,
-    currentTransaction: {},
-    patchModalVisible: false,
   };
 
   componentDidMount() {
@@ -102,27 +98,6 @@ class TransactionList extends PureComponent {
     });
   };
 
-  handleCreateExpressModalVisible = (flag, record) => {
-    this.setState({
-      createExpressModalVisible: !!flag,
-      currentTransaction: record || {},
-    });
-  };
-
-  handlePatchModalVisible = (flag, record) => {
-    this.setState({
-      patchModalVisible: !!flag,
-      currentTransaction: record || {},
-    });
-
-    if (flag) {
-      this.props.dispatch({
-        type: 'transaction/fetchUserAllAddress',
-        userID: record.user.id,
-      });
-    }
-  };
-
   renderSimpleForm() {
     const {
       form: { getFieldDecorator },
@@ -174,7 +149,7 @@ class TransactionList extends PureComponent {
       transaction: { data, userAllAddress },
       loading,
     } = this.props;
-    const { currentPage, pageSize, createExpressModalVisible, currentTransaction, patchModalVisible } = this.state;
+    const { currentPage, pageSize } = this.state;
 
     const columns = [
       {
@@ -185,10 +160,6 @@ class TransactionList extends PureComponent {
         title: '用户名',
         dataIndex: 'user.username',
       },
-      // {
-      //   title: '名称',
-      //   dataIndex: 'name',
-      // },
       {
         title: '状态',
         dataIndex: 'status_name',
@@ -241,21 +212,6 @@ class TransactionList extends PureComponent {
               onChange={this.handleStandardTableChange}
             />
           </div>
-
-          {/*<TransactionCreateExpressModal
-            createExpressModalVisible={createExpressModalVisible}
-            currentTransaction={this.state.currentTransaction}
-            mark='list'
-            onCancel={this.handleCreateExpressModalVisible}
-          />
-
-          <TransactionPatchModal
-            patchModalVisible={patchModalVisible}
-            currentTransaction={this.state.currentTransaction}
-            userAllAddress={userAllAddress}
-            mark='list'
-            onCancel={this.handlePatchModalVisible}*/}
-          />
 
         </Card>
       </PageHeaderWrapper>

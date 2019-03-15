@@ -110,15 +110,14 @@ class ProductDetail extends PureComponent {
     return (
       <Fragment>
         <ButtonGroup>
-          <Button>操作</Button>
-          <Button>操作</Button>
-          <Dropdown overlay={menu} placement="bottomRight">
+          <Button onClick={() => this.routerPushEdit(currentRecord.id)}>编辑商品</Button>
+          {/*<Dropdown overlay={menu} placement="bottomRight">
             <Button>
               <Icon type="ellipsis" />
             </Button>
-          </Dropdown>
+          </Dropdown>*/}
         </ButtonGroup>
-        <Button type="primary">主操作</Button>
+        {/*<Button type="primary">主操作</Button>*/}
       </Fragment>
     )
   };
@@ -235,7 +234,7 @@ class ProductDetail extends PureComponent {
         logo={
           <img alt="" src="https://djshopmedia.oss-cn-shanghai.aliyuncs.com/nxkuOJlFJuAUhzlMTCEe.png" />
         }
-        // action={this.buildAction()}
+        action={this.buildAction(currentRecord)}
         content={this.buildDescription(currentRecord)}
         extraContent={this.buildExtra(currentRecord)}
       >

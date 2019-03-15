@@ -95,7 +95,7 @@ class TransactionPatchModal extends PureComponent {
       >
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="收货地址">
           {form.getFieldDecorator('address', {
-            initialValue: currentTransaction.address.name + '-' + currentTransaction.address.mobile + '-' + currentTransaction.address.address,
+            initialValue: currentTransaction.address ? currentTransaction.address.name + '-' + currentTransaction.address.mobile + '-' + currentTransaction.address.address : '',
             rules: [{ required: true, message: '请选择收货地址！' }],
           })(<Select style={{ width: "100%" }} placeholder="收货地址">
               {buildOptions(userAllAddress)}

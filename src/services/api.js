@@ -129,7 +129,7 @@ export async function getFakeCaptcha(mobile) {
 
 
 const apiHost = 'http://localhost:9000';    // development
-// const apiHost = '';    // production
+// const apiHost = 'https://shopapi.nuclearst.com';    // production
 const apiVersion = '/api/v1';
 
 function refreshToken(oldToken) {
