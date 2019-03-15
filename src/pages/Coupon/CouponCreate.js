@@ -18,8 +18,7 @@ import {
   TreeSelect,
 } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import styles from '../Product/style.less';
-import formStyles from '../Forms/style.less';
+
 
 const FormItem = Form.Item;
 const { TextArea } = Input;

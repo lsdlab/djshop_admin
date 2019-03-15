@@ -19,8 +19,7 @@ import {
 } from 'antd';
 import router from 'umi/router';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import styles from '../Product/style.less';
-import formStyles from '../Forms/style.less';
+
 
 const FormItem = Form.Item;
 const { TextArea } = Input;

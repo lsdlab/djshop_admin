@@ -15,9 +15,11 @@ import router from 'umi/router';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import styles from './ProductCreateStepForm/style.less';
 
+
 const FormItem = Form.Item;
 const { Option } = Select;
 const { TextArea } = Input;
+
 
 const formItemLayout = {
   labelCol: {

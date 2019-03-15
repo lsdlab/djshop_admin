@@ -15,6 +15,7 @@ import router from 'umi/router';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import styles from './ProductCreateStepForm/style.less';
 
+
 const FormItem = Form.Item;
 const { Option } = Select;
 const { TextArea } = Input;
@@ -91,7 +92,7 @@ class ProductEdit extends React.PureComponent {
       >
         <Card bordered={false}>
           <Fragment>
-            <Form layout="horizontal" className={styles.stepForm}>
+            <Form layout="horizontal" style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: 20, maxWidth: 600 }}>
               <FormItem {...formItemLayout} label="ID">
                 {getFieldDecorator('id', {
                   initialValue: currentRecord.id,

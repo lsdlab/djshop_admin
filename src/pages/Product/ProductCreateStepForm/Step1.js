@@ -10,7 +10,7 @@ import { Form,
          TreeSelect,
 } from 'antd';
 import router from 'umi/router';
-import styles from './style.less';
+import styles from '../../Forms/StepForm/style.less';
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -81,7 +81,7 @@ class Step1 extends React.PureComponent {
 
     return (
       <Fragment>
-        <Form layout="horizontal" className={styles.stepForm}>
+        <Form layout="horizontal" style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: 20, maxWidth: 600 }} >
 
           { categoryData ? (
             <Form.Item {...formItemLayout} label="分类">

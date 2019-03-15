@@ -21,6 +21,7 @@ import styles from '../List/TableList.less';
 
 const FormItem = Form.Item;
 
+
 /* eslint react/no-multi-comp:0 */
 @connect(({ product, loading }) => ({
   product,

@@ -8,7 +8,7 @@ import { Form,
          message,
 } from 'antd';
 import router from 'umi/router';
-import styles from './style.less';
+
 
 const FormItem = Form.Item;
 
@@ -74,7 +74,7 @@ class Step2 extends React.PureComponent {
 
     return (
       <Fragment>
-        <Form layout="horizontal" className={styles.stepForm}>
+        <Form layout="horizontal" style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: 20, maxWidth: 600 }}>
           <FormItem {...formItemLayout} label="规格名称">
             {getFieldDecorator('name', {
               initialValue: newProductSpec.name,
