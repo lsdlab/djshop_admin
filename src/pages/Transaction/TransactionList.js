@@ -212,7 +212,6 @@ class TransactionList extends PureComponent {
               onChange={this.handleStandardTableChange}
             />
           </div>
-
         </Card>
       </PageHeaderWrapper>
     );

@@ -14,7 +14,6 @@ import {
   Checkbox,
   Avatar,
   Steps,
-  Popover,
 } from 'antd';
 import classNames from 'classnames';
 import router from 'umi/router';
@@ -100,12 +99,12 @@ class TransactionDetail extends PureComponent {
   };
 
   componentDidMount() {
-    const { location } = this.props;
+    const { location, dispatch } = this.props;
     const { pathname } = location;
     const pathList = pathname.split('/');
     const transactionID = pathList[3];
 
-    this.props.dispatch({
+    dispatch({
       type: 'transaction/fetchDetail',
       transactionID: transactionID,
     });

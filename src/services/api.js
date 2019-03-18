@@ -137,8 +137,9 @@ function refreshToken(oldToken) {
     token: oldToken,
   })
   .then(function (response) {
-    console.log(response);
-    return response.data.token
+    localStorage.setItem('token', response.data.token);
+    localStorage.setItem('now', new Date().getTime());
+    return response.data.token;
   })
 }
 
@@ -147,10 +148,10 @@ function getToken() {
   if (localStorage.getItem("token") !== null) {
     if (localStorage.getItem('now') + (1 * 24 * 60 * 60 * 1000) < new Date().getTime()) {
       // token 过期，需要刷新
-      token = refreshToken(localStorage.getItem('token'))
+      token = refreshToken(localStorage.getItem('token'));
     } else {
       // token 未过期
-      token = localStorage.getItem("token")
+      token = localStorage.getItem("token");
     }
     return token
   }
@@ -823,7 +824,6 @@ export async function receivePackageTransaction(transactionID) {
   });
 }
 
-
 // 发货
 export async function createExpress(params) {
   const token = getToken();
@@ -842,6 +842,68 @@ export async function queryUserAllAddress(userID) {
   const token = getToken();
   return request(`${apiHost}${apiVersion}/address/${userID}/all/`, {
     method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 获取用户列表
+export async function queryUsers(params) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/users/?${stringify(params)}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 获取单个用户资料
+export async function fetchUser(userID) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/users/${userID}/`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 修改用户资料
+export async function patchUser(params, userID) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/users/${userID}/`, {
+    method: 'PATCH',
+    body: params,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 修改用户资料 profile
+export async function patchProfile(params, userID) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/profile/${userID}/`, {
+    method: 'PATCH',
+    body: params,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 删除用户 假删除
+export async function deleteUser(userID) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/users/${userID}/`, {
+    method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `JWT ${token}`,

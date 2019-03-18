@@ -207,6 +207,12 @@ export default [
             component: './Assist/UserList',
           },
           {
+            path: '/assist/user-detail/:id',
+            hideInMenu: true,
+            name: 'user-detail',
+            component: './Assist/UserDetail',
+          },
+          {
             path: '/assist/upload-image',
             name: 'upload-image',
             component: './Assist/UploadImage',

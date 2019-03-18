@@ -127,8 +127,8 @@ class ProductList extends PureComponent {
     });
   };
 
-  routerPushDetail = (recordID) => {
-    router.push('/product/product-detail/' + recordID);
+  routerPushDetail = (productID) => {
+    router.push('/product/product-detail/' + productID);
   }
 
   showDrawer = (flag, productID) => {

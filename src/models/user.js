@@ -1,10 +1,23 @@
-import { fetchCurrent } from '@/services/api';
+import {
+  fetchCurrent,
+  queryUsers,
+  fetchUser,
+  patchUser,
+  patchProfile,
+  deleteUser,
+} from '@/services/api';
+
 
 export default {
   namespace: 'user',
 
   state: {
     currentUser: {},
+    data: {
+      results: [],
+      count: undefined,
+    },
+    currentRecord: {},
   },
 
   effects: {
@@ -16,6 +29,29 @@ export default {
         payload: response,
       });
     },
+    *fetch({ payload }, { call, put }) {
+      const response = yield call(queryUsers, payload);
+      yield put({
+        type: 'save',
+        payload: response,
+      });
+    },
+    *fetchDetail({ userID }, { call, put }) {
+      const response = yield call(fetchUser, userID);
+      yield put({
+        type: 'saveDetail',
+        payload: response,
+      });
+    },
+    *patch({ payload, userID }, { call, put }) {
+      yield call(patchUser, payload, userID);
+    },
+    *patchProfile({ payload, userID }, { call, put }) {
+      yield call(patchProfile, payload, userID);
+    },
+    *delete({ userID }, { call, put }) {
+      yield call(deleteUser, userID);
+    },
   },
 
   reducers: {
@@ -25,14 +61,16 @@ export default {
         currentUser: action.payload || {},
       };
     },
-    changeNotifyCount(state, action) {
+    save(state, action) {
       return {
         ...state,
-        currentUser: {
-          ...state.currentUser,
-          notifyCount: action.payload.totalCount,
-          unreadCount: action.payload.unreadCount,
-        },
+        data: action.payload,
+      };
+    },
+    saveDetail(state, action) {
+      return {
+        ...state,
+        currentRecord: action.payload,
       };
     },
   },
