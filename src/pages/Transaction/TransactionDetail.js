@@ -364,7 +364,11 @@ class TransactionDetail extends PureComponent {
             </DescriptionList>}
         </Card>
 
-        <Card title="地址 & 快递信息" style={{ marginBottom: 24 }} bordered={false} extra={<a onClick={() => this.handleCreateExpressModalVisible(true)}>发货</a>} >
+        <Card title="地址 & 快递信息" style={{ marginBottom: 24 }} bordered={false} extra=
+          { currentRecord.status == '4' ? (
+            <a onClick={() => this.handleCreateExpressModalVisible(true)} >发货</a>
+          ) : <a disabled onClick={() => this.handleCreateExpressModalVisible(true)} >发货</a>}
+        >
           {currentRecord.address ? (
             <DescriptionList style={{ marginBottom: 24 }} title="地址">
               <Description term="姓名">{currentRecord.address.name}</Description>

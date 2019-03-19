@@ -164,16 +164,16 @@ export default [
             name: 'transaction-detail',
             component: './Transaction/TransactionDetail',
           },
-          // {
-          //   path: '/transaction/invoice-list',
-          //   name: 'invoice-list',
-          //   component: './Transaction/InvoiceList',
-          // },
-          // {
-          //   path: '/transaction/refund-list',
-          //   name: 'refund-list',
-          //   component: './Transaction/RefundList',
-          // },
+          {
+            path: '/transaction/invoice-list',
+            name: 'invoice-list',
+            component: './Transaction/InvoiceList',
+          },
+          {
+            path: '/transaction/refund-list',
+            name: 'refund-list',
+            component: './Transaction/RefundList',
+          },
         ],
       },
       {
