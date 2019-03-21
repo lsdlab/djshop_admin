@@ -146,7 +146,7 @@ function refreshToken(oldToken) {
 function getToken() {
   var token = ''
   if (localStorage.getItem("token") !== null) {
-    if (localStorage.getItem('now') + (1 * 24 * 60 * 60 * 1000) < new Date().getTime()) {
+    if (localStorage.getItem('now') + (1 * 24 * 60 * 60 * 1000) > new Date().getTime()) {
       // token 过期，需要刷新
       token = refreshToken(localStorage.getItem('token'));
     } else {
