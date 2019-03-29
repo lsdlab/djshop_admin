@@ -146,7 +146,7 @@ class TransactionList extends PureComponent {
 
   render() {
     const {
-      transaction: { data, userAllAddress },
+      transaction: { data },
       loading,
     } = this.props;
     const { currentPage, pageSize } = this.state;

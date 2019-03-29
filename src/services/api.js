@@ -910,3 +910,54 @@ export async function deleteUser(userID) {
     },
   });
 }
+
+
+// 获取自提列表
+export async function queryCollects(params) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/collects/?${stringify(params)}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 修改自提订单信息
+export async function patchCollect(params, transactionID) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/transactions/${transactionID}/collect/`, {
+    method: 'PATCH',
+    body: params,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 确认自提订单
+export async function confirmCollectPickup(params, transactionID) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/transactions/${transactionID}/collect/confirm_pickup/`, {
+    method: 'POST',
+    body: params,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 获取门店列表
+export async function queryStores(params) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/stores/?${stringify(params)}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
