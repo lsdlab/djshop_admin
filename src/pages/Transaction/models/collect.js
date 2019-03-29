@@ -3,6 +3,7 @@ import { message } from 'antd';
 import { queryCollects,
          patchCollect,
          confirmCollectPickup,
+         fetchStoreAllIds
 } from '@/services/api';
 
 
@@ -14,6 +15,7 @@ export default {
       results: [],
       count: undefined,
     },
+    allStoreIds: [],
   },
 
   effects: {
@@ -30,6 +32,13 @@ export default {
     *confirmCollectPickup({ transactionID }, { call, put }) {
       yield call(confirmCollectPickup, transactionID);
     },
+    *fetchStoreAllIds({}, { call, put }) {
+      const response = yield call(fetchStoreAllIds);
+      yield put({
+        type: 'saveStoreAllIds',
+        payload: response,
+      });
+    },
   },
 
   reducers: {
@@ -37,6 +46,12 @@ export default {
       return {
         ...state,
         data: action.payload,
+      };
+    },
+    saveStoreAllIds(state, action) {
+      return {
+        ...state,
+        allStoreIds: action.payload,
       };
     },
   },

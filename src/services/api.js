@@ -961,3 +961,16 @@ export async function queryStores(params) {
     },
   });
 }
+
+
+// 获取所有门店 id name
+export async function fetchStoreAllIds() {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/stores/all_store_ids/`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
