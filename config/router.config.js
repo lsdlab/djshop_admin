@@ -165,6 +165,11 @@ export default [
             component: './Transaction/TransactionDetail',
           },
           {
+            path: '/transaction/collect-list',
+            name: 'collect-list',
+            component: './Transaction/CollectList',
+          },
+          {
             path: '/transaction/invoice-list',
             name: 'invoice-list',
             component: './Transaction/InvoiceList',

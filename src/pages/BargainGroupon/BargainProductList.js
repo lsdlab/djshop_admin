@@ -96,12 +96,6 @@ const CreateForm = Form.create()(props => {
         </InputGroup>
       </FormItem>
 
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="数量">
-        {form.getFieldDecorator('nums', {
-          rules: [{ required: true, message: "请输入结束数量！" }],
-        })(<InputNumber min={1} max={10} style={{ width: '100%' }} placeholder="数量"/>)}
-      </FormItem>
-
       { allProductSpecIds ? (
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="商品规格">
           {form.getFieldDecorator('product_spec', {
@@ -128,7 +122,6 @@ class UpdateForm extends PureComponent {
         end_price: props.values.end_price,
         bargain_percent_range_start: props.values.bargain_percent_range.split('-')[0],
         bargain_percent_range_end: props.values.bargain_percent_range.split('-')[1],
-        nums: props.values.nums,
         product_spec: props.values.product_spec.product.category_first_name + '-' + props.values.product_spec.product.category_name + '-' + props.values.product_spec.name + '-' + props.values.product_spec.product.name,
       },
     };
@@ -194,13 +187,6 @@ class UpdateForm extends PureComponent {
               rules: [{ required: true, message: "请输入砍价比例！" }],
             })(<InputNumber min={5} max={10} step={1} style={{ width: 150, textAlign: 'center', borderLeft: 0, marginTop: 5 }} placeholder="砍价比例" />)}
           </InputGroup>
-        </FormItem>
-
-        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="数量">
-          {form.getFieldDecorator('nums', {
-            initialValue: modalFormVals.nums,
-            rules: [{ required: true, message: "请输入结束数量！" }],
-          })(<InputNumber min={1} max={10} style={{ width: '100%' }} placeholder="数量"/>)}
         </FormItem>
 
         { allProductSpecIds ? (
@@ -293,7 +279,6 @@ class BargainProductList extends PureComponent {
       start_price: fields.start_price,
       end_price: fields.end_price,
       bargain_percent_range: fields.bargain_percent_range_start + '-' + fields.bargain_percent_range_end,
-      nums: fields.nums,
     };
     console.log(payload);
 
@@ -414,10 +399,6 @@ class BargainProductList extends PureComponent {
       {
         title: '砍价比例(%)',
         dataIndex: 'bargain_percent_range',
-      },
-      {
-        title: '数量',
-        dataIndex: 'nums',
       },
       {
         title: '销量',

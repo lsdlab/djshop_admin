@@ -63,10 +63,10 @@ const CreateForm = Form.create()(props => {
         })(<InputNumber min={0.01} step={0.01} style={{ width: '100%' }} placeholder="团购价格" />)}
       </FormItem>
 
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="数量">
-        {form.getFieldDecorator('nums', {
-          rules: [{ required: true, message: "请输入结束数量！" }],
-        })(<InputNumber min={1} max={10} style={{ width: '100%' }} placeholder="数量"/>)}
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="几人团">
+        {form.getFieldDecorator('limit', {
+          rules: [{ required: true, message: "请输入结束几人团！" }],
+        })(<InputNumber min={1} max={10} style={{ width: '100%' }} placeholder="几人团"/>)}
       </FormItem>
 
       { allProductSpecIds ? (
@@ -92,7 +92,7 @@ class UpdateForm extends PureComponent {
     this.state = {
       modalFormVals: {
         groupon_price: props.values.groupon_price,
-        nums: props.values.nums,
+        limit: props.values.limit,
         product_spec: props.values.product_spec.product.category_first_name + '-' + props.values.product_spec.product.category_name + '-' + props.values.product_spec.name + '-' + props.values.product_spec.product.name,
       },
     };
@@ -127,11 +127,11 @@ class UpdateForm extends PureComponent {
           })(<InputNumber min={0.01} step={0.01} style={{ width: '100%' }} placeholder="团购价格" />)}
         </FormItem>
 
-        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="数量">
-          {form.getFieldDecorator('nums', {
-            initialValue: modalFormVals.nums,
-            rules: [{ required: true, message: "请输入结束数量！" }],
-          })(<InputNumber min={1} max={10} style={{ width: '100%' }} placeholder="数量"/>)}
+        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="几人团">
+          {form.getFieldDecorator('limit', {
+            initialValue: modalFormVals.limit,
+            rules: [{ required: true, message: "请输入结束几人团！" }],
+          })(<InputNumber min={1} max={10} style={{ width: '100%' }} placeholder="几人团"/>)}
         </FormItem>
 
         { allProductSpecIds ? (
@@ -222,7 +222,7 @@ class GrouponProductList extends PureComponent {
     const payload = {
       product_spec: fields.product_spec,
       groupon_price: fields.groupon_price,
-      nums: fields.nums,
+      limit: fields.limit,
     };
     console.log(payload);
 
@@ -341,8 +341,8 @@ class GrouponProductList extends PureComponent {
         dataIndex: 'groupon_price',
       },
       {
-        title: '数量',
-        dataIndex: 'nums',
+        title: '几人团',
+        dataIndex: 'limit',
       },
       {
         title: '销量',

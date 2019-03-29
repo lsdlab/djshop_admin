@@ -27,6 +27,7 @@ export default {
   'menu.transaction': '订单',
   'menu.transaction.transaction-list': '订单列表',
   'menu.transaction.transaction-detail': '订单详情',
+  'menu.transaction.collect-list': '自提',
   'menu.transaction.invoice-list': '发票',
   'menu.transaction.refund-list': '退货',
   'menu.assist': '辅助',
