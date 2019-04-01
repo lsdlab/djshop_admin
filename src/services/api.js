@@ -938,11 +938,10 @@ export async function patchCollect(params, transactionID) {
 }
 
 // 确认自提订单
-export async function confirmCollectPickup(params, transactionID) {
+export async function confirmCollectPickup(transactionID) {
   const token = getToken();
   return request(`${apiHost}${apiVersion}/transactions/${transactionID}/collect/confirm_pickup/`, {
     method: 'POST',
-    body: params,
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `JWT ${token}`,

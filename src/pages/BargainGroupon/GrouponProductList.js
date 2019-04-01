@@ -93,7 +93,7 @@ class UpdateForm extends PureComponent {
       modalFormVals: {
         groupon_price: props.values.groupon_price,
         limit: props.values.limit,
-        product_spec: props.values.product_spec.product.category_first_name + '-' + props.values.product_spec.product.category_name + '-' + props.values.product_spec.name + '-' + props.values.product_spec.product.name,
+        product_spec: props.values.product_spec.id,
       },
     };
   }

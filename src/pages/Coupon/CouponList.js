@@ -7,14 +7,8 @@ import {
   Form,
   Input,
   Select,
-  Icon,
   Button,
-  InputNumber,
-  DatePicker,
-  Modal,
-  message,
   Divider,
-  Popconfirm,
   Badge,
   Drawer,
   Table,
@@ -27,7 +21,6 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import styles from '../List/TableList.less';
 
 const FormItem = Form.Item;
-const { TextArea } = Input;
 const { Option } = Select;
 
 const pStyle = {

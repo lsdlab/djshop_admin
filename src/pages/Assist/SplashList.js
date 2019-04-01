@@ -89,7 +89,7 @@ class UpdateForm extends PureComponent {
       modalFormVals: {
         name: props.values.name,
         splash: props.values.splash,
-        product: props.values.product.category_first_name + '-' + props.values.product.category_name + '-' + props.values.product.name,
+        product: props.values.product.id,
       },
     };
 

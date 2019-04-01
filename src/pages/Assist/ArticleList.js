@@ -100,7 +100,6 @@ class UpdateForm extends PureComponent {
 
     let products = [];
     for (let i = 0; i < props.values.products.length; i++) {
-      // products.push(props.values.products[i]['category_first_name'] + '-' + props.values.products[i]['category_name'] + '-' + props.values.products[i]['name'])
       products.push(props.values.products[i]['id'])
     }
 

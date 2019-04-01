@@ -104,8 +104,7 @@ class UpdateForm extends PureComponent {
         subtitle: props.values.subtitle,
         subsubtitle: props.values.subsubtitle,
         display_order: props.values.display_order,
-        // product: props.values.product.name,
-        product: props.values.product.category_first_name + '-' + props.values.product.category_name + '-' + props.values.product.name,
+        product: props.values.product.id,
       },
     };
   }
@@ -148,7 +147,7 @@ class UpdateForm extends PureComponent {
           {form.getFieldDecorator('subsubtitle', {
             initialValue: modalFormVals.subsubtitle,
             rules: [{ required: true, message: "请输入副副标题！" }],
-          })(<Input placeholder="标题" />)}
+          })(<Input placeholder="副副标题" />)}
         </FormItem>
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="显示顺序">
           {form.getFieldDecorator('display_order', {

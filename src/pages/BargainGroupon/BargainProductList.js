@@ -122,7 +122,7 @@ class UpdateForm extends PureComponent {
         end_price: props.values.end_price,
         bargain_percent_range_start: props.values.bargain_percent_range.split('-')[0],
         bargain_percent_range_end: props.values.bargain_percent_range.split('-')[1],
-        product_spec: props.values.product_spec.product.category_first_name + '-' + props.values.product_spec.product.category_name + '-' + props.values.product_spec.name + '-' + props.values.product_spec.product.name,
+        product_spec: props.values.product_spec.id,
       },
     };
   }

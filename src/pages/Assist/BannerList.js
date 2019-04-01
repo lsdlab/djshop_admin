@@ -106,7 +106,7 @@ class UpdateForm extends PureComponent {
         banner: props.values.banner,
         display_order: props.values.display_order,
         status: props.values.status,
-        product: props.values.product.category_first_name + '-' + props.values.product.category_name + '-' + props.values.product.name,
+        product: props.values.product.id,
       },
     };
 
