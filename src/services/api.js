@@ -973,3 +973,77 @@ export async function fetchStoreAllIds() {
     },
   });
 }
+
+// 获取退货列表
+export async function queryRefunds(params) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/refunds/?${stringify(params)}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 修改退货信息
+export async function patchRefund(params, transactionID) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/transactions/${transactionID}/refund/`, {
+    method: 'PATCH',
+    body: params,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 订单退货审计
+export async function auditRefund(params, transactionID) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/transactions/${transactionID}/refund/audit/`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 订单退货撤销
+export async function withdrawRefund(transactionID) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/transactions/${transactionID}/refund/withdraw/`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 获取发票列表
+export async function queryInvoices(params) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/invoices/?${stringify(params)}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 修改发票信息
+export async function patchInvoice(params, transactionID) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/transactions/${transactionID}/invoice/`, {
+    method: 'PATCH',
+    body: params,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}

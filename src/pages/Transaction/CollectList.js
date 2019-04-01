@@ -299,6 +299,10 @@ class CollectList extends PureComponent {
         dataIndex: 'store.name',
       },
       {
+        title: '门店地址',
+        dataIndex: 'store.address',
+      },
+      {
         title: '姓名',
         dataIndex: 'name',
       },
@@ -362,7 +366,7 @@ class CollectList extends PureComponent {
               loading={loading}
               data={data}
               columns={columns}
-              scroll={{ x: 1500 }}
+              scroll={{ x: 1680 }}
               onChange={this.handleStandardTableChange}
             />
           </div>
