@@ -30,9 +30,9 @@ const timeFormat= "YYYY-MM-DD HH:mm:ss";
 
 
 /* eslint react/no-multi-comp:0 */
-@connect(({ collect, loading }) => ({
-  collect,
-  loading: loading.models.collect,
+@connect(({ invoice, loading }) => ({
+  invoice,
+  loading: loading.models.invoice,
 }))
 @Form.create()
 class InvoiceList extends PureComponent {
@@ -45,7 +45,7 @@ class InvoiceList extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'collect/fetch',
+      type: 'invoice/fetch',
     });
   }
 
@@ -64,7 +64,7 @@ class InvoiceList extends PureComponent {
     };
 
     dispatch({
-      type: 'collect/fetch',
+      type: 'invoice/fetch',
       payload: params,
     });
   };
@@ -76,7 +76,7 @@ class InvoiceList extends PureComponent {
       formValues: {},
     });
     dispatch({
-      type: 'collect/fetch',
+      type: 'invoice/fetch',
       payload: {},
     });
   };
@@ -98,7 +98,7 @@ class InvoiceList extends PureComponent {
       });
 
       dispatch({
-        type: 'collect/fetch',
+        type: 'invoice/fetch',
         payload: values,
       });
     });
@@ -113,7 +113,7 @@ class InvoiceList extends PureComponent {
         <Row gutter={{ md: 6, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
             <FormItem label="搜索">
-              {getFieldDecorator('search')(<Input placeholder="店名/地址" />)}
+              {getFieldDecorator('search')(<Input placeholder="抬头/描述" />)}
             </FormItem>
           </Col>
           <Col md={12} sm={24}>
@@ -133,7 +133,7 @@ class InvoiceList extends PureComponent {
 
   render() {
     const {
-      collect: { data, allStoreIds },
+      invoice: { data },
       loading,
     } = this.props;
     const { currentPage, pageSize, updateModalVisible, currentRecord } = this.state;
@@ -148,44 +148,69 @@ class InvoiceList extends PureComponent {
         title: 'ID',
         dataIndex: 'id',
       },
+      // {
+      //   title: '订单SN',
+      //   dataIndex: 'transaction_sn',
+      // },
       {
-        title: '订单SN',
-        dataIndex: 'transaction_sn',
+        title: '发票类型',
+        dataIndex: 'type_name',
       },
       {
-        title: '门店名称',
-        dataIndex: 'store.name',
+        title: '抬头',
+        dataIndex: 'title',
       },
       {
-        title: '门店地址',
-        dataIndex: 'store.address',
+        title: '金额',
+        dataIndex: 'price',
       },
       {
-        title: '姓名',
-        dataIndex: 'name',
+        title: '税号',
+        dataIndex: 'company_tx_sn',
       },
       {
-        title: '手机号',
-        dataIndex: 'mobile',
-      },
-      {
-        title: '自提时间',
-        dataIndex: 'pickup_datetime',
-      },
-      {
-        title: '自提成功',
-        dataIndex: 'picked',
+        title: '是否开具',
+        dataIndex: 'issued',
         render(text, record, index) {
           if (text) {
-            return <Badge status='success' text='已自提' />;
+            return <Badge status='success' text='已开具' />;
           } else {
-            return <Badge status='error' text='未自提' />;
+            return <Badge status='error' text='未开具' />;
           }
         },
       },
       {
-        title: '自提时间',
-        dataIndex: 'picked_datetime',
+        title: '开具时间',
+        dataIndex: 'issued_datetime',
+        render(text) {
+          if (text) {
+            return text
+          } else {
+            return "-"
+          }
+        },
+      },
+      {
+        title: '是否发出',
+        dataIndex: 'shipped',
+        render(text, record, index) {
+          if (text) {
+            return <Badge status='success' text='已发出' />;
+          } else {
+            return <Badge status='error' text='未发出' />;
+          }
+        },
+      },
+      {
+        title: '发出时间',
+        dataIndex: 'shipped_datetime',
+        render(text) {
+          if (text) {
+            return text
+          } else {
+            return "-"
+          }
+        },
       },
       {
         title: '创建时间',
@@ -200,8 +225,25 @@ class InvoiceList extends PureComponent {
             <Divider type="vertical" />
 
             { record.picked ? (
-              <a disabled onClick={() => this.handleUpdateModalVisible(true, record)}>修改自提信息</a>
-            ) : <a onClick={() => this.handleUpdateModalVisible(true, record)}>修改自提信息</a>}
+              <a disabled onClick={() => this.handleUpdateModalVisible(true, record)}>修改发票信息</a>
+            ) : <a onClick={() => this.handleUpdateModalVisible(true, record)}>修改发票信息</a>}
+
+            <Divider type="vertical" />
+
+            { record.issued ? (
+              null
+            ) : <Popconfirm title="是否要确认已开具此订单发票？" >
+                <a>已开具</a>
+              </Popconfirm>}
+
+            <Divider type="vertical" />
+
+            { record.shipped ? (
+              null
+            ) : <Popconfirm title="是否要确认已发出此订单发票？" >
+                <a>已发出</a>
+              </Popconfirm>}
+
           </Fragment>
         ),
       },
@@ -216,7 +258,7 @@ class InvoiceList extends PureComponent {
               loading={loading}
               data={data}
               columns={columns}
-              scroll={{ x: 1680 }}
+              scroll={{ x: 1200 }}
               onChange={this.handleStandardTableChange}
             />
           </div>

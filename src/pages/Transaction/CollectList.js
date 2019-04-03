@@ -290,10 +290,10 @@ class CollectList extends PureComponent {
         title: 'ID',
         dataIndex: 'id',
       },
-      {
-        title: '订单SN',
-        dataIndex: 'transaction_sn',
-      },
+      // {
+      //   title: '订单SN',
+      //   dataIndex: 'transaction_sn',
+      // },
       {
         title: '门店名称',
         dataIndex: 'store.name',
@@ -366,7 +366,7 @@ class CollectList extends PureComponent {
               loading={loading}
               data={data}
               columns={columns}
-              scroll={{ x: 1680 }}
+              scroll={{ x: 1300 }}
               onChange={this.handleStandardTableChange}
             />
           </div>
