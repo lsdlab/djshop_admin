@@ -168,7 +168,7 @@ class UpdateForm extends PureComponent {
 class SplashList extends PureComponent {
   state = {
     currentPage: 1,
-    pageSize: 10,
+    pageSize: 20,
     modalVisible: false,
     updateModalVisible: false,
     formValues: {},

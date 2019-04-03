@@ -75,7 +75,7 @@ class UpdateForm extends PureComponent {
         destroyOnClose
         centered
         keyboard
-        title="修改自提信息"
+        title="修改发票信息"
         width={800}
         visible={updateModalVisible}
         onOk={okHandle}
@@ -196,7 +196,7 @@ class ViewForm extends PureComponent {
 class InvoiceList extends PureComponent {
   state = {
     currentPage: 1,
-    pageSize: 10,
+    pageSize: 20,
     formValues: {},
     updateModalVisible: false,
     viewModalVisible: false,
@@ -343,12 +343,22 @@ class InvoiceList extends PureComponent {
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 6, lg: 24, xl: 48 }}>
-          <Col md={8} sm={24}>
-            <FormItem label="搜索">
-              {getFieldDecorator('search')(<Input placeholder="抬头/描述" />)}
+          <Col md={6} sm={24}>
+            <FormItem label="sn">
+              {getFieldDecorator('sn')(<Input placeholder="sn" />)}
             </FormItem>
           </Col>
-          <Col md={12} sm={24}>
+          <Col md={6} sm={24}>
+            <FormItem label="手机号">
+              {getFieldDecorator('mobile')(<Input placeholder="手机号" />)}
+            </FormItem>
+          </Col>
+          <Col md={6} sm={24}>
+            <FormItem label="搜索">
+              {getFieldDecorator('search')(<Input placeholder="抬头/备注" />)}
+            </FormItem>
+          </Col>
+          <Col md={6} sm={24}>
             <span className={styles.submitButtons}>
               <Button type="primary" htmlType="submit">
                 查询

@@ -131,7 +131,7 @@ class UpdateForm extends PureComponent {
 class CollectList extends PureComponent {
   state = {
     currentPage: 1,
-    pageSize: 10,
+    pageSize: 20,
     formValues: {},
     updateModalVisible: false,
     currentRecord: {},
@@ -252,12 +252,22 @@ class CollectList extends PureComponent {
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 6, lg: 24, xl: 48 }}>
-          <Col md={8} sm={24}>
+          <Col md={6} sm={24}>
+            <FormItem label="sn">
+              {getFieldDecorator('sn')(<Input placeholder="sn" />)}
+            </FormItem>
+          </Col>
+          <Col md={6} sm={24}>
+            <FormItem label="手机号">
+              {getFieldDecorator('mobile')(<Input placeholder="手机号" />)}
+            </FormItem>
+          </Col>
+          <Col md={6} sm={24}>
             <FormItem label="搜索">
               {getFieldDecorator('search')(<Input placeholder="店名/地址" />)}
             </FormItem>
           </Col>
-          <Col md={12} sm={24}>
+          <Col md={6} sm={24}>
             <span className={styles.submitButtons}>
               <Button type="primary" htmlType="submit">
                 查询
@@ -289,10 +299,10 @@ class CollectList extends PureComponent {
         title: 'ID',
         dataIndex: 'id',
       },
-      // {
-      //   title: '订单SN',
-      //   dataIndex: 'transaction_sn',
-      // },
+      {
+        title: '订单SN',
+        dataIndex: 'transaction_sn',
+      },
       {
         title: '门店名称',
         dataIndex: 'store.name',
@@ -308,10 +318,6 @@ class CollectList extends PureComponent {
       {
         title: '手机号',
         dataIndex: 'mobile',
-      },
-      {
-        title: '自提时间',
-        dataIndex: 'pickup_datetime',
       },
       {
         title: '自提成功',
@@ -365,7 +371,7 @@ class CollectList extends PureComponent {
               loading={loading}
               data={data}
               columns={columns}
-              scroll={{ x: 1300 }}
+              scroll={{ x: 1420 }}
               onChange={this.handleStandardTableChange}
             />
           </div>

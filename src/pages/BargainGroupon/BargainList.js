@@ -32,7 +32,7 @@ const pStyle = {
 class BargainList extends PureComponent {
   state = {
     currentPage: 1,
-    pageSize: 10,
+    pageSize: 20,
     visible: false,
   };
 

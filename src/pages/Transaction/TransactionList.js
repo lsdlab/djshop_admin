@@ -32,7 +32,7 @@ const { Option } = Select;
 class TransactionList extends PureComponent {
   state = {
     currentPage: 1,
-    pageSize: 10,
+    pageSize: 20,
     formValues: {},
   };
 
@@ -111,11 +111,6 @@ class TransactionList extends PureComponent {
             </FormItem>
           </Col>
           <Col md={6} sm={24}>
-            <FormItem label="搜索">
-              {getFieldDecorator('search')(<Input placeholder="用户名/备注" />)}
-            </FormItem>
-          </Col>
-          <Col md={6} sm={24}>
             <FormItem label="状态">
               {getFieldDecorator('status')(
                 <Select placeholder="请选择" style={{ width: '100%' }}>
@@ -127,6 +122,11 @@ class TransactionList extends PureComponent {
                   <Option value="6">已评价-交易完成</Option>
                 </Select>
               )}
+            </FormItem>
+          </Col>
+          <Col md={6} sm={24}>
+            <FormItem label="搜索">
+              {getFieldDecorator('search')(<Input placeholder="用户名/备注" />)}
             </FormItem>
           </Col>
           <Col md={6} sm={24}>

@@ -28,6 +28,12 @@ export default {
     *patch({ payload, transactionID }, { call, put }) {
       yield call(patchRefund, payload, transactionID);
     },
+    *auditRefund({ payload, transactionID }, { call, put }) {
+      yield call(auditRefund, payload, transactionID);
+    },
+    *withdrawRefund({ transactionID }, { call, put }) {
+      yield call(withdrawRefund, transactionID);
+    },
   },
 
   reducers: {
