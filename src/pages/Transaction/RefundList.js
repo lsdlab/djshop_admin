@@ -258,11 +258,6 @@ class CollectList extends PureComponent {
             </FormItem>
           </Col>
           <Col md={6} sm={24}>
-            <FormItem label="手机号">
-              {getFieldDecorator('mobile')(<Input placeholder="手机号" />)}
-            </FormItem>
-          </Col>
-          <Col md={6} sm={24}>
             <FormItem label="搜索">
               {getFieldDecorator('search')(<Input placeholder="店名/地址" />)}
             </FormItem>
@@ -299,10 +294,10 @@ class CollectList extends PureComponent {
         title: 'ID',
         dataIndex: 'id',
       },
-      // {
-      //   title: '订单SN',
-      //   dataIndex: 'transaction_sn',
-      // },
+      {
+        title: '订单SN',
+        dataIndex: 'transaction_sn',
+      },
       {
         title: '门店名称',
         dataIndex: 'store.name',
@@ -351,15 +346,15 @@ class CollectList extends PureComponent {
             <Divider type="vertical" />
 
             { record.picked ? (
-              <a disabled onClick={() => this.handleUpdateModalVisible(true, record)}>修改自提信息</a>
-            ) : <a onClick={() => this.handleUpdateModalVisible(true, record)}>修改自提信息</a>}
+              <a disabled onClick={() => this.handleUpdateModalVisible(true, record)}>修改退货信息</a>
+            ) : <a onClick={() => this.handleUpdateModalVisible(true, record)}>修改退货信息</a>}
 
             <Divider type="vertical" />
 
             { record.picked ? (
               null
-            ) : <Popconfirm title="是否要确认自提此商品？" onConfirm={() => this.confirmPickup(record.transaction)}>
-                <a>确认自提</a>
+            ) : <Popconfirm title="是否要撤销此退货？" onConfirm={() => this.confirmPickup(record.transaction)}>
+                <a>撤销退货</a>
               </Popconfirm>}
           </Fragment>
         ),
@@ -375,7 +370,7 @@ class CollectList extends PureComponent {
               loading={loading}
               data={data}
               columns={columns}
-              scroll={{ x: 1300 }}
+              scroll={{ x: 1580 }}
               onChange={this.handleStandardTableChange}
             />
           </div>

@@ -349,11 +349,6 @@ class InvoiceList extends PureComponent {
             </FormItem>
           </Col>
           <Col md={6} sm={24}>
-            <FormItem label="手机号">
-              {getFieldDecorator('mobile')(<Input placeholder="手机号" />)}
-            </FormItem>
-          </Col>
-          <Col md={6} sm={24}>
             <FormItem label="搜索">
               {getFieldDecorator('search')(<Input placeholder="抬头/备注" />)}
             </FormItem>
@@ -395,10 +390,10 @@ class InvoiceList extends PureComponent {
         title: 'ID',
         dataIndex: 'id',
       },
-      // {
-      //   title: '订单SN',
-      //   dataIndex: 'transaction_sn',
-      // },
+      {
+        title: '订单SN',
+        dataIndex: 'transaction_sn',
+      },
       {
         title: '发票类型',
         dataIndex: 'type_name',
@@ -508,7 +503,7 @@ class InvoiceList extends PureComponent {
               loading={loading}
               data={data}
               columns={columns}
-              scroll={{ x: 1200 }}
+              scroll={{ x: 1480 }}
               onChange={this.handleStandardTableChange}
             />
           </div>
