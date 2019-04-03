@@ -33,7 +33,7 @@ export default {
   'menu.assist': '辅助',
   'menu.assist.splash-list': '开屏广告',
   'menu.assist.banner-list': '轮播图',
-  'menu.assist.notice-list': '全网提醒',
+  'menu.assist.notice-list': '全网通知',
   'menu.assist.article-list': '专题',
   'menu.assist.upload-image': '上传图片',
   'menu.assist.user-list': '用户列表',

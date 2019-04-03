@@ -91,7 +91,7 @@ class UpdateForm extends PureComponent {
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="备注">
           {form.getFieldDecorator('note', {
             initialValue: modalFormVals.note,
-            rules: [{ required: true, message: "请输入备注！" }],
+            rules: [{ required: false, message: "请输入备注！" }],
           })(<TextArea autosize={{ minRows: 4, maxRows: 8 }} placeholder="备注" />)}
         </FormItem>
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="自提时间">
@@ -135,7 +135,6 @@ class CollectList extends PureComponent {
     formValues: {},
     updateModalVisible: false,
     currentRecord: {},
-    modalFormValues: {},
   };
 
   componentDidMount() {
@@ -154,8 +153,8 @@ class CollectList extends PureComponent {
     const { formValues } = this.state;
 
     const params = {
-      currentPage: pagination.current,
-      pageSize: pagination.pageSize,
+      page: pagination.current,
+      page_size: pagination.pageSize,
       ...formValues,
     };
 

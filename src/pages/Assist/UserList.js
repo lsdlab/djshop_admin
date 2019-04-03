@@ -48,8 +48,8 @@ class UserList extends PureComponent {
     const { formValues } = this.state;
 
     const params = {
-      currentPage: pagination.current,
-      pageSize: pagination.pageSize,
+      page: pagination.current,
+      page_size: pagination.pageSize,
       ...formValues,
     };
 

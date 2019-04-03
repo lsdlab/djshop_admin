@@ -79,15 +79,8 @@ class UpdateForm extends PureComponent {
   }
 
   render() {
-    const { updateModalVisible, form, handleUpdate, handleUpdateModalVisible } = this.props;
+    const { updateModalVisible, form, handleUpdateModalVisible } = this.props;
     const { modalFormVals } = this.state;
-
-    const okHandle = () => {
-      form.validateFields((err, fieldsValue) => {
-        if (err) return;
-        handleUpdate(fieldsValue);
-      });
-    };
 
     return (
       <Modal
@@ -153,7 +146,6 @@ class NoticeList extends PureComponent {
     updateModalVisible: false,
     formValues: {},
     currentRecord: {},
-    modalFormValues: {},
   };
 
   componentDidMount() {
@@ -168,8 +160,8 @@ class NoticeList extends PureComponent {
     const { formValues } = this.state;
 
     const params = {
-      currentPage: pagination.current,
-      pageSize: pagination.pageSize,
+      page: pagination.current,
+      page_size: pagination.pageSize,
       ...formValues,
     };
 
@@ -219,22 +211,6 @@ class NoticeList extends PureComponent {
     });
   };
 
-  handleUpdate = (fields) => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'notice/patch',
-      payload: fields,
-      noticeID: this.state.currentRecord.id,
-    }).then(() => {
-      message.success('更新全网通知成功');
-      this.handleUpdateModalVisible();
-      dispatch({
-        type: 'notice/fetch',
-        payload: {},
-      });
-    });
-  };
-
   handleDeleted = (noticeID) => {
     const { dispatch } = this.props;
     dispatch({
@@ -258,7 +234,7 @@ class NoticeList extends PureComponent {
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
             <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
-              新增全网提醒
+              新增全网通知
             </Button>
           </Col>
         </Row>
@@ -279,7 +255,6 @@ class NoticeList extends PureComponent {
     };
     const updateMethods = {
       handleUpdateModalVisible: this.handleUpdateModalVisible,
-      handleUpdate: this.handleUpdate,
     };
 
     const columns = [
@@ -340,7 +315,7 @@ class NoticeList extends PureComponent {
     ];
 
     return (
-      <PageHeaderWrapper title="全网提醒">
+      <PageHeaderWrapper title="全网通知">
         <Card bordered={false}>
           <div className={styles.tableList}>
             <div className={styles.tableListForm}>{this.renderSimpleForm()}</div>

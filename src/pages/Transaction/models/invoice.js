@@ -2,6 +2,7 @@ import { routerRedux } from 'dva/router';
 import { message } from 'antd';
 import { queryInvoices,
          patchInvoice,
+         queryUserAllAddress,
 } from '@/services/api';
 
 
@@ -13,6 +14,7 @@ export default {
       results: [],
       count: undefined,
     },
+    userAllAddress: [],
   },
 
   effects: {
@@ -26,6 +28,13 @@ export default {
     *patch({ payload, transactionID }, { call, put }) {
       yield call(patchInvoice, payload, transactionID);
     },
+    *fetchUserAllAddress({ userID }, { call, put }) {
+      const response = yield call(queryUserAllAddress, userID);
+      yield put({
+        type: 'saveUserAllAddress',
+        payload: response,
+      });
+    }
   },
 
   reducers: {
@@ -35,10 +44,10 @@ export default {
         data: action.payload,
       };
     },
-    saveStoreAllIds(state, action) {
+    saveUserAllAddress(state, action) {
       return {
         ...state,
-        allStoreIds: action.payload,
+        userAllAddress: action.payload,
       };
     },
   },

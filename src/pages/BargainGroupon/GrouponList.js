@@ -70,6 +70,22 @@ class GrouponList extends PureComponent {
     });
   };
 
+  handleStandardTableChange = (pagination) => {
+    const { dispatch } = this.props;
+    const { formValues } = this.state;
+
+    const params = {
+      page: pagination.current,
+      page_size: pagination.pageSize,
+      ...formValues,
+    };
+
+    dispatch({
+      type: 'groupon/fetch',
+      payload: params,
+    });
+  };
+
   render() {
     const {
       groupon: { data, logData },

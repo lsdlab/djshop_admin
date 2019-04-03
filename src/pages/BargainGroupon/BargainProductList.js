@@ -221,7 +221,6 @@ class BargainProductList extends PureComponent {
     updateModalVisible: false,
     formValues: {},
     currentRecord: {},
-    modalFormValues: {},
   };
 
   componentDidMount() {
@@ -236,8 +235,8 @@ class BargainProductList extends PureComponent {
     const { formValues } = this.state;
 
     const params = {
-      currentPage: pagination.current,
-      pageSize: pagination.pageSize,
+      page: pagination.current,
+      page_size: pagination.pageSize,
       ...formValues,
     };
 
