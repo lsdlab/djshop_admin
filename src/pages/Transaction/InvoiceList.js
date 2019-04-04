@@ -463,7 +463,7 @@ class InvoiceList extends PureComponent {
         fixed: 'right',
         render: (text, record) => (
           <Fragment>
-            <a onClick={() => this.routerPushDetail(record.transaction)}>订单详情</a>
+            <a onClick={() => this.routerPushDetail(record.transaction)}>订单</a>
             <Divider type="vertical" />
 
             { record.picked ? (

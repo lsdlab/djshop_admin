@@ -343,19 +343,19 @@ class CollectList extends PureComponent {
         fixed: 'right',
         render: (text, record) => (
           <Fragment>
-            <a onClick={() => this.routerPushDetail(record.transaction)}>订单详情</a>
+            <a onClick={() => this.routerPushDetail(record.transaction)}>订单</a>
             <Divider type="vertical" />
 
             { record.picked ? (
-              <a disabled onClick={() => this.handleUpdateModalVisible(true, record)}>修改自提信息</a>
-            ) : <a onClick={() => this.handleUpdateModalVisible(true, record)}>修改自提信息</a>}
+              <a disabled onClick={() => this.handleUpdateModalVisible(true, record)}>修改</a>
+            ) : <a onClick={() => this.handleUpdateModalVisible(true, record)}>修改</a>}
 
             <Divider type="vertical" />
 
             { record.picked ? (
               null
             ) : <Popconfirm title="是否要确认自提此商品？" onConfirm={() => this.confirmPickup(record.transaction)}>
-                <a>确认自提</a>
+                <a>确认</a>
               </Popconfirm>}
           </Fragment>
         ),

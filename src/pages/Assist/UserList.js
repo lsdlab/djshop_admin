@@ -160,7 +160,7 @@ class UserList extends PureComponent {
       {
         title: '是否会员',
         dataIndex: 'profile.is_vip',
-        render(text, record, index) {
+        render(text) {
           if (text) {
             return <Badge status='success' text='是' />;
           } else {
@@ -171,7 +171,7 @@ class UserList extends PureComponent {
       {
         title: '会员周期',
         dataIndex: 'profile.vip_session',
-        render(text, record) {
+        render(text) {
           if (text) {
             return text;
           } else {
@@ -182,7 +182,7 @@ class UserList extends PureComponent {
       {
         title: '会员过期时间',
         dataIndex: 'profile.vip_expired_datetime',
-        render(text, record) {
+        render(text) {
           if (text) {
             return text;
           } else {

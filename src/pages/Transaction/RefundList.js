@@ -70,7 +70,7 @@ class UpdateForm extends PureComponent {
         destroyOnClose
         centered
         keyboard
-        title="修改自提信息"
+        title="修改退货信息"
         width={800}
         visible={updateModalVisible}
         onOk={okHandle}
@@ -123,9 +123,9 @@ class UpdateForm extends PureComponent {
 }
 
 /* eslint react/no-multi-comp:0 */
-@connect(({ collect, loading }) => ({
-  collect,
-  loading: loading.models.collect,
+@connect(({ refund, loading }) => ({
+  refund,
+  loading: loading.models.refund,
 }))
 @Form.create()
 class CollectList extends PureComponent {
@@ -140,7 +140,7 @@ class CollectList extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'collect/fetch',
+      type: 'refund/fetch',
     });
   }
 
@@ -159,7 +159,7 @@ class CollectList extends PureComponent {
     };
 
     dispatch({
-      type: 'collect/fetch',
+      type: 'refund/fetch',
       payload: params,
     });
   };
@@ -171,7 +171,7 @@ class CollectList extends PureComponent {
       formValues: {},
     });
     dispatch({
-      type: 'collect/fetch',
+      type: 'refund/fetch',
       payload: {},
     });
   };
@@ -193,7 +193,7 @@ class CollectList extends PureComponent {
       });
 
       dispatch({
-        type: 'collect/fetch',
+        type: 'refund/fetch',
         payload: values,
       });
     });
@@ -207,7 +207,7 @@ class CollectList extends PureComponent {
 
     if (flag) {
       this.props.dispatch({
-        type: 'collect/fetchStoreAllIds',
+        type: 'refund/fetchStoreAllIds',
       });
     }
   };
@@ -219,14 +219,14 @@ class CollectList extends PureComponent {
       ...fields,
     };
     dispatch({
-      type: 'collect/patch',
+      type: 'refund/patch',
       payload: params,
       transactionID: this.state.currentRecord.transaction,
     }).then(() => {
       message.success('更新成功');
       this.handleUpdateModalVisible();
       dispatch({
-        type: 'collect/fetch',
+        type: 'refund/fetch',
         payload: {},
       });
     });
@@ -235,12 +235,12 @@ class CollectList extends PureComponent {
   confirmPickup = (transactionID) => {
     const { dispatch } = this.props;
     dispatch({
-      type: 'collect/confirmCollectPickup',
+      type: 'refund/confirmCollectPickup',
       transactionID: transactionID,
     }).then(() => {
       message.success('确认自提成功！');
       dispatch({
-        type: 'collect/fetch',
+        type: 'refund/fetch',
       });
     });
   };
@@ -255,11 +255,6 @@ class CollectList extends PureComponent {
           <Col md={6} sm={24}>
             <FormItem label="sn">
               {getFieldDecorator('sn')(<Input placeholder="sn" />)}
-            </FormItem>
-          </Col>
-          <Col md={6} sm={24}>
-            <FormItem label="搜索">
-              {getFieldDecorator('search')(<Input placeholder="店名/地址" />)}
             </FormItem>
           </Col>
           <Col md={6} sm={24}>
@@ -279,7 +274,7 @@ class CollectList extends PureComponent {
 
   render() {
     const {
-      collect: { data, allStoreIds },
+      refund: { data },
       loading,
     } = this.props;
     const { currentPage, pageSize, updateModalVisible, currentRecord } = this.state;
@@ -299,39 +294,79 @@ class CollectList extends PureComponent {
         dataIndex: 'transaction_sn',
       },
       {
-        title: '门店名称',
-        dataIndex: 'store.name',
+        title: '退货类型',
+        dataIndex: 'refund_type_name',
       },
       {
-        title: '门店地址',
-        dataIndex: 'store.address',
+        title: '退货金额',
+        dataIndex: 'refund_price',
       },
       {
-        title: '姓名',
-        dataIndex: 'name',
+        title: '用户名',
+        dataIndex: 'user',
       },
       {
-        title: '手机号',
-        dataIndex: 'mobile',
+        title: '审核人',
+        dataIndex: 'auditor',
       },
       {
-        title: '自提时间',
-        dataIndex: 'pickup_datetime',
+        title: '审核进度',
+        dataIndex: 'audit_name',
       },
       {
-        title: '自提成功',
-        dataIndex: 'picked',
-        render(text, record, index) {
+        title: '审核时间',
+        dataIndex: 'audit_datetime',
+        render(text) {
           if (text) {
-            return <Badge status='success' text='已自提' />;
+            return text;
           } else {
-            return <Badge status='error' text='未自提' />;
+            return '-';
           }
         },
       },
       {
-        title: '自提时间',
-        dataIndex: 'picked_datetime',
+        title: '审核备注',
+        dataIndex: 'audit_note',
+        render(text) {
+          if (text) {
+            return text;
+          } else {
+            return '-';
+          }
+        },
+      },
+      {
+        title: '快递',
+        dataIndex: 'shipper',
+        render(text) {
+          if (text) {
+            return text;
+          } else {
+            return '-';
+          }
+        },
+      },
+      {
+        title: '快递单号',
+        dataIndex: 'shipper_sn',
+        render(text) {
+          if (text) {
+            return text;
+          } else {
+            return '-';
+          }
+        },
+      },
+      {
+        title: '退货发出快递时间',
+        dataIndex: 'refund_enter_ship_info_datetime',
+        render(text) {
+          if (text) {
+            return text;
+          } else {
+            return '-';
+          }
+        },
       },
       {
         title: '创建时间',
@@ -342,20 +377,31 @@ class CollectList extends PureComponent {
         fixed: 'right',
         render: (text, record) => (
           <Fragment>
-            <a onClick={() => this.routerPushDetail(record.transaction)}>订单详情</a>
+            <a onClick={() => this.routerPushDetail(record.transaction)}>订单</a>
             <Divider type="vertical" />
 
-            { record.picked ? (
-              <a disabled onClick={() => this.handleUpdateModalVisible(true, record)}>修改退货信息</a>
-            ) : <a onClick={() => this.handleUpdateModalVisible(true, record)}>修改退货信息</a>}
+            {/*<a onClick={() => this.routerPushDetail(record.transaction)}>详情</a>
+            <Divider type="vertical" />*/}
+
+            { record.audit == '1' ? (
+              <a onClick={() => this.handleUpdateModalVisible(true, record)}>修改</a>
+            ) : <a disabled onClick={() => this.handleUpdateModalVisible(true, record)}>修改</a>}
 
             <Divider type="vertical" />
 
-            { record.picked ? (
-              null
-            ) : <Popconfirm title="是否要撤销此退货？" onConfirm={() => this.confirmPickup(record.transaction)}>
-                <a>撤销退货</a>
-              </Popconfirm>}
+            { record.audit == '1' ? (
+              <Popconfirm title="是否要允许此退货？" onConfirm={() => this.confirmPickup(record.transaction)}>
+                <a>允许</a>
+              </Popconfirm>
+            ) : null}
+
+            <Divider type="vertical" />
+
+            { record.audit == '1' ? (
+              <Popconfirm title="是否要撤销此退货？" onConfirm={() => this.confirmPickup(record.transaction)}>
+                <a>撤销</a>
+              </Popconfirm>
+            ) : null}
           </Fragment>
         ),
       },
@@ -370,7 +416,7 @@ class CollectList extends PureComponent {
               loading={loading}
               data={data}
               columns={columns}
-              scroll={{ x: 1580 }}
+              scroll={{ x: 1800 }}
               onChange={this.handleStandardTableChange}
             />
           </div>
