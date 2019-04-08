@@ -29,7 +29,7 @@ const FooterView = () => (
       copyright={
         <Fragment>
           <p>Site made by JC, powered by React and Ant Design Pro.</p>
-          <p>Copyright &copy; 闪算科技 2018-2019 All Rights Reserved</p>
+          <p>Copyright &copy; flashtech.xyz 2018-2019 All Rights Reserved</p>
         </Fragment>
       }
     />

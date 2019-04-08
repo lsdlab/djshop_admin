@@ -22,6 +22,7 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import styles from '../List/TableList.less';
 
+
 const FormItem = Form.Item;
 const InputGroup = Input.Group;
 const { Option } = Select;
@@ -279,7 +280,6 @@ class BargainProductList extends PureComponent {
       end_price: fields.end_price,
       bargain_percent_range: fields.bargain_percent_range_start + '-' + fields.bargain_percent_range_end,
     };
-    console.log(payload);
 
     dispatch({
       type: 'bargain_product/create',
@@ -296,10 +296,16 @@ class BargainProductList extends PureComponent {
 
   handleUpdate = (fields) => {
     const { dispatch } = this.props;
+    const payload = {
+      product_spec: fields.product_spec,
+      start_price: fields.start_price,
+      end_price: fields.end_price,
+      bargain_percent_range: fields.bargain_percent_range_start + '-' + fields.bargain_percent_range_end,
+    };
     dispatch({
       type: 'bargain_product/patch',
-      payload: fields,
-      bargainProductID: this.state.currentRecord.id,
+      payload: payload,
+      bargainProductSpecID: this.state.currentRecord.id,
     }).then(() => {
       message.success('更新成功');
       this.handleUpdateModalVisible();

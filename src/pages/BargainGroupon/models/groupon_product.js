@@ -29,8 +29,8 @@ export default {
     *create({ payload }, { call, put }) {
       yield call(createGrouponsProduct, payload);
     },
-    *patch({ payload, grouponProductID }, { call, put }) {
-      yield call(patchGrouponsProduct, payload, grouponProductID);
+    *patch({ payload, grouponProductSpecID }, { call, put }) {
+      yield call(patchGrouponsProduct, payload, grouponProductSpecID);
     },
     *fetchProductSpecAllIds({}, { call, put }) {
       const response = yield call(fetchProductSpecAllIds);

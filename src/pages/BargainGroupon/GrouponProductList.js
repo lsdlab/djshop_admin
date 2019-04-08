@@ -21,6 +21,7 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import styles from '../List/TableList.less';
 
+
 const FormItem = Form.Item;
 const InputGroup = Input.Group;
 const { Option } = Select;
@@ -83,6 +84,7 @@ const CreateForm = Form.create()(props => {
     </Modal>
   );
 });
+
 
 @Form.create()
 class UpdateForm extends PureComponent {
@@ -243,7 +245,7 @@ class GrouponProductList extends PureComponent {
     dispatch({
       type: 'groupon_product/patch',
       payload: fields,
-      grouponProductID: this.state.currentRecord.id,
+      grouponProductSpecID: this.state.currentRecord.id,
     }).then(() => {
       message.success('更新成功');
       this.handleUpdateModalVisible();
@@ -254,15 +256,15 @@ class GrouponProductList extends PureComponent {
     });
   };
 
-  grouponProductDeleted = (flag, grouponProductID) => {
+  grouponProductDeleted = (flag, grouponProductSpecID) => {
     const { dispatch } = this.props;
-    if (flag && grouponProductID) {
+    if (flag && grouponProductSpecID) {
       dispatch({
         type: 'groupon_product/patch',
         payload: {
           deleted: true,
         },
-        grouponProductID: grouponProductID,
+        grouponProductSpecID: grouponProductSpecID,
       }).then(() => {
         message.success('下架团购商品成功！');
         dispatch({
@@ -275,7 +277,7 @@ class GrouponProductList extends PureComponent {
         payload: {
           deleted: false,
         },
-        grouponProductID: grouponProductID,
+        grouponProductSpecID: grouponProductSpecID,
       }).then(() => {
         message.success('上架团购商品成功！');
         dispatch({

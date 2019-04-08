@@ -675,9 +675,9 @@ export async function createGrouponsProduct(params) {
 }
 
 // 修改可团购商品
-export async function patchGrouponsProduct(params, grouponProductID) {
+export async function patchGrouponsProduct(params, grouponProductSpecID) {
   const token = getToken();
-  return request(`${apiHost}${apiVersion}/groupons/products/${grouponProductID}/`, {
+  return request(`${apiHost}${apiVersion}/groupons/products/${grouponProductSpecID}/`, {
     method: 'PATCH',
     body: params,
     headers: {
