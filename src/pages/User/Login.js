@@ -81,30 +81,9 @@ class LoginPage extends Component {
               onPressEnter={() => this.loginForm.validateFields(this.handleSubmit)}
             />
           </Tab>
-          <Tab key="mobile" tab={formatMessage({ id: 'app.login.tab-login-mobile' })}>
-            {login.status === 'error' &&
-              login.type === 'mobile' &&
-              !submitting &&
-              this.renderMessage(
-                formatMessage({ id: 'app.login.message-invalid-verification-code' })
-              )}
-            <Mobile name="mobile" />
-            <Captcha
-              name="captcha"
-              countDown={120}
-              onGetCaptcha={this.onGetCaptcha}
-              getCaptchaButtonText={formatMessage({ id: 'form.captcha' })}
-              getCaptchaSecondText={formatMessage({ id: 'form.captcha.second' })}
-            />
-          </Tab>
           <Submit loading={submitting}>
             <FormattedMessage id="app.login.login" />
           </Submit>
-          <div className={styles.other}>
-            <Link className={styles.register} to="/user/register">
-              <FormattedMessage id="app.login.signup" />
-            </Link>
-          </div>
         </Login>
       </div>
     );

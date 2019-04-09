@@ -27,7 +27,7 @@ const links = [
 
 const copyright = (
   <Fragment>
-    <p>Copyright &copy; <a href="https://breakwire.me" target="_blank">BreakWire</a> 2018-2019 All Rights Reserved</p>
+    <p>Copyright &copy; <a href="http://flashtech.xyz" target="_blank">闪算科技</a> 2018-2019 All Rights Reserved</p>
   </Fragment>
 );
 
@@ -55,15 +55,14 @@ class UserLayout extends React.PureComponent {
           <div className={styles.top}>
             <div className={styles.header}>
               <Link to="/">
-                <img alt="logo" className={styles.logo} src={logo} />
-                <span className={styles.title}>Ant Design</span>
+                <img alt="logo" className={styles.logo} src="https://djshopmedia.oss-cn-shanghai.aliyuncs.com/assist/flashtech1.png" />
+                <span className={styles.title}>闪算优选</span>
               </Link>
             </div>
-            <div className={styles.desc}>Ant Design 是西湖区最具影响力的 Web 设计规范</div>
           </div>
           {children}
         </div>
-        <GlobalFooter links={links} copyright={copyright} />
+        <GlobalFooter copyright={copyright} />
       </div>
     );
   }

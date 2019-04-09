@@ -232,7 +232,7 @@ class ProductDetail extends PureComponent {
       <PageHeaderWrapper
         title={currentRecord.name}
         logo={
-          <img alt="" src="https://djshopmedia.oss-cn-shanghai.aliyuncs.com/nxkuOJlFJuAUhzlMTCEe.png" />
+          <img alt="" src="https://djshopmedia.oss-cn-shanghai.aliyuncs.com/dash/detail_icon.png" />
         }
         action={this.buildAction(currentRecord)}
         content={this.buildDescription(currentRecord)}

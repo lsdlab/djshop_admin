@@ -6,30 +6,9 @@ const { Footer } = Layout;
 const FooterView = () => (
   <Footer style={{ padding: 0 }}>
     <GlobalFooter
-      links={[
-        {
-          key: 'breakwire',
-          title: "JC's blog",
-          href: 'https://breakwire.me',
-          blankTarget: true,
-        },
-        {
-          key: 'lsdlab-ant-design-pro',
-          title: 'lsdlab/ant-design-pro',
-          href: 'https://github.com/lsdlab/ant-design-pro',
-          blankTarget: true,
-        },
-        {
-          key: 'ant-design-ant-design-pro',
-          title: 'ant-design/ant-design-pro',
-          href: 'https://github.com/ant-design/ant-design-pro',
-          blankTarget: true,
-        },
-      ]}
       copyright={
         <Fragment>
-          <p>Site made by JC, powered by React and Ant Design Pro.</p>
-          <p>Copyright &copy; flashtech.xyz 2018-2019 All Rights Reserved</p>
+          <p>Copyright &copy; <a href="http://flashtech.xyz" target="_blank">闪算科技</a> 2018-2019 All Rights Reserved</p>
         </Fragment>
       }
     />
