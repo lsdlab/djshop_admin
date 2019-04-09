@@ -7,6 +7,7 @@ import {
   Card,
   Form,
   Input,
+  InputNumber,
   Select,
   Button,
   Modal,
@@ -45,11 +46,7 @@ class UpdateForm extends PureComponent {
 
     this.state = {
       modalFormVals: {
-        name: props.values.name,
-        mobile: props.values.mobile,
-        note: props.values.note,
-        pickup_datetime: props.values.pickup_datetime,
-        store: props.values.store.id,
+        refund_price: props.values.refund_price,
       },
     };
   }
@@ -76,47 +73,12 @@ class UpdateForm extends PureComponent {
         onOk={okHandle}
         onCancel={() => handleUpdateModalVisible()}
       >
-        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="姓名">
-          {form.getFieldDecorator('name', {
-            initialValue: modalFormVals.name,
-            rules: [{ required: true, message: "请输入姓名！" }],
-          })(<Input placeholder="姓名" />)}
+        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="退货金额">
+          {form.getFieldDecorator('refund_price', {
+            initialValue: modalFormVals.refund_price,
+            rules: [{ required: true, message: "请输入退货金额" }],
+          })(<InputNumber min={0.01} step={0.01} style={{ width: "100%" }} placeholder="退货金额" />)}
         </FormItem>
-        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="手机号">
-          {form.getFieldDecorator('mobile', {
-            initialValue: modalFormVals.mobile,
-            rules: [{ required: true, message: "请输入手机号！" }],
-          })(<Input placeholder="副标题" />)}
-        </FormItem>
-        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="备注">
-          {form.getFieldDecorator('note', {
-            initialValue: modalFormVals.note,
-            rules: [{ required: false, message: "请输入备注！" }],
-          })(<TextArea autosize={{ minRows: 4, maxRows: 8 }} placeholder="备注" />)}
-        </FormItem>
-        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="自提时间">
-          {form.getFieldDecorator('pickup_datetime', {
-            initialValue: moment(modalFormVals.pickup_datetime, timeFormat),
-            rules: [{ required: true, message: '请选择自提时间！' }],
-          })(<DatePicker
-                showTime
-                placeholder="自提时间"
-                format={timeFormat}
-                style={{ width: '100%' }}
-              />)}
-        </FormItem>
-        { allStoreIds ? (
-          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="门店">
-            {form.getFieldDecorator('store', {
-                initialValue: modalFormVals.store,
-                rules: [{ required: true, message: '请选择门店！' }],
-              })(
-                <Select style={{ width: '100%' }} placeholder="门店" showSearch={true} optionFilterProp="name">
-                  {buildOptions(allStoreIds)}
-                </Select>
-              )}
-          </FormItem>
-        ) : null}
       </Modal>
     );
   }
@@ -214,13 +176,9 @@ class CollectList extends PureComponent {
 
   handleUpdate = (fields) => {
     const { dispatch } = this.props;
-    const params = {
-      pickup_datetime: moment(fields.pickup_datetime).format(timeFormat),
-      ...fields,
-    };
     dispatch({
-      type: 'refund/patch',
-      payload: params,
+      type: 'refund/auditRefund',
+      payload: fields,
       transactionID: this.state.currentRecord.transaction,
     }).then(() => {
       message.success('更新成功');
@@ -232,13 +190,30 @@ class CollectList extends PureComponent {
     });
   };
 
-  confirmPickup = (transactionID) => {
+  auditRefund = (transactionID, refundPrice) => {
     const { dispatch } = this.props;
     dispatch({
-      type: 'refund/confirmCollectPickup',
+      type: 'refund/auditRefund',
+      payload: {
+        "auditor": JSON.parse(localStorage.getItem('currentUser'))['userid'],
+        "audit": "2"
+      },
       transactionID: transactionID,
     }).then(() => {
-      message.success('确认自提成功！');
+      message.success('允许退货成功！');
+      dispatch({
+        type: 'refund/fetch',
+      });
+    });
+  };
+
+  withdrawRefund = (transactionID) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'refund/withdrawRefund',
+      transactionID: transactionID,
+    }).then(() => {
+      message.success('撤销退货成功！');
       dispatch({
         type: 'refund/fetch',
       });
@@ -384,21 +359,25 @@ class CollectList extends PureComponent {
             <Divider type="vertical" />*/}
 
             { record.audit == '1' ? (
-              <a onClick={() => this.handleUpdateModalVisible(true, record)}>修改</a>
-            ) : <a disabled onClick={() => this.handleUpdateModalVisible(true, record)}>修改</a>}
-
-            <Divider type="vertical" />
+              <a onClick={() => this.handleUpdateModalVisible(true, record)}>修改金额</a>
+            ) : <a disabled onClick={() => this.handleUpdateModalVisible(true, record)}>修改金额</a>}
 
             { record.audit == '1' ? (
-              <Popconfirm title="是否要允许此退货？" onConfirm={() => this.confirmPickup(record.transaction)}>
+              <Divider type="vertical" />
+            ) : null}
+
+            { record.audit == '1' ? (
+              <Popconfirm title="是否要允许此退货？" onConfirm={() => this.auditRefund(record.transaction, refundPrice)}>
                 <a>允许</a>
               </Popconfirm>
             ) : null}
 
-            <Divider type="vertical" />
+            { record.audit == '1' ? (
+              <Divider type="vertical" />
+            ) : null}
 
             { record.audit == '1' ? (
-              <Popconfirm title="是否要撤销此退货？" onConfirm={() => this.confirmPickup(record.transaction)}>
+              <Popconfirm title="是否要撤销此退货？" onConfirm={() => this.withdrawRefund(record.transaction)}>
                 <a>撤销</a>
               </Popconfirm>
             ) : null}
@@ -416,10 +395,18 @@ class CollectList extends PureComponent {
               loading={loading}
               data={data}
               columns={columns}
-              scroll={{ x: 1800 }}
+              scroll={{ x: 1820 }}
               onChange={this.handleStandardTableChange}
             />
           </div>
+
+          {currentRecord && Object.keys(currentRecord).length ? (
+            <UpdateForm
+              {...updateMethods}
+              updateModalVisible={updateModalVisible}
+              values={currentRecord}
+            />
+          ) : null}
         </Card>
       </PageHeaderWrapper>
     );

@@ -24,6 +24,7 @@ export default {
     *fetchCurrent(_, { call, put }) {
       const responseJSON = yield call(fetchCurrent);
       const response = {"userid":responseJSON.id, "email":responseJSON.email, "username": responseJSON.username, "name": responseJSON.username,"avatar": responseJSON.avatar, "bio": responseJSON.bio, "location": responseJSON.location, "url": responseJSON.url};
+      localStorage.setItem('currentUser', JSON.stringify(response));
       yield put({
         type: 'saveCurrentUser',
         payload: response,

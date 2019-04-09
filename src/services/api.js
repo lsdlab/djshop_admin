@@ -147,8 +147,10 @@ function getToken() {
   var token = ''
   if (localStorage.getItem("token") !== null) {
     if (localStorage.getItem('now') + (1 * 24 * 60 * 60 * 1000) < new Date().getTime()) {
+      // token 过期 重新登录
+      localStorage.setItem('antd-pro-authority', '');
       // token 过期，需要刷新
-      token = refreshToken(localStorage.getItem('token'));
+      // token = refreshToken(localStorage.getItem('token'));
     } else {
       // token 未过期
       token = localStorage.getItem("token");
@@ -1004,6 +1006,7 @@ export async function auditRefund(params, transactionID) {
   const token = getToken();
   return request(`${apiHost}${apiVersion}/transactions/${transactionID}/refund/audit/`, {
     method: 'PATCH',
+    body: params,
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `JWT ${token}`,
