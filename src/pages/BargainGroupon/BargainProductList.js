@@ -426,7 +426,6 @@ class BargainProductList extends PureComponent {
       },
       {
         title: '操作',
-        fixed: 'right',
         render: (text, record) => (
           <Fragment>
             <a onClick={() => this.handleUpdateModalVisible(true, record)}>编辑</a>
@@ -452,7 +451,6 @@ class BargainProductList extends PureComponent {
               loading={loading}
               data={data}
               columns={columns}
-              scroll={{ x: 1280 }}
               onChange={this.handleStandardTableChange}
             />
           </div>

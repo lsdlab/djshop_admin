@@ -27,7 +27,7 @@ const { Option } = Select;
 const buildOptions = (optionData) => {
   if (optionData) {
     const arr = [];
-    arr.push(<Option name="无" value="无" key="无">无</Option>)
+    arr.push(<Option name="无" value="无" key="无">无</Option>);
     for (let i = 0; i < optionData.length; i++) {
       arr.push(<Option name={optionData[i].combined_name} value={optionData[i].id} key={optionData[i].id}>{optionData[i].combined_name}</Option>)
     }
@@ -238,9 +238,15 @@ class SplashList extends PureComponent {
 
   handleAdd = fields => {
     const { dispatch } = this.props;
+    const params = {
+      ...fields,
+    };
+    if (params['product'] === '无') {
+      delete params['product']
+    };
     dispatch({
       type: 'splash/create',
-      payload: fields,
+      payload: params,
     }).then((data) => {
       message.success('新增开屏广告成功');
       this.handleModalVisible();
@@ -253,9 +259,15 @@ class SplashList extends PureComponent {
 
   handleUpdate = (fields) => {
     const { dispatch } = this.props;
+    const params = {
+      ...fields,
+    };
+    if (params['product'] === '无') {
+      delete params['product']
+    };
     dispatch({
       type: 'splash/patch',
-      payload: fields,
+      payload: params,
       splashID: this.state.currentRecord.id,
     }).then(() => {
       message.success('更新成功');
