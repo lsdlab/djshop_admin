@@ -32,9 +32,6 @@ export default {
     *patch({ payload, splashID }, { call, put }) {
       yield call(patchSplash, payload, splashID);
     },
-    *delete({ splashID }, { call, put }) {
-      yield call(deleteSplash, splashID);
-    },
     *convert({ payload, splashID }, { call, put }) {
       yield call(convertSplash, payload, splashID);
     },

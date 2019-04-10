@@ -2,14 +2,14 @@ module.exports = {
   "navTheme": "light",
   "primaryColor": "#1890FF",
   "layout": "topmenu",
-  "contentWidth": "Fixed",
+  "contentWidth": "Fluid",
   "fixedHeader": false,
   "autoHideHeader": false,
   "fixSiderbar": false,
   "menu": {
     "disableLocal": false
   },
-  "title": "严选商城",
+  "title": "闪算优选",
   "pwa": true,
   "iconfontUrl": "",
   "collapse": true

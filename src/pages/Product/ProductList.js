@@ -418,11 +418,11 @@ class ProductList extends PureComponent {
         dataIndex: 'start_price',
       },
       {
-        title: '浏览量',
+        title: '浏览',
         dataIndex: 'pv',
       },
       {
-        title: '收藏量',
+        title: '收藏',
         dataIndex: 'fav',
       },
       {
@@ -465,7 +465,7 @@ class ProductList extends PureComponent {
               loading={loading}
               data={data}
               columns={columns}
-              scroll={{ x: 1380 }}
+              scroll={{ x: 1580 }}
               onChange={this.handleStandardTableChange}
             />
           </div>

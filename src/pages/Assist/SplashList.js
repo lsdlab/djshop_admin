@@ -27,6 +27,7 @@ const { Option } = Select;
 const buildOptions = (optionData) => {
   if (optionData) {
     const arr = [];
+    arr.push(<Option name="无" value="无" key="无">无</Option>)
     for (let i = 0; i < optionData.length; i++) {
       arr.push(<Option name={optionData[i].combined_name} value={optionData[i].id} key={optionData[i].id}>{optionData[i].combined_name}</Option>)
     }
@@ -266,20 +267,6 @@ class SplashList extends PureComponent {
     });
   };
 
-  handleDeleted = (splashID) => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'splash/delete',
-      splashID: splashID,
-    }).then(() => {
-      message.success('删除开屏广告成功');
-      dispatch({
-        type: 'splash/fetch',
-        payload: {},
-      });
-    });
-  };
-
   handleConvert = (splashID) => {
     const { dispatch } = this.props;
     dispatch({
@@ -369,15 +356,6 @@ class SplashList extends PureComponent {
 
             <Divider type="vertical" />
 
-            { record.status_name === '下线' ? (
-              <Popconfirm title="是否要删除此开屏广告？" onConfirm={() => this.handleDeleted(record.id)}>
-                <a>删除</a>
-              </Popconfirm>
-            ) : <Popconfirm title="是否要删除此开屏广告？" onConfirm={() => this.handleDeleted(record.id)}>
-                <a disabled>删除</a>
-              </Popconfirm>}
-
-            <Divider type="vertical" />
             { record.status_name === '下线' ? (
               <Popconfirm title="是否要上线此开屏广告？" onConfirm={() => this.handleConvert(record.id)}>
                 <a>上线</a>
