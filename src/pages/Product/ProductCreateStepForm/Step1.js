@@ -49,11 +49,11 @@ class Step1 extends React.PureComponent {
       validateFields((err, values) => {
         if (!err) {
           // 默认这一步已经 post 成功数据，商品 deleted=true carousel 整理成 list 加入 values
-          values['deleted'] = true;
+          values['deleted'] = false;
           var newCarousel = [];
           if (values['carousel'].indexOf(',') > -1) {
             var oldCarousel = values['carousel'].split(',');
-            for (let i = 0; i < oldCarousel.length(); i += 1) {
+            for (let i = 0; i < oldCarousel.length; i += 1) {
               newCarousel.push(oldCarousel[i]);
             }
           } else {

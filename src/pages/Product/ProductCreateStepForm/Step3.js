@@ -27,6 +27,12 @@ class Step3 extends React.PureComponent {
     const onFinish = () => {
       router.push('/product/product-create-step-form/product');
     };
+
+    const onFinishSpec = () => {
+      router.push({pathname: '/product/product-spec-create/' + currentRecord.id, state: {"productID": currentRecord.id }});
+    };
+
+
     const information = (
       <div className={styles.information}>
         <Row>
@@ -77,6 +83,9 @@ class Step3 extends React.PureComponent {
       <Fragment>
         <Button type="primary" onClick={onFinish}>
           再次上架产品
+        </Button>
+        <Button type="primary" onClick={onFinishSpec}>
+          继续上架规格
         </Button>
       </Fragment>
     );

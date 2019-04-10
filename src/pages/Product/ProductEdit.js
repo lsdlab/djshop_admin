@@ -49,8 +49,8 @@ class ProductEdit extends React.PureComponent {
       productID: productID,
     }).then(() => {
       dispatch({
-      type: 'product/fetchCategory',
-    });
+        type: 'product/fetchCategory',
+      });
     });
   }
 
@@ -66,7 +66,7 @@ class ProductEdit extends React.PureComponent {
           var newCarousel = [];
           if (values['carousel'].indexOf(',') > -1) {
             var oldCarousel = values['carousel'].split(',');
-            for (let i = 0; i < oldCarousel.length(); i += 1) {
+            for (let i = 0; i < oldCarousel.length; i += 1) {
               newCarousel.push(oldCarousel[i]);
             }
           } else {

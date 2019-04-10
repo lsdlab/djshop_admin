@@ -102,15 +102,20 @@ class ProductDetail extends PureComponent {
     router.push('/product/product-edit/' + productID);
   }
 
+  routerPushSpecCreate = (productID) => {
+    router.push({pathname: '/product/product-spec-create/' + productID, state: {"productID": productID }});
+  }
+
   routerPushSpecEdit = (specID, productID) => {
     router.push({pathname: '/product/product-spec-edit/' + specID, state: {"productID": productID }});
   }
 
-  buildAction() {
+  buildAction(currentRecord) {
     return (
       <Fragment>
         <ButtonGroup>
           <Button onClick={() => this.routerPushEdit(currentRecord.id)}>编辑商品</Button>
+          <Button onClick={() => this.routerPushSpecCreate(currentRecord.id)}>上架规格</Button>
           {/*<Dropdown overlay={menu} placement="bottomRight">
             <Button>
               <Icon type="ellipsis" />
@@ -296,7 +301,7 @@ class ProductDetail extends PureComponent {
               </Col>
             </Row>
         </Card>
-        <Card title="商品规格信息" style={{ marginBottom: 24 }} bordered={false}>
+        <Card title="商品规格信息" style={{ marginBottom: 24 }} bordered={false} extra={<a onClick={() => this.routerPushSpecCreate(currentRecord.id)}>上架规格</a>}>
           {this.buildSpecs(specData, currentRecord.id)}
         </Card>
       </PageHeaderWrapper>

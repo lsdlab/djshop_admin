@@ -96,6 +96,12 @@ export default [
             name: 'product-spec-edit',
             component: './Product/ProductSpecEdit',
           },
+          {
+            path: '/product/product-spec-create/:id',
+            hideInMenu: true,
+            name: 'product-spec-create',
+            component: './Product/ProductSpecCreate',
+          },
         ],
       },
       {

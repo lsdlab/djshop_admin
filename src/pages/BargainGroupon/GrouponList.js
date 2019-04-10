@@ -117,7 +117,7 @@ class GrouponList extends PureComponent {
       {
         title: '状态',
         dataIndex: 'deleted',
-        render(text, record, index) {
+        render(text) {
           if (text) {
             return <Badge status='error' text='结束' />;
           } else {

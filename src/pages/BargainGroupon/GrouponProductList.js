@@ -328,6 +328,13 @@ class GrouponProductList extends PureComponent {
       {
         title: '商品名称',
         dataIndex: 'product_spec.product.name',
+        render(text, record) {
+          if (text.length > 12) {
+            return text.slice(0, 6) + '...' + text.substr(text.length - 6);
+          } else {
+            return text;
+          }
+        },
       },
       {
         title: '商品规格名称',
@@ -366,6 +373,7 @@ class GrouponProductList extends PureComponent {
       },
       {
         title: '操作',
+        fixed: 'right',
         render: (text, record) => (
           <Fragment>
             <a onClick={() => this.handleUpdateModalVisible(true, record)}>编辑</a>
@@ -391,6 +399,7 @@ class GrouponProductList extends PureComponent {
               loading={loading}
               data={data}
               columns={columns}
+              scroll={{ x: 1080 }}
               onChange={this.handleStandardTableChange}
             />
           </div>
