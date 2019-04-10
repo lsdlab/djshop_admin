@@ -93,6 +93,10 @@ class UploadImage extends PureComponent {
     const { form } = this.props;
     const imageUrl = this.state.imageUrl;
 
+    const onChange = (e) => {
+      // console.log(e);
+    };
+
     return (
       <PageHeaderWrapper title="上传图片">
         <Card bordered={false}>
@@ -137,7 +141,7 @@ class UploadImage extends PureComponent {
             {imageUrl ? <img style={{ width: '25%', height: '25%' }} src={imageUrl} alt="" /> : null}
           </div>
           <div style={{ marginTop: 20 }}>
-            {imageUrl ? <Input value={imageUrl} /> : null}
+            {imageUrl ? <Input value={imageUrl} onChange={onChange} /> : null}
           </div>
           <div style={{ marginTop: 20 }}>
             <CopyToClipboard
