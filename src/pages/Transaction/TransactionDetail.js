@@ -317,7 +317,7 @@ class TransactionDetail extends PureComponent {
       <PageHeaderWrapper
         title={currentRecord.name}
         logo={
-          <img alt="" src="https://djshopmedia.oss-cn-shanghai.aliyuncs.com/dash/detail_icon.png" />
+          <img alt="" src="https://djshopmedia.oss-cn-shanghai.aliyuncs.com/assist/detail_icon.png" />
         }
         action={currentRecord ? this.buildAction(currentRecord) : null}
         content={currentRecord ? this.buildDescription(currentRecord) : null}

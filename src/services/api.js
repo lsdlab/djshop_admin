@@ -148,7 +148,7 @@ function getToken() {
   if (localStorage.getItem("token") !== null) {
     if (localStorage.getItem('now') + (1 * 24 * 60 * 60 * 1000) < new Date().getTime()) {
       // token 过期 重新登录
-      localStorage.setItem('antd-pro-authority', '');
+      localStorage.clear();
       // token 过期，需要刷新
       // token = refreshToken(localStorage.getItem('token'));
     } else {
