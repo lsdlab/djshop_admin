@@ -55,8 +55,8 @@ class UploadImage extends PureComponent {
   state = {
     loading: false,
     token: {
-      access_key_id: Base64.decode('TFRBSTNncmRldGlhMlVJdw=='),
-      access_key_secret: Base64.decode('emtQcGJsRnhYMXJrejlXWkVPQWtNV3lkNzJJOVBx'),
+      access_key_id: Base64.decode('TFRBSW8wT3dzYUJ4MXZoeg=='),
+      access_key_secret: Base64.decode('bm8wT1U2eHVlNEVES3h2V0JicGdOTHI2SzYyRXpz'),
       OSS_ENDPOINT: Base64.decode('aHR0cHM6Ly9vc3MtY24tc2hhbmdoYWkuYWxpeXVuY3MuY29t'),
       OSS_BUCKET: Base64.decode('ZGpzaG9wbWVkaWE='),
     }
