@@ -276,7 +276,7 @@ class BannerList extends PureComponent {
       ...fields,
     };
     if (params['product'] === '无') {
-      delete params['product']
+      delete params['product'];
     };
     dispatch({
       type: 'banner/create',
@@ -297,7 +297,7 @@ class BannerList extends PureComponent {
       ...fields,
     };
     if (params['product'] === '无') {
-      delete params['product']
+      params['product'] = null;
     };
     dispatch({
       type: 'banner/patch',

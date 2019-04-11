@@ -228,6 +228,11 @@ export default [
             name: 'upload-image',
             component: './Assist/UploadImage',
           },
+          {
+            path: '/assist/upload-video',
+            name: 'upload-video',
+            component: './Assist/UploadVideo',
+          },
         ],
       },
       {

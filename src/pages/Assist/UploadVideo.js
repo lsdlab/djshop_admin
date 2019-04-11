@@ -51,7 +51,7 @@ const UploadToOss = (self, path, file) => {
 }
 
 @Form.create()
-class UploadImage extends PureComponent {
+class UploadVideo extends PureComponent {
   state = {
     loading: false,
     token: {
@@ -66,10 +66,9 @@ class UploadImage extends PureComponent {
     const { form } = this.props;
     const dir = form.getFieldValue('dir');
 
-    const isJPG = file.type === 'image/jpeg';
-    const isPNG = file.type === 'image/png';
-    if (!isJPG && !isPNG) {
-      message.error('只能上传 PNG 或者 JPG/JPEG 图片！');
+    const isMP4 = file.type === 'video/mp4';
+    if (!isMP4) {
+      message.error('只能上传 MP4 视频文件');
     }
     let reader = new FileReader();
     reader.readAsDataURL(file);
@@ -78,7 +77,7 @@ class UploadImage extends PureComponent {
       UploadToOss(this, dir, file).then(data => {
         // console.log(data.res.requestUrls)
         this.setState({ imageUrl: data.res.requestUrls });
-        message.success('上传图片成功。');
+        message.success('上传视频成功。');
         message.success(data.res.requestUrls);
       })
     }
@@ -98,7 +97,7 @@ class UploadImage extends PureComponent {
     };
 
     return (
-      <PageHeaderWrapper title="上传图片">
+      <PageHeaderWrapper title="上传视频">
         <Card bordered={false}>
           <Row gutter={{ md: 12, lg: 24, xl: 48 }}>
             <Col md={12} sm={24}>
@@ -108,14 +107,6 @@ class UploadImage extends PureComponent {
                     initialValue: 'tmp',
                   })(<Select style={{ width: "100%" }}>
                       <Option value="tmp">临时文件夹</Option>
-                      <Option value="unittests">单元测试(测试用)</Option>
-                      <Option value="splash">开屏广告</Option>
-                      <Option value="banner">轮播图</Option>
-                      <Option value="notice">全网通知配图</Option>
-                      <Option value="article">专题题图</Option>
-                      <Option value="category_header_image">分类图标</Option>
-                      <Option value="product_carousel_image">商品轮播图</Option>
-                      <Option value="product_header_image">商品题图</Option>
                       <Option value="product_detail_image">商品详情图</Option>
                     </Select>)}
                 </FormItem>
@@ -129,17 +120,13 @@ class UploadImage extends PureComponent {
                     beforeUpload={this.beforeUpload}
                   >
                     <Button>
-                      <Icon type="upload" /> 上传图片
+                      <Icon type="upload" /> 上传视频
                     </Button>
                   </Upload>
                 </FormItem>
               </Form>
             </Col>
           </Row>
-
-          <div style={{ marginTop: 20 }}>
-            {imageUrl ? <img style={{ width: '25%', height: '25%' }} src={imageUrl} alt="" /> : null}
-          </div>
 
           <div style={{ marginTop: 20 }}>
             {imageUrl ? <Input value={imageUrl} onChange={onChange} /> : null}
@@ -152,7 +139,7 @@ class UploadImage extends PureComponent {
               style={{display: imageUrl ? 'block' : 'none'}}
             >
               <Button icon="copy">
-                复制图片地址
+                复制视频地址
               </Button>
             </CopyToClipboard>
           </div>
@@ -162,4 +149,4 @@ class UploadImage extends PureComponent {
   }
 }
 
-export default UploadImage;
+export default UploadVideo;

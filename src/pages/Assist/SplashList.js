@@ -242,7 +242,7 @@ class SplashList extends PureComponent {
       ...fields,
     };
     if (params['product'] === '无') {
-      delete params['product']
+      delete params['product'];
     };
     dispatch({
       type: 'splash/create',
@@ -263,7 +263,7 @@ class SplashList extends PureComponent {
       ...fields,
     };
     if (params['product'] === '无') {
-      delete params['product']
+      params['product'] = null;
     };
     dispatch({
       type: 'splash/patch',

@@ -270,7 +270,7 @@ class ArticleList extends PureComponent {
       products: fields.products
     };
     if (params['product'] === '无') {
-      delete params['product']
+      delete params['product'];
     };
     dispatch({
       type: 'article/create',
@@ -291,7 +291,7 @@ class ArticleList extends PureComponent {
       ...fields,
     };
     if (params['product'] === '无') {
-      delete params['product']
+      params['product'] = null;
     };
     dispatch({
       type: 'article/patch',

@@ -37,6 +37,7 @@ export default {
   'menu.assist.notice-list': '全网通知',
   'menu.assist.article-list': '专题',
   'menu.assist.upload-image': '上传图片',
+  'menu.assist.upload-video': '上传视频',
   'menu.assist.user-list': '用户列表',
   'menu.assist.user-detail': '用户详情',
   'menu.form': '表单页',
