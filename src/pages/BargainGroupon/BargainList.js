@@ -7,6 +7,7 @@ import {
   Badge,
   Drawer,
   Table,
+  Tooltip,
 } from 'antd';
 import SimpleTable from '@/components/SimpleTable';
 import SmallTable from '@/components/SmallTable';
@@ -101,6 +102,16 @@ class BargainList extends PureComponent {
       {
         title: '商品名称',
         dataIndex: 'bargain_product.product_spec.product.name',
+        render(text, record) {
+          if (text.length > 12) {
+            return (
+              <Tooltip title={text}>
+                <span>{text.slice(0, 6) + '...' + text.substr(text.length - 6)}</span>
+              </Tooltip>);
+          } else {
+            return text;
+          }
+        },
       },
       {
         title: '商品规格名称',

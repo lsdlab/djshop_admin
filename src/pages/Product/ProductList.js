@@ -15,6 +15,7 @@ import {
   Popconfirm,
   message,
   TreeSelect,
+  Tooltip,
 } from 'antd';
 import router from 'umi/router';
 import SimpleTable from '@/components/SimpleTable';
@@ -382,6 +383,16 @@ class ProductList extends PureComponent {
       {
         title: '名称',
         dataIndex: 'name',
+        render(text, record) {
+          if (text.length > 16) {
+            return (
+              <Tooltip title={text}>
+                <span>{text.slice(0, 6) + '...' + text.substr(text.length - 6)}</span>
+              </Tooltip>);
+          } else {
+            return text;
+          }
+        },
       },
       {
         title: '上架用户',
@@ -465,7 +476,7 @@ class ProductList extends PureComponent {
               loading={loading}
               data={data}
               columns={columns}
-              scroll={{ x: 1580 }}
+              scroll={{ x: 1460 }}
               onChange={this.handleStandardTableChange}
             />
           </div>

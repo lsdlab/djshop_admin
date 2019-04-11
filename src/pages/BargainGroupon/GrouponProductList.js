@@ -15,6 +15,7 @@ import {
   Divider,
   Popconfirm,
   Badge,
+  Tooltip,
 } from 'antd';
 import SimpleTable from '@/components/SimpleTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
@@ -330,7 +331,10 @@ class GrouponProductList extends PureComponent {
         dataIndex: 'product_spec.product.name',
         render(text, record) {
           if (text.length > 12) {
-            return text.slice(0, 6) + '...' + text.substr(text.length - 6);
+            return (
+              <Tooltip title={text}>
+                <span>{text.slice(0, 6) + '...' + text.substr(text.length - 6)}</span>
+              </Tooltip>);
           } else {
             return text;
           }
