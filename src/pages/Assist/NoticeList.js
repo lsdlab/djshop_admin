@@ -23,7 +23,7 @@ const FormItem = Form.Item;
 const { TextArea } = Input;
 
 const CreateForm = Form.create()(props => {
-  const { modalVisible, form, handleAdd, handleModalVisible, } = props;
+  const { modalVisible, form, handleAdd, handleModalVisible } = props;
   const okHandle = () => {
     form.validateFields((err, fieldsValue) => {
       if (err) return;

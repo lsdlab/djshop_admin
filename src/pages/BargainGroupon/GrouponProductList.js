@@ -38,7 +38,7 @@ const buildOptions = (optionData) => {
 }
 
 const CreateForm = Form.create()(props => {
-  const { modalVisible, allProductSpecIds, form, handleAdd, handleModalVisible, } = props;
+  const { modalVisible, allProductSpecIds, form, handleAdd, handleModalVisible } = props;
   const okHandle = () => {
     form.validateFields((err, fieldsValue) => {
       if (err) return;
