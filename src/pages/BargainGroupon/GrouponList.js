@@ -119,7 +119,7 @@ class GrouponList extends PureComponent {
       },
       {
         title: '用户',
-        dataIndex: 'user.username',
+        dataIndex: 'user.nickname',
       },
       {
         title: '剩余数量',
@@ -161,8 +161,8 @@ class GrouponList extends PureComponent {
 
     const drawerColumns = [
       {
-        title: '注册用户',
-        dataIndex: 'user.username',
+        title: '用户',
+        dataIndex: 'user.nickname',
         render(text, record) {
           if (text) {
             return text;

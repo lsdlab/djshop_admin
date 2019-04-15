@@ -135,6 +135,10 @@ class UserList extends PureComponent {
         dataIndex: 'username',
       },
       {
+        title: '昵称（微信名）',
+        dataIndex: 'nickname',
+      },
+      {
         title: '手机号',
         dataIndex: 'mobile',
       },

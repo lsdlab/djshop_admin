@@ -43,10 +43,10 @@ class TransactionPatchModal extends PureComponent {
       type: 'transaction/patch',
       payload: {
         paid: fields.paid,
-        address: transactionID.toString(),
+        address: fields.address,
         seller_note: fields.seller_note,
-        seller_packaged_datetime: fields.seller_packaged_datetime,
-      }
+      },
+      transactionID: transactionID,
     }).then(() => {
       message.success('修改订单成功');
       this.handleModalVisible();
@@ -94,7 +94,7 @@ class TransactionPatchModal extends PureComponent {
       >
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="收货地址">
           {form.getFieldDecorator('address', {
-            initialValue: currentTransaction.address ? currentTransaction.address.name + '-' + currentTransaction.address.mobile + '-' + currentTransaction.address.address : '',
+            initialValue: currentTransaction.address ? currentTransaction.address.id: '',
             rules: [{ required: true, message: '请选择收货地址！' }],
           })(<Select style={{ width: "100%" }} placeholder="收货地址">
               {buildOptions(userAllAddress)}

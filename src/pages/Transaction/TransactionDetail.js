@@ -197,7 +197,7 @@ class TransactionDetail extends PureComponent {
         <Description term="ID">{currentRecord.id}</Description>
         {currentRecord.user ? (
           <Description term="用户"><Avatar size="small" src={currentRecord.user.avatar} style={{ marginRight: 8 }} />
-                                {currentRecord.user.username}</Description>
+                                {currentRecord.user.nickname}</Description>
         ) : null}
         <Description term="备注">{currentRecord.note ? currentRecord.note : '-'}</Description>
         <Description term="商家备注">{currentRecord.seller_note ? currentRecord.seller_note : '-'}</Description>
@@ -408,7 +408,7 @@ class TransactionDetail extends PureComponent {
           patchModalVisible={patchModalVisible}
           currentTransaction={currentRecord}
           userAllAddress={userAllAddress}
-          mark='list'
+          mark='detail'
           onCancel={this.handlePatchModalVisible}
         />
 

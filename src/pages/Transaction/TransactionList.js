@@ -157,8 +157,8 @@ class TransactionList extends PureComponent {
         dataIndex: 'sn',
       },
       {
-        title: '用户名',
-        dataIndex: 'user.username',
+        title: '用户',
+        dataIndex: 'user.nickname',
       },
       {
         title: '状态',

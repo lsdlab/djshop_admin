@@ -277,7 +277,7 @@ class CollectList extends PureComponent {
         dataIndex: 'refund_price',
       },
       {
-        title: '用户名',
+        title: '用户',
         dataIndex: 'user',
       },
       {

@@ -297,7 +297,7 @@ class CouponList extends PureComponent {
       },
       {
         title: '领取用户',
-        dataIndex: 'user.username',
+        dataIndex: 'user.nickname',
         render(text, record) {
           if (text) {
             return text;
