@@ -26,17 +26,6 @@ const { Option } = Select;
 const { RangePicker } = DatePicker;
 
 
-const buildOptions = (optionData) => {
-  if (optionData) {
-    const arr = [];
-    for (let i = 0; i < optionData.length; i++) {
-      arr.push(<Option name={optionData[i].combined_name} value={optionData[i].id} key={optionData[i].id}>{optionData[i].combined_name}</Option>)
-    }
-    return arr;
-  }
-}
-
-
 /* eslint react/no-multi-comp:0 */
 @connect(({ coupon, loading }) => ({
   coupon,
@@ -157,15 +146,19 @@ class CouponCreate extends PureComponent {
             ) : null}
 
             { allProductIds ? (
-              <FormItem {...formItemLayout} label="商品" style={{display: form.getFieldValue('internal_type') === '3' || form.getFieldValue('internal_type') === '6' ? 'block' : 'none'}}>
+              <Form.Item {...formItemLayout} label="商品" style={{display: form.getFieldValue('internal_type') === '3' || form.getFieldValue('internal_type') === '6' ? 'block' : 'none'}}>
                 {form.getFieldDecorator('product', {
-                    rules: [{ required: form.getFieldValue('internal_type') === '3' || form.getFieldValue('internal_type') === '6' ? true : false, message: '请选择商品！' }],
-                  })(
-                    <Select style={{ width: '100%' }} placeholder="商品" showSearch={true} optionFilterProp="name">
-                      {buildOptions(allProductIds)}
-                    </Select>
-                  )}
-              </FormItem>
+                  rules: [{ required: form.getFieldValue('internal_type') === '3' || form.getFieldValue('internal_type') === '6' ? true : false, message: '请选择商品！' }],
+                })(
+                  <TreeSelect
+                    style={{ width: '100%' }}
+                    treeData={allProductIds}
+                    placeholder="商品"
+                    treeDefaultExpandAll={true}
+                    showSearch={true}
+                  />
+                )}
+              </Form.Item>
             ) : null}
 
             <FormItem {...formItemLayout} label="达到价格" style={{display: form.getFieldValue('internal_type') === '1' || form.getFieldValue('internal_type') === '2' || form.getFieldValue('internal_type') === '3' ? 'block' : 'none'}}>

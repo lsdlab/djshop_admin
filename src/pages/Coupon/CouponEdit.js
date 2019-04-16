@@ -171,16 +171,19 @@ class CouponEdit extends PureComponent {
             ) : null}
 
             { allProductIds ? (
-              <FormItem {...formItemLayout} label="商品" style={{display: form.getFieldValue('internal_type') === '3' || form.getFieldValue('internal_type') === '6' ? 'block' : 'none'}}>
+              <Form.Item {...formItemLayout} label="商品" style={{display: form.getFieldValue('internal_type') === '3' || form.getFieldValue('internal_type') === '6' ? 'block' : 'none'}}>
                 {form.getFieldDecorator('product', {
-                  initialValue: currentRecord.product,
-                    rules: [{ required: form.getFieldValue('internal_type') === '3' || form.getFieldValue('internal_type') === '6' ? true : false, message: '请选择商品！' }],
-                  })(
-                    <Select style={{ width: '100%' }} placeholder="商品" showSearch={true} optionFilterProp="name">
-                      {buildOptions(allProductIds)}
-                    </Select>
-                  )}
-              </FormItem>
+                  rules: [{ required: form.getFieldValue('internal_type') === '3' || form.getFieldValue('internal_type') === '6' ? true : false, message: '请选择商品！' }],
+                })(
+                  <TreeSelect
+                    style={{ width: '100%' }}
+                    treeData={allProductIds}
+                    placeholder="商品"
+                    treeDefaultExpandAll={true}
+                    showSearch={true}
+                  />
+                )}
+              </Form.Item>
             ) : null}
 
             <FormItem {...formItemLayout} label="达到价格" style={{display: form.getFieldValue('internal_type') === '1' || form.getFieldValue('internal_type') === '2' || form.getFieldValue('internal_type') === '3' ? 'block' : 'none'}}>

@@ -15,6 +15,7 @@ import {
   Badge,
   Divider,
   Popconfirm,
+  TreeSelect,
 } from 'antd';
 import SimpleTable from '@/components/SimpleTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
@@ -25,16 +26,6 @@ import styles from '../List/TableList.less';
 const FormItem = Form.Item;
 const { Option } = Select;
 
-
-const buildOptions = (optionData) => {
-  if (optionData) {
-    const arr = [];
-    for (let i = 0; i < optionData.length; i++) {
-      arr.push(<Option name={optionData[i].combined_name} value={optionData[i].id} key={optionData[i].id}>{optionData[i].combined_name}</Option>)
-    }
-    return arr;
-  }
-}
 
 const CreateForm = Form.create()(props => {
   const { modalVisible, allProductIds, form, handleAdd, handleModalVisible } = props;
@@ -78,17 +69,23 @@ const CreateForm = Form.create()(props => {
           rules: [{ required: true, message: '请输入显示顺序！' }],
         })(<InputNumber min={1} max={9999} style={{ width: '100%' }} placeholder="显示顺序"/>)}
       </FormItem>
+
       { allProductIds ? (
-        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="商品">
+        <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="商品">
           {form.getFieldDecorator('product', {
-              rules: [{ required: true, message: '请选择商品！' }],
-            })(
-              <Select style={{ width: '100%' }} placeholder="商品" showSearch={true} optionFilterProp="name">
-                {buildOptions(allProductIds)}
-              </Select>
-            )}
-        </FormItem>
+            rules: [{ required: false, message: '请选择商品！' }],
+          })(
+            <TreeSelect
+              style={{ width: '100%' }}
+              treeData={allProductIds}
+              placeholder="商品"
+              treeDefaultExpandAll={true}
+              showSearch={true}
+            />
+          )}
+        </Form.Item>
       ) : null}
+
     </Modal>
   );
 });
