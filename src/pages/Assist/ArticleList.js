@@ -165,25 +165,29 @@ class UpdateForm extends PureComponent {
             </Button>
           </CopyToClipboard>
       </FormItem>
-        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="内容">
-          {form.getFieldDecorator('md', {
-            initialValue: modalFormVals.md,
-            rules: [{ required: true, message: '请输入内容！'}],
-          })(<TextArea autosize={{ minRows: 8, maxRows: 16 }} placeholder="内容" />)}
-        </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="内容">
+        {form.getFieldDecorator('md', {
+          initialValue: modalFormVals.md,
+          rules: [{ required: true, message: '请输入内容！'}],
+        })(<TextArea autosize={{ minRows: 8, maxRows: 16 }} placeholder="内容" />)}
+      </FormItem>
 
-        { allProductIds ? (
-          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="商品">
-            {form.getFieldDecorator('products', {
-                initialValue: modalFormVals.products,
-                rules: [{ required: false, message: '请选择商品！' }],
-              })(
-                <Select style={{ width: '100%' }} mode="multiple" placeholder="商品" showSearch={true} optionFilterProp="name">
-                  {buildOptions(allProductIds)}
-                </Select>
-              )}
-          </FormItem>
-        ) : null}
+      { allProductIds ? (
+        <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="商品">
+          {form.getFieldDecorator('product', {
+            rules: [{ required: false, message: '请选择商品！' }],
+          })(
+            <TreeSelect
+              style={{ width: '100%' }}
+              treeData={allProductIds}
+              placeholder="商品"
+              treeDefaultExpandAll={true}
+              showSearch={true}
+              multiple={true}
+            />
+          )}
+        </Form.Item>
+      ) : null}
 
       </Modal>
     );
