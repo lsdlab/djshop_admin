@@ -119,8 +119,8 @@ export default {
     *patchRecProduct({ payload, recProductID }, { call, put }) {
       yield call(patchRecommendation, payload, recProductID);
     },
-    *fetchProductAllIds({}, { call, put }) {
-      const response = yield call(fetchProductAllIds);
+    *fetchProductAllIds({ payload }, { call, put }) {
+      const response = yield call(fetchProductAllIds, payload);
       yield put({
         type: 'saveProductAllIds',
         payload: response,

@@ -34,8 +34,8 @@ export default {
     *delete({ bannerID }, { call, put }) {
       yield call(deleteBanner, bannerID);
     },
-    *fetchProductAllIds({}, { call, put }) {
-      const response = yield call(fetchProductAllIds);
+    *fetchProductAllIds({ payload }, { call, put }) {
+      const response = yield call(fetchProductAllIds, payload);
       yield put({
         type: 'saveProductAllIds',
         payload: response,

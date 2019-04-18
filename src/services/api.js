@@ -566,9 +566,9 @@ export async function patchRecommendation(params, recProductID) {
 }
 
 // 获取所有商品 id name
-export async function fetchProductAllIds() {
+export async function fetchProductAllIds(params) {
   const token = getToken();
-  return request(`${apiHost}${apiVersion}/products/all_product_ids/`, {
+  return request(`${apiHost}${apiVersion}/products/all_product_ids/?${stringify(params)}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

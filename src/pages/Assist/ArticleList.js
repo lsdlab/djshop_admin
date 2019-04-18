@@ -269,9 +269,6 @@ class ArticleList extends PureComponent {
       header_image: fields.header_image,
       products: fields.products
     };
-    if (params['product'] === '无') {
-      delete params['product'];
-    };
     dispatch({
       type: 'article/create',
       payload: params,
@@ -287,15 +284,9 @@ class ArticleList extends PureComponent {
 
   handleUpdate = (fields) => {
     const { dispatch } = this.props;
-    const params = {
-      ...fields,
-    };
-    if (params['product'] === '无') {
-      params['product'] = null;
-    };
     dispatch({
       type: 'article/patch',
-      payload: params,
+      payload: fields,
       articleID: this.state.currentRecord.id,
     }).then(() => {
       message.success('更新专题成功');

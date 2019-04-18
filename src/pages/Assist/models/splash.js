@@ -35,8 +35,8 @@ export default {
     *convert({ payload, splashID }, { call, put }) {
       yield call(convertSplash, payload, splashID);
     },
-    *fetchProductAllIds({}, { call, put }) {
-      const response = yield call(fetchProductAllIds);
+    *fetchProductAllIds({ payload }, { call, put }) {
+      const response = yield call(fetchProductAllIds, payload);
       yield put({
         type: 'saveProductAllIds',
         payload: response,

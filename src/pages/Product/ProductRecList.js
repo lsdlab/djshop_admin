@@ -101,7 +101,7 @@ class UpdateForm extends PureComponent {
         subtitle: props.values.subtitle,
         subsubtitle: props.values.subsubtitle,
         display_order: props.values.display_order,
-        product: props.values.product.id,
+        product: props.values.product ? props.values.product.id : '',
       },
     };
   }
@@ -199,6 +199,9 @@ class ProductRecList extends PureComponent {
     if (flag) {
       this.props.dispatch({
         type: 'product/fetchProductAllIds',
+        payload: {
+          none: true,
+        },
       });
     }
   };
@@ -212,6 +215,9 @@ class ProductRecList extends PureComponent {
     if (flag) {
       this.props.dispatch({
         type: 'product/fetchProductAllIds',
+        payload: {
+          none: true,
+        },
       });
     }
   };

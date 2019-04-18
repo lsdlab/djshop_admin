@@ -104,7 +104,7 @@ class UpdateForm extends PureComponent {
         banner: props.values.banner,
         display_order: props.values.display_order,
         status: props.values.status,
-        product: props.values.product.id,
+        product: props.values.product ? props.values.product.id : '',
       },
     };
 
@@ -174,18 +174,24 @@ class UpdateForm extends PureComponent {
             </Select>
           )}
       </FormItem>
+
       { allProductIds ? (
-        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="商品">
+        <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="商品">
           {form.getFieldDecorator('product', {
-              initialValue: modalFormVals.product,
-              rules: [{ required: true, message: '请选择商品！' }],
-            })(
-              <Select style={{ width: '100%' }} placeholder="商品" showSearch={true} optionFilterProp="name">
-                {buildOptions(allProductIds)}
-              </Select>
-            )}
-        </FormItem>
+            initialValue: modalFormVals.product,
+            rules: [{ required: false, message: '请选择商品！' }],
+          })(
+            <TreeSelect
+              style={{ width: '100%' }}
+              treeData={allProductIds}
+              placeholder="商品"
+              treeDefaultExpandAll={true}
+              showSearch={true}
+            />
+          )}
+        </Form.Item>
       ) : null}
+
       </Modal>
     );
   }
@@ -250,6 +256,9 @@ class BannerList extends PureComponent {
     if (flag) {
       this.props.dispatch({
         type: 'banner/fetchProductAllIds',
+        payload: {
+          none: true,
+        },
       });
     }
   };
@@ -263,6 +272,9 @@ class BannerList extends PureComponent {
     if (flag) {
       this.props.dispatch({
         type: 'banner/fetchProductAllIds',
+        payload: {
+          none: true,
+        },
       });
     }
   };
