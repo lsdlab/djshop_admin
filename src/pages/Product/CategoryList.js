@@ -138,6 +138,7 @@ class CategoryList extends PureComponent {
         name: fields.name,
         category_type: fields.category_type,
         icon: fields.icon,
+        is_root: fields.category_type === '2' ? true : false,
         parent_category: fields.parent_category,
       }
     }).then(() => {
@@ -168,9 +169,15 @@ class CategoryList extends PureComponent {
     e.preventDefault();
     form.validateFieldsAndScroll((err, values) => {
       if (!err) {
+        const params = {
+          ...values,
+        };
+        if (params['category_type'] === '2') {
+          params['is_root'] = true;
+        };
         dispatch({
           type: 'category/patch',
-          payload: values,
+          payload: params,
           categoryID: this.state.currentSelected.id,
         }).then(() => {
           message.success('修改分类成功');
