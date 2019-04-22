@@ -84,7 +84,7 @@ const CreateForm = Form.create()(props => {
         <InputGroup compact>
           {form.getFieldDecorator('bargain_percent_range_start', {
             rules: [{ required: true, message: "请输入砍价比例！" }],
-          })(<InputNumber min={5} max={10} step={1} style={{ width: 150, textAlign: 'center', marginTop: 5 }} placeholder="砍价比例" />)}
+          })(<InputNumber min={5} max={50} step={1} style={{ width: 150, textAlign: 'center', marginTop: 5 }} placeholder="砍价比例 5%" />)}
           <Input
             style={{
               width: 30, borderLeft: 0, pointerEvents: 'none', backgroundColor: '#fff', marginTop: 5,
@@ -94,7 +94,7 @@ const CreateForm = Form.create()(props => {
           />
           {form.getFieldDecorator('bargain_percent_range_end', {
             rules: [{ required: true, message: "请输入砍价比例！" }],
-          })(<InputNumber min={5} max={10} step={1} style={{ width: 150, textAlign: 'center', borderLeft: 0, marginTop: 5 }} placeholder="砍价比例" />)}
+          })(<InputNumber min={5} max={50} step={1} style={{ width: 150, textAlign: 'center', borderLeft: 0, marginTop: 5 }} placeholder="砍价比例 50%" />)}
         </InputGroup>
       </FormItem>
 
