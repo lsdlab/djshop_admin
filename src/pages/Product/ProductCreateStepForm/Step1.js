@@ -144,7 +144,7 @@ class Step1 extends React.PureComponent {
             })(<InputNumber min={1} max={10} style={{ width: '100%' }} placeholder="商品限购数量"/>)}
           </FormItem>
 
-          <FormItem {...formItemLayout} label="是否开发票">
+          {/*<FormItem {...formItemLayout} label="是否开发票">
             {getFieldDecorator('has_invoice', {
               initialValue: newProduct.has_invoice,
               rules: [{ required: false }],
@@ -152,6 +152,7 @@ class Step1 extends React.PureComponent {
               <Checkbox></Checkbox>
             )}
           </FormItem>
+
           <FormItem {...formItemLayout} label="是否免运费">
             {getFieldDecorator('ship_free', {
               initialValue: newProduct.ship_freeship_free,
@@ -160,6 +161,7 @@ class Step1 extends React.PureComponent {
               <Checkbox></Checkbox>
             )}
           </FormItem>
+
           <FormItem {...formItemLayout} label="是否可退货">
             {getFieldDecorator('refund', {
               initialValue: newProduct.refund,
@@ -167,15 +169,16 @@ class Step1 extends React.PureComponent {
             })(
               <Checkbox></Checkbox>
             )}
-          </FormItem>
-          <FormItem {...formItemLayout} label="是否是新品">
+          </FormItem>*/}
+
+          {/*<FormItem {...formItemLayout} label="是否是新品">
             {getFieldDecorator('is_new', {
               initialValue: newProduct.is_new,
               rules: [{ required: false }],
             })(
               <Checkbox></Checkbox>
             )}
-          </FormItem>
+          </FormItem>*/}
 
           <FormItem {...formItemLayout} label="轮播图链接">
             {getFieldDecorator('carousel', {

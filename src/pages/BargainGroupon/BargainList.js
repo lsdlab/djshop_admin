@@ -135,7 +135,7 @@ class BargainList extends PureComponent {
       },
       {
         title: '状态',
-        dataIndex: 'deleted',
+        dataIndex: 'dealed',
         render(text) {
           if (text) {
             return <Badge status='error' text='结束' />;
