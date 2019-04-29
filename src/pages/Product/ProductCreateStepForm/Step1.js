@@ -186,11 +186,19 @@ class Step1 extends React.PureComponent {
               rules: [{ required: true, message: '请输入轮播图链接！'}],
             })(<TextArea autosize={{ minRows: 5, maxRows: 8 }} placeholder="轮播图链接可填写多个，使用英文逗号 , 进行分隔" />)}
           </FormItem>
+
           <FormItem {...formItemLayout} label="题图链接">
             {getFieldDecorator('header_image', {
               initialValue: newProduct.header_image,
               rules: [{ required: true, message: '请输入题图链接！' }],
             })(<Input placeholder="题图链接，单个链接" />)}
+          </FormItem>
+
+          <FormItem {...formItemLayout} label="视频链接">
+            {getFieldDecorator('video_url', {
+              initialValue: newProduct.video_url,
+              rules: [{ required: true, message: '请输入视频链接！' }],
+            })(<Input placeholder="视频链接，单个链接" />)}
           </FormItem>
 
           <FormItem {...formItemLayout} label="商品详情">

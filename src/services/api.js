@@ -160,7 +160,7 @@ function getToken() {
 }
 
 export async function jwtToken(params) {
-  return request(`${apiHost}${apiVersion}/jwt/token-auth/`, {
+  return request(`${apiHost}${apiVersion}/users/username_password_signin/`, {
     method: 'POST',
     body: params,
     headers: {
