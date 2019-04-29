@@ -91,7 +91,6 @@ class UploadVideo extends PureComponent {
   render() {
     const { form } = this.props;
     const imageUrl = this.state.imageUrl;
-
     const onChange = (e) => {
       // console.log(e);
     };

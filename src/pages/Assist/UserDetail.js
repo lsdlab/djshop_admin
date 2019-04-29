@@ -169,9 +169,6 @@ class UserDetail extends PureComponent {
     return (
       <PageHeaderWrapper
         title={currentRecord.username}
-        logo={
-          <img alt="" src="https://djshopmedia.oss-cn-shanghai.aliyuncs.com/assist/detail_icon.png" />
-        }
         action={currentRecord ? this.buildAction(currentRecord) : null}
         content={currentRecord ? this.buildDescription(currentRecord) : null}
         extraContent={currentRecord ? this.buildExtra(currentRecord) : null}

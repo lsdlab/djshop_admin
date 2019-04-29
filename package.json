@@ -25,6 +25,7 @@
     "axios": "^0.18.0",
     "bizcharts": "^3.4.0",
     "bizcharts-plugin-slider": "^2.1.1-beta.1",
+    "braft-editor": "^2.2.9",
     "classnames": "^2.2.6",
     "dva": "^2.4.0",
     "enquire-js": "^0.2.1",
@@ -49,6 +50,7 @@
     "react-dom": "^16.6.3",
     "react-dropzone": "^8.0.4",
     "react-fittext": "^1.0.0",
+    "react-markdown": "^4.0.8",
     "react-media": "^1.8.0",
     "react-medium-image-zoom": "^3.0.15",
     "react-router-dom": "^4.3.1"

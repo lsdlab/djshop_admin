@@ -226,7 +226,6 @@ class GrouponProductList extends PureComponent {
       groupon_price: fields.groupon_price,
       limit: fields.limit,
     };
-    console.log(payload);
 
     dispatch({
       type: 'groupon_product/create',

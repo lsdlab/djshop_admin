@@ -53,7 +53,6 @@ const UploadToOss = (self, path, file) => {
 @Form.create()
 class UploadImage extends PureComponent {
   state = {
-    loading: false,
     token: {
       access_key_id: Base64.decode('TFRBSW8wT3dzYUJ4MXZoeg=='),
       access_key_secret: Base64.decode('bm8wT1U2eHVlNEVES3h2V0JicGdOTHI2SzYyRXpz'),
@@ -65,7 +64,6 @@ class UploadImage extends PureComponent {
   beforeUpload = (file) => {
     const { form } = this.props;
     const dir = form.getFieldValue('dir');
-
     const isJPG = file.type === 'image/jpeg';
     const isPNG = file.type === 'image/png';
     if (!isJPG && !isPNG) {
