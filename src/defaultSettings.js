@@ -9,7 +9,7 @@ module.exports = {
   "menu": {
     "disableLocal": false
   },
-  "title": "闪算优选",
+  "title": "电商后台",
   "pwa": true,
   "iconfontUrl": "",
   "collapse": true

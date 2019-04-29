@@ -27,7 +27,7 @@ const links = [
 
 const copyright = (
   <Fragment>
-    <p>Copyright &copy; <a href="http://flashtech.xyz" target="_blank">闪算科技</a> 2018-2019 All Rights Reserved</p>
+    <p>Copyright &copy; JC 2018-2019 All Rights Reserved</p>
   </Fragment>
 );
 
@@ -55,8 +55,7 @@ class UserLayout extends React.PureComponent {
           <div className={styles.top}>
             <div className={styles.header}>
               <Link to="/">
-                <img alt="logo" className={styles.logo} src="https://djshopmedia.oss-cn-shanghai.aliyuncs.com/assist/flashtech1.png" />
-                <span className={styles.title}>闪算优选</span>
+                <span className={styles.title}>电商后台</span>
               </Link>
             </div>
           </div>

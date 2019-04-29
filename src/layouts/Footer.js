@@ -8,7 +8,7 @@ const FooterView = () => (
     <GlobalFooter
       copyright={
         <Fragment>
-          <p>Copyright &copy; <a href="http://flashtech.xyz" target="_blank">闪算科技</a> 2018-2019 All Rights Reserved</p>
+          <p>Copyright &copy; JC 2018-2019 All Rights Reserved</p>
         </Fragment>
       }
     />

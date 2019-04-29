@@ -118,14 +118,14 @@ class BasicLayout extends React.PureComponent {
     const currRouterData = this.matchParamsPath(pathname, breadcrumbNameMap);
 
     if (!currRouterData) {
-      return '闪算优选';
+      return '电商后台';
     }
     const pageName = formatMessage({
       id: currRouterData.locale || currRouterData.name,
       defaultMessage: currRouterData.name,
     });
 
-    return `${pageName} - 闪算优选`;
+    return `${pageName} - 电商后台`;
   };
 
   getLayoutStyle = () => {

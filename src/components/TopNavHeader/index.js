@@ -31,8 +31,7 @@ export default class TopNavHeader extends PureComponent {
           <div className={styles.left}>
             <div className={styles.logo} key="logo" id="logo">
               <Link to="/">
-                <img src="https://djshopmedia.oss-cn-shanghai.aliyuncs.com/assist/flashtech1.png" alt="logo" />
-                <h1>闪算优选</h1>
+                <h1>电商后台</h1>
               </Link>
             </div>
             <div
