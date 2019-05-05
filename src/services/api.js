@@ -1,5 +1,6 @@
 import { stringify } from 'qs';
 import request from '@/utils/request';
+import router from 'umi/router';
 const axios = require('axios');
 
 
@@ -129,20 +130,22 @@ export async function getFakeCaptcha(mobile) {
 
 
 // const apiHost = 'http://localhost:9000';    // development
-// const apiHost = 'https://shopapi.nuclearst.com';    // production
-const apiHost = 'https://shopapi.lianzongai.com';    // production
+const apiHost = 'https://shopapi.nuclearst.com';    // production
+// const apiHost = 'https://shopapi.lianzongai.com';    // production
 const apiVersion = '/api/v1';
 
-function refreshToken(oldToken) {
-  axios.post(`${apiHost}${apiVersion}/jwt/token-refresh/`, {
-    token: oldToken,
-  })
-  .then(function (response) {
-    localStorage.setItem('token', response.data.token);
-    localStorage.setItem('now', new Date().getTime());
-    return response.data.token;
-  })
-}
+
+// function refreshToken(oldToken) {
+//   axios.post(`${apiHost}${apiVersion}/jwt/token-refresh/`, {
+//     token: oldToken,
+//   })
+//   .then(function (response) {
+//     localStorage.setItem('token', response.data.token);
+//     localStorage.setItem('now', new Date().getTime());
+//     return response.data.token;
+//   })
+// }
+
 
 function getToken() {
   var token = ''
@@ -150,6 +153,7 @@ function getToken() {
     if (localStorage.getItem('now') + (1 * 24 * 60 * 60 * 1000) < new Date().getTime()) {
       // token 过期 重新登录
       localStorage.clear();
+      router.push('/user/login');
       // token 过期，需要刷新
       // token = refreshToken(localStorage.getItem('token'));
     } else {
