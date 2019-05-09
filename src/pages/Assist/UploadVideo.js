@@ -106,7 +106,7 @@ class UploadVideo extends PureComponent {
                     initialValue: 'tmp',
                   })(<Select style={{ width: "100%" }}>
                       <Option value="tmp">临时文件夹</Option>
-                      <Option value="product_detail_image">商品详情图</Option>
+                      <Option value="product">商品详情图</Option>
                     </Select>)}
                 </FormItem>
               </Form>

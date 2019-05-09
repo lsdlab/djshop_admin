@@ -129,10 +129,8 @@ export async function getFakeCaptcha(mobile) {
 }
 
 
-const apiHost = 'http://localhost:9000';    // development
-// const apiHost = 'https://shopapi.nuclearst.com';    // production
-// const apiHost = 'https://shopapi.lianzongai.com';    // production
-// const apiHost = 'https://shopapi.mldit.com';    // production
+// const apiHost = 'http://localhost:9000';    // development
+const apiHost = 'https://shopapi.nuclearst.com';    // production
 const apiVersion = '/api/v1';
 
 

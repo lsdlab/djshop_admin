@@ -85,7 +85,7 @@ class Step1 extends React.PureComponent {
     reader.readAsDataURL(file);
     reader.onloadend = () => {
       // 使用ossupload覆盖默认的上传方法
-      const dir = 'product_detail_image';
+      const dir = 'product';
       UploadToOss(this, dir, file).then(data => {
         // 插入图片
         const { form } = this.props;
