@@ -55,7 +55,7 @@ class UserLayout extends React.PureComponent {
           <div className={styles.top}>
             <div className={styles.header}>
               <Link to="/">
-                <span className={styles.title}>电商后台</span>
+                <span className={styles.title}>严选电商</span>
               </Link>
             </div>
           </div>

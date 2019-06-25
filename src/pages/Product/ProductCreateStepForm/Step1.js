@@ -36,8 +36,8 @@ const formItemLayout = {
 const client = (self) => {
   const {token} = self.state
   return new oss({
-    accessKeyId: Base64.decode('TFRBSW8wT3dzYUJ4MXZoeg=='),
-    accessKeySecret: Base64.decode('bm8wT1U2eHVlNEVES3h2V0JicGdOTHI2SzYyRXpz'),
+    accessKeyId: Base64.decode('TFRBSWNQcm41WjZDWFl4Qw=='),
+    accessKeySecret: Base64.decode('Wkp4WjJ5RUJnRHNhNEJjcHVMRWxwVG9HejlhS1FV'),
     region: 'oss-cn-shanghai',
     bucket: Base64.decode('ZGpzaG9wbWVkaWE='),
   });

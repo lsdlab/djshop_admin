@@ -129,8 +129,8 @@ export async function getFakeCaptcha(mobile) {
 }
 
 
-// const apiHost = 'http://localhost:9000';    // development
-const apiHost = 'https://shopapi.nuclearst.com';    // production
+const apiHost = 'http://localhost:9000';    // development
+// const apiHost = 'https://shopapi.nuclearst.com';    // production
 const apiVersion = '/api/v1';
 
 
@@ -186,7 +186,7 @@ export async function fetchCurrent() {
 
 export async function queryArticles(params) {
   const token = getToken();
-  return request(`${apiHost}${apiVersion}/articles/?${stringify(params)}`, {
+  return request(`${apiHost}${apiVersion}/assist/articles/?${stringify(params)}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -197,7 +197,7 @@ export async function queryArticles(params) {
 
 export async function createArticle(params) {
   const token = getToken();
-  return request(`${apiHost}${apiVersion}/articles/`, {
+  return request(`${apiHost}${apiVersion}/assist/articles/`, {
     method: 'POST',
     body: params,
     headers: {
@@ -209,7 +209,7 @@ export async function createArticle(params) {
 
 export async function patchArticle(params, aritcleID) {
   const token = getToken();
-  return request(`${apiHost}${apiVersion}/articles/${aritcleID}/`, {
+  return request(`${apiHost}${apiVersion}/assist/articles/${aritcleID}/`, {
     method: 'PATCH',
     body: params,
     headers: {
@@ -221,7 +221,7 @@ export async function patchArticle(params, aritcleID) {
 
 export async function fetchArticle(aritcleID) {
   const token = getToken();
-  return request(`${apiHost}${apiVersion}/articles/${aritcleID}/`, {
+  return request(`${apiHost}${apiVersion}/assist/articles/${aritcleID}/`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -233,7 +233,7 @@ export async function fetchArticle(aritcleID) {
 // 获取开屏广告列表
 export async function querySplash(params) {
   const token = getToken();
-  return request(`${apiHost}${apiVersion}/splashs/?${stringify(params)}`, {
+  return request(`${apiHost}${apiVersion}/assist/splashs/?${stringify(params)}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -245,7 +245,7 @@ export async function querySplash(params) {
 // 创建开屏广告
 export async function createSplash(params) {
   const token = getToken();
-  return request(`${apiHost}${apiVersion}/splashs/`, {
+  return request(`${apiHost}${apiVersion}/assist/splashs/`, {
     method: 'POST',
     body: params,
     headers: {
@@ -258,7 +258,7 @@ export async function createSplash(params) {
 //修改开屏广告
 export async function patchSplash(params, splashID) {
   const token = getToken();
-  return request(`${apiHost}${apiVersion}/splashs/${splashID}/`, {
+  return request(`${apiHost}${apiVersion}/assist/splashs/${splashID}/`, {
     method: 'PATCH',
     body: params,
     headers: {
@@ -271,7 +271,7 @@ export async function patchSplash(params, splashID) {
 // 删除开屏广告
 export async function deleteSplash(splashID) {
   const token = getToken();
-  return request(`${apiHost}${apiVersion}/splashs/${splashID}/`, {
+  return request(`${apiHost}${apiVersion}/assist/splashs/${splashID}/`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
@@ -283,7 +283,7 @@ export async function deleteSplash(splashID) {
 // 开屏广告状态改变
 export async function convertSplash(params, splashID) {
   const token = getToken();
-  return request(`${apiHost}${apiVersion}/splashs/${splashID}/convert/`, {
+  return request(`${apiHost}${apiVersion}/assist/splashs/${splashID}/convert/`, {
     method: 'POST',
     body: params,
     headers: {
@@ -296,7 +296,7 @@ export async function convertSplash(params, splashID) {
 // 获取轮播图列表
 export async function queryBanner(params) {
   const token = getToken();
-  return request(`${apiHost}${apiVersion}/banners/?${stringify(params)}`, {
+  return request(`${apiHost}${apiVersion}/assist/banners/?${stringify(params)}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -308,7 +308,7 @@ export async function queryBanner(params) {
 // 创建轮播图
 export async function createBanner(params) {
   const token = getToken();
-  return request(`${apiHost}${apiVersion}/banners/`, {
+  return request(`${apiHost}${apiVersion}/assist/banners/`, {
     method: 'POST',
     body: params,
     headers: {
@@ -321,7 +321,7 @@ export async function createBanner(params) {
 // 修改轮播图
 export async function patchBanner(params, bannerID) {
   const token = getToken();
-  return request(`${apiHost}${apiVersion}/banners/${bannerID}/`, {
+  return request(`${apiHost}${apiVersion}/assist/banners/${bannerID}/`, {
     method: 'PATCH',
     body: params,
     headers: {
@@ -334,7 +334,7 @@ export async function patchBanner(params, bannerID) {
 // 删除轮播图
 export async function deleteBanner(bannerID) {
   const token = getToken();
-  return request(`${apiHost}${apiVersion}/banners/${bannerID}/`, {
+  return request(`${apiHost}${apiVersion}/assist/banners/${bannerID}/`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
@@ -346,7 +346,7 @@ export async function deleteBanner(bannerID) {
 // 获取全网通知列表
 export async function queryNotice(params) {
   const token = getToken();
-  return request(`${apiHost}${apiVersion}/notices/?${stringify(params)}`, {
+  return request(`${apiHost}${apiVersion}/assist/notices/?${stringify(params)}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -358,7 +358,7 @@ export async function queryNotice(params) {
 // 创建全网通知
 export async function createNotice(params) {
   const token = getToken();
-  return request(`${apiHost}${apiVersion}/notices/`, {
+  return request(`${apiHost}${apiVersion}/assist/notices/`, {
     method: 'POST',
     body: params,
     headers: {
@@ -371,7 +371,7 @@ export async function createNotice(params) {
 // 删除全网通知
 export async function deleteNotice(noticesID) {
   const token = getToken();
-  return request(`${apiHost}${apiVersion}/notices/${noticesID}/`, {
+  return request(`${apiHost}${apiVersion}/assist/notices/${noticesID}/`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',

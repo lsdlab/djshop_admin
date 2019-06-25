@@ -54,8 +54,8 @@ const UploadToOss = (self, path, file) => {
 class UploadImage extends PureComponent {
   state = {
     token: {
-      access_key_id: Base64.decode('TFRBSW8wT3dzYUJ4MXZoeg=='),
-      access_key_secret: Base64.decode('bm8wT1U2eHVlNEVES3h2V0JicGdOTHI2SzYyRXpz'),
+      access_key_id: Base64.decode('TFRBSWNQcm41WjZDWFl4Qw=='),
+      access_key_secret: Base64.decode('Wkp4WjJ5RUJnRHNhNEJjcHVMRWxwVG9HejlhS1FV'),
       OSS_ENDPOINT: Base64.decode('aHR0cHM6Ly9vc3MtY24tc2hhbmdoYWkuYWxpeXVuY3MuY29t'),
       OSS_BUCKET: Base64.decode('ZGpzaG9wbWVkaWE='),
     }
