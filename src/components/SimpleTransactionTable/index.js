@@ -39,7 +39,7 @@ class SimpleTransactionTable extends PureComponent {
       <div className={styles.simpleTable}>
         <Table
           loading={loading}
-          rowKey={rowKey || 'key'}
+          rowKey={results => results.id}
           dataSource={data}
           columns={columns}
           size={size || 'default'}

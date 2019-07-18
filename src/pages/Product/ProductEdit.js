@@ -10,11 +10,18 @@ import { Form,
          TreeSelect,
          Card,
          message,
+         Icon,
+         Upload,
 } from 'antd';
+import oss from 'ali-oss';
+import 'braft-editor/dist/index.css'
+import BraftEditor from 'braft-editor'
+import { ContentUtils } from 'braft-utils'
+import { Base64 } from 'js-base64';
+
 import router from 'umi/router';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import styles from './ProductCreateStepForm/style.less';
-
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -29,6 +36,31 @@ const formItemLayout = {
   },
 };
 
+const client = (self) => {
+  const {token} = self.state
+  return new oss({
+    accessKeyId: Base64.decode('TFRBSWNQcm41WjZDWFl4Qw=='),
+    accessKeySecret: Base64.decode('Wkp4WjJ5RUJnRHNhNEJjcHVMRWxwVG9HejlhS1FV'),
+    region: 'oss-cn-shanghai',
+    bucket: Base64.decode('ZGpzaG9wbWVkaWE='),
+  });
+}
+
+const uploadPath = (path, file) => {
+  // return `${moment().format('YYYYMMDD')}/${file.name.split(".")[0]}-${file.uid}.${file.type.split("/")[1]}`
+  return `${path}/${file.name.split(".")[0]}-${file.uid}.${file.type.split("/")[1]}`
+}
+const UploadToOss = (self, path, file) => {
+  const url = uploadPath(path, file)
+  return new Promise((resolve, reject) => {
+    client(self).put(url, file).then(data => {
+      resolve(data);
+    }).catch(error => {
+      reject(error)
+    })
+  })
+}
+
 @connect(({ product, loading }) => ({
   product,
   submitting: loading.effects['product/patch'],
@@ -36,10 +68,11 @@ const formItemLayout = {
 @Form.create()
 class ProductEdit extends React.PureComponent {
   state = {
+
   };
 
   componentDidMount() {
-    const { dispatch, location } = this.props;
+    const { product: { currentRecord }, dispatch, location, form } = this.props;
     const { pathname } = location;
     const pathList = pathname.split('/');
     const productID = pathList[3];
@@ -51,12 +84,69 @@ class ProductEdit extends React.PureComponent {
       dispatch({
         type: 'product/fetchCategory',
       });
+
+      if (productID && currentRecord) {
+        setTimeout(() => {
+          form.setFieldsValue({
+            content: BraftEditor.createEditorState(currentRecord.content)
+          })
+        }, 1000)
+      }
     });
+  }
+
+  beforeUpload = (file) => {
+    const isJPG = file.type === 'image/jpeg';
+    const isPNG = file.type === 'image/png';
+    if (!isJPG && !isPNG) {
+      message.error('只能上传 PNG 或者 JPG/JPEG 图片！');
+    }
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      // 使用ossupload覆盖默认的上传方法
+      const dir = 'product';
+      UploadToOss(this, dir, file).then(data => {
+        // 插入图片
+        const { form } = this.props;
+        const oldEditorValule = form.getFieldsValue()['content'];
+        form.setFieldsValue({
+          content: ContentUtils.insertMedias(oldEditorValule, [{
+            type: 'IMAGE',
+            url: data.res.requestUrls,
+          }]),
+        });
+      })
+    }
+    return false;
   }
 
   render() {
     const { product: { categoryData, currentRecord }, form, dispatch, submitting, location } = this.props;
     const { getFieldDecorator, validateFields } = form;
+
+    const controls = ['undo', 'redo', 'separator',
+      'separator', 'bold', 'italic', 'underline', 'strike-through', 'separator',
+      'remove-styles',  'separator', 'text-indent', 'text-align', 'separator',
+      'headings', 'list-ul', 'list-ol', 'blockquote', 'code', 'hr', 'separator',
+      'link', 'separator']
+    const extendControls = [
+      {
+        key: 'antd-uploader',
+        type: 'component',
+        component: (
+          <Upload
+            accept="image/*"
+            showUploadList={false}
+            beforeUpload={this.beforeUpload}
+          >
+            <button type="button" className="control-item button upload-button" data-title="插入图片">
+              <Icon type="picture" theme="filled" />
+            </button>
+          </Upload>
+        )
+      }
+    ]
 
     const onValidateForm = () => {
       validateFields((err, values) => {
@@ -73,6 +163,7 @@ class ProductEdit extends React.PureComponent {
             newCarousel.push(values['carousel']);
           }
           values['carousel'] = newCarousel;
+          values['content'] = values.content.toHTML();
 
           dispatch({
             type: 'product/patch',
@@ -195,7 +286,7 @@ class ProductEdit extends React.PureComponent {
 
               <FormItem {...formItemLayout} label="轮播图链接">
                 {getFieldDecorator('carousel', {
-                  initialValue: currentRecord.carousel.join(','),
+                  initialValue: currentRecord ? currentRecord.carousel : "",
                   rules: [{ required: true, message: '请输入轮播图链接！'}],
                 })(<TextArea autosize={{ minRows: 5, maxRows: 8 }} placeholder="轮播图链接可填写多个，使用英文逗号 , 进行分隔" />)}
               </FormItem>
@@ -205,12 +296,16 @@ class ProductEdit extends React.PureComponent {
                   rules: [{ required: true, message: '请输入题图链接！' }],
                 })(<Input placeholder="题图链接，单个链接" />)}
               </FormItem>
-
               <FormItem {...formItemLayout} label="商品详情">
-                {getFieldDecorator('md', {
-                  initialValue: currentRecord.md,
+                {getFieldDecorator('content', {
+                  initialValue: currentRecord.content,
                   rules: [{ required: true, message: '请输入商品详情！'}],
-                })(<TextArea autosize={{ minRows: 8, maxRows: 16 }} placeholder="商品详情，图片文字混排，使用 Markdown 格式" />)}
+                })(<BraftEditor
+                    style={{ border: "1px solid #d9d9d9" }}
+                    controls={controls}
+                    extendControls={extendControls}
+                    placeholder="请输入商品详情"
+                  />)}
               </FormItem>
 
               <Form.Item

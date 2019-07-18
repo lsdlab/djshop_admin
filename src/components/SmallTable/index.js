@@ -22,7 +22,7 @@ class SmallTable extends PureComponent {
       <div className={styles.simpleTable}>
         <Table
           loading={loading}
-          rowKey={rowKey || 'key'}
+          rowKey={results => results.id}
           dataSource={results}
           columns={columns}
           size={size || 'default'}

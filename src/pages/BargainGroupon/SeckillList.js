@@ -30,7 +30,7 @@ const pStyle = {
   groupon,
   loading: loading.models.groupon,
 }))
-class GrouponList extends PureComponent {
+class SeckillList extends PureComponent {
   state = {
     currentPage: 1,
     pageSize: 20,
@@ -153,7 +153,7 @@ class GrouponList extends PureComponent {
         fixed: 'right',
         render: (text, record) => (
           <Fragment>
-            <a onClick={() => this.showDrawer(true, record)}>团购记录</a>
+            <a onClick={() => this.showDrawer(true, record)}>秒杀记录</a>
           </Fragment>
         ),
       },
@@ -178,7 +178,7 @@ class GrouponList extends PureComponent {
     ];
 
     return (
-      <PageHeaderWrapper title="团购列表">
+      <PageHeaderWrapper title="秒杀列表">
         <Card bordered={false}>
           <div className={styles.tableList}>
             <SimpleTable
@@ -196,7 +196,7 @@ class GrouponList extends PureComponent {
             onClose={this.onClose}
             visible={this.state.visible}
           >
-            <p style={{ ...pStyle, marginBottom: 24 }}>团购记录</p>
+            <p style={{ ...pStyle, marginBottom: 24 }}>秒杀记录</p>
             <Row>
               {logData && Object.keys(logData).length ? (
                 <SmallTable
@@ -213,4 +213,4 @@ class GrouponList extends PureComponent {
   }
 }
 
-export default GrouponList;
+export default SeckillList;

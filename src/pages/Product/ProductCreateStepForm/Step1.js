@@ -65,14 +65,23 @@ const UploadToOss = (self, path, file) => {
 @Form.create()
 class Step1 extends React.PureComponent {
   state = {
-    editorState: BraftEditor.createEditorState(null),
+
   };
 
   componentDidMount() {
-    const { dispatch } = this.props;
+    const { product: { newProduct }, dispatch, location, form } = this.props;
     dispatch({
       type: 'product/fetchCategory',
     });
+
+    // 恢复符文本编辑器输入的内容
+    if (location.state && newProduct) {
+      setTimeout(() => {
+        form.setFieldsValue({
+          content: BraftEditor.createEditorState(newProduct.content)
+        })
+      }, 1000)
+    }
   }
 
   beforeUpload = (file) => {

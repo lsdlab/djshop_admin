@@ -73,11 +73,11 @@ export default [
             name: 'product-list',
             component: './Product/ProductList',
           },
-          // {
-          //   path: '/product/product-rec-list',
-          //   name: 'product-rec-list',
-          //   component: './Product/ProductRecList',
-          // },
+          {
+            path: '/product/product-rec-list',
+            name: 'product-rec-list',
+            component: './Product/ProductRecList',
+          },
           {
             path: '/product/product-detail/:id',
             hideInMenu: true,
@@ -129,6 +129,16 @@ export default [
             name: 'groupon-list',
             component: './BargainGroupon/GrouponList',
           },
+          {
+            path: '/bargaingroupon/seckill-product-list',
+            name: 'seckill-product-list',
+            component: './BargainGroupon/SeckillProductList',
+          },
+          {
+            path: '/bargaingroupon/seckill-list',
+            name: 'seckill-list',
+            component: './BargainGroupon/SeckillList',
+          },
         ],
       },
       {
@@ -170,21 +180,21 @@ export default [
             name: 'transaction-detail',
             component: './Transaction/TransactionDetail',
           },
-          // {
-          //   path: '/transaction/collect-list',
-          //   name: 'collect-list',
-          //   component: './Transaction/CollectList',
-          // },
-          // {
-          //   path: '/transaction/invoice-list',
-          //   name: 'invoice-list',
-          //   component: './Transaction/InvoiceList',
-          // },
-          // {
-          //   path: '/transaction/refund-list',
-          //   name: 'refund-list',
-          //   component: './Transaction/RefundList',
-          // },
+          {
+            path: '/transaction/collect-list',
+            name: 'collect-list',
+            component: './Transaction/CollectList',
+          },
+          {
+            path: '/transaction/invoice-list',
+            name: 'invoice-list',
+            component: './Transaction/InvoiceList',
+          },
+          {
+            path: '/transaction/refund-list',
+            name: 'refund-list',
+            component: './Transaction/RefundList',
+          },
         ],
       },
       {
