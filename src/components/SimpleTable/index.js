@@ -37,7 +37,7 @@ class SimpleTable extends PureComponent {
       <div className={styles.simpleTable}>
         <Table
           loading={loading}
-          rowKey={rowKey || 'key'}
+          rowKey={results => results.id}
           dataSource={results}
           columns={columns}
           scroll={scroll}
