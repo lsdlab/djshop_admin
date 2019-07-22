@@ -23,9 +23,9 @@ const ButtonGroup = Button.Group;
 
 const menu = (
   <Menu>
-    <Menu.Item key="1">选项一</Menu.Item>
-    <Menu.Item key="2">选项二</Menu.Item>
-    <Menu.Item key="3">选项三</Menu.Item>
+    <Menu.Item key="1">商品详情(移动端渲染效果)</Menu.Item>
+    {/* <Menu.Item key="2">选项二</Menu.Item> */}
+    {/* <Menu.Item key="3">选项三</Menu.Item> */}
   </Menu>
 );
 
@@ -73,12 +73,24 @@ const CheckboxItem = ({ title, status }) => (
   </div>
 );
 
+const operationTabList = [
+  {
+    key: 'tab1',
+    tab: '商品详情',
+  },
+  {
+    key: 'tab2',
+    tab: '商品规格详情',
+  },
+];
+
 /* eslint react/no-multi-comp:0 */
 @connect(({ product }) => ({
   product,
 }))
 class ProductDetail extends PureComponent {
   state = {
+    operationkey: 'tab1',
   };
 
   componentDidMount() {
@@ -98,6 +110,10 @@ class ProductDetail extends PureComponent {
     });
   };
 
+  onOperationTabChange = key => {
+    this.setState({ operationkey: key });
+  };
+
   routerPushEdit = (productID) => {
     router.push('/product/product-edit/' + productID);
   }
@@ -114,15 +130,15 @@ class ProductDetail extends PureComponent {
     return (
       <Fragment>
         <ButtonGroup>
-          <Button onClick={() => this.routerPushEdit(currentRecord.id)}>编辑商品</Button>
-          <Button onClick={() => this.routerPushSpecCreate(currentRecord.id)}>上架规格</Button>
-          {/*<Dropdown overlay={menu} placement="bottomRight">
+          <Button onClick={() => this.routerPushEdit(currentRecord.id)}>编辑商品详情</Button>
+          <Button onClick={() => this.routerPushSpecCreate(currentRecord.id)}>上架商品规格</Button>
+          <Dropdown overlay={menu} placement="bottomRight">
             <Button>
               <Icon type="ellipsis" />
             </Button>
-          </Dropdown>*/}
+          </Dropdown>
         </ButtonGroup>
-        {/*<Button type="primary">主操作</Button>*/}
+        {/* <Button type="primary">商品详情(移动端渲染效果)</Button> */}
       </Fragment>
     )
   };
@@ -187,7 +203,7 @@ class ProductDetail extends PureComponent {
     if (specData) {
       const arr = [];
       for (let i = 0; i < specData.length; i++) {
-        arr.push(<Card style={{ marginBottom: 20 }} bodyStyle={{ padding: '20px 24px 8px 24px' }} key={i} type="inner" title={specData[i].name} extra={<a onClick={() => this.routerPushSpecEdit(specData[i].id, productID)}>编辑商品规格</a>}>
+        arr.push(<Card style={{ marginBottom: 20 }} bodyStyle={{ padding: '20px 24px 8px 24px' }} key={i} type="inner" title={specData[i].name} extra={<a onClick={() => this.routerPushSpecEdit(specData[i].id, productID)}>编辑此规格</a>}>
                    <Row>
                      <Col span={24}>
                        <DescriptionItem title="ID" content={specData[i].id} />
@@ -229,18 +245,14 @@ class ProductDetail extends PureComponent {
   };
 
   render() {
+    const { operationkey } = this.state;
     const {
       product: { currentRecord, specData },
     } = this.props;
 
-    return (
-      <PageHeaderWrapper
-        title={currentRecord.name}
-        action={this.buildAction(currentRecord)}
-        content={this.buildDescription(currentRecord)}
-        extraContent={this.buildExtra(currentRecord)}
-      >
-        <Card title="商品信息" style={{ marginBottom: 24 }} bordered={false} extra={<a onClick={() => this.routerPushEdit(currentRecord.id)}>编辑商品</a>}>
+    const contentList = {
+      tab1: (
+        <Card title="商品详情" style={{ marginBottom: 24 }} bordered={false} extra={<a onClick={() => this.routerPushEdit(currentRecord.id)}>编辑商品详情</a>}>
           <Row>
             <Col span={6}>
               <DescriptionItem title="销量" content={currentRecord.sold} />
@@ -269,7 +281,7 @@ class ProductDetail extends PureComponent {
                 <DescriptionItem title="评论量" content={currentRecord.review} />
               </Col>
             </Row>
-            <Row>
+            {/* <Row>
               <Col span={6}>
                 <CheckboxItem title="可开发票" status={currentRecord.has_invoice} />
               </Col>
@@ -282,7 +294,7 @@ class ProductDetail extends PureComponent {
               <Col span={6}>
                 <CheckboxItem title="新品" content={currentRecord.is_new} />
               </Col>
-            </Row>
+            </Row> */}
             <Row>
               <Col span={24}>
                 <DescriptionItem title="题图" />
@@ -298,9 +310,24 @@ class ProductDetail extends PureComponent {
               </Col>
             </Row>
         </Card>
-        <Card title="商品规格信息" style={{ marginBottom: 24 }} bordered={false} extra={<a onClick={() => this.routerPushSpecCreate(currentRecord.id)}>上架规格</a>}>
+      ),
+      tab2: (
+        <Card title="商品规格详情" style={{ marginBottom: 24 }} bordered={false} extra={<a onClick={() => this.routerPushSpecCreate(currentRecord.id)}>上架商品规格</a>}>
           {this.buildSpecs(specData, currentRecord.id)}
         </Card>
+      ),
+    };
+
+    return (
+      <PageHeaderWrapper
+        title={currentRecord.name}
+        action={this.buildAction(currentRecord)}
+        content={this.buildDescription(currentRecord)}
+        extraContent={this.buildExtra(currentRecord)}
+        tabList={operationTabList}
+        onTabChange={this.onOperationTabChange}
+      >
+        {contentList[operationkey]}
       </PageHeaderWrapper>
     );
   }
