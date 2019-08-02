@@ -105,6 +105,23 @@ export default [
         ],
       },
       {
+        path: '/promotion',
+        name: 'promotion',
+        icon: 'shopping',
+        routes: [
+          {
+            path: '/promotion/product-promotion-list',
+            name: 'product-promotion-list',
+            component: './Promotion/ProductPromotionList',
+          },
+          {
+            path: '/promotion/promotion-list',
+            name: 'promotion-list',
+            component: './Promotion/PromotionList',
+          },
+        ],
+      },
+      {
         path: '/bargaingroupon',
         name: 'bargaingroupon',
         icon: 'shopping',
