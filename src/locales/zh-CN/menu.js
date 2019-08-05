@@ -18,7 +18,7 @@ export default {
   'menu.product.product-spec-create': '增加商品规格',
   'menu.promotion': '促销',
   'menu.promotion.product-promotion-list': '促销商品列表',
-  'menu.promotion.promotion-list': '促销商品',
+  'menu.promotion.promotion-list': '促销列表',
   'menu.bargaingroupon': '砍价&团购&秒杀',
   'menu.bargaingroupon.bargain-product-list': '砍价商品列表',
   'menu.bargaingroupon.bargain-list': '砍价列表',
