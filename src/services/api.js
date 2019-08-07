@@ -184,6 +184,17 @@ export async function fetchCurrent() {
   });
 }
 
+export async function fetchCurrentMerchant(merchantID) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/merchants/${merchantID}/`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
 export async function queryArticles(params) {
   const token = getToken();
   return request(`${apiHost}${apiVersion}/assist/articles/?${stringify(params)}`, {
