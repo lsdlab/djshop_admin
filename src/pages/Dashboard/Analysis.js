@@ -147,8 +147,17 @@ class Analysis extends Component {
         <Row gutter={24}>
           <Col xl={24} lg={24} md={24} sm={24} xs={24}>
             <Suspense fallback={null}>
+              <TopSearch
+                loading={loading}
+                visitData2={visitData2}
+                selectDate={this.selectDate}
+                searchData={searchData}
+              />
+            </Suspense>
+          </Col>
+          <Col xl={24} lg={24} md={24} sm={24} xs={24}>
+            <Suspense fallback={null}>
               <ProportionSales
-                dropdownGroup={dropdownGroup}
                 salesType={salesType}
                 loading={loading}
                 salesPieData={salesPieData}
