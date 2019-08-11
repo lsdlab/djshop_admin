@@ -130,7 +130,7 @@ class Workplace extends PureComponent {
               ，祝你开心每一天！
             </div>
             <div>
-              {currentUser.title} |{currentUser.group}
+              {currentUser.email} | {currentUser.name}
             </div>
           </div>
         </div>
@@ -157,6 +157,7 @@ class Workplace extends PureComponent {
 
     return (
       <PageHeaderWrapper
+        hiddenBreadcrumb={true}
         loading={currentUserLoading}
         content={pageHeaderContent}
         extraContent={extraContent}

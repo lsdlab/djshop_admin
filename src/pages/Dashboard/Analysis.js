@@ -155,7 +155,10 @@ class Analysis extends Component {
               />
             </Suspense>
           </Col>
-          <Col xl={24} lg={24} md={24} sm={24} xs={24}>
+        </Row>
+
+        <Row gutter={24}>
+          <Col xl={12} lg={24} md={24} sm={24} xs={24}>
             <Suspense fallback={null}>
               <ProportionSales
                 salesType={salesType}
@@ -166,6 +169,7 @@ class Analysis extends Component {
             </Suspense>
           </Col>
         </Row>
+
       </GridContent>
     );
   }
