@@ -13,6 +13,8 @@ import { queryCategory,
          createRecommendation,
          patchRecommendation,
          fetchProductAllIds,
+         createBargainsProduct,
+         createGrouponsProduct,
 } from '@/services/api';
 
 
@@ -125,6 +127,12 @@ export default {
         type: 'saveProductAllIds',
         payload: response,
       });
+    },
+    *createBargainProduct({ payload }, { call, put }) {
+      yield call(createBargainsProduct, payload);
+    },
+    *createGrouponProduct({ payload }, { call, put }) {
+      yield call(createGrouponsProduct, payload);
     },
   },
 

@@ -4,8 +4,13 @@ import {
   Row,
   Col,
   Card,
+  Form,
+  Input,
+  InputNumber,
   Icon,
   Button,
+  Modal,
+  message,
   Dropdown,
   Menu,
   Badge,
@@ -17,7 +22,8 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import styles from '../Profile/AdvancedProfile.less';
 
-
+const FormItem = Form.Item;
+const InputGroup = Input.Group;
 const { Description } = DescriptionList;
 const ButtonGroup = Button.Group;
 
@@ -84,6 +90,105 @@ const operationTabList = [
   },
 ];
 
+
+const CreateForm = Form.create()(props => {
+  const { modalVisible, form, handleAdd, handleModalVisible, productSpecId } = props;
+  const okHandle = () => {
+    form.validateFields((err, fieldsValue) => {
+      if (err) return;
+      // TODO 验证范围正确性
+      form.resetFields();
+      handleAdd(fieldsValue, productSpecId);
+    });
+  };
+
+  return (
+    <Modal
+      destroyOnClose
+      centered
+      keyboard
+      title="新增砍价商品"
+      width={1000}
+      visible={modalVisible}
+      onOk={okHandle}
+      onCancel={() => handleModalVisible()}
+    >
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="价格区间" >
+        <InputGroup compact>
+          {form.getFieldDecorator('start_price', {
+            rules: [{ required: true, message: "请输入起始价格！" }],
+          })(<InputNumber min={0.01} step={0.01} style={{ width: 150, textAlign: 'center', marginTop: 5 }} placeholder="起始价格" />)}
+          <Input
+            style={{
+              width: 30, borderLeft: 0, pointerEvents: 'none', backgroundColor: '#fff', marginTop: 5,
+            }}
+            placeholder="~"
+            disabled
+          />
+          {form.getFieldDecorator('end_price', {
+            rules: [{ required: true, message: "请输入结束价格！" }],
+          })(<InputNumber min={0.01} step={0.01} style={{ width: 150, textAlign: 'center', borderLeft: 0, marginTop: 5 }} placeholder="结束价格" />)}
+        </InputGroup>
+      </FormItem>
+
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="砍价比例" >
+        <InputGroup compact>
+          {form.getFieldDecorator('bargain_percent_range_start', {
+            rules: [{ required: true, message: "请输入砍价比例！" }],
+          })(<InputNumber min={5} max={50} step={1} style={{ width: 150, textAlign: 'center', marginTop: 5 }} placeholder="砍价比例 5%" />)}
+          <Input
+            style={{
+              width: 30, borderLeft: 0, pointerEvents: 'none', backgroundColor: '#fff', marginTop: 5,
+            }}
+            placeholder="~"
+            disabled
+          />
+          {form.getFieldDecorator('bargain_percent_range_end', {
+            rules: [{ required: true, message: "请输入砍价比例！" }],
+          })(<InputNumber min={5} max={50} step={1} style={{ width: 150, textAlign: 'center', borderLeft: 0, marginTop: 5 }} placeholder="砍价比例 50%" />)}
+        </InputGroup>
+      </FormItem>
+    </Modal>
+  );
+});
+
+const CreateFormGroupon = Form.create()(props => {
+  const { modalVisibleGroupon, form, handleAddGroupon, handleModalVisibleGroupon, productSpecId } = props;
+  const okHandle = () => {
+    form.validateFields((err, fieldsValue) => {
+      if (err) return;
+      // TODO 验证范围正确性
+      form.resetFields();
+      handleAddGroupon(fieldsValue, productSpecId);
+    });
+  };
+
+  return (
+    <Modal
+      destroyOnClose
+      centered
+      keyboard
+      title="新增团购商品"
+      width={1000}
+      visible={modalVisibleGroupon}
+      onOk={okHandle}
+      onCancel={() => handleModalVisibleGroupon()}
+    >
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="团购价格" >
+        {form.getFieldDecorator('groupon_price', {
+          rules: [{ required: true, message: "请输入结束价格！" }],
+        })(<InputNumber min={0.01} step={0.01} style={{ width: '100%' }} placeholder="团购价格" />)}
+      </FormItem>
+
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="几人团">
+        {form.getFieldDecorator('limit', {
+          rules: [{ required: true, message: "请输入几人团！" }],
+        })(<InputNumber min={1} max={10} style={{ width: '100%' }} placeholder="几人团"/>)}
+      </FormItem>
+    </Modal>
+  );
+});
+
 /* eslint react/no-multi-comp:0 */
 @connect(({ product }) => ({
   product,
@@ -91,6 +196,8 @@ const operationTabList = [
 class ProductDetail extends PureComponent {
   state = {
     operationkey: 'tab1',
+    modalVisible: false,
+    modalVisibleGroupon: false,
   };
 
   componentDidMount() {
@@ -199,11 +306,70 @@ class ProductDetail extends PureComponent {
     }
   };
 
+  handleModalVisible = (flag) => {
+    this.setState({
+      modalVisible: !!flag,
+    });
+  };
+
+  handleAdd = (fields, productSpecId) => {
+    const { dispatch } = this.props;
+    const payload = {
+      product_spec: productSpecId,
+      start_price: fields.start_price,
+      end_price: fields.end_price,
+      bargain_percent_range: fields.bargain_percent_range_start + '-' + fields.bargain_percent_range_end,
+    };
+
+    dispatch({
+      type: 'product/createBargainProduct',
+      payload: payload,
+    }).then((data) => {
+      message.success('新增砍价商品成功');
+      this.handleModalVisible();
+    });
+  };
+
+  handleModalVisibleGroupon = flag => {
+    this.setState({
+      modalVisibleGroupon: !!flag,
+    });
+  };
+
+  handleAddGroupon = (fields, productSpecId) => {
+    const { dispatch } = this.props;
+    const payload = {
+      product_spec: productSpecId,
+      groupon_price: fields.groupon_price,
+      limit: fields.limit,
+    };
+
+    dispatch({
+      type: 'product/createGrouponProduct',
+      payload: payload,
+    }).then((data) => {
+      message.success('新增拼团商品成功');
+      this.handleModalVisibleGroupon();
+    });
+  };
+
   buildSpecs(specData, productID) {
     if (specData) {
       const arr = [];
+
+      const { modalVisible, modalVisibleGroupon } = this.state;
+      const parentMethods = {
+        handleAdd: this.handleAdd,
+        handleModalVisible: this.handleModalVisible,
+      };
+
+      const parentMethodsGroupon = {
+        handleAddGroupon: this.handleAddGroupon,
+        handleModalVisibleGroupon: this.handleModalVisibleGroupon,
+      };
+
       for (let i = 0; i < specData.length; i++) {
-        arr.push(<Card style={{ marginBottom: 20 }} bodyStyle={{ padding: '20px 24px 8px 24px' }} key={i} type="inner" title={specData[i].name} extra={<a onClick={() => this.routerPushSpecEdit(specData[i].id, productID)}>编辑此规格</a>}>
+        arr.push(<Card style={{ marginBottom: 20 }} bodyStyle={{ padding: '20px 24px 8px 24px' }} key={i} type="inner" title={specData[i].name} extra={<span><a onClick={() => this.routerPushSpecEdit(specData[i].id, productID)}>编辑此规格</a><a style={{ marginLeft: 8 }}  onClick={() => this.handleModalVisible(true, specData[i].id)}>新增砍价商品</a><a style={{ marginLeft: 8 }}  onClick={() => this.handleModalVisibleGroupon(true, specData[i].id)}>新增拼团商品</a></span>}>
                    <Row>
                      <Col span={24}>
                        <DescriptionItem title="ID" content={specData[i].id} />
@@ -236,6 +402,8 @@ class ProductDetail extends PureComponent {
                          ) : null }
                      </Col>
                    </Row>
+                   <CreateForm {...parentMethods} modalVisible={modalVisible} productSpecId={specData[i].id} />
+                   <CreateFormGroupon {...parentMethodsGroupon} modalVisibleGroupon={modalVisibleGroupon} productSpecId={specData[i].id} />
                   </Card>)
         }
         return arr;
@@ -243,6 +411,8 @@ class ProductDetail extends PureComponent {
         return <div></div>
     }
   };
+
+
 
   render() {
     const { operationkey } = this.state;
