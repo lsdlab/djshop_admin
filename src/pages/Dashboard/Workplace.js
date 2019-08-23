@@ -39,6 +39,7 @@ const links = [
 
 @connect(({ user, project, activities, chart, loading }) => ({
   currentUser: user.currentUser,
+  currentMerchant: user.currentMerchant,
   project,
   activities,
   chart,
@@ -110,6 +111,7 @@ class Workplace extends PureComponent {
   render() {
     const {
       currentUser,
+      currentMerchant,
       currentUserLoading,
       project: { notice },
       projectLoading,
@@ -130,37 +132,20 @@ class Workplace extends PureComponent {
               ，祝你开心每一天！
             </div>
             <div>
-              {currentUser.email} | {currentUser.name}
+              邮箱：{currentUser.email} | 手机号：{currentUser.mobile} | 用户创建时间：{currentUser.date_joined}
+            </div>
+            <div>
+              商户名：{currentMerchant.name} | 商户手机号：{currentMerchant.mobile} | 商户创建时间：{currentMerchant.created_at}
             </div>
           </div>
         </div>
       ) : null;
-
-    const extraContent = (
-      <div className={styles.extraContent}>
-        <div className={styles.statItem}>
-          <p>项目数</p>
-          <p>56</p>
-        </div>
-        <div className={styles.statItem}>
-          <p>团队内排名</p>
-          <p>
-            8<span> / 24</span>
-          </p>
-        </div>
-        <div className={styles.statItem}>
-          <p>项目访问</p>
-          <p>2,223</p>
-        </div>
-      </div>
-    );
 
     return (
       <PageHeaderWrapper
         hiddenBreadcrumb={true}
         loading={currentUserLoading}
         content={pageHeaderContent}
-        extraContent={extraContent}
       >
         <Row gutter={24}>
           <Col xl={16} lg={24} md={24} sm={24} xs={24}>
@@ -248,6 +233,7 @@ class Workplace extends PureComponent {
               </div>
             </Card>
           </Col>
+
         </Row>
       </PageHeaderWrapper>
     );

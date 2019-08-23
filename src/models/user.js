@@ -14,6 +14,7 @@ export default {
 
   state: {
     currentUser: {},
+    currentMerchant: {},
     data: {
       results: [],
       count: undefined,
@@ -24,7 +25,7 @@ export default {
   effects: {
     *fetchCurrent(_, { call, put }) {
       const responseJSON = yield call(fetchCurrent);
-      const response = {"userid": responseJSON.id, "email": responseJSON.email, "username": responseJSON.username, "name": responseJSON.username,"avatar": responseJSON.avatar, "bio": responseJSON.bio, "location": responseJSON.location, "url": responseJSON.url};
+      const response = {"userid": responseJSON.id, "email": responseJSON.email, "username": responseJSON.username, "name": responseJSON.username,"avatar": responseJSON.avatar, "bio": responseJSON.bio, "location": responseJSON.location, "url": responseJSON.url, "date_joined": responseJSON.date_joined};
       localStorage.setItem('currentUser', JSON.stringify(response));
 
       const responseMerchantJSON = yield call(fetchCurrentMerchant, '1');
@@ -34,6 +35,10 @@ export default {
       yield put({
         type: 'saveCurrentUser',
         payload: response,
+      });
+      yield put({
+        type: 'saveCurrentMerchant',
+        payload: responseMerchantJSON,
       });
     },
     *fetch({ payload }, { call, put }) {
@@ -66,6 +71,12 @@ export default {
       return {
         ...state,
         currentUser: action.payload || {},
+      };
+    },
+    saveCurrentMerchant(state, action) {
+      return {
+        ...state,
+        currentMerchant: action.payload || {},
       };
     },
     save(state, action) {

@@ -20,6 +20,7 @@
   "dependencies": {
     "@antv/data-set": "^0.10.0",
     "@babel/runtime": "^7.1.5",
+    "@stomp/stompjs": "^5.4.2",
     "ali-oss": "^6.1.0",
     "antd": "^3.10.9",
     "axios": "^0.18.0",
