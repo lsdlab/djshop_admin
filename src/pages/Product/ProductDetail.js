@@ -348,7 +348,7 @@ class ProductDetail extends PureComponent {
       type: 'product/createGrouponProduct',
       payload: payload,
     }).then((data) => {
-      message.success('新增拼团商品成功');
+      message.success('新增团购商品成功');
       this.handleModalVisibleGroupon();
     });
   };
