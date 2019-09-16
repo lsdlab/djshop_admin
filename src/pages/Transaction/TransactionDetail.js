@@ -32,9 +32,7 @@ const getWindowWidth = () => window.innerWidth || document.documentElement.clien
 
 const menu = (
   <Menu>
-    <Menu.Item key="1">选项一</Menu.Item>
-    <Menu.Item key="2">选项二</Menu.Item>
-    <Menu.Item key="3">选项三</Menu.Item>
+    <Menu.Item key="1">打印订单</Menu.Item>
   </Menu>
 );
 
@@ -148,11 +146,11 @@ class TransactionDetail extends PureComponent {
 
           {/*<Button>关闭订单</Button>
           <Button>确认收货</Button>*/}
-          {/*<Dropdown overlay={menu} placement="bottomRight">
+          <Dropdown overlay={menu} placement="bottomRight">
             <Button>
               <Icon type="ellipsis" />
             </Button>
-          </Dropdown>*/}
+          </Dropdown>
         </ButtonGroup>
         {/*<Button type="primary">主操作</Button>*/}
       </Fragment>
