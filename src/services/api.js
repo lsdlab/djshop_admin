@@ -2,6 +2,7 @@ import { stringify } from 'qs';
 import request from '@/utils/request';
 import router from 'umi/router';
 const axios = require('axios');
+import defaultSettings from '../defaultSettings';
 
 
 export async function queryProjectNotice() {
@@ -129,8 +130,7 @@ export async function getFakeCaptcha(mobile) {
 }
 
 
-const apiHost = 'http://localhost:9000';    // development
-// const apiHost = 'https://shopapi.nuclearst.com';    // production
+const apiHost = defaultSettings.apiHost;
 const apiVersion = '/api/v1';
 
 

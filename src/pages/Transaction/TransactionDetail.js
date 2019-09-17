@@ -14,7 +14,9 @@ import {
   Checkbox,
   Avatar,
   Steps,
+  message,
 } from 'antd';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import classNames from 'classnames';
 import router from 'umi/router';
 import DescriptionList from '@/components/DescriptionList';
@@ -136,6 +138,18 @@ class TransactionDetail extends PureComponent {
     return (
       <Fragment>
         <ButtonGroup>
+
+          { currentRecord.address ? (
+            <CopyToClipboard
+              text={`${currentRecord.address.name} ${currentRecord.address.mobile} ${currentRecord.address.address}`}
+
+              onCopy={() => message.success('复制成功')}
+              style={{ marginTop: 10 }}
+              >
+              <Button>复制地址</Button>
+            </CopyToClipboard>
+          ) : <Button disabled>复制地址</Button>}
+
           { currentRecord.status == '4' ? (
             <Button onClick={() => this.handleCreateExpressModalVisible(true)}>发货</Button>
           ) : <Button disabled>发货</Button>}
@@ -359,11 +373,7 @@ class TransactionDetail extends PureComponent {
             </DescriptionList>}
         </Card>
 
-        <Card title="地址 & 快递信息" style={{ marginBottom: 24 }} bordered={false} extra=
-          { currentRecord.status == '4' ? (
-            <a onClick={() => this.handleCreateExpressModalVisible(true)} >发货</a>
-          ) : <a disabled onClick={() => this.handleCreateExpressModalVisible(true)} >发货</a>}
-        >
+        <Card title="地址 & 快递信息" style={{ marginBottom: 24 }} bordered={false}>
           {currentRecord.address ? (
             <DescriptionList style={{ marginBottom: 24 }} title="地址">
               <Description term="姓名">{currentRecord.address.name}</Description>

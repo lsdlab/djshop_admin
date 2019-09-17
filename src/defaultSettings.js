@@ -12,5 +12,7 @@ module.exports = {
   "title": "严选电商",
   "pwa": true,
   "iconfontUrl": "",
-  "collapse": true
+  "collapse": true,
+  "apiHost": "http://localhost:9000",
+  // "apiHost": "https://shopapi.nuclearst.com",
 };

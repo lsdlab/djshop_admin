@@ -21,19 +21,13 @@ import DescriptionList from '@/components/DescriptionList';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import styles from '../Profile/AdvancedProfile.less';
+import defaultSettings from '../../defaultSettings';
 
 const FormItem = Form.Item;
 const InputGroup = Input.Group;
 const { Description } = DescriptionList;
 const ButtonGroup = Button.Group;
 
-const menu = (
-  <Menu>
-    <Menu.Item key="1">商品详情(移动端渲染效果)</Menu.Item>
-    {/* <Menu.Item key="2">选项二</Menu.Item> */}
-    {/* <Menu.Item key="3">选项三</Menu.Item> */}
-  </Menu>
-);
 
 const DescriptionItem = ({ title, content }) => (
   <div
@@ -87,6 +81,10 @@ const operationTabList = [
   {
     key: 'tab2',
     tab: '商品规格详情',
+  },
+  {
+    key: 'tab3',
+    tab: '商品详情(移动端渲染效果)',
   },
 ];
 
@@ -229,6 +227,10 @@ class ProductDetail extends PureComponent {
     router.push({pathname: '/product/product-spec-create/' + productID, state: {"productID": productID }});
   }
 
+  routerProductDetailNewTab = (productID) => {
+    window.open(defaultSettings.apiHost + "/api/v1/product_detail_mobile/"+ productID + "/", '_blank')
+  }
+
   routerPushSpecEdit = (specID, productID) => {
     router.push({pathname: '/product/product-spec-edit/' + specID, state: {"productID": productID }});
   }
@@ -239,11 +241,6 @@ class ProductDetail extends PureComponent {
         <ButtonGroup>
           <Button onClick={() => this.routerPushEdit(currentRecord.id)}>编辑商品详情</Button>
           <Button onClick={() => this.routerPushSpecCreate(currentRecord.id)}>上架商品规格</Button>
-          <Dropdown overlay={menu} placement="bottomRight">
-            <Button>
-              <Icon type="ellipsis" />
-            </Button>
-          </Dropdown>
         </ButtonGroup>
         {/* <Button type="primary">商品详情(移动端渲染效果)</Button> */}
       </Fragment>
@@ -484,6 +481,11 @@ class ProductDetail extends PureComponent {
       tab2: (
         <Card title="商品规格详情" style={{ marginBottom: 24 }} bordered={false} extra={<a onClick={() => this.routerPushSpecCreate(currentRecord.id)}>上架商品规格</a>}>
           {this.buildSpecs(specData, currentRecord.id)}
+        </Card>
+      ),
+      tab3: (
+        <Card style={{ marginBottom: 24 }} bordered={false} >
+          <Button onClick={() => this.routerProductDetailNewTab(currentRecord.id)}>商品详情(移动端渲染效果) 新页面打开</Button>
         </Card>
       ),
     };
