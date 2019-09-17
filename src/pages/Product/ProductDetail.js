@@ -419,7 +419,7 @@ class ProductDetail extends PureComponent {
 
     const contentList = {
       tab1: (
-        <Card title="商品详情" style={{ marginBottom: 24 }} bordered={false} extra={<a onClick={() => this.routerPushEdit(currentRecord.id)}>编辑商品详情</a>}>
+        <Card title="商品详情" style={{ marginBottom: 24 }} bordered={false}>
           <Row>
             <Col span={6}>
               <DescriptionItem title="销量" content={currentRecord.sold} />
@@ -479,7 +479,7 @@ class ProductDetail extends PureComponent {
         </Card>
       ),
       tab2: (
-        <Card title="商品规格详情" style={{ marginBottom: 24 }} bordered={false} extra={<a onClick={() => this.routerPushSpecCreate(currentRecord.id)}>上架商品规格</a>}>
+        <Card title="商品规格详情" style={{ marginBottom: 24 }} bordered={false}>
           {this.buildSpecs(specData, currentRecord.id)}
         </Card>
       ),
