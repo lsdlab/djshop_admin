@@ -208,7 +208,7 @@ class TransactionList extends PureComponent {
               loading={loading}
               data={data}
               columns={columns}
-              scroll={{ x: 1480 }}
+              scroll={{ x: 1200 }}
               onChange={this.handleStandardTableChange}
             />
           </div>

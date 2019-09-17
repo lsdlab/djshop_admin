@@ -5,9 +5,10 @@ import Link from 'umi/link';
 import { Row, Col, Card, List, Avatar, notification } from 'antd';
 import { Client, Message } from '@stomp/stompjs';
 
-import { Radar } from '@/components/Charts';
 import EditableLinkGroup from '@/components/EditableLinkGroup';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import linkStyles from '../../components/EditableLinkGroup/index.less';
+
 
 import styles from './Workplace.less';
 
@@ -38,14 +39,11 @@ const links = [
   },
 ];
 
-@connect(({ user, project, activities, chart, loading }) => ({
+@connect(({ user, activities, loading }) => ({
   currentUser: user.currentUser,
   currentMerchant: user.currentMerchant,
-  project,
   activities,
-  chart,
   currentUserLoading: loading.effects['user/fetchCurrent'],
-  projectLoading: loading.effects['project/fetchNotice'],
   activitiesLoading: loading.effects['activities/fetchList'],
 }))
 class Workplace extends PureComponent {
@@ -86,20 +84,7 @@ class Workplace extends PureComponent {
       type: 'user/fetchCurrent',
     });
     dispatch({
-      type: 'project/fetchNotice',
-    });
-    dispatch({
       type: 'activities/fetchList',
-    });
-    dispatch({
-      type: 'chart/fetch',
-    });
-  }
-
-  componentWillUnmount() {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'chart/clear',
     });
   }
 
@@ -145,10 +130,7 @@ class Workplace extends PureComponent {
       currentUser,
       currentMerchant,
       currentUserLoading,
-      project: { notice },
-      projectLoading,
       activitiesLoading,
-      chart: { radarData },
     } = this.props;
 
     const pageHeaderContent =
@@ -159,7 +141,7 @@ class Workplace extends PureComponent {
           </div>
           <div className={styles.content}>
             <div className={styles.contentTitle}>
-              早安，
+              Hi，
               {currentUser.name}
               ，祝你开心每一天！
             </div>
@@ -182,43 +164,10 @@ class Workplace extends PureComponent {
         <Row gutter={24}>
           <Col xl={16} lg={24} md={24} sm={24} xs={24}>
             <Card
-              className={styles.projectList}
-              style={{ marginBottom: 24 }}
-              title="进行中的项目"
-              bordered={false}
-              extra={<Link to="/">全部项目</Link>}
-              loading={projectLoading}
-              bodyStyle={{ padding: 0 }}
-            >
-              {notice.map(item => (
-                <Card.Grid className={styles.projectGrid} key={item.id}>
-                  <Card bodyStyle={{ padding: 0 }} bordered={false}>
-                    <Card.Meta
-                      title={
-                        <div className={styles.cardTitle}>
-                          <Avatar size="small" src={item.logo} />
-                          <Link to={item.href}>{item.title}</Link>
-                        </div>
-                      }
-                      description={item.description}
-                    />
-                    <div className={styles.projectItemContent}>
-                      <Link to={item.memberLink}>{item.member || ''}</Link>
-                      {item.updatedAt && (
-                        <span className={styles.datetime} title={item.updatedAt}>
-                          {moment(item.updatedAt).fromNow()}
-                        </span>
-                      )}
-                    </div>
-                  </Card>
-                </Card.Grid>
-              ))}
-            </Card>
-            <Card
               bodyStyle={{ padding: 0 }}
               bordered={false}
               className={styles.activeCard}
-              title="动态"
+              title="登录历史记录"
               loading={activitiesLoading}
             >
               <List loading={activitiesLoading} size="large">
@@ -229,43 +178,20 @@ class Workplace extends PureComponent {
           <Col xl={8} lg={24} md={24} sm={24} xs={24}>
             <Card
               style={{ marginBottom: 24 }}
-              title="快速开始 / 便捷导航"
+              title="便捷导航"
               bordered={false}
               bodyStyle={{ padding: 0 }}
             >
-              <EditableLinkGroup onAdd={() => {}} links={links} linkElement={Link} />
-            </Card>
-            <Card
-              style={{ marginBottom: 24 }}
-              bordered={false}
-              title="XX 指数"
-              loading={radarData.length === 0}
-            >
-              <div className={styles.chart}>
-                <Radar hasLegend height={343} data={radarData} />
-              </div>
-            </Card>
-            <Card
-              bodyStyle={{ paddingTop: 12, paddingBottom: 12 }}
-              bordered={false}
-              title="团队"
-              loading={projectLoading}
-            >
-              <div className={styles.members}>
-                <Row gutter={48}>
-                  {notice.map(item => (
-                    <Col span={12} key={`members-item-${item.id}`}>
-                      <Link to={item.href}>
-                        <Avatar src={item.logo} size="small" />
-                        <span className={styles.member}>{item.member}</span>
-                      </Link>
-                    </Col>
-                  ))}
-                </Row>
+              <div className={linkStyles.linkGroup}>
+                <a href="#">商品上架</a>
+                <a href="#">商品列表</a>
+                <a href="#">开屏广告</a>
+                <a href="#">轮播图</a>
+                <a href="#">上传图片</a>
+                <a href="#">订单列表</a>
               </div>
             </Card>
           </Col>
-
         </Row>
       </PageHeaderWrapper>
     );

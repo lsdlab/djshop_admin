@@ -9,7 +9,6 @@ import {
   Icon,
   Button,
   Dropdown,
-  Menu,
   Badge,
   Checkbox,
   Avatar,
@@ -17,6 +16,8 @@ import {
   message,
 } from 'antd';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import ReactToPrint from 'react-to-print';
+
 import classNames from 'classnames';
 import router from 'umi/router';
 import DescriptionList from '@/components/DescriptionList';
@@ -32,11 +33,6 @@ const { Step } = Steps;
 
 const getWindowWidth = () => window.innerWidth || document.documentElement.clientWidth;
 
-const menu = (
-  <Menu>
-    <Menu.Item key="1">打印订单</Menu.Item>
-  </Menu>
-);
 
 const customDot = (dot, { status }) =>
   (
@@ -139,7 +135,11 @@ class TransactionDetail extends PureComponent {
       <Fragment>
         <ButtonGroup>
 
-          { currentRecord.address ? (
+          { currentRecord.status == '1' ? (
+            <Button onClick={() => this.handlePatchModalVisible(true, currentRecord)}>修改</Button>
+          ) : <Button disabled>修改</Button>}
+
+          { currentRecord.address && currentRecord.status == '4' ? (
             <CopyToClipboard
               text={`${currentRecord.address.name} ${currentRecord.address.mobile} ${currentRecord.address.address}`}
 
@@ -154,19 +154,16 @@ class TransactionDetail extends PureComponent {
             <Button onClick={() => this.handleCreateExpressModalVisible(true)}>发货</Button>
           ) : <Button disabled>发货</Button>}
 
-          { currentRecord.status == '1' ? (
-            <Button onClick={() => this.handlePatchModalVisible(true, currentRecord)}>修改订单</Button>
-          ) : <Button disabled>修改订单</Button>}
+          { currentRecord.status == '4' ? (
+            <ReactToPrint
+              trigger={() => <Button>打印</Button>}
+              content={() => this.componentRef}
+            />
+          ) : <Button disabled>打印</Button>}
 
           {/*<Button>关闭订单</Button>
           <Button>确认收货</Button>*/}
-          <Dropdown overlay={menu} placement="bottomRight">
-            <Button>
-              <Icon type="ellipsis" />
-            </Button>
-          </Dropdown>
         </ButtonGroup>
-        {/*<Button type="primary">主操作</Button>*/}
       </Fragment>
     )
   };
@@ -393,14 +390,17 @@ class TransactionDetail extends PureComponent {
             </DescriptionList>}
         </Card>
 
-        {currentRecord.products ? (
-          <Card title="订单包含商品" style={{ marginBottom: 24 }} bordered={false}>
-            <SimpleTransactionTable
-              data={currentRecord.products}
-              columns={transactionProductColumns}
-            />
-          </Card>
-        ) : null}
+        <div ref={el => (this.componentRef = el)} >
+          {currentRecord.products ? (
+            <Card title="订单包含商品" style={{ marginBottom: 24 }} bordered={false}>
+              <SimpleTransactionTable
+                data={currentRecord.products}
+                columns={transactionProductColumns}
+              />
+            </Card>
+          ) : null}
+        </div>
+
 
         <TransactionCreateExpressModal
           createExpressModalVisible={createExpressModalVisible}

@@ -476,7 +476,7 @@ class ProductList extends PureComponent {
               loading={loading}
               data={data}
               columns={columns}
-              scroll={{ x: 1460 }}
+              scroll={{ x: 1300 }}
               onChange={this.handleStandardTableChange}
             />
           </div>

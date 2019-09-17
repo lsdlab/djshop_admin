@@ -19,31 +19,19 @@ class SimpleTransactionTable extends PureComponent {
   render() {
     const {
       data,
-      loading,
       columns,
       size,
       rowKey,
     } = this.props;
 
-    const total = data.length;
-
-    const paginationProps = {
-      showSizeChanger: false,
-      showQuickJumper: false,
-      defaultPageSize: 1000,
-      total: total,
-      showTotal: total => `共 ${total} 件商品`
-    };
-
     return (
       <div className={styles.simpleTable}>
         <Table
-          loading={loading}
           rowKey={results => results.id}
           dataSource={data}
           columns={columns}
           size={size || 'default'}
-          pagination={paginationProps}
+          pagination={false}
           onChange={this.handleTableChange}
         />
       </div>

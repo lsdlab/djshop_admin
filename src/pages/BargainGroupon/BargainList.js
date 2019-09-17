@@ -205,7 +205,7 @@ class BargainList extends PureComponent {
               loading={loading}
               data={data}
               columns={columns}
-              scroll={{ x: 1380 }}
+              scroll={{ x: 1460 }}
               onChange={this.handleStandardTableChange}
             />
           </div>

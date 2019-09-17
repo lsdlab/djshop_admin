@@ -375,6 +375,10 @@ class GrouponProductList extends PureComponent {
         dataIndex: 'created_at',
       },
       {
+        title: '更新时间',
+        dataIndex: 'updated_at',
+      },
+      {
         title: '操作',
         fixed: 'right',
         render: (text, record) => (
@@ -402,7 +406,7 @@ class GrouponProductList extends PureComponent {
               loading={loading}
               data={data}
               columns={columns}
-              scroll={{ x: 1080 }}
+              scroll={{ x: 1280 }}
               onChange={this.handleStandardTableChange}
             />
           </div>
