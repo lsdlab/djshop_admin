@@ -2,7 +2,8 @@ import React, { PureComponent } from 'react';
 import moment from 'moment';
 import { connect } from 'dva';
 import Link from 'umi/link';
-import { Row, Col, Card, List, Avatar } from 'antd';
+import { Row, Col, Card, List, Avatar, notification } from 'antd';
+import { Client, Message } from '@stomp/stompjs';
 
 import { Radar } from '@/components/Charts';
 import EditableLinkGroup from '@/components/EditableLinkGroup';
@@ -48,7 +49,38 @@ const links = [
   activitiesLoading: loading.effects['activities/fetchList'],
 }))
 class Workplace extends PureComponent {
+
   componentDidMount() {
+
+    const client = new Client({
+      brokerURL: 'ws://localhost:15674/ws',
+      connectHeaders: {
+        login: 'guest',
+        passcode: 'guest',
+      },
+      debug(str) {
+        console.log(str);
+      },
+      onConnect: () => {
+        console.log('onConnect');
+        const msg = {
+          message: 'rabbitmq + stomp',
+          description: 'realtime notification connected',
+          duration: 1,
+        };
+        notification.open(msg);
+
+        client.subscribe('/topic/test', (message) => {
+          console.log(message.body)
+        });
+      },
+      reconnectDelay: 10000,
+      heartbeatIncoming: 0,
+      heartbeatOutgoing: 0,
+    });
+
+    client.activate();
+
     const { dispatch } = this.props;
     dispatch({
       type: 'user/fetchCurrent',
