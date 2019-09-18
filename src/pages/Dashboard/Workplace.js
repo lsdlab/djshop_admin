@@ -2,42 +2,15 @@ import React, { PureComponent } from 'react';
 import moment from 'moment';
 import { connect } from 'dva';
 import Link from 'umi/link';
+import router from 'umi/router';
 import { Row, Col, Card, List, Avatar, notification } from 'antd';
 import { Client, Message } from '@stomp/stompjs';
 
 import EditableLinkGroup from '@/components/EditableLinkGroup';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import linkStyles from '../../components/EditableLinkGroup/index.less';
-
-
 import styles from './Workplace.less';
 
-const links = [
-  {
-    title: '操作一',
-    href: '',
-  },
-  {
-    title: '操作二',
-    href: '',
-  },
-  {
-    title: '操作三',
-    href: '',
-  },
-  {
-    title: '操作四',
-    href: '',
-  },
-  {
-    title: '操作五',
-    href: '',
-  },
-  {
-    title: '操作六',
-    href: '',
-  },
-];
 
 @connect(({ user, activities, loading }) => ({
   currentUser: user.currentUser,
@@ -125,6 +98,42 @@ class Workplace extends PureComponent {
     });
   }
 
+  routerPushNewProduct = () => {
+    router.push({pathname: '/product/product-create-step-form/product/'});
+  }
+
+  routerPushProductList = () => {
+    router.push({pathname: '/product/product-list/'});
+  }
+
+  routerPushSplashList = () => {
+    router.push({pathname: '/assist/splash-list/'});
+  }
+
+  routerPushBannerList = () => {
+    router.push({pathname: '/assist/banner-list/'});
+  }
+
+  routerPushUploadImage = () => {
+    router.push({pathname: '/assist/upload-image/'});
+  }
+
+  routerPushUploadVideo = () => {
+    router.push({pathname: '/assist/upload-video/'});
+  }
+
+  routerPushTransacitonList = () => {
+    router.push({pathname: '/transaction/transaction-list/'});
+  }
+
+  routerPushCouponCreate = () => {
+    router.push({pathname: '/coupon/coupon-create/'});
+  }
+
+  routerPushCouponList= () => {
+    router.push({pathname: '/coupon/coupon-list/'});
+  }
+
   render() {
     const {
       currentUser,
@@ -183,12 +192,15 @@ class Workplace extends PureComponent {
               bodyStyle={{ padding: 0 }}
             >
               <div className={linkStyles.linkGroup}>
-                <a href="#">商品上架</a>
-                <a href="#">商品列表</a>
-                <a href="#">开屏广告</a>
-                <a href="#">轮播图</a>
-                <a href="#">上传图片</a>
-                <a href="#">订单列表</a>
+                <a onClick={() => this.routerPushNewProduct()}>商品上架</a>
+                <a onClick={() => this.routerPushProductList()}>商品列表</a>
+                <a onClick={() => this.routerPushSplashList()}>开屏广告</a>
+                <a onClick={() => this.routerPushBannerList()}>轮播图</a>
+                <a onClick={() => this.routerPushUploadImage()}>上传图片</a>
+                <a onClick={() => this.routerPushUploadVideo()}>上传视频</a>
+                <a onClick={() => this.routerPushTransacitonList()}>订单列表</a>
+                <a onClick={() => this.routerPushCouponCreate()}>新增优惠卷</a>
+                <a onClick={() => this.routerPushCouponList()}>优惠卷列表</a>
               </div>
             </Card>
           </Col>

@@ -81,7 +81,6 @@ class CouponList extends PureComponent {
   };
 
   routerPushDetail = (record) => {
-    router.push();
     router.push({pathname: '/coupon/coupon-edit/' + record.id, state: {"currentRecord": record }});
   }
 
