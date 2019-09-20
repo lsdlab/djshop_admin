@@ -228,7 +228,11 @@ class SeckillList extends PureComponent {
         dataIndex: 'user.nickname',
       },
       {
-        title: '剩余数量',
+        title: '几人秒',
+        dataIndex: 'seckill_product.limit',
+      },
+      {
+        title: '已秒',
         dataIndex: 'nums',
       },
       {
