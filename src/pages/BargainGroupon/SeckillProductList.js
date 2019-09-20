@@ -5,10 +5,8 @@ import {
   Col,
   Card,
   Form,
-  Input,
   InputNumber,
   Select,
-  Icon,
   Button,
   Modal,
   message,
@@ -24,7 +22,6 @@ import styles from '../List/TableList.less';
 
 
 const FormItem = Form.Item;
-const InputGroup = Input.Group;
 const { Option } = Select;
 
 const buildOptions = (optionData) => {
@@ -60,15 +57,15 @@ const CreateForm = Form.create()(props => {
       onCancel={() => handleModalVisible()}
     >
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="秒杀价格" >
-        {form.getFieldDecorator('groupon_price', {
+        {form.getFieldDecorator('seckill_price', {
           rules: [{ required: true, message: "请输入结束价格！" }],
         })(<InputNumber min={0.01} step={0.01} style={{ width: '100%' }} placeholder="秒杀价格" />)}
       </FormItem>
 
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="几人团">
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="几人秒">
         {form.getFieldDecorator('limit', {
-          rules: [{ required: true, message: "请输入结束几人团！" }],
-        })(<InputNumber min={1} max={10} style={{ width: '100%' }} placeholder="几人团"/>)}
+          rules: [{ required: true, message: "请输入结束几人秒！" }],
+        })(<InputNumber min={1} max={10} style={{ width: '100%' }} placeholder="几人秒"/>)}
       </FormItem>
 
       { allProductSpecIds ? (
@@ -86,7 +83,6 @@ const CreateForm = Form.create()(props => {
   );
 });
 
-
 @Form.create()
 class UpdateForm extends PureComponent {
   constructor(props) {
@@ -94,7 +90,7 @@ class UpdateForm extends PureComponent {
 
     this.state = {
       modalFormVals: {
-        groupon_price: props.values.groupon_price,
+        seckill_price: props.values.seckill_price,
         limit: props.values.limit,
         product_spec: props.values.product_spec.id,
       },
@@ -124,17 +120,17 @@ class UpdateForm extends PureComponent {
         onCancel={() => handleUpdateModalVisible()}
       >
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="秒杀价格" >
-          {form.getFieldDecorator('groupon_price', {
-            initialValue: modalFormVals.groupon_price,
+          {form.getFieldDecorator('seckill_price', {
+            initialValue: modalFormVals.seckill_price,
             rules: [{ required: true, message: "请输入结束价格！" }],
           })(<InputNumber min={0.01} step={0.01} style={{ width: '100%' }} placeholder="秒杀价格" />)}
         </FormItem>
 
-        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="几人团">
+        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="几人秒">
           {form.getFieldDecorator('limit', {
             initialValue: modalFormVals.limit,
-            rules: [{ required: true, message: "请输入结束几人团！" }],
-          })(<InputNumber min={1} max={10} style={{ width: '100%' }} placeholder="几人团"/>)}
+            rules: [{ required: true, message: "请输入结束几人秒！" }],
+          })(<InputNumber min={1} max={10} style={{ width: '100%' }} placeholder="几人秒"/>)}
         </FormItem>
 
         { allProductSpecIds ? (
@@ -156,9 +152,9 @@ class UpdateForm extends PureComponent {
 
 
 /* eslint react/no-multi-comp:0 */
-@connect(({ groupon_product, loading }) => ({
-  groupon_product,
-  loading: loading.models.groupon_product,
+@connect(({ seckill_product, loading }) => ({
+  seckill_product,
+  loading: loading.models.seckill_product,
 }))
 @Form.create()
 class SeckillProductList extends PureComponent {
@@ -174,7 +170,7 @@ class SeckillProductList extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'groupon_product/fetch',
+      type: 'seckill_product/fetch',
     });
   }
 
@@ -189,7 +185,7 @@ class SeckillProductList extends PureComponent {
     };
 
     dispatch({
-      type: 'groupon_product/fetch',
+      type: 'seckill_product/fetch',
       payload: params,
     });
   };
@@ -201,7 +197,7 @@ class SeckillProductList extends PureComponent {
 
     if (flag) {
       this.props.dispatch({
-        type: 'groupon_product/fetchProductSpecAllIds',
+        type: 'seckill_product/fetchProductSpecAllIds',
       });
     }
   };
@@ -214,7 +210,7 @@ class SeckillProductList extends PureComponent {
 
     if (flag) {
       this.props.dispatch({
-        type: 'groupon_product/fetchProductSpecAllIds',
+        type: 'seckill_product/fetchProductSpecAllIds',
       });
     }
   };
@@ -223,18 +219,18 @@ class SeckillProductList extends PureComponent {
     const { dispatch } = this.props;
     const payload = {
       product_spec: fields.product_spec,
-      groupon_price: fields.groupon_price,
+      seckill_price: fields.seckill_price,
       limit: fields.limit,
     };
 
     dispatch({
-      type: 'groupon_product/create',
+      type: 'seckill_product/create',
       payload: payload,
     }).then((data) => {
       message.success('新增成功');
       this.handleModalVisible();
       this.props.dispatch({
-        type: 'groupon_product/fetch',
+        type: 'seckill_product/fetch',
         payload: {},
       });
     });
@@ -243,54 +239,51 @@ class SeckillProductList extends PureComponent {
   handleUpdate = (fields) => {
     const { dispatch } = this.props;
     dispatch({
-      type: 'groupon_product/patch',
+      type: 'seckill_product/patch',
       payload: fields,
-      grouponProductSpecID: this.state.currentRecord.id,
+      seckillProductSpecID: this.state.currentRecord.id,
     }).then(() => {
       message.success('更新成功');
       this.handleUpdateModalVisible();
       dispatch({
-        type: 'groupon_product/fetch',
+        type: 'seckill_product/fetch',
         payload: {},
       });
     });
   };
 
-  grouponProductDeleted = (flag, grouponProductSpecID) => {
+  seckillProductDeleted = (flag, seckillProductSpecID) => {
     const { dispatch } = this.props;
-    if (flag && grouponProductSpecID) {
+    if (flag && seckillProductSpecID) {
       dispatch({
-        type: 'groupon_product/patch',
+        type: 'seckill_product/patch',
         payload: {
           deleted: true,
         },
-        grouponProductSpecID: grouponProductSpecID,
+        seckillProductSpecID: seckillProductSpecID,
       }).then(() => {
         message.success('下架秒杀商品成功！');
         dispatch({
-          type: 'groupon_product/fetch',
+          type: 'seckill_product/fetch',
         });
       });
     } else {
       dispatch({
-        type: 'groupon_product/patch',
+        type: 'seckill_product/patch',
         payload: {
           deleted: false,
         },
-        grouponProductSpecID: grouponProductSpecID,
+        seckillProductSpecID: seckillProductSpecID,
       }).then(() => {
         message.success('上架秒杀商品成功！');
         dispatch({
-          type: 'groupon_product/fetch',
+          type: 'seckill_product/fetch',
         });
       });
     }
   };
 
   renderSimpleForm() {
-    const {
-      form: { getFieldDecorator },
-    } = this.props;
     return (
       <Form layout="inline" style={{ marginBottom: 15 }}>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
@@ -306,10 +299,10 @@ class SeckillProductList extends PureComponent {
 
   render() {
     const {
-      groupon_product: { data, allProductSpecIds },
+      seckill_product: { data, allProductSpecIds },
       loading,
     } = this.props;
-    const { currentPage, pageSize, modalVisible, updateModalVisible, currentRecord } = this.state;
+    const { modalVisible, updateModalVisible, currentRecord } = this.state;
 
     const parentMethods = {
       handleAdd: this.handleAdd,
@@ -349,10 +342,10 @@ class SeckillProductList extends PureComponent {
       },
       {
         title: '秒杀价格',
-        dataIndex: 'groupon_price',
+        dataIndex: 'seckill_price',
       },
       {
-        title: '几人团',
+        title: '几人秒',
         dataIndex: 'limit',
       },
       {
@@ -375,6 +368,10 @@ class SeckillProductList extends PureComponent {
         dataIndex: 'created_at',
       },
       {
+        title: '更新时间',
+        dataIndex: 'updated_at',
+      },
+      {
         title: '操作',
         fixed: 'right',
         render: (text, record) => (
@@ -382,10 +379,10 @@ class SeckillProductList extends PureComponent {
             <a onClick={() => this.handleUpdateModalVisible(true, record)}>编辑</a>
             <Divider type="vertical" />
             { record.deleted ? (
-              <Popconfirm title="是否要上架此秒杀商品？" onConfirm={() => this.grouponProductDeleted(false, record.id)}>
+              <Popconfirm title="是否要上架此秒杀商品？" onConfirm={() => this.seckillProductDeleted(false, record.id)}>
                 <a>上架</a>
               </Popconfirm>
-            ) : <Popconfirm title="是否要下架此推荐商品？" onConfirm={() => this.grouponProductDeleted(true, record.id)}>
+            ) : <Popconfirm title="是否要下架此推荐商品？" onConfirm={() => this.seckillProductDeleted(true, record.id)}>
                 <a>下架</a>
               </Popconfirm>}
           </Fragment>
@@ -402,7 +399,7 @@ class SeckillProductList extends PureComponent {
               loading={loading}
               data={data}
               columns={columns}
-              scroll={{ x: 1080 }}
+              scroll={{ x: 1260 }}
               onChange={this.handleStandardTableChange}
             />
           </div>

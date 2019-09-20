@@ -1,12 +1,12 @@
-import { queryGrouponsProduct,
-         createGrouponsProduct,
-         patchGrouponsProduct,
+import { querySeckillsProduct,
+         createSeckillsProduct,
+         patchSeckillsProduct,
          fetchProductSpecAllIds,
 } from '@/services/api';
 
 
 export default {
-  namespace: 'groupon_product',
+  namespace: 'seckill_product',
 
   state: {
     data: {
@@ -18,17 +18,17 @@ export default {
 
   effects: {
     *fetch({ payload }, { call, put }) {
-      const response = yield call(queryGrouponsProduct, payload);
+      const response = yield call(querySeckillsProduct, payload);
       yield put({
         type: 'save',
         payload: response,
       });
     },
     *create({ payload }, { call }) {
-      yield call(createGrouponsProduct, payload);
+      yield call(createSeckillsProduct, payload);
     },
-    *patch({ payload, grouponProductSpecID }, { call }) {
-      yield call(patchGrouponsProduct, payload, grouponProductSpecID);
+    *patch({ payload, seckillProductSpecID }, { call }) {
+      yield call(patchSeckillsProduct, payload, seckillProductSpecID);
     },
     *fetchProductSpecAllIds({}, { call, put }) {
       const response = yield call(fetchProductSpecAllIds);

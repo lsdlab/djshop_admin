@@ -6,8 +6,12 @@ import {
   Card,
   Badge,
   Drawer,
-  Table,
   Tooltip,
+  Form,
+  Button,
+  Modal,
+  Select,
+  message,
 } from 'antd';
 import SimpleTable from '@/components/SimpleTable';
 import SmallTable from '@/components/SmallTable';
@@ -15,6 +19,8 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import styles from '../List/TableList.less';
 
+const FormItem = Form.Item;
+const { Option } = Select;
 
 const pStyle = {
   fontSize: 16,
@@ -24,23 +30,73 @@ const pStyle = {
   marginBottom: 16,
 };
 
+const buildOptions = (optionData) => {
+  if (optionData) {
+    const arr = [];
+    for (let i = 0; i < optionData.length; i++) {
+      arr.push(<Option name={optionData[i].combined_name} value={optionData[i].id} key={optionData[i].id}>{optionData[i].combined_name}</Option>)
+    }
+    return arr;
+  }
+}
+
+const CreateForm = Form.create()(props => {
+  const { modalVisible, allProductSpecIds, form, handleAdd, handleModalVisible } = props;
+  const okHandle = () => {
+    form.validateFields((err, fieldsValue) => {
+      if (err) return;
+      // TODO 验证范围正确性
+      form.resetFields();
+      handleAdd(fieldsValue);
+    });
+  };
+
+  return (
+    <Modal
+      destroyOnClose
+      centered
+      keyboard
+      title="新增秒杀"
+      width={1000}
+      visible={modalVisible}
+      onOk={okHandle}
+      onCancel={() => handleModalVisible()}
+    >
+      { allProductSpecIds ? (
+        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="商品规格">
+          {form.getFieldDecorator('product_spec', {
+              rules: [{ required: true, message: '请选择商品规格！' }],
+            })(
+              <Select style={{ width: '100%' }} placeholder="商品" showSearch={true} optionFilterProp="name">
+                {buildOptions(allProductSpecIds)}
+              </Select>
+            )}
+        </FormItem>
+      ) : null}
+    </Modal>
+  );
+});
+
 
 /* eslint react/no-multi-comp:0 */
-@connect(({ groupon, loading }) => ({
-  groupon,
-  loading: loading.models.groupon,
+@connect(({ seckill, loading }) => ({
+  seckill,
+  loading: loading.models.seckill,
 }))
 class SeckillList extends PureComponent {
   state = {
     currentPage: 1,
     pageSize: 20,
     visible: false,
+    modalVisible: false,
+    formValues: {},
+    currentRecord: {},
   };
 
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'groupon/fetch',
+      type: 'seckill/fetch',
     });
   }
 
@@ -55,8 +111,8 @@ class SeckillList extends PureComponent {
       });
 
       this.props.dispatch({
-        type: 'groupon/fetchLog',
-        grouponID: currentRecord.id,
+        type: 'seckill/fetchLog',
+        seckillID: currentRecord.id,
       });
     } else {
       this.setState({
@@ -82,17 +138,67 @@ class SeckillList extends PureComponent {
     };
 
     dispatch({
-      type: 'groupon/fetch',
+      type: 'seckill/fetch',
       payload: params,
     });
   };
 
+  handleModalVisible = flag => {
+    this.setState({
+      modalVisible: !!flag,
+    });
+
+    if (flag) {
+      this.props.dispatch({
+        type: 'seckill/fetchProductSpecAllIds',
+      });
+    }
+  };
+
+  handleAdd = fields => {
+    const { dispatch } = this.props;
+    const payload = {
+      seckill_product: fields.product_spec,
+    };
+
+    dispatch({
+      type: 'seckill/create',
+      payload: payload,
+    }).then((data) => {
+      message.success('新增成功');
+      this.handleModalVisible();
+      this.props.dispatch({
+        type: 'seckill/fetch',
+        payload: {},
+      });
+    });
+  };
+
+  renderSimpleForm() {
+    return (
+      <Form layout="inline" style={{ marginBottom: 15 }}>
+        <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+          <Col md={8} sm={24}>
+            <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
+              新增秒杀
+            </Button>
+          </Col>
+        </Row>
+      </Form>
+    );
+  }
+
   render() {
     const {
-      groupon: { data, logData },
+      seckill: { data, logData, allProductSpecIds },
       loading,
     } = this.props;
-    const { currentPage, pageSize } = this.state;
+    const { modalVisible } = this.state;
+
+    const parentMethods = {
+      handleAdd: this.handleAdd,
+      handleModalVisible: this.handleModalVisible,
+    };
 
     const columns = [
       {
@@ -101,8 +207,8 @@ class SeckillList extends PureComponent {
       },
       {
         title: '商品名称',
-        dataIndex: 'groupon_product.product_spec.product.name',
-        render(text, record) {
+        dataIndex: 'seckill_product.product_spec.product.name',
+        render(text) {
           if (text.length > 12) {
             return (
               <Tooltip title={text}>
@@ -115,7 +221,7 @@ class SeckillList extends PureComponent {
       },
       {
         title: '商品规格名称',
-        dataIndex: 'groupon_product.product_spec.name',
+        dataIndex: 'seckill_product.product_spec.name',
       },
       {
         title: '用户',
@@ -181,6 +287,7 @@ class SeckillList extends PureComponent {
       <PageHeaderWrapper title="秒杀列表">
         <Card bordered={false}>
           <div className={styles.tableList}>
+            <div className={styles.tableListForm}>{this.renderSimpleForm()}</div>
             <SimpleTable
               loading={loading}
               data={data}
@@ -208,6 +315,7 @@ class SeckillList extends PureComponent {
             </Row>
           </Drawer>
         </Card>
+        <CreateForm {...parentMethods} modalVisible={modalVisible} allProductSpecIds={allProductSpecIds} />
       </PageHeaderWrapper>
     );
   }

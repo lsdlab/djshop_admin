@@ -1,5 +1,3 @@
-import { routerRedux } from 'dva/router';
-import { message } from 'antd';
 import { queryBargainsProduct,
          createBargainsProduct,
          patchBargainsProduct,
@@ -26,10 +24,10 @@ export default {
         payload: response,
       });
     },
-    *create({ payload }, { call, put }) {
+    *create({ payload }, { call }) {
       yield call(createBargainsProduct, payload);
     },
-    *patch({ payload, bargainProductSpecID }, { call, put }) {
+    *patch({ payload, bargainProductSpecID }, { call }) {
       yield call(patchBargainsProduct, payload, bargainProductSpecID);
     },
     *fetchProductSpecAllIds({}, { call, put }) {

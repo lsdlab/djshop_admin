@@ -728,6 +728,82 @@ export async function queryGrouponsLogs(grouponID) {
   });
 }
 
+// 获取可秒杀商品列表
+export async function querySeckillsProduct(params) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/seckills/products/?${stringify(params)}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 创建可秒杀商品
+export async function createSeckillsProduct(params) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/seckills/products/`, {
+    method: 'POST',
+    body: params,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 修改可秒杀商品
+export async function patchSeckillsProduct(params, grouponProductSpecID) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/seckills/products/${grouponProductSpecID}/`, {
+    method: 'PATCH',
+    body: params,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 创建秒杀
+export async function createSeckills(params) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/seckills/`, {
+    method: 'POST',
+    body: params,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 获取秒杀列表
+export async function querySeckills(params) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/seckills/?${stringify(params)}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 获取秒杀记录
+export async function querySeckillsLogs(grouponID) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/seckills/${grouponID}/logs/`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+
 // 获取优惠卷
 export async function queryCoupons(params) {
   const token = getToken();
