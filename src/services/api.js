@@ -1,7 +1,7 @@
 import { stringify } from 'qs';
 import request from '@/utils/request';
 import router from 'umi/router';
-const axios = require('axios');
+// const axios = require('axios');
 import defaultSettings from '../defaultSettings';
 
 

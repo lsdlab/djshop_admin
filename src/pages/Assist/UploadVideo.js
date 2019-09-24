@@ -1,6 +1,4 @@
 import React, { PureComponent, Fragment } from 'react';
-import { connect } from 'dva';
-// import moment from 'moment';
 import {
   Row,
   Col,
@@ -15,10 +13,9 @@ import {
 } from 'antd';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import oss from 'ali-oss';
-import SimpleTable from '@/components/SimpleTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import defaultSettings from '../../defaultSettings';
 
-import styles from '../List/TableList.less';
 import { Base64 } from 'js-base64';
 
 const FormItem = Form.Item;
@@ -30,7 +27,7 @@ const client = (self) => {
   return new oss({
     accessKeyId: token.access_key_id,
     accessKeySecret: token.access_key_secret,
-    region: 'oss-cn-shanghai',
+    region: token.region,
     bucket: token.OSS_BUCKET,
   });
 }
@@ -53,33 +50,36 @@ const UploadToOss = (self, path, file) => {
 @Form.create()
 class UploadVideo extends PureComponent {
   state = {
-    loading: false,
     token: {
-      access_key_id: Base64.decode('TFRBSWNQcm41WjZDWFl4Qw=='),
-      access_key_secret: Base64.decode('Wkp4WjJ5RUJnRHNhNEJjcHVMRWxwVG9HejlhS1FV'),
-      OSS_ENDPOINT: Base64.decode('aHR0cHM6Ly9vc3MtY24tc2hhbmdoYWkuYWxpeXVuY3MuY29t'),
-      OSS_BUCKET: Base64.decode('ZGpzaG9wbWVkaWE='),
-    }
+      access_key_id: Base64.decode(defaultSettings.access_key_id),
+      access_key_secret: Base64.decode(defaultSettings.access_key_secret),
+      region: defaultSettings.region,
+      OSS_BUCKET: Base64.decode(defaultSettings.OSS_BUCKET),
+    },
+    imageUrl: '',
   };
 
   beforeUpload = (file) => {
     const { form } = this.props;
     const dir = form.getFieldValue('dir');
-
     const isMP4 = file.type === 'video/mp4';
     if (!isMP4) {
       message.error('只能上传 MP4 视频文件');
+      return false;
     }
     let reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onloadend = () => {
       // 使用ossupload覆盖默认的上传方法
-      UploadToOss(this, dir, file).then(data => {
-        // console.log(data.res.requestUrls)
-        this.setState({ imageUrl: data.res.requestUrls });
-        message.success('上传视频成功。');
-        message.success(data.res.requestUrls);
-      })
+      if (localStorage.getItem("currentMerchant") !== null) {
+        const merchantname = JSON.parse(localStorage.getItem("currentMerchant")).merchantname;
+        UploadToOss(this, merchantname + '/' + dir, file).then(data => {
+          // console.log(data.res.requestUrls)
+          this.setState({ imageUrl: data.res.requestUrls });
+          message.success('上传视频成功。');
+          message.success(data.res.requestUrls);
+        })
+      }
     }
     return false;
   }

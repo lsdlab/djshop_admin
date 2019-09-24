@@ -142,7 +142,15 @@ export default function request(url, option) {
       }
       // environment should not be used
       if (status === 403) {
-        router.push('/exception/403');
+        // 如果是 current_user 403 代表 token 过期，跳转重新登录，其他情况是接口权限错误
+        if (e.response.url.includes('current_user')) {
+          notification.error({
+            message: '请重新登录',
+          });
+          router.push('/user/login');
+        } else {
+          router.push('/exception/403');
+        }
         return;
       }
       if (status <= 504 && status >= 500) {

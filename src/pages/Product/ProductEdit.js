@@ -22,6 +22,7 @@ import { Base64 } from 'js-base64';
 import router from 'umi/router';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import styles from './ProductCreateStepForm/style.less';
+import defaultSettings from '../../defaultSettings';
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -37,12 +38,11 @@ const formItemLayout = {
 };
 
 const client = (self) => {
-  const {token} = self.state
   return new oss({
-    accessKeyId: Base64.decode('TFRBSWNQcm41WjZDWFl4Qw=='),
-    accessKeySecret: Base64.decode('Wkp4WjJ5RUJnRHNhNEJjcHVMRWxwVG9HejlhS1FV'),
-    region: 'oss-cn-shanghai',
-    bucket: Base64.decode('ZGpzaG9wbWVkaWE='),
+    accessKeyId: Base64.decode(defaultSettings.accessKeyId),
+    accessKeySecret: Base64.decode(defaultSettings.accessKeySecret),
+    region: defaultSettings.region,
+    bucket: Base64.decode(defaultSettings.bucket),
   });
 }
 
@@ -105,18 +105,20 @@ class ProductEdit extends React.PureComponent {
     reader.readAsDataURL(file);
     reader.onloadend = () => {
       // 使用ossupload覆盖默认的上传方法
-      const dir = 'product';
-      UploadToOss(this, dir, file).then(data => {
-        // 插入图片
-        const { form } = this.props;
-        const oldEditorValule = form.getFieldsValue()['content'];
-        form.setFieldsValue({
-          content: ContentUtils.insertMedias(oldEditorValule, [{
-            type: 'IMAGE',
-            url: data.res.requestUrls,
-          }]),
-        });
-      })
+      if (localStorage.getItem("currentMerchant") !== null) {
+        const merchantname = JSON.parse(localStorage.getItem("currentMerchant")).merchantname;
+        UploadToOss(this, merchantname + '/' + 'product', file).then(data => {
+          // 插入图片
+          const { form } = this.props;
+          const oldEditorValule = form.getFieldsValue()['content'];
+          form.setFieldsValue({
+            content: ContentUtils.insertMedias(oldEditorValule, [{
+              type: 'IMAGE',
+              url: data.res.requestUrls,
+            }]),
+          });
+        })
+      }
     }
     return false;
   }
