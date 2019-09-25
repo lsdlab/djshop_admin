@@ -401,7 +401,6 @@ class TransactionDetail extends PureComponent {
           ) : null}
         </div>
 
-
         <TransactionCreateExpressModal
           createExpressModalVisible={createExpressModalVisible}
           currentTransaction={currentRecord}

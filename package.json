@@ -55,7 +55,8 @@
     "react-media": "^1.8.0",
     "react-medium-image-zoom": "^3.0.15",
     "react-router-dom": "^4.3.1",
-    "react-to-print": "^2.4.0"
+    "react-to-print": "^2.4.0",
+    "timeago-react": "^2.0.1"
   },
   "devDependencies": {
     "@types/react": "^16.7.7",

@@ -76,15 +76,15 @@ const CheckboxItem = ({ title, status }) => (
 const operationTabList = [
   {
     key: 'tab1',
-    tab: '商品详情',
+    tab: '详情',
   },
   {
     key: 'tab2',
-    tab: '商品规格详情',
+    tab: '规格详情',
   },
   {
     key: 'tab3',
-    tab: '商品详情(移动端渲染效果)',
+    tab: '详情(移动端渲染效果)',
   },
 ];
 
@@ -239,8 +239,8 @@ class ProductDetail extends PureComponent {
     return (
       <Fragment>
         <ButtonGroup>
-          <Button onClick={() => this.routerPushEdit(currentRecord.id)}>编辑商品详情</Button>
-          <Button onClick={() => this.routerPushSpecCreate(currentRecord.id)}>上架商品规格</Button>
+          <Button onClick={() => this.routerPushEdit(currentRecord.id)}>编辑详情</Button>
+          <Button onClick={() => this.routerPushSpecCreate(currentRecord.id)}>上架规格</Button>
         </ButtonGroup>
         {/* <Button type="primary">商品详情(移动端渲染效果)</Button> */}
       </Fragment>
@@ -419,7 +419,7 @@ class ProductDetail extends PureComponent {
 
     const contentList = {
       tab1: (
-        <Card title="商品详情" style={{ marginBottom: 24 }} bordered={false}>
+        <Card style={{ marginBottom: 24 }} bordered={false}>
           <Row>
             <Col span={6}>
               <DescriptionItem title="销量" content={currentRecord.sold} />
@@ -479,7 +479,7 @@ class ProductDetail extends PureComponent {
         </Card>
       ),
       tab2: (
-        <Card title="商品规格详情" style={{ marginBottom: 24 }} bordered={false}>
+        <Card style={{ marginBottom: 24 }} bordered={false}>
           {this.buildSpecs(specData, currentRecord.id)}
         </Card>
       ),
