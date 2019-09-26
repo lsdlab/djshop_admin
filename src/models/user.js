@@ -6,6 +6,7 @@ import {
   patchUser,
   patchProfile,
   deleteUser,
+  fetchActivityStream,
 } from '@/services/api';
 
 
@@ -16,10 +17,14 @@ export default {
     currentUser: {},
     currentMerchant: {},
     data: {
-      results: [],
       count: undefined,
+      results: [],
     },
     currentRecord: {},
+    activitystream: {
+      count: undefined,
+      results: [],
+    },
   },
 
   effects: {
@@ -64,6 +69,13 @@ export default {
     *delete({ userID }, { call, put }) {
       yield call(deleteUser, userID);
     },
+    *fetchActivityStream({ payload }, { call, put }) {
+      const response = yield call(fetchActivityStream, payload);
+      yield put({
+        type: 'saveActivityStream',
+        payload: response,
+      });
+    },
   },
 
   reducers: {
@@ -89,6 +101,12 @@ export default {
       return {
         ...state,
         currentRecord: action.payload,
+      };
+    },
+    saveActivityStream(state, action) {
+      return {
+        ...state,
+        activitystream: action.payload,
       };
     },
   },

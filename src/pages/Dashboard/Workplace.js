@@ -1,12 +1,10 @@
 import React, { PureComponent } from 'react';
 import moment from 'moment';
 import { connect } from 'dva';
-import Link from 'umi/link';
 import router from 'umi/router';
 import { Row, Col, Card, List, Avatar, notification } from 'antd';
 import { Client, Message } from '@stomp/stompjs';
 
-import EditableLinkGroup from '@/components/EditableLinkGroup';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import linkStyles from '../../components/EditableLinkGroup/index.less';
 import styles from './Workplace.less';
@@ -57,39 +55,28 @@ class Workplace extends PureComponent {
       type: 'user/fetchCurrent',
     });
     dispatch({
-      type: 'activities/fetchList',
+      type: 'activities/fetch',
     });
   }
 
   renderActivities() {
     const {
-      activities: { list },
+      activities: { data: { results } },
     } = this.props;
-    return list.map(item => {
-      const events = item.template.split(/@\{([^{}]*)\}/gi).map(key => {
-        if (item[key]) {
-          return (
-            <a href={item[key].link} key={item[key].name}>
-              {item[key].name}
-            </a>
-          );
-        }
-        return key;
-      });
+    return results.map(item => {
       return (
         <List.Item key={item.id}>
           <List.Item.Meta
-            avatar={<Avatar src={item.user.avatar} />}
             title={
               <span>
-                <a className={styles.username}>{item.user.name}</a>
+                <a className={styles.username}>{item.actor}</a>
                 &nbsp;
-                <span className={styles.event}>{events}</span>
+                <span className={styles.event}>{item.verb}</span>
               </span>
             }
             description={
-              <span className={styles.datetime} title={item.updatedAt}>
-                {moment(item.updatedAt).fromNow()}
+              <span className={styles.datetime} title={item.created_at}>
+                {moment(item.created_at).fromNow()}
               </span>
             }
           />
@@ -166,7 +153,7 @@ class Workplace extends PureComponent {
 
     return (
       <PageHeaderWrapper
-        hiddenBreadcrumb={true}
+        hiddenBreadcrumb={false}
         loading={currentUserLoading}
         content={pageHeaderContent}
       >
@@ -176,7 +163,7 @@ class Workplace extends PureComponent {
               bodyStyle={{ padding: 0 }}
               bordered={false}
               className={styles.activeCard}
-              title="登录历史记录"
+              title="操作历史记录"
               loading={activitiesLoading}
             >
               <List loading={activitiesLoading} size="large">

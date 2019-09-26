@@ -1,9 +1,9 @@
 export default {
   'menu.home': '首页',
-  'menu.dashboard': '统计',
+  'menu.dashboard': 'Dashboard',
   'menu.dashboard.analysis': '分析',
   'menu.dashboard.monitor': '监控页',
-  'menu.dashboard.workplace': '工作台',
+  'menu.dashboard.workplace': '个人中心',
   'menu.product': '商品',
   'menu.product.category-list': '分类',
   'menu.product.product-create-step-form': '商品上架',

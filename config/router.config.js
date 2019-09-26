@@ -33,7 +33,7 @@ export default [
             path: '/dashboard/workplace',
             name: 'workplace',
             component: './Dashboard/Workplace',
-            hideInMenu: true,
+            hideInMenu: false,
           },
         ],
       },

@@ -3,6 +3,7 @@ import request from '@/utils/request';
 import router from 'umi/router';
 // const axios = require('axios');
 import defaultSettings from '../defaultSettings';
+import analysis from '@/locales/en-US/analysis';
 
 
 export async function queryProjectNotice() {
@@ -176,6 +177,17 @@ export async function jwtToken(params) {
 export async function fetchCurrent() {
   const token = getToken();
   return request(`${apiHost}${apiVersion}/users/current_user/`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+export async function fetchActivityStream() {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/activitystream/`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
