@@ -3,7 +3,7 @@ import moment from 'moment';
 import { connect } from 'dva';
 import router from 'umi/router';
 import { Row, Col, Card, List, Avatar, notification } from 'antd';
-import { Client, Message } from '@stomp/stompjs';
+import { Client } from '@stomp/stompjs';
 
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import linkStyles from '../../components/EditableLinkGroup/index.less';
@@ -75,9 +75,11 @@ class Workplace extends PureComponent {
               </span>
             }
             description={
-              <span className={styles.datetime} title={item.created_at}>
-                {moment(item.created_at).fromNow()}
-              </span>
+              <div>
+                <span className={styles.datetime} title={item.created_at}>
+                  {moment(item.created_at).fromNow()}
+                </span>
+              </div>
             }
           />
         </List.Item>
