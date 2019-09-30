@@ -32,15 +32,26 @@ class Workplace extends PureComponent {
       },
       onConnect: () => {
         console.log('onConnect');
-        const msg = {
+        notification.open({
           message: 'rabbitmq + stomp',
           description: 'realtime notification connected',
           duration: 1,
-        };
-        notification.open(msg);
+        });
 
-        client.subscribe('/topic/test', (message) => {
-          console.log(message.body)
+        client.subscribe('/exchange/test_exchange/test_hello', (message) => {
+          notification.open({
+            message: message.body,
+            duration: 1,
+          });
+        });
+
+        client.subscribe('/exchange/transaction_create_notify_exchange/transaction_create_notify', (message) => {
+          const messageBody = JSON.parse(message.body)
+          notification.open({
+            message: messageBody["user"] + " 提交了 " + messageBody["transaction_name"] + " 订单",
+            description: "sn: " + messageBody["transaction_sn"],
+            duration: 3,
+          });
         });
       },
       reconnectDelay: 10000,
