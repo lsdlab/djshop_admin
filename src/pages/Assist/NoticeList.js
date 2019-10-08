@@ -291,6 +291,13 @@ class NoticeList extends PureComponent {
       {
         title: '发送时间',
         dataIndex: 'sent_datetime',
+        render(text) {
+          if (text) {
+            return text;
+          } else {
+            return '-';
+          }
+        },
       },
       {
         title: '创建时间',
