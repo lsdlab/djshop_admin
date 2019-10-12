@@ -8,9 +8,6 @@ import {
   Input,
   Select,
   Button,
-  Modal,
-  message,
-  Divider,
 } from 'antd';
 import router from 'umi/router';
 import SimpleTable from '@/components/SimpleTable';
@@ -20,7 +17,6 @@ import styles from '../List/TableList.less';
 
 
 const FormItem = Form.Item;
-const { TextArea } = Input;
 const { Option } = Select;
 
 /* eslint react/no-multi-comp:0 */
@@ -117,9 +113,10 @@ class TransactionList extends PureComponent {
                   <Option value="1">创建订单成功-待支付</Option>
                   <Option value="2">支付超时-订单关闭</Option>
                   <Option value="3">手动关闭订单</Option>
-                  <Option value="4">支付完成-待收货</Option>
-                  <Option value="5">已收货-待评价</Option>
-                  <Option value="6">已评价-交易完成</Option>
+                  <Option value="4">支付完成-待发货</Option>
+                  <Option value="5">已发货-待收货</Option>
+                  <Option value="6">已收货-待评价</Option>
+                  <Option value="7">已评价-交易完成</Option>
                 </Select>
               )}
             </FormItem>
