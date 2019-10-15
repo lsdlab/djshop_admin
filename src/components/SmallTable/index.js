@@ -1,21 +1,16 @@
 import React, { PureComponent, Fragment } from 'react';
-import { Table, Alert } from 'antd';
+import { Table } from 'antd';
 import styles from '../SmallTable/index.less';
 
 
 class SmallTable extends PureComponent {
-  constructor(props) {
-    super(props);
-    const { columns } = props;
-  }
 
   render() {
     const {
-      data: { results, count },
+      data: { results },
       loading,
       columns,
       size,
-      rowKey,
     } = this.props;
 
     return (

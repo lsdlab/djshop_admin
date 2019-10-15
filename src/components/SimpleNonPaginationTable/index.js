@@ -22,7 +22,6 @@ class SimpleNonPaginationTable extends PureComponent {
       loading,
       columns,
       size,
-      rowKey,
     } = this.props;
 
     const paginationProps = {

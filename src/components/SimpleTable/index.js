@@ -1,13 +1,9 @@
-import React, { PureComponent, Fragment } from 'react';
-import { Table, Alert } from 'antd';
+import React, { PureComponent } from 'react';
+import { Table } from 'antd';
 import styles from '../SimpleTable/index.less';
 
 
 class SimpleTable extends PureComponent {
-  constructor(props) {
-    super(props);
-    const { columns } = props;
-  }
 
   handleTableChange = (pagination, filters, sorter) => {
     const { onChange } = this.props;
@@ -23,14 +19,17 @@ class SimpleTable extends PureComponent {
       columns,
       scroll,
       size,
-      rowKey,
+      current,
     } = this.props;
 
     const paginationProps = {
-      showSizeChanger: true,
+      showSizeChanger: false,
       showQuickJumper: true,
       defaultPageSize: 20,
       total: count,
+      current: current,
+      hideOnSinglePage: true,
+      showTotal: total => `共 ${total} 条`
     };
 
     return (

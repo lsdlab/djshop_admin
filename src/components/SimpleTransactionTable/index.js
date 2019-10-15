@@ -1,5 +1,5 @@
-import React, { PureComponent, Fragment } from 'react';
-import { Table, Alert } from 'antd';
+import React, { PureComponent } from 'react';
+import { Table } from 'antd';
 import styles from '../SimpleNonPaginationTable/index.less';
 
 
@@ -21,7 +21,6 @@ class SimpleTransactionTable extends PureComponent {
       data,
       columns,
       size,
-      rowKey,
     } = this.props;
 
     return (

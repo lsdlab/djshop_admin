@@ -27,9 +27,8 @@ const { Option } = Select;
 @Form.create()
 class TransactionList extends PureComponent {
   state = {
-    currentPage: 1,
-    pageSize: 20,
     formValues: {},
+    currentPage: 1,
   };
 
   componentDidMount() {
@@ -53,6 +52,10 @@ class TransactionList extends PureComponent {
       ...formValues,
     };
 
+    this.setState({
+      currentPage: pagination.current,
+    });
+
     dispatch({
       type: 'transaction/fetch',
       payload: params,
@@ -64,10 +67,10 @@ class TransactionList extends PureComponent {
     form.resetFields();
     this.setState({
       formValues: {},
+      currentPage: 1,
     });
     dispatch({
       type: 'transaction/fetch',
-      payload: {},
     });
   };
 
@@ -146,7 +149,6 @@ class TransactionList extends PureComponent {
       transaction: { data },
       loading,
     } = this.props;
-    const { currentPage, pageSize } = this.state;
 
     const columns = [
       {
@@ -205,7 +207,8 @@ class TransactionList extends PureComponent {
               loading={loading}
               data={data}
               columns={columns}
-              scroll={{ x: 1200 }}
+              scroll={{ x: 1240 }}
+              current={this.state.currentPage}
               onChange={this.handleStandardTableChange}
             />
           </div>
