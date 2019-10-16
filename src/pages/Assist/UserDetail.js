@@ -1,22 +1,14 @@
 import React, { PureComponent, Fragment } from 'react';
-import Debounce from 'lodash-decorators/debounce';
-import Bind from 'lodash-decorators/bind';
 import { connect } from 'dva';
 import {
   Row,
   Col,
   Card,
-  Icon,
   Button,
-  Dropdown,
-  Menu,
   Badge,
   Checkbox,
   Avatar,
-  Steps,
-  Popover,
 } from 'antd';
-import router from 'umi/router';
 import DescriptionList from '@/components/DescriptionList';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import styles from '../Profile/AdvancedProfile.less';

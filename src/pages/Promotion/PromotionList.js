@@ -2,11 +2,9 @@ import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
 import {
   Row,
-  Col,
   Card,
   Badge,
   Drawer,
-  Table,
   Tooltip,
 } from 'antd';
 import SimpleTable from '@/components/SimpleTable';
@@ -33,7 +31,6 @@ const pStyle = {
 class BargainList extends PureComponent {
   state = {
     currentPage: 1,
-    pageSize: 20,
     visible: false,
   };
 
@@ -81,6 +78,10 @@ class BargainList extends PureComponent {
       ...formValues,
     };
 
+    this.setState({
+      currentPage: pagination.current,
+    });
+
     dispatch({
       type: 'bargain/fetch',
       payload: params,
@@ -92,7 +93,6 @@ class BargainList extends PureComponent {
       bargain: { data, logData },
       loading,
     } = this.props;
-    const { currentPage, pageSize } = this.state;
 
     const columns = [
       {
@@ -206,6 +206,7 @@ class BargainList extends PureComponent {
               data={data}
               columns={columns}
               scroll={{ x: 1580 }}
+              current={this.state.currentPage}
               onChange={this.handleStandardTableChange}
             />
           </div>

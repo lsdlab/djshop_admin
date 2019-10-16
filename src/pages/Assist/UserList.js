@@ -8,7 +8,6 @@ import {
   Input,
   Button,
   Badge,
-  Divider,
 } from 'antd';
 import router from 'umi/router';
 import SimpleTable from '@/components/SimpleTable';
@@ -28,7 +27,6 @@ const FormItem = Form.Item;
 class UserList extends PureComponent {
   state = {
     currentPage: 1,
-    pageSize: 20,
     formValues: {},
   };
 
@@ -64,6 +62,7 @@ class UserList extends PureComponent {
     form.resetFields();
     this.setState({
       formValues: {},
+      currentPage: 1,
     });
     dispatch({
       type: 'user/fetch',
@@ -127,7 +126,6 @@ class UserList extends PureComponent {
       user: { data },
       loading,
     } = this.props;
-    const { currentPage, pageSize } = this.state;
 
     const columns = [
       {
@@ -219,6 +217,7 @@ class UserList extends PureComponent {
               data={data}
               columns={columns}
               scroll={{ x: 1480 }}
+              current={this.state.currentPage}
               onChange={this.handleStandardTableChange}
             />
           </div>

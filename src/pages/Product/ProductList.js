@@ -111,7 +111,6 @@ const CheckboxItem = ({ title, status }) => (
 class ProductList extends PureComponent {
   state = {
     currentPage: 1,
-    pageSize: 20,
     formValues: {},
     visible: false,
     specDrawerVisible: false,
@@ -221,6 +220,10 @@ class ProductList extends PureComponent {
       ...formValues,
     };
 
+    this.setState({
+      currentPage: pagination.current,
+    });
+
     dispatch({
       type: 'product/fetch',
       payload: params,
@@ -232,6 +235,7 @@ class ProductList extends PureComponent {
     form.resetFields();
     this.setState({
       formValues: {},
+      currentPage: 1,
     });
     dispatch({
       type: 'product/fetch',
@@ -377,7 +381,6 @@ class ProductList extends PureComponent {
       product: { data, currentRecord, specData },
       loading,
     } = this.props;
-    const { currentPage, pageSize } = this.state;
 
     const columns = [
       {
@@ -477,6 +480,7 @@ class ProductList extends PureComponent {
               data={data}
               columns={columns}
               scroll={{ x: 1300 }}
+              current={this.state.currentPage}
               onChange={this.handleStandardTableChange}
             />
           </div>

@@ -40,7 +40,6 @@ const pStyle = {
 class CouponList extends PureComponent {
   state = {
     currentPage: 1,
-    pageSize: 20,
     formValues: {},
     visible: false,
   };
@@ -178,7 +177,6 @@ class CouponList extends PureComponent {
       coupon: { data, logData },
       loading,
     } = this.props;
-    const { currentPage, pageSize } = this.state;
 
     const columns = [
       {

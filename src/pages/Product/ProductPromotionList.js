@@ -8,7 +8,6 @@ import {
   Input,
   InputNumber,
   Select,
-  Icon,
   Button,
   Modal,
   message,
@@ -24,7 +23,6 @@ import styles from '../List/TableList.less';
 
 
 const FormItem = Form.Item;
-const { Option } = Select;
 
 
 const CreateForm = Form.create()(props => {
@@ -178,7 +176,6 @@ class UpdateForm extends PureComponent {
 class ProductRecList extends PureComponent {
   state = {
     currentPage: 1,
-    pageSize: 20,
     modalVisible: false,
     updateModalVisible: false,
     currentRecord: {},
@@ -294,6 +291,10 @@ class ProductRecList extends PureComponent {
       ...formValues,
     };
 
+    this.setState({
+      currentPage: pagination.current,
+    });
+
     dispatch({
       type: 'product/fetchRecProduct',
       payload: params,
@@ -322,7 +323,7 @@ class ProductRecList extends PureComponent {
       product: { recData, allProductIds },
       loading,
     } = this.props;
-    const { currentPage, pageSize, modalVisible, updateModalVisible, currentRecord } = this.state;
+    const { modalVisible, updateModalVisible, currentRecord } = this.state;
 
     const parentMethods = {
       handleAdd: this.handleAdd,

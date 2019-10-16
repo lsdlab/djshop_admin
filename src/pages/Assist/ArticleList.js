@@ -203,7 +203,6 @@ class UpdateForm extends PureComponent {
 class ArticleList extends PureComponent {
   state = {
     currentPage: 1,
-    pageSize: 20,
     modalVisible: false,
     updateModalVisible: false,
     formValues: {},
@@ -226,6 +225,10 @@ class ArticleList extends PureComponent {
       page_size: pagination.pageSize,
       ...formValues,
     };
+
+    this.setState({
+      currentPage: pagination.current,
+    });
 
     dispatch({
       type: 'article/fetch',
@@ -341,7 +344,7 @@ class ArticleList extends PureComponent {
       article: { data, allProductIds },
       loading,
     } = this.props;
-    const { currentPage, pageSize, modalVisible, updateModalVisible, currentRecord } = this.state;
+    const { modalVisible, updateModalVisible, currentRecord } = this.state;
 
     const parentMethods = {
       handleAdd: this.handleAdd,
@@ -411,6 +414,7 @@ class ArticleList extends PureComponent {
               loading={loading}
               data={data}
               columns={columns}
+              current={this.state.currentPage}
               onChange={this.handleStandardTableChange}
             />
           </div>

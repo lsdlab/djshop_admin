@@ -160,7 +160,6 @@ class UpdateForm extends PureComponent {
 class SeckillProductList extends PureComponent {
   state = {
     currentPage: 1,
-    pageSize: 20,
     modalVisible: false,
     updateModalVisible: false,
     formValues: {},

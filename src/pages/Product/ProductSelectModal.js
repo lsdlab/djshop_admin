@@ -31,7 +31,6 @@ const FormItem = Form.Item;
 class ProductSelectModal extends PureComponent {
   state = {
     currentPage: 1,
-    pageSize: 20,
     formValues: {},
   };
 
@@ -136,7 +135,6 @@ class ProductSelectModal extends PureComponent {
       product: { data },
       loading,
     } = this.props;
-    const { currentPage, pageSize } = this.state;
 
     const columns = [
       {

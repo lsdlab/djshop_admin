@@ -131,7 +131,6 @@ class UpdateForm extends PureComponent {
 class CollectList extends PureComponent {
   state = {
     currentPage: 1,
-    pageSize: 20,
     formValues: {},
     updateModalVisible: false,
     currentRecord: {},
@@ -157,6 +156,10 @@ class CollectList extends PureComponent {
       page_size: pagination.pageSize,
       ...formValues,
     };
+
+    this.setState({
+      currentPage: pagination.current,
+    });
 
     dispatch({
       type: 'collect/fetch',
@@ -287,7 +290,7 @@ class CollectList extends PureComponent {
       collect: { data, allStoreIds },
       loading,
     } = this.props;
-    const { currentPage, pageSize, updateModalVisible, currentRecord } = this.state;
+    const { updateModalVisible, currentRecord } = this.state;
 
     const updateMethods = {
       handleUpdateModalVisible: this.handleUpdateModalVisible,
@@ -372,6 +375,7 @@ class CollectList extends PureComponent {
               data={data}
               columns={columns}
               scroll={{ x: 1420 }}
+              current={this.state.currentPage}
               onChange={this.handleStandardTableChange}
             />
           </div>

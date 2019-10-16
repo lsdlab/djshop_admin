@@ -164,7 +164,6 @@ class UpdateForm extends PureComponent {
 class GrouponProductList extends PureComponent {
   state = {
     currentPage: 1,
-    pageSize: 20,
     modalVisible: false,
     updateModalVisible: false,
     formValues: {},
@@ -187,6 +186,10 @@ class GrouponProductList extends PureComponent {
       page_size: pagination.pageSize,
       ...formValues,
     };
+
+    this.setState({
+      currentPage: pagination.current,
+    });
 
     dispatch({
       type: 'groupon_product/fetch',
@@ -309,7 +312,7 @@ class GrouponProductList extends PureComponent {
       groupon_product: { data, allProductSpecIds },
       loading,
     } = this.props;
-    const { currentPage, pageSize, modalVisible, updateModalVisible, currentRecord } = this.state;
+    const { modalVisible, updateModalVisible, currentRecord } = this.state;
 
     const parentMethods = {
       handleAdd: this.handleAdd,
@@ -407,6 +410,7 @@ class GrouponProductList extends PureComponent {
               data={data}
               columns={columns}
               scroll={{ x: 1280 }}
+              current={this.state.currentPage}
               onChange={this.handleStandardTableChange}
             />
           </div>

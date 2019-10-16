@@ -86,7 +86,6 @@ const CreateForm = Form.create()(props => {
 class SeckillList extends PureComponent {
   state = {
     currentPage: 1,
-    pageSize: 20,
     visible: false,
     modalVisible: false,
     formValues: {},

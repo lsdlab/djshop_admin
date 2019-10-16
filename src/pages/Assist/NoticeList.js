@@ -13,7 +13,6 @@ import {
   Popconfirm,
   Badge,
 } from 'antd';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
 import SimpleNonPaginationTable from '@/components/SimpleNonPaginationTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
@@ -141,7 +140,6 @@ class UpdateForm extends PureComponent {
 class NoticeList extends PureComponent {
   state = {
     currentPage: 1,
-    pageSize: 20,
     modalVisible: false,
     updateModalVisible: false,
     formValues: {},
@@ -247,7 +245,7 @@ class NoticeList extends PureComponent {
       notice: { data },
       loading,
     } = this.props;
-    const { currentPage, pageSize, modalVisible, updateModalVisible, currentRecord } = this.state;
+    const { modalVisible, updateModalVisible, currentRecord } = this.state;
 
     const parentMethods = {
       handleAdd: this.handleAdd,

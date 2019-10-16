@@ -8,14 +8,12 @@ import {
   Input,
   InputNumber,
   Select,
-  Icon,
   Button,
   Modal,
   message,
   Divider,
   Popconfirm,
   Badge,
-  TreeSelect,
   Tooltip,
 } from 'antd';
 import SimpleTable from '@/components/SimpleTable';
@@ -218,7 +216,6 @@ class UpdateForm extends PureComponent {
 class BargainProductList extends PureComponent {
   state = {
     currentPage: 1,
-    pageSize: 20,
     modalVisible: false,
     updateModalVisible: false,
     formValues: {},
@@ -241,6 +238,10 @@ class BargainProductList extends PureComponent {
       page_size: pagination.pageSize,
       ...formValues,
     };
+
+    this.setState({
+      currentPage: pagination.current,
+    });
 
     dispatch({
       type: 'bargain_product/fetch',
@@ -370,7 +371,7 @@ class BargainProductList extends PureComponent {
       bargain_product: { data, allProductSpecIds },
       loading,
     } = this.props;
-    const { currentPage, pageSize, modalVisible, updateModalVisible, currentRecord } = this.state;
+    const { modalVisible, updateModalVisible, currentRecord } = this.state;
 
     const parentMethods = {
       handleAdd: this.handleAdd,
@@ -468,6 +469,7 @@ class BargainProductList extends PureComponent {
               data={data}
               columns={columns}
               scroll={{ x: 1280 }}
+              current={this.state.currentPage}
               onChange={this.handleStandardTableChange}
             />
           </div>

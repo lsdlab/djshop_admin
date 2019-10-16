@@ -8,7 +8,6 @@ import {
   Input,
   InputNumber,
   Select,
-  Icon,
   Button,
   Modal,
   message,
@@ -178,7 +177,6 @@ class UpdateForm extends PureComponent {
 class ProductRecList extends PureComponent {
   state = {
     currentPage: 1,
-    pageSize: 20,
     modalVisible: false,
     updateModalVisible: false,
     currentRecord: {},
@@ -294,6 +292,10 @@ class ProductRecList extends PureComponent {
       ...formValues,
     };
 
+    this.setState({
+      currentPage: pagination.current,
+    });
+
     dispatch({
       type: 'product/fetchRecProduct',
       payload: params,
@@ -322,7 +324,7 @@ class ProductRecList extends PureComponent {
       product: { recData, allProductIds },
       loading,
     } = this.props;
-    const { currentPage, pageSize, modalVisible, updateModalVisible, currentRecord } = this.state;
+    const { modalVisible, updateModalVisible, currentRecord } = this.state;
 
     const parentMethods = {
       handleAdd: this.handleAdd,
@@ -398,6 +400,7 @@ class ProductRecList extends PureComponent {
               loading={loading}
               data={recData}
               columns={columns}
+              current={this.state.currentPage}
               onChange={this.handleStandardTableChange}
             />
           </div>

@@ -196,7 +196,6 @@ class ViewForm extends PureComponent {
 class InvoiceList extends PureComponent {
   state = {
     currentPage: 1,
-    pageSize: 20,
     formValues: {},
     updateModalVisible: false,
     viewModalVisible: false,
@@ -223,6 +222,10 @@ class InvoiceList extends PureComponent {
       page_size: pagination.pageSize,
       ...formValues,
     };
+
+    this.setState({
+      currentPage: pagination.current,
+    });
 
     dispatch({
       type: 'invoice/fetch',
@@ -373,7 +376,7 @@ class InvoiceList extends PureComponent {
       invoice: { data, userAllAddress },
       loading,
     } = this.props;
-    const { currentPage, pageSize, updateModalVisible, viewModalVisible, currentRecord } = this.state;
+    const { updateModalVisible, viewModalVisible, currentRecord } = this.state;
 
 
     const updateMethods = {
@@ -504,6 +507,7 @@ class InvoiceList extends PureComponent {
               data={data}
               columns={columns}
               scroll={{ x: 1480 }}
+              current={this.state.currentPage}
               onChange={this.handleStandardTableChange}
             />
           </div>

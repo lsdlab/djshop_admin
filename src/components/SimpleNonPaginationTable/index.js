@@ -24,14 +24,6 @@ class SimpleNonPaginationTable extends PureComponent {
       size,
     } = this.props;
 
-    const paginationProps = {
-      showSizeChanger: false,
-      showQuickJumper: false,
-      defaultPageSize: 1000,
-      total: count,
-      showTotal: total => `共 ${total} 条`
-    };
-
     return (
       <div className={styles.simpleTable}>
         <Table
@@ -40,7 +32,7 @@ class SimpleNonPaginationTable extends PureComponent {
           dataSource={results}
           columns={columns}
           size={size || 'default'}
-          pagination={paginationProps}
+          pagination={false}
           onChange={this.handleTableChange}
         />
       </div>
