@@ -12,7 +12,6 @@ import {
   Divider,
   Badge,
   Popconfirm,
-  Select,
   TreeSelect,
 } from 'antd';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
