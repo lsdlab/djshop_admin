@@ -257,6 +257,11 @@ export default [
             component: './Assist/UserDetail',
           },
           {
+            path: '/assist/stock-list',
+            name: 'stock-list',
+            component: './Assist/StockList',
+          },
+          {
             path: '/assist/upload-image',
             name: 'upload-image',
             component: './Assist/UploadImage',
