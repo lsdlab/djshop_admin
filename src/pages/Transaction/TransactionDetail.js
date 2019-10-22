@@ -136,21 +136,6 @@ class TransactionDetail extends PureComponent {
             <Button onClick={() => this.handlePatchModalVisible(true, currentRecord)}>修改</Button>
           ) : <Button disabled>修改</Button>}
 
-          { currentRecord.address && currentRecord.status == '4' ? (
-            <CopyToClipboard
-              text={`${currentRecord.address.name} ${currentRecord.address.mobile} ${currentRecord.address.address}`}
-
-              onCopy={() => message.success('复制成功')}
-              style={{ marginTop: 10 }}
-              >
-              <Button>复制地址</Button>
-            </CopyToClipboard>
-          ) : <Button disabled>复制地址</Button>}
-
-          { currentRecord.status == '4' ? (
-            <Button onClick={() => this.handleCreateExpressModalVisible(true)}>发货</Button>
-          ) : <Button disabled>发货</Button>}
-
           { currentRecord.status == '4' ? (
             <ReactToPrint
               trigger={() => <Button>打印</Button>}
@@ -158,9 +143,21 @@ class TransactionDetail extends PureComponent {
             />
           ) : <Button disabled>打印</Button>}
 
-          {/*<Button>关闭订单</Button>
-          <Button>确认收货</Button>*/}
+          { currentRecord.address && currentRecord.status == '4' ? (
+            <CopyToClipboard
+              text={`${currentRecord.address.name} ${currentRecord.address.mobile} ${currentRecord.address.address}`}
+              onCopy={() => message.success('复制成功')}
+              style={{ marginTop: 10 }}
+              >
+              <Button>复制地址</Button>
+            </CopyToClipboard>
+          ) : <Button disabled>复制地址</Button>}
         </ButtonGroup>
+
+        { currentRecord.status == '4' ? (
+          <Button type="primary" onClick={() => this.handleCreateExpressModalVisible(true)}>发货</Button>
+        ) : <Button disabled>发货</Button>}
+
       </Fragment>
     )
   };
