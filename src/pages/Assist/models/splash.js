@@ -1,7 +1,6 @@
 import { querySplash,
          createSplash,
          patchSplash,
-         deleteSplash,
          convertSplash,
          fetchProductAllIds,
 } from '@/services/api'
@@ -26,13 +25,13 @@ export default {
         payload: response,
       });
     },
-    *create({ payload }, { call, put }) {
+    *create({ payload }, { call }) {
       yield call(createSplash, payload);
     },
-    *patch({ payload, splashID }, { call, put }) {
+    *patch({ payload, splashID }, { call }) {
       yield call(patchSplash, payload, splashID);
     },
-    *convert({ payload, splashID }, { call, put }) {
+    *convert({ payload, splashID }, { call }) {
       yield call(convertSplash, payload, splashID);
     },
     *fetchProductAllIds({ payload }, { call, put }) {

@@ -25,13 +25,13 @@ export default {
         payload: response,
       });
     },
-    *create({ payload }, { call, put }) {
+    *create({ payload }, { call }) {
       yield call(createBanner, payload);
     },
-    *patch({ payload, bannerID }, { call, put }) {
+    *patch({ payload, bannerID }, { call }) {
       yield call(patchBanner, payload, bannerID);
     },
-    *delete({ bannerID }, { call, put }) {
+    *delete({ bannerID }, { call }) {
       yield call(deleteBanner, bannerID);
     },
     *fetchProductAllIds({ payload }, { call, put }) {

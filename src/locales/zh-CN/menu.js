@@ -45,7 +45,7 @@ export default {
   'menu.assist.upload-video': '上传视频',
   'menu.assist.user-list': '用户列表',
   'menu.assist.user-detail': '用户详情',
-  'menu.assist.stock-list': '库存管理',
+  'menu.assist.stock-list': '进货日志',
   'menu.form': '表单页',
   'menu.form.basicform': '基础表单',
   'menu.form.stepform': '分步表单',

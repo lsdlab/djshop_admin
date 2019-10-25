@@ -1,7 +1,10 @@
-import { queryNotice, createNotice, deleteNotice } from '@/services/api'
+import { queryReplenishlogs,
+         createReplenishlogs,
+} from '@/services/api'
+
 
 export default {
-  namespace: 'notice',
+  namespace: 'stock',
 
   state: {
     data: {
@@ -12,17 +15,14 @@ export default {
 
   effects: {
     *fetch({ payload }, { call, put }) {
-      const response = yield call(queryNotice, payload);
+      const response = yield call(queryReplenishlogs, payload);
       yield put({
         type: 'save',
         payload: response,
       });
     },
     *create({ payload }, { call }) {
-      yield call(createNotice, payload);
-    },
-    *delete({ noticeID }, { call }) {
-      yield call(deleteNotice, noticeID);
+      yield call(createReplenishlogs, payload);
     },
   },
 

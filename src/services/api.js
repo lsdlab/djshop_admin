@@ -403,6 +403,31 @@ export async function deleteNotice(noticesID) {
   });
 }
 
+// 获取进货日志列表
+export async function queryReplenishlogs(params) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/assist/replenishlogs/?${stringify(params)}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 创建进货日志
+export async function createReplenishlogs(params) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/assist/replenishlogs/`, {
+    method: 'POST',
+    body: params,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
 // 分类列表
 export async function queryCategory() {
   const token = getToken();

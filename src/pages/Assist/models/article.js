@@ -26,10 +26,10 @@ export default {
         payload: response,
       });
     },
-    *create({ payload }, { call, put }) {
+    *create({ payload }, { call }) {
       yield call(createArticle, payload);
     },
-    *patch({ payload, articleID }, { call, put }) {
+    *patch({ payload, articleID }, { call }) {
       yield call(patchArticle, payload, articleID);
     },
     *fetchCurrent({ articleID }, { call, put }) {
