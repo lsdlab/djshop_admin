@@ -108,6 +108,16 @@ export default [
             name: 'product-spec-create',
             component: './Product/ProductSpecCreate',
           },
+          {
+            path: '/product/replenishlogs-list',
+            name: 'replenishlogs-list',
+            component: './Product/ReplenishlogList',
+          },
+          {
+            path: '/product/stock-list',
+            name: 'stock-list',
+            component: './Product/StockList',
+          },
         ],
       },
       // {
@@ -255,11 +265,6 @@ export default [
             hideInMenu: true,
             name: 'user-detail',
             component: './Assist/UserDetail',
-          },
-          {
-            path: '/assist/stock-list',
-            name: 'stock-list',
-            component: './Assist/StockList',
           },
           {
             path: '/assist/upload-image',

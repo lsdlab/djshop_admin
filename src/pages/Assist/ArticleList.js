@@ -12,7 +12,6 @@ import {
   Divider,
   Badge,
   Popconfirm,
-  Select,
   TreeSelect,
 } from 'antd';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
@@ -199,7 +198,7 @@ class UpdateForm extends PureComponent {
   loading: loading.models.article,
 }))
 @Form.create()
-class StockList extends PureComponent {
+class ArticleList extends PureComponent {
   state = {
     currentPage: 1,
     modalVisible: false,
@@ -322,9 +321,6 @@ class StockList extends PureComponent {
   };
 
   renderSimpleForm() {
-    const {
-      form: { getFieldDecorator },
-    } = this.props;
     return (
       <Form layout="inline" style={{ marginBottom: 15 }}>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
@@ -434,4 +430,4 @@ class StockList extends PureComponent {
   }
 }
 
-export default StockList;
+export default ArticleList;

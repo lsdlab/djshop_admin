@@ -10,7 +10,6 @@ import {
   Modal,
   message,
   Divider,
-  Badge,
   Popconfirm,
   TreeSelect,
 } from 'antd';
@@ -40,7 +39,7 @@ const CreateForm = Form.create()(props => {
       destroyOnClose
       centered
       keyboard
-      title="新增进货日志"
+      title="新增库存"
       width={1000}
       visible={modalVisible}
       onOk={okHandle}
@@ -130,7 +129,7 @@ class UpdateForm extends PureComponent {
         destroyOnClose
         centered
         keyboard
-        title="编辑进货日志"
+        title="编辑库存"
         width={1000}
         visible={updateModalVisible}
         onOk={okHandle}
@@ -193,12 +192,12 @@ class UpdateForm extends PureComponent {
 }
 
 /* eslint react/no-multi-comp:0 */
-@connect(({ article, loading }) => ({
-  article,
-  loading: loading.models.article,
+@connect(({ stock, loading }) => ({
+  stock,
+  loading: loading.models.stock,
 }))
 @Form.create()
-class ArticleList extends PureComponent {
+class StockList extends PureComponent {
   state = {
     currentPage: 1,
     modalVisible: false,
@@ -210,7 +209,7 @@ class ArticleList extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'article/fetch',
+      type: 'stock/fetch',
     });
   }
 
@@ -229,7 +228,7 @@ class ArticleList extends PureComponent {
     });
 
     dispatch({
-      type: 'article/fetch',
+      type: 'stock/fetch',
       payload: params,
     });
   };
@@ -238,12 +237,6 @@ class ArticleList extends PureComponent {
     this.setState({
       modalVisible: !!flag,
     });
-
-    if (flag) {
-      this.props.dispatch({
-        type: 'article/fetchProductAllIds',
-      });
-    }
   };
 
   handleUpdateModalVisible = (flag, record) => {
@@ -251,12 +244,6 @@ class ArticleList extends PureComponent {
       updateModalVisible: !!flag,
       currentRecord: record || {},
     });
-
-    if (flag) {
-      this.props.dispatch({
-        type: 'article/fetchProductAllIds',
-      });
-    }
   };
 
   handleAdd = fields => {
@@ -271,13 +258,13 @@ class ArticleList extends PureComponent {
       products: fields.products
     };
     dispatch({
-      type: 'article/create',
+      type: 'stock/create',
       payload: params,
     }).then(() => {
-      message.success('新增进货日志成功');
+      message.success('新增库存成功');
       this.handleModalVisible();
       dispatch({
-        type: 'article/fetch',
+        type: 'stock/fetch',
         payload: {},
       });
     });
@@ -286,50 +273,47 @@ class ArticleList extends PureComponent {
   handleUpdate = (fields) => {
     const { dispatch } = this.props;
     dispatch({
-      type: 'article/patch',
+      type: 'stock/patch',
       payload: fields,
-      articleID: this.state.currentRecord.id,
+      stockID: this.state.currentRecord.id,
     }).then(() => {
-      message.success('更新进货日志成功');
+      message.success('更新库存成功');
       this.handleUpdateModalVisible();
       dispatch({
-        type: 'article/fetch',
+        type: 'stock/fetch',
         payload: {},
       });
     });
   };
 
-  handleDeleted = (flag, articleID) => {
+  handleDeleted = (flag, stockID) => {
     const { dispatch } = this.props;
     dispatch({
-      type: 'article/patch',
+      type: 'stock/patch',
       payload: {
         deleted: flag,
       },
-      articleID: articleID,
+      stockID: stockID,
     }).then(() => {
       if (flag) {
-        message.success('删除进货日志成功');
+        message.success('删除库存成功');
       } else {
-        message.success('恢复进货日志成功')
+        message.success('恢复库存成功')
       }
       dispatch({
-        type: 'article/fetch',
+        type: 'stock/fetch',
         payload: {},
       });
     });
   };
 
   renderSimpleForm() {
-    const {
-      form: { getFieldDecorator },
-    } = this.props;
     return (
       <Form layout="inline" style={{ marginBottom: 15 }}>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
             <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
-              新增进货日志
+              新增库存
             </Button>
           </Col>
         </Row>
@@ -339,7 +323,7 @@ class ArticleList extends PureComponent {
 
   render() {
     const {
-      article: { data, allProductIds },
+      stock: { data },
       loading,
     } = this.props;
     const { modalVisible, updateModalVisible, currentRecord } = this.state;
@@ -359,25 +343,24 @@ class ArticleList extends PureComponent {
         dataIndex: 'id',
       },
       {
-        title: '标题',
-        dataIndex: 'title',
+        title: '名称',
+        dataIndex: 'name',
       },
       {
-        title: '副标题',
-        dataIndex: 'subtitle',
+        title: '备注',
+        dataIndex: 'note',
       },
       {
-        title: '作者',
-        dataIndex: 'author',
-      },
-      {
-        title: '删除',
-        dataIndex: 'deleted',
-        render(text, record, index) {
-          if (text) {
-            return <Badge status='error' text='已删除' />;
+        title: '商品',
+        dataIndex: 'stock.name',
+        render(text) {
+          if (text.length > 12) {
+            return (
+              <Tooltip title={text}>
+                <span>{text.slice(0, 6) + '...' + text.substr(text.length - 6)}</span>
+              </Tooltip>);
           } else {
-            return <Badge status='success' text='未删除' />;
+            return text;
           }
         },
       },
@@ -387,24 +370,20 @@ class ArticleList extends PureComponent {
       },
       {
         title: '操作',
-        render: (text, record) => (
+        render: (record) => (
           <Fragment>
             <a onClick={() => this.handleUpdateModalVisible(true, record)}>编辑</a>
             <Divider type="vertical" />
-            { record.deleted ? (
-              <Popconfirm title="是否要恢复此进货日志？" onConfirm={() => this.handleDeleted(false, record.id )}>
-                <a>恢复</a>
-              </Popconfirm>
-            ) : <Popconfirm title="是否要删除此进货日志？" onConfirm={() => this.handleDeleted(true, record.id)}>
-                  <a>删除</a>
-                </Popconfirm>}
+            <Popconfirm title="是否要删除此库存？" onConfirm={() => this.handleDeleted(true, record.id)}>
+              <a>删除</a>
+            </Popconfirm>
           </Fragment>
         ),
       },
     ];
 
     return (
-      <PageHeaderWrapper title="进货日志">
+      <PageHeaderWrapper title="库存">
         <Card bordered={false}>
           <div className={styles.tableList}>
             <div className={styles.tableListForm}>{this.renderSimpleForm()}</div>
@@ -418,14 +397,13 @@ class ArticleList extends PureComponent {
           </div>
         </Card>
 
-        <CreateForm {...parentMethods} modalVisible={modalVisible} allProductIds={allProductIds} />
+        <CreateForm {...parentMethods} modalVisible={modalVisible} />
 
         {currentRecord && Object.keys(currentRecord).length ? (
           <UpdateForm
             {...updateMethods}
             updateModalVisible={updateModalVisible}
             values={currentRecord}
-            allProductIds={allProductIds}
           />
         ) : null}
       </PageHeaderWrapper>
@@ -433,4 +411,4 @@ class ArticleList extends PureComponent {
   }
 }
 
-export default ArticleList;
+export default StockList;

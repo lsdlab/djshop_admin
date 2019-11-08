@@ -406,7 +406,7 @@ export async function deleteNotice(noticesID) {
 // 获取进货日志列表
 export async function queryReplenishlogs(params) {
   const token = getToken();
-  return request(`${apiHost}${apiVersion}/assist/replenishlogs/?${stringify(params)}`, {
+  return request(`${apiHost}${apiVersion}/assist/inventory/replenishlogs/?${stringify(params)}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -418,7 +418,7 @@ export async function queryReplenishlogs(params) {
 // 创建进货日志
 export async function createReplenishlogs(params) {
   const token = getToken();
-  return request(`${apiHost}${apiVersion}/assist/replenishlogs/`, {
+  return request(`${apiHost}${apiVersion}/assist/inventory/replenishlogs/`, {
     method: 'POST',
     body: params,
     headers: {
@@ -427,6 +427,45 @@ export async function createReplenishlogs(params) {
     },
   });
 }
+
+
+// 获取所有库存 id name
+export async function fetchStockAllIds() {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/assist/inventory/stocks/all_stock_ids/`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 获取库存列表
+export async function queryStocks(params) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/assist/inventory/stocks/?${stringify(params)}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 创建库存
+export async function createStocks(params) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/assist/inventory/stocks/`, {
+    method: 'POST',
+    body: params,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
 
 // 分类列表
 export async function queryCategory() {

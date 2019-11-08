@@ -6,27 +6,37 @@ import {
   Card,
   Form,
   Input,
+  InputNumber,
   Button,
   Modal,
   message,
   Divider,
   Popconfirm,
-  Badge,
   Select,
-  TreeSelect,
 } from 'antd';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
-import SimpleNonPaginationTable from '@/components/SimpleNonPaginationTable';
+import SimpleTable from '@/components/SimpleTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import styles from '../List/TableList.less';
 
 const FormItem = Form.Item;
+const { TextArea } = Input;
 const { Option } = Select;
+
+const buildOptions = (optionData) => {
+  if (optionData) {
+    const arr = [];
+    for (let i = 0; i < optionData.length; i++) {
+      arr.push(<Option name={optionData[i].name} value={optionData[i].id} key={optionData[i].id}>{optionData[i].id} - {optionData[i].name}</Option>)
+    }
+    return arr;
+  }
+}
 
 
 const CreateForm = Form.create()(props => {
-  const { modalVisible, allProductIds, form, handleAdd, handleModalVisible } = props;
+  const { modalVisible, allStockIds, form, handleAdd, handleModalVisible } = props;
+
   const okHandle = () => {
     form.validateFields((err, fieldsValue) => {
       if (err) return;
@@ -40,8 +50,8 @@ const CreateForm = Form.create()(props => {
       destroyOnClose
       centered
       keyboard
-      title="新增开屏广告"
-      width={800}
+      title="新增进货日志"
+      width={1000}
       visible={modalVisible}
       onOk={okHandle}
       onCancel={() => handleModalVisible()}
@@ -51,27 +61,30 @@ const CreateForm = Form.create()(props => {
           rules: [{ required: true, message: '请输入名称！' }],
         })(<Input placeholder="名称" />)}
       </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="图片链接">
-        {form.getFieldDecorator('splash', {
-          rules: [{ required: true, message: '请输入图片链接！' }],
-        })(<Input placeholder="图片链接" />)}
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="备注">
+        {form.getFieldDecorator('note', {
+          rules: [{ required: true, message: '请输入备注！'}],
+        })(<TextArea autosize={{ minRows: 4, maxRows: 8 }} placeholder="备注" />)}
       </FormItem>
 
-      { allProductIds ? (
-        <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="商品" style={{display: 'none'}}>
-          {form.getFieldDecorator('product', {
-            rules: [{ required: false, message: '请选择商品！' }],
-          })(
-            <TreeSelect
-              style={{ width: '100%' }}
-              treeData={allProductIds}
-              placeholder="商品"
-              treeDefaultExpandAll={true}
-              showSearch={true}
-            />
-          )}
-        </Form.Item>
+      { allStockIds ? (
+        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="商品">
+          {form.getFieldDecorator('stock', {
+              rules: [{ required: true, message: '请选择商品！' }],
+            })(
+              <Select style={{ width: '100%' }} placeholder="商品" showSearch={true} optionFilterProp="name">
+                {buildOptions(allStockIds)}
+              </Select>
+            )}
+        </FormItem>
       ) : null}
+
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="数量" >
+        {form.getFieldDecorator('nums', {
+          rules: [{ required: true, message: '请输入数量！'}],
+        })(<InputNumber style={{ width: '100%', textAlign: 'center', marginTop: 5 }} placeholder="数量" />)}
+      </FormItem>
+
     </Modal>
   );
 });
@@ -81,11 +94,13 @@ class UpdateForm extends PureComponent {
   constructor(props) {
     super(props);
 
+
     this.state = {
       modalFormVals: {
         name: props.values.name,
-        splash: props.values.splash,
-        product: props.values.product ? props.values.product.id : '',
+        note: props.values.note,
+        stock: props.values.stock,
+        nums: props.values.nums,
       },
     };
 
@@ -96,7 +111,7 @@ class UpdateForm extends PureComponent {
   }
 
   render() {
-    const { updateModalVisible, allProductIds, form, handleUpdate, handleUpdateModalVisible } = this.props;
+    const { updateModalVisible, allStockIds, form, handleUpdate, handleUpdateModalVisible } = this.props;
     const { modalFormVals } = this.state;
 
     const okHandle = () => {
@@ -111,8 +126,8 @@ class UpdateForm extends PureComponent {
         destroyOnClose
         centered
         keyboard
-        title="编辑开屏广告"
-        width={800}
+        title="编辑进货日志"
+        width={1000}
         visible={updateModalVisible}
         onOk={okHandle}
         onCancel={() => handleUpdateModalVisible()}
@@ -121,52 +136,47 @@ class UpdateForm extends PureComponent {
           {form.getFieldDecorator('name', {
             initialValue: modalFormVals.name,
             rules: [{ required: true, message: '请输入名称！' }],
-          })(<Input placeholder="标题" />)}
+          })(<Input placeholder="名称" />)}
         </FormItem>
-        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="图片链接">
-          {form.getFieldDecorator('splash', {
-            initialValue: modalFormVals.splash,
-            rules: [{ required: true, message: '请输入图片链接！' }],
-          })(<Input placeholder="图片链接" />)}
-          <CopyToClipboard
-            text={modalFormVals.splash}
-            onCopy={() => message.success('复制成功')}
-            style={{ marginTop: 10 }}
-          >
-            <Button block icon="copy">
-              复制图片地址
-            </Button>
-          </CopyToClipboard>
+        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="备注">
+          {form.getFieldDecorator('note', {
+            initialValue: modalFormVals.note,
+            rules: [{ required: true, message: '请输入备注！'}],
+          })(<TextArea autosize={{ minRows: 4, maxRows: 8 }} placeholder="备注" />)}
         </FormItem>
 
-        { allProductIds ? (
-          <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="商品" style={{display: 'none'}}>
-            {form.getFieldDecorator('product', {
-              initialValue: modalFormVals.product,
-              rules: [{ required: false, message: '请选择商品！' }],
-            })(
-              <TreeSelect
-                style={{ width: '100%' }}
-                treeData={allProductIds}
-                placeholder="商品"
-                treeDefaultExpandAll={true}
-                showSearch={true}
-              />
-            )}
-          </Form.Item>
+        { allStockIds ? (
+          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="商品">
+            {form.getFieldDecorator('stock', {
+                initialValue: modalFormVals.stock.id,
+                rules: [{ required: true, message: '请选择商品！' }],
+              })(
+                <Select style={{ width: '100%' }} placeholder="商品" showSearch={true} optionFilterProp="name">
+                  {buildOptions(allStockIds)}
+                </Select>
+              )}
+          </FormItem>
         ) : null}
+
+        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="数量" >
+          {form.getFieldDecorator('nums', {
+            initialValue: modalFormVals.nums,
+            rules: [{ required: true, message: '请输入数量！'}],
+          })(<InputNumber style={{ width: '100%', textAlign: 'center', marginTop: 5 }} placeholder="数量" />)}
+        </FormItem>
+
       </Modal>
     );
   }
 }
 
 /* eslint react/no-multi-comp:0 */
-@connect(({ splash, loading }) => ({
-  splash,
-  loading: loading.models.splash,
+@connect(({ stock, loading }) => ({
+  stock,
+  loading: loading.models.stock,
 }))
 @Form.create()
-class SplashList extends PureComponent {
+class ReplenishlogList extends PureComponent {
   state = {
     currentPage: 1,
     modalVisible: false,
@@ -178,7 +188,7 @@ class SplashList extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'splash/fetch',
+      type: 'stock/fetch',
     });
   }
 
@@ -192,21 +202,13 @@ class SplashList extends PureComponent {
       ...formValues,
     };
 
-    dispatch({
-      type: 'splash/fetch',
-      payload: params,
-    });
-  };
-
-  handleFormReset = () => {
-    const { form, dispatch } = this.props;
-    form.resetFields();
     this.setState({
-      formValues: {},
+      currentPage: pagination.current,
     });
+
     dispatch({
-      type: 'splash/fetch',
-      payload: {},
+      type: 'stock/fetch',
+      payload: params,
     });
   };
 
@@ -217,10 +219,7 @@ class SplashList extends PureComponent {
 
     if (flag) {
       this.props.dispatch({
-        type: 'splash/fetchProductAllIds',
-        payload: {
-          none: true,
-        },
+        type: 'stock/fetchStockAllIds',
       });
     }
   };
@@ -233,10 +232,7 @@ class SplashList extends PureComponent {
 
     if (flag) {
       this.props.dispatch({
-        type: 'splash/fetchProductAllIds',
-        payload: {
-          none: true,
-        },
+        type: 'stock/fetchStockAllIds',
       });
     }
   };
@@ -244,19 +240,19 @@ class SplashList extends PureComponent {
   handleAdd = fields => {
     const { dispatch } = this.props;
     const params = {
-      ...fields,
-    };
-    if (params['product'] === '无') {
-      delete params['product'];
+      name: fields.name,
+      note: fields.note,
+      stock: fields.stock,
+      nums: fields.nums,
     };
     dispatch({
-      type: 'splash/create',
+      type: 'stock/create',
       payload: params,
-    }).then((data) => {
-      message.success('新增开屏广告成功');
+    }).then(() => {
+      message.success('新增进货日志成功');
       this.handleModalVisible();
-      this.props.dispatch({
-        type: 'splash/fetch',
+      dispatch({
+        type: 'stock/fetch',
         payload: {},
       });
     });
@@ -264,38 +260,36 @@ class SplashList extends PureComponent {
 
   handleUpdate = (fields) => {
     const { dispatch } = this.props;
-    const params = {
-      ...fields,
-    };
-    if (params['product'] === '无') {
-      params['product'] = null;
-    };
     dispatch({
-      type: 'splash/patch',
-      payload: params,
-      splashID: this.state.currentRecord.id,
+      type: 'stock/patch',
+      payload: fields,
+      stockID: this.state.currentRecord.id,
     }).then(() => {
-      message.success('更新成功');
+      message.success('更新进货日志成功');
       this.handleUpdateModalVisible();
       dispatch({
-        type: 'splash/fetch',
+        type: 'stock/fetch',
         payload: {},
       });
     });
   };
 
-  handleConvert = (splashID) => {
+  handleDeleted = (flag, stockID) => {
     const { dispatch } = this.props;
     dispatch({
-      type: 'splash/convert',
+      type: 'stock/patch',
       payload: {
-        status: 1,
+        deleted: flag,
       },
-      splashID: splashID,
+      stockID: stockID,
     }).then(() => {
-      message.success('上线开屏广告成功！');
+      if (flag) {
+        message.success('删除进货日志成功');
+      } else {
+        message.success('恢复进货日志成功')
+      }
       dispatch({
-        type: 'splash/fetch',
+        type: 'stock/fetch',
         payload: {},
       });
     });
@@ -307,7 +301,7 @@ class SplashList extends PureComponent {
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
             <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
-              新增开屏广告
+              新增进货日志
             </Button>
           </Col>
         </Row>
@@ -317,7 +311,7 @@ class SplashList extends PureComponent {
 
   render() {
     const {
-      splash: { data, allProductIds },
+      stock: { data, allStockIds },
       loading,
     } = this.props;
     const { modalVisible, updateModalVisible, currentRecord } = this.state;
@@ -341,19 +335,26 @@ class SplashList extends PureComponent {
         dataIndex: 'name',
       },
       {
-        title: '商品名称',
-        dataIndex: 'product.name',
+        title: '备注',
+        dataIndex: 'note',
       },
       {
-        title: '状态',
-        dataIndex: 'status',
-        render(val) {
-          if (val === '1') {
-            return <Badge status='success' text='上线' />;
-          } else if (val === '2') {
-            return <Badge status='error' text='下线' />;
+        title: '商品',
+        dataIndex: 'stock.name',
+        render(text) {
+          if (text.length > 12) {
+            return (
+              <Tooltip title={text}>
+                <span>{text.slice(0, 6) + '...' + text.substr(text.length - 6)}</span>
+              </Tooltip>);
+          } else {
+            return text;
           }
         },
+      },
+      {
+        title: '数量',
+        dataIndex: 'nums',
       },
       {
         title: '创建时间',
@@ -361,49 +362,41 @@ class SplashList extends PureComponent {
       },
       {
         title: '操作',
-        render: (text, record) => (
+        render: (record) => (
           <Fragment>
-
-            { record.status_name === '下线' ? (
-              <a onClick={() => this.handleUpdateModalVisible(true, record)}>编辑</a>
-            ) : <a disabled onClick={() => this.handleUpdateModalVisible(true, record)}>编辑</a>}
-
+            <a onClick={() => this.handleUpdateModalVisible(true, record)}>编辑</a>
             <Divider type="vertical" />
-
-            { record.status_name === '下线' ? (
-              <Popconfirm title="是否要上线此开屏广告？" onConfirm={() => this.handleConvert(record.id)}>
-                <a>上线</a>
-              </Popconfirm>
-            ) : <Popconfirm title="是否要上线此开屏广告？" onConfirm={() => this.handleConvert(record.id)}>
-                <a disabled>上线</a>
-              </Popconfirm>}
+            <Popconfirm title="是否要删除此进货日志？" onConfirm={() => this.handleDeleted(true, record.id)}>
+              <a>删除</a>
+            </Popconfirm>
           </Fragment>
         ),
       },
     ];
 
     return (
-      <PageHeaderWrapper title="开屏广告">
+      <PageHeaderWrapper title="进货日志">
         <Card bordered={false}>
           <div className={styles.tableList}>
             <div className={styles.tableListForm}>{this.renderSimpleForm()}</div>
-            <SimpleNonPaginationTable
+            <SimpleTable
               loading={loading}
               data={data}
               columns={columns}
+              current={this.state.currentPage}
               onChange={this.handleStandardTableChange}
             />
           </div>
         </Card>
 
-        <CreateForm {...parentMethods} modalVisible={modalVisible} allProductIds={allProductIds} />
+        <CreateForm {...parentMethods} modalVisible={modalVisible} allStockIds={allStockIds} />
 
         {currentRecord && Object.keys(currentRecord).length ? (
           <UpdateForm
             {...updateMethods}
             updateModalVisible={updateModalVisible}
             values={currentRecord}
-            allProductIds={allProductIds}
+            allStockIds={allStockIds}
           />
         ) : null}
       </PageHeaderWrapper>
@@ -411,4 +404,4 @@ class SplashList extends PureComponent {
   }
 }
 
-export default SplashList;
+export default ReplenishlogList;

@@ -350,9 +350,6 @@ class BargainProductList extends PureComponent {
   };
 
   renderSimpleForm() {
-    const {
-      form: { getFieldDecorator },
-    } = this.props;
     return (
       <Form layout="inline" style={{ marginBottom: 15 }}>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
@@ -390,7 +387,7 @@ class BargainProductList extends PureComponent {
       {
         title: '商品名称',
         dataIndex: 'product_spec.product.name',
-        render(text, record) {
+        render(text) {
           if (text.length > 12) {
             return (
               <Tooltip title={text}>
@@ -424,7 +421,7 @@ class BargainProductList extends PureComponent {
       {
         title: '状态',
         dataIndex: 'deleted',
-        render(text, record, index) {
+        render(text) {
           if (text) {
             return <Badge status='error' text='下架中' />;
           } else {
@@ -443,7 +440,7 @@ class BargainProductList extends PureComponent {
       {
         title: '操作',
         fixed: 'right',
-        render: (text, record) => (
+        render: (record) => (
           <Fragment>
             <a onClick={() => this.handleUpdateModalVisible(true, record)}>编辑</a>
             <Divider type="vertical" />

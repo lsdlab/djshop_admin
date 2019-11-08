@@ -291,9 +291,6 @@ class GrouponProductList extends PureComponent {
   };
 
   renderSimpleForm() {
-    const {
-      form: { getFieldDecorator },
-    } = this.props;
     return (
       <Form layout="inline" style={{ marginBottom: 15 }}>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
