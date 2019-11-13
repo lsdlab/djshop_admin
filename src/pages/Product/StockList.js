@@ -313,7 +313,7 @@ class StockList extends PureComponent {
     ];
 
     return (
-      <PageHeaderWrapper title="库存商品">
+      <PageHeaderWrapper title="库存商品列表">
         <Card bordered={false}>
           <div className={styles.tableList}>
             <div className={styles.tableListForm}>{this.renderSimpleForm()}</div>
