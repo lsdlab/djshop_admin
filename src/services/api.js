@@ -428,6 +428,17 @@ export async function createReplenishlogs(params) {
   });
 }
 
+// 删除进货日志
+export async function deleteReplenishlogs(replenishlogID) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/assist/inventory/replenishlogs/${replenishlogID}/`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
 
 // 获取所有库存 id name
 export async function fetchStockAllIds() {
@@ -441,7 +452,7 @@ export async function fetchStockAllIds() {
   });
 }
 
-// 获取库存列表
+// 获取库存商品列表
 export async function queryStocks(params) {
   const token = getToken();
   return request(`${apiHost}${apiVersion}/assist/inventory/stocks/?${stringify(params)}`, {
@@ -453,12 +464,24 @@ export async function queryStocks(params) {
   });
 }
 
-// 创建库存
+// 创建库存商品
 export async function createStocks(params) {
   const token = getToken();
   return request(`${apiHost}${apiVersion}/assist/inventory/stocks/`, {
     method: 'POST',
     body: params,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${token}`,
+    },
+  });
+}
+
+// 删除库存
+export async function deleteStocks(stockID) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/assist/inventory/stocks/${stockID}/`, {
+    method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `JWT ${token}`,

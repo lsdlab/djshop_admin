@@ -6,14 +6,13 @@ import {
   Card,
   Form,
   Input,
+  InputNumber,
   Button,
   Modal,
   message,
   Divider,
   Popconfirm,
-  TreeSelect,
 } from 'antd';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
 import SimpleTable from '@/components/SimpleTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
@@ -24,7 +23,7 @@ const { TextArea } = Input;
 
 
 const CreateForm = Form.create()(props => {
-  const { modalVisible, allProductIds, form, handleAdd, handleModalVisible } = props;
+  const { modalVisible, form, handleAdd, handleModalVisible } = props;
 
   const okHandle = () => {
     form.validateFields((err, fieldsValue) => {
@@ -39,49 +38,27 @@ const CreateForm = Form.create()(props => {
       destroyOnClose
       centered
       keyboard
-      title="新增库存"
+      title="新增库存商品"
       width={1000}
       visible={modalVisible}
       onOk={okHandle}
       onCancel={() => handleModalVisible()}
     >
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="标题">
-        {form.getFieldDecorator('title', {
-          rules: [{ required: true, message: '请输入标题！' }],
-        })(<Input placeholder="标题" />)}
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="名称">
+        {form.getFieldDecorator('name', {
+          rules: [{ required: true, message: '请输入名称！' }],
+        })(<Input placeholder="名称" />)}
       </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="副标题">
-        {form.getFieldDecorator('subtitle', {
-          rules: [{ required: true, message: '请输入副标题！' }],
-        })(<Input placeholder="副标题" />)}
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="描述">
+        {form.getFieldDecorator('desc', {
+          rules: [{ required: false, message: '请输入描述！'}],
+        })(<TextArea autosize={{ minRows: 4, maxRows: 8 }} placeholder="描述" />)}
       </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="题图链接">
-        {form.getFieldDecorator('header_image', {
-          rules: [{ required: true, message: '请输入题图链接！' }],
-        })(<Input placeholder="题图链接" />)}
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="数量" >
+        {form.getFieldDecorator('nums', {
+          rules: [{ required: true, message: '请输入数量！'}],
+        })(<InputNumber style={{ width: '100%', textAlign: 'center', marginTop: 5 }} placeholder="数量" />)}
       </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="内容">
-        {form.getFieldDecorator('md', {
-          rules: [{ required: true, message: '请输入内容！'}],
-        })(<TextArea autosize={{ minRows: 8, maxRows: 16 }} placeholder="内容(Markdown)" />)}
-      </FormItem>
-
-      { allProductIds ? (
-        <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="商品">
-          {form.getFieldDecorator('product', {
-            rules: [{ required: false, message: '请选择商品！' }],
-          })(
-            <TreeSelect
-              style={{ width: '100%' }}
-              treeData={allProductIds}
-              placeholder="商品"
-              treeDefaultExpandAll={true}
-              showSearch={true}
-              multiple={true}
-            />
-          )}
-        </Form.Item>
-      ) : null}
 
     </Modal>
   );
@@ -92,18 +69,11 @@ class UpdateForm extends PureComponent {
   constructor(props) {
     super(props);
 
-    let products = [];
-    for (let i = 0; i < props.values.products.length; i++) {
-      products.push(props.values.products[i]['id'])
-    }
-
     this.state = {
       modalFormVals: {
-        title: props.values.title,
-        subtitle: props.values.subtitle,
-        header_image: props.values.header_image,
-        md: props.values.md,
-        products: products,
+        name: props.values.name,
+        desc: props.values.desc,
+        nums: props.values.nums,
       },
     };
 
@@ -114,7 +84,7 @@ class UpdateForm extends PureComponent {
   }
 
   render() {
-    const { updateModalVisible, allProductIds, form, handleUpdate, handleUpdateModalVisible } = this.props;
+    const { updateModalVisible, form, handleUpdate, handleUpdateModalVisible } = this.props;
     const { modalFormVals } = this.state;
 
     const okHandle = () => {
@@ -129,63 +99,30 @@ class UpdateForm extends PureComponent {
         destroyOnClose
         centered
         keyboard
-        title="编辑库存"
+        title="编辑库存商品"
         width={1000}
         visible={updateModalVisible}
         onOk={okHandle}
         onCancel={() => handleUpdateModalVisible()}
       >
-        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="标题">
-          {form.getFieldDecorator('title', {
-            initialValue: modalFormVals.title,
-            rules: [{ required: true, message: '请输入标题！' }],
-          })(<Input placeholder="标题" />)}
+        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="名称">
+          {form.getFieldDecorator('name', {
+            initialValue: modalFormVals.name,
+            rules: [{ required: true, message: '请输入名称！' }],
+          })(<Input placeholder="名称" />)}
         </FormItem>
-        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="副标题">
-          {form.getFieldDecorator('subtitle', {
-            initialValue: modalFormVals.subtitle,
-            rules: [{ required: true, message: '请输入副标题！' }],
-          })(<Input placeholder="副标题" />)}
+        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="描述">
+          {form.getFieldDecorator('desc', {
+            initialValue: modalFormVals.desc,
+            rules: [{ required: false, message: '请输入描述！'}],
+          })(<TextArea autosize={{ minRows: 4, maxRows: 8 }} placeholder="描述" />)}
         </FormItem>
-        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="题图链接">
-        {form.getFieldDecorator('header_image', {
-          initialValue: modalFormVals.header_image,
-          rules: [{ required: true, message: '请输入题图链接！' }],
-        })(<Input placeholder="题图链接" />)}
-        <CopyToClipboard
-            text={modalFormVals.header_image}
-            onCopy={() => message.success('复制成功')}
-            style={{ marginTop: 10 }}
-          >
-            <Button block icon="copy">
-              复制图片地址
-            </Button>
-          </CopyToClipboard>
-      </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="内容">
-        {form.getFieldDecorator('md', {
-          initialValue: modalFormVals.md,
-          rules: [{ required: true, message: '请输入内容！'}],
-        })(<TextArea autosize={{ minRows: 8, maxRows: 16 }} placeholder="内容" />)}
-      </FormItem>
-
-      { allProductIds ? (
-        <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="商品">
-          {form.getFieldDecorator('product', {
-            rules: [{ required: false, message: '请选择商品！' }],
-          })(
-            <TreeSelect
-              style={{ width: '100%' }}
-              treeData={allProductIds}
-              placeholder="商品"
-              treeDefaultExpandAll={true}
-              showSearch={true}
-              multiple={true}
-            />
-          )}
-        </Form.Item>
-      ) : null}
-
+        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="数量" >
+          {form.getFieldDecorator('nums', {
+            initialValue: modalFormVals.nums,
+            rules: [{ required: true, message: '请输入数量！'}],
+          })(<InputNumber style={{ width: '100%', textAlign: 'center', marginTop: 5 }} placeholder="数量" />)}
+        </FormItem>
       </Modal>
     );
   }
@@ -249,19 +186,15 @@ class StockList extends PureComponent {
   handleAdd = fields => {
     const { dispatch } = this.props;
     const params = {
-      title: fields.title,
-      content: fields.content,
-      subtitle: fields.subtitle,
-      status: '1',
-      md: fields.md,
-      header_image: fields.header_image,
-      products: fields.products
+      name: fields.name,
+      desc: fields.desc,
+      nums: fields.nums,
     };
     dispatch({
       type: 'stock/create',
       payload: params,
     }).then(() => {
-      message.success('新增库存成功');
+      message.success('新增库存商品成功');
       this.handleModalVisible();
       dispatch({
         type: 'stock/fetch',
@@ -277,7 +210,7 @@ class StockList extends PureComponent {
       payload: fields,
       stockID: this.state.currentRecord.id,
     }).then(() => {
-      message.success('更新库存成功');
+      message.success('更新库存商品成功');
       this.handleUpdateModalVisible();
       dispatch({
         type: 'stock/fetch',
@@ -289,16 +222,13 @@ class StockList extends PureComponent {
   handleDeleted = (flag, stockID) => {
     const { dispatch } = this.props;
     dispatch({
-      type: 'stock/patch',
-      payload: {
-        deleted: flag,
-      },
+      type: 'stock/delete',
       stockID: stockID,
     }).then(() => {
       if (flag) {
-        message.success('删除库存成功');
+        message.success('删除库存商品成功');
       } else {
-        message.success('恢复库存成功')
+        message.success('恢复库存商品成功')
       }
       dispatch({
         type: 'stock/fetch',
@@ -313,7 +243,7 @@ class StockList extends PureComponent {
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
             <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
-              新增库存
+              新增库存商品
             </Button>
           </Col>
         </Row>
@@ -348,11 +278,7 @@ class StockList extends PureComponent {
       },
       {
         title: '备注',
-        dataIndex: 'note',
-      },
-      {
-        title: '商品',
-        dataIndex: 'stock.name',
+        dataIndex: 'desc',
         render(text) {
           if (text.length > 12) {
             return (
@@ -365,6 +291,10 @@ class StockList extends PureComponent {
         },
       },
       {
+        title: '数量',
+        dataIndex: 'nums',
+      },
+      {
         title: '创建时间',
         dataIndex: 'created_at',
       },
@@ -374,7 +304,7 @@ class StockList extends PureComponent {
           <Fragment>
             <a onClick={() => this.handleUpdateModalVisible(true, record)}>编辑</a>
             <Divider type="vertical" />
-            <Popconfirm title="是否要删除此库存？" onConfirm={() => this.handleDeleted(true, record.id)}>
+            <Popconfirm title="是否要删除此库存商品？" onConfirm={() => this.handleDeleted(true, record.id)}>
               <a>删除</a>
             </Popconfirm>
           </Fragment>
@@ -383,7 +313,7 @@ class StockList extends PureComponent {
     ];
 
     return (
-      <PageHeaderWrapper title="库存">
+      <PageHeaderWrapper title="库存商品">
         <Card bordered={false}>
           <div className={styles.tableList}>
             <div className={styles.tableListForm}>{this.renderSimpleForm()}</div>

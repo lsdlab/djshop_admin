@@ -68,11 +68,11 @@ const CreateForm = Form.create()(props => {
       </FormItem>
 
       { allStockIds ? (
-        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="商品">
+        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="库存商品">
           {form.getFieldDecorator('stock', {
-              rules: [{ required: true, message: '请选择商品！' }],
+              rules: [{ required: true, message: '请选择库存商品！' }],
             })(
-              <Select style={{ width: '100%' }} placeholder="商品" showSearch={true} optionFilterProp="name">
+              <Select style={{ width: '100%' }} placeholder="库存商品" showSearch={true} optionFilterProp="name">
                 {buildOptions(allStockIds)}
               </Select>
             )}
@@ -146,12 +146,12 @@ class UpdateForm extends PureComponent {
         </FormItem>
 
         { allStockIds ? (
-          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="商品">
+          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="库存商品">
             {form.getFieldDecorator('stock', {
                 initialValue: modalFormVals.stock.id,
-                rules: [{ required: true, message: '请选择商品！' }],
+                rules: [{ required: true, message: '请选择库存商品！' }],
               })(
-                <Select style={{ width: '100%' }} placeholder="商品" showSearch={true} optionFilterProp="name">
+                <Select style={{ width: '100%' }} placeholder="库存商品" showSearch={true} optionFilterProp="name">
                   {buildOptions(allStockIds)}
                 </Select>
               )}
@@ -171,9 +171,9 @@ class UpdateForm extends PureComponent {
 }
 
 /* eslint react/no-multi-comp:0 */
-@connect(({ stock, loading }) => ({
-  stock,
-  loading: loading.models.stock,
+@connect(({ replenishlog, loading }) => ({
+  replenishlog,
+  loading: loading.models.replenishlog,
 }))
 @Form.create()
 class ReplenishlogList extends PureComponent {
@@ -188,7 +188,7 @@ class ReplenishlogList extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'stock/fetch',
+      type: 'replenishlog/fetch',
     });
   }
 
@@ -207,7 +207,7 @@ class ReplenishlogList extends PureComponent {
     });
 
     dispatch({
-      type: 'stock/fetch',
+      type: 'replenishlog/fetch',
       payload: params,
     });
   };
@@ -219,7 +219,7 @@ class ReplenishlogList extends PureComponent {
 
     if (flag) {
       this.props.dispatch({
-        type: 'stock/fetchStockAllIds',
+        type: 'replenishlog/fetchStockAllIds',
       });
     }
   };
@@ -232,7 +232,7 @@ class ReplenishlogList extends PureComponent {
 
     if (flag) {
       this.props.dispatch({
-        type: 'stock/fetchStockAllIds',
+        type: 'replenishlog/fetchStockAllIds',
       });
     }
   };
@@ -246,13 +246,13 @@ class ReplenishlogList extends PureComponent {
       nums: fields.nums,
     };
     dispatch({
-      type: 'stock/create',
+      type: 'replenishlog/create',
       payload: params,
     }).then(() => {
       message.success('新增进货日志成功');
       this.handleModalVisible();
       dispatch({
-        type: 'stock/fetch',
+        type: 'replenishlog/fetch',
         payload: {},
       });
     });
@@ -261,27 +261,24 @@ class ReplenishlogList extends PureComponent {
   handleUpdate = (fields) => {
     const { dispatch } = this.props;
     dispatch({
-      type: 'stock/patch',
+      type: 'replenishlog/patch',
       payload: fields,
-      stockID: this.state.currentRecord.id,
+      replenishlogID: this.state.currentRecord.id,
     }).then(() => {
       message.success('更新进货日志成功');
       this.handleUpdateModalVisible();
       dispatch({
-        type: 'stock/fetch',
+        type: 'replenishlog/fetch',
         payload: {},
       });
     });
   };
 
-  handleDeleted = (flag, stockID) => {
+  handleDeleted = (flag, replenishlogID) => {
     const { dispatch } = this.props;
     dispatch({
-      type: 'stock/patch',
-      payload: {
-        deleted: flag,
-      },
-      stockID: stockID,
+      type: 'replenishlog/delete',
+      replenishlogID: replenishlogID,
     }).then(() => {
       if (flag) {
         message.success('删除进货日志成功');
@@ -289,7 +286,7 @@ class ReplenishlogList extends PureComponent {
         message.success('恢复进货日志成功')
       }
       dispatch({
-        type: 'stock/fetch',
+        type: 'replenishlog/fetch',
         payload: {},
       });
     });
@@ -311,7 +308,7 @@ class ReplenishlogList extends PureComponent {
 
   render() {
     const {
-      stock: { data, allStockIds },
+      replenishlog: { data, allStockIds },
       loading,
     } = this.props;
     const { modalVisible, updateModalVisible, currentRecord } = this.state;
@@ -339,7 +336,7 @@ class ReplenishlogList extends PureComponent {
         dataIndex: 'note',
       },
       {
-        title: '商品',
+        title: '库存商品',
         dataIndex: 'stock.name',
         render(text) {
           if (text.length > 12) {

@@ -17,7 +17,7 @@ export default {
   'menu.product.product-spec-edit': '商品规格编辑',
   'menu.product.product-spec-create': '增加商品规格',
   'menu.product.replenishlogs-list': '进货日志',
-  'menu.product.stock-list': '库存列表',
+  'menu.product.stock-list': '库存商品列表',
   'menu.promotion': '促销',
   'menu.promotion.product-promotion-list': '促销商品列表',
   'menu.promotion.promotion-list': '促销列表',

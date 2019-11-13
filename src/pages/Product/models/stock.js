@@ -1,6 +1,6 @@
-import { queryReplenishlogs,
-         createReplenishlogs,
-         fetchStockAllIds,
+import { queryStocks,
+         createStocks,
+         deleteStocks
 } from '@/services/api'
 
 
@@ -12,26 +12,21 @@ export default {
       results: [],
       count: undefined,
     },
-    allStockIds: [],
   },
 
   effects: {
     *fetch({ payload }, { call, put }) {
-      const response = yield call(queryReplenishlogs, payload);
+      const response = yield call(queryStocks, payload);
       yield put({
         type: 'save',
         payload: response,
       });
     },
     *create({ payload }, { call }) {
-      yield call(createReplenishlogs, payload);
+      yield call(createStocks, payload);
     },
-    *fetchStockAllIds({ payload }, { call, put }) {
-      const response = yield call(fetchStockAllIds, payload);
-      yield put({
-        type: 'saveStockAllIds',
-        payload: response,
-      });
+    *delete({ stockID }, { call }) {
+      yield call(deleteStocks, stockID);
     },
   },
 
@@ -40,12 +35,6 @@ export default {
       return {
         ...state,
         data: action.payload,
-      };
-    },
-    saveStockAllIds(state, action) {
-      return {
-        ...state,
-        allStockIds: action.payload,
       };
     },
   },
