@@ -21,7 +21,6 @@ import styles from '../List/TableList.less';
 
 const FormItem = Form.Item;
 
-
 /* eslint react/no-multi-comp:0 */
 @connect(({ product, loading }) => ({
   product,
@@ -39,9 +38,9 @@ class ProductSelectModal extends PureComponent {
     dispatch({
       type: 'product/fetch',
     });
-  };
+  }
 
-  handleStandardTableChange = (pagination) => {
+  handleStandardTableChange = pagination => {
     const { dispatch } = this.props;
     const { formValues } = this.state;
 
@@ -129,7 +128,6 @@ class ProductSelectModal extends PureComponent {
     );
   }
 
-
   render() {
     const {
       product: { data },
@@ -146,9 +144,9 @@ class ProductSelectModal extends PureComponent {
         dataIndex: 'status',
         render(val) {
           if (val === '1') {
-            return <Badge status='success' text='上架' />;
+            return <Badge status="success" text="上架" />;
           } else if (val === '2') {
-            return <Badge status='error' text='下架' />;
+            return <Badge status="error" text="下架" />;
           }
         },
       },

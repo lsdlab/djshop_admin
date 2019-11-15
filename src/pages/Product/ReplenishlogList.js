@@ -23,16 +23,19 @@ const FormItem = Form.Item;
 const { TextArea } = Input;
 const { Option } = Select;
 
-const buildOptions = (optionData) => {
+const buildOptions = optionData => {
   if (optionData) {
     const arr = [];
     for (let i = 0; i < optionData.length; i++) {
-      arr.push(<Option name={optionData[i].name} value={optionData[i].id} key={optionData[i].id}>{optionData[i].id} - {optionData[i].name}</Option>)
+      arr.push(
+        <Option name={optionData[i].name} value={optionData[i].id} key={optionData[i].id}>
+          {optionData[i].id} - {optionData[i].name}
+        </Option>
+      );
     }
     return arr;
   }
-}
-
+};
 
 const CreateForm = Form.create()(props => {
   const { modalVisible, allStockIds, form, handleAdd, handleModalVisible } = props;
@@ -63,28 +66,37 @@ const CreateForm = Form.create()(props => {
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="备注">
         {form.getFieldDecorator('note', {
-          rules: [{ required: true, message: '请输入备注！'}],
+          rules: [{ required: true, message: '请输入备注！' }],
         })(<TextArea autosize={{ minRows: 4, maxRows: 8 }} placeholder="备注" />)}
       </FormItem>
 
-      { allStockIds ? (
+      {allStockIds ? (
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="库存商品">
           {form.getFieldDecorator('stock', {
-              rules: [{ required: true, message: '请选择库存商品！' }],
-            })(
-              <Select style={{ width: '100%' }} placeholder="库存商品" showSearch={true} optionFilterProp="name">
-                {buildOptions(allStockIds)}
-              </Select>
-            )}
+            rules: [{ required: true, message: '请选择库存商品！' }],
+          })(
+            <Select
+              style={{ width: '100%' }}
+              placeholder="库存商品"
+              showSearch={true}
+              optionFilterProp="name"
+            >
+              {buildOptions(allStockIds)}
+            </Select>
+          )}
         </FormItem>
       ) : null}
 
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="数量" >
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="数量">
         {form.getFieldDecorator('nums', {
-          rules: [{ required: true, message: '请输入数量！'}],
-        })(<InputNumber style={{ width: '100%', textAlign: 'center', marginTop: 5 }} placeholder="数量" />)}
+          rules: [{ required: true, message: '请输入数量！' }],
+        })(
+          <InputNumber
+            style={{ width: '100%', textAlign: 'center', marginTop: 5 }}
+            placeholder="数量"
+          />
+        )}
       </FormItem>
-
     </Modal>
   );
 });
@@ -93,7 +105,6 @@ const CreateForm = Form.create()(props => {
 class UpdateForm extends PureComponent {
   constructor(props) {
     super(props);
-
 
     this.state = {
       modalFormVals: {
@@ -111,7 +122,13 @@ class UpdateForm extends PureComponent {
   }
 
   render() {
-    const { updateModalVisible, allStockIds, form, handleUpdate, handleUpdateModalVisible } = this.props;
+    const {
+      updateModalVisible,
+      allStockIds,
+      form,
+      handleUpdate,
+      handleUpdateModalVisible,
+    } = this.props;
     const { modalFormVals } = this.state;
 
     const okHandle = () => {
@@ -141,30 +158,39 @@ class UpdateForm extends PureComponent {
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="备注">
           {form.getFieldDecorator('note', {
             initialValue: modalFormVals.note,
-            rules: [{ required: true, message: '请输入备注！'}],
+            rules: [{ required: true, message: '请输入备注！' }],
           })(<TextArea autosize={{ minRows: 4, maxRows: 8 }} placeholder="备注" />)}
         </FormItem>
 
-        { allStockIds ? (
+        {allStockIds ? (
           <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="库存商品">
             {form.getFieldDecorator('stock', {
-                initialValue: modalFormVals.stock.id,
-                rules: [{ required: true, message: '请选择库存商品！' }],
-              })(
-                <Select style={{ width: '100%' }} placeholder="库存商品" showSearch={true} optionFilterProp="name">
-                  {buildOptions(allStockIds)}
-                </Select>
-              )}
+              initialValue: modalFormVals.stock.id,
+              rules: [{ required: true, message: '请选择库存商品！' }],
+            })(
+              <Select
+                style={{ width: '100%' }}
+                placeholder="库存商品"
+                showSearch={true}
+                optionFilterProp="name"
+              >
+                {buildOptions(allStockIds)}
+              </Select>
+            )}
           </FormItem>
         ) : null}
 
-        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="数量" >
+        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="数量">
           {form.getFieldDecorator('nums', {
             initialValue: modalFormVals.nums,
-            rules: [{ required: true, message: '请输入数量！'}],
-          })(<InputNumber style={{ width: '100%', textAlign: 'center', marginTop: 5 }} placeholder="数量" />)}
+            rules: [{ required: true, message: '请输入数量！' }],
+          })(
+            <InputNumber
+              style={{ width: '100%', textAlign: 'center', marginTop: 5 }}
+              placeholder="数量"
+            />
+          )}
         </FormItem>
-
       </Modal>
     );
   }
@@ -192,7 +218,7 @@ class ReplenishlogList extends PureComponent {
     });
   }
 
-  handleStandardTableChange = (pagination) => {
+  handleStandardTableChange = pagination => {
     const { dispatch } = this.props;
     const { formValues } = this.state;
 
@@ -258,7 +284,7 @@ class ReplenishlogList extends PureComponent {
     });
   };
 
-  handleUpdate = (fields) => {
+  handleUpdate = fields => {
     const { dispatch } = this.props;
     dispatch({
       type: 'replenishlog/patch',
@@ -283,7 +309,7 @@ class ReplenishlogList extends PureComponent {
       if (flag) {
         message.success('删除进货日志成功');
       } else {
-        message.success('恢复进货日志成功')
+        message.success('恢复进货日志成功');
       }
       dispatch({
         type: 'replenishlog/fetch',
@@ -343,7 +369,8 @@ class ReplenishlogList extends PureComponent {
             return (
               <Tooltip title={text}>
                 <span>{text.slice(0, 6) + '...' + text.substr(text.length - 6)}</span>
-              </Tooltip>);
+              </Tooltip>
+            );
           } else {
             return text;
           }
@@ -359,11 +386,14 @@ class ReplenishlogList extends PureComponent {
       },
       {
         title: '操作',
-        render: (record) => (
+        render: record => (
           <Fragment>
             <a onClick={() => this.handleUpdateModalVisible(true, record)}>编辑</a>
             <Divider type="vertical" />
-            <Popconfirm title="是否要删除此进货日志？" onConfirm={() => this.handleDeleted(true, record.id)}>
+            <Popconfirm
+              title="是否要删除此进货日志？"
+              onConfirm={() => this.handleDeleted(true, record.id)}
+            >
               <a>删除</a>
             </Popconfirm>
           </Fragment>

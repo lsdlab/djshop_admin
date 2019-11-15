@@ -1,18 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
-import {
-  Row,
-  Col,
-  Card,
-  Form,
-  Input,
-  Select,
-  Button,
-  Divider,
-  Badge,
-  Drawer,
-  Table,
-} from 'antd';
+import { Row, Col, Card, Form, Input, Select, Button, Divider, Badge, Drawer } from 'antd';
 import router from 'umi/router';
 import SimpleTable from '@/components/SimpleTable';
 import SmallTable from '@/components/SmallTable';
@@ -79,11 +67,11 @@ class CouponList extends PureComponent {
     });
   };
 
-  routerPushDetail = (record) => {
-    router.push({pathname: '/coupon/coupon-edit/' + record.id, state: {"currentRecord": record }});
-  }
+  routerPushDetail = record => {
+    router.push({ pathname: '/coupon/coupon-edit/' + record.id, state: { currentRecord: record } });
+  };
 
-  handleStandardTableChange = (pagination) => {
+  handleStandardTableChange = pagination => {
     const { dispatch } = this.props;
     const { formValues } = this.state;
 
@@ -200,9 +188,9 @@ class CouponList extends PureComponent {
         dataIndex: 'logged',
         render(text, record, index) {
           if (text) {
-            return <Badge status='success' text='已领用' />;
+            return <Badge status="success" text="已领用" />;
           } else {
-            return <Badge status='error' text='未领用' />;
+            return <Badge status="error" text="未领用" />;
           }
         },
       },
@@ -211,9 +199,9 @@ class CouponList extends PureComponent {
         dataIndex: 'in_use',
         render(text, record, index) {
           if (text) {
-            return <Badge status='success' text='启用' />;
+            return <Badge status="success" text="启用" />;
           } else {
-            return <Badge status='error' text='未启用' />;
+            return <Badge status="error" text="未启用" />;
           }
         },
       },
@@ -275,13 +263,16 @@ class CouponList extends PureComponent {
         fixed: 'right',
         render: (text, record) => (
           <Fragment>
-            { record.in_use && record.logged ? (
-              <a disabled onClick={() => this.routerPushDetail(record)}>编辑</a>
-            ) : <a onClick={() => this.routerPushDetail(record)}>编辑</a>}
+            {record.in_use && record.logged ? (
+              <a disabled onClick={() => this.routerPushDetail(record)}>
+                编辑
+              </a>
+            ) : (
+              <a onClick={() => this.routerPushDetail(record)}>编辑</a>
+            )}
 
             <Divider type="vertical" />
             <a onClick={() => this.showDrawer(true, record)}>领取详情</a>
-
           </Fragment>
         ),
       },
@@ -354,11 +345,7 @@ class CouponList extends PureComponent {
             <p style={{ ...pStyle, marginBottom: 24 }}>优惠卷领取记录</p>
             <Row>
               {logData && Object.keys(logData).length ? (
-                <SmallTable
-                  size='small'
-                  data={logData}
-                  columns={drawerColumns}
-                />
+                <SmallTable size="small" data={logData} columns={drawerColumns} />
               ) : null}
             </Row>
           </Drawer>

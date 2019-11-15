@@ -1,4 +1,4 @@
-import { queryCategory, createCategory, patchCategory } from '@/services/api'
+import { queryCategory, createCategory, patchCategory } from '@/services/api';
 
 export default {
   namespace: 'category',
@@ -8,7 +8,7 @@ export default {
   },
 
   effects: {
-    *fetch({ }, { call, put }) {
+    *fetch({}, { call, put }) {
       const response = yield call(queryCategory);
       yield put({
         type: 'save',

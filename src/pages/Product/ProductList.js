@@ -23,7 +23,6 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import styles from '../List/TableList.less';
 
-
 const FormItem = Form.Item;
 const { Option } = Select;
 
@@ -97,10 +96,9 @@ const CheckboxItem = ({ title, status }) => (
     >
       {title}:
     </p>
-    <Checkbox disabled checked={status}></Checkbox>
+    <Checkbox disabled checked={status} />
   </div>
 );
-
 
 /* eslint react/no-multi-comp:0 */
 @connect(({ product, loading }) => ({
@@ -125,11 +123,11 @@ class ProductList extends PureComponent {
         type: 'product/fetchCategory',
       });
     });
-  };
-
-  routerPushDetail = (productID) => {
-    router.push('/product/product-detail/' + productID);
   }
+
+  routerPushDetail = productID => {
+    router.push('/product/product-detail/' + productID);
+  };
 
   showDrawer = (flag, productID) => {
     this.setState({
@@ -143,8 +141,8 @@ class ProductList extends PureComponent {
       });
     } else {
       this.setState({
-        currentRecord: {}
-      })
+        currentRecord: {},
+      });
     }
   };
 
@@ -160,8 +158,8 @@ class ProductList extends PureComponent {
       });
     } else {
       this.setState({
-        specData: {}
-      })
+        specData: {},
+      });
     }
   };
 
@@ -210,7 +208,7 @@ class ProductList extends PureComponent {
     });
   };
 
-  handleStandardTableChange = (pagination) => {
+  handleStandardTableChange = pagination => {
     const { dispatch } = this.props;
     const { formValues } = this.state;
 
@@ -290,7 +288,7 @@ class ProductList extends PureComponent {
             </FormItem>
           </Col>
           <Col md={6} sm={18}>
-            { categoryData ? (
+            {categoryData ? (
               <FormItem label="分类">
                 {getFieldDecorator('category')(
                   <TreeSelect
@@ -323,58 +321,66 @@ class ProductList extends PureComponent {
     if (srcList) {
       const arr = [];
       for (let i = 0; i < srcList.length; i++) {
-        arr.push(<img key={i} style={{ width: '20%', height: '20%' }} src={srcList[i]} />)
+        arr.push(<img key={i} style={{ width: '20%', height: '20%' }} src={srcList[i]} />);
       }
       return arr;
     } else {
-      return <div></div>
+      return <div />;
     }
-  };
+  }
 
   buildSpecs(specData) {
     if (specData) {
       const arr = [];
       for (let i = 0; i < specData.length; i++) {
-        arr.push(<Card style={{ marginBottom: 20 }} bodyStyle={{ padding: '20px 24px 8px 24px' }} key={i} type="inner" title={specData[i].name}>
-                   <Row>
-                     <Col span={24}>
-                       <DescriptionItem title="ID" content={specData[i].id} />
-                     </Col>
-                   </Row>
-                   <Row>
-                     <Col span={6}>
-                       <DescriptionItem title="售价" content={specData[i].price} />
-                     </Col>
-                     <Col span={6}>
-                       <DescriptionItem title="市场价" content={specData[i].market_price} />
-                     </Col>
-                     <Col span={6}>
-                       <DescriptionItem title="成本价" content={specData[i].cost_price} />
-                     </Col>
-                     <Col span={6}>
-                       <DescriptionItem title="库存" content={specData[i].stock} />
-                     </Col>
-                   </Row>
-                   <Row>
-                     <Col span={8}>
-                       <DescriptionItem title="货号" content={specData[i].sn} />
-                     </Col>
-                   </Row>
-                   <Row>
-                     <Col span={24}>
-                       <DescriptionItem title="题图" />
-                         { specData[i].header_image ? (
-                           <img style={{ width: '20%', height: '20%' }} src={specData[i].header_image} />
-                         ) : null }
-                     </Col>
-                   </Row>
-                  </Card>)
-        }
-        return arr;
-      } else {
-        return <div></div>
+        arr.push(
+          <Card
+            style={{ marginBottom: 20 }}
+            bodyStyle={{ padding: '20px 24px 8px 24px' }}
+            key={i}
+            type="inner"
+            title={specData[i].name}
+          >
+            <Row>
+              <Col span={24}>
+                <DescriptionItem title="ID" content={specData[i].id} />
+              </Col>
+            </Row>
+            <Row>
+              <Col span={6}>
+                <DescriptionItem title="售价" content={specData[i].price} />
+              </Col>
+              <Col span={6}>
+                <DescriptionItem title="市场价" content={specData[i].market_price} />
+              </Col>
+              <Col span={6}>
+                <DescriptionItem title="成本价" content={specData[i].cost_price} />
+              </Col>
+              <Col span={6}>
+                <DescriptionItem title="库存" content={specData[i].stock} />
+              </Col>
+            </Row>
+            <Row>
+              <Col span={8}>
+                <DescriptionItem title="货号" content={specData[i].sn} />
+              </Col>
+            </Row>
+            <Row>
+              <Col span={24}>
+                <DescriptionItem title="题图" />
+                {specData[i].header_image ? (
+                  <img style={{ width: '20%', height: '20%' }} src={specData[i].header_image} />
+                ) : null}
+              </Col>
+            </Row>
+          </Card>
+        );
+      }
+      return arr;
+    } else {
+      return <div />;
     }
-  };
+  }
 
   render() {
     const {
@@ -391,7 +397,8 @@ class ProductList extends PureComponent {
             return (
               <Tooltip title={text}>
                 <span>{text.slice(0, 6) + '...' + text.substr(text.length - 6)}</span>
-              </Tooltip>);
+              </Tooltip>
+            );
           } else {
             return text;
           }
@@ -406,9 +413,9 @@ class ProductList extends PureComponent {
         dataIndex: 'status',
         render(val) {
           if (val === '1') {
-            return <Badge status='success' text='上架' />;
+            return <Badge status="success" text="上架" />;
           } else if (val === '2') {
-            return <Badge status='error' text='下架' />;
+            return <Badge status="error" text="下架" />;
           }
         },
       },
@@ -416,7 +423,11 @@ class ProductList extends PureComponent {
         title: '分类',
         dataIndex: 'category_name',
         render(text, record) {
-          return <span>{record.category_first_name} / {record.category_name}</span>
+          return (
+            <span>
+              {record.category_first_name} / {record.category_name}
+            </span>
+          );
         },
       },
       {
@@ -458,13 +469,21 @@ class ProductList extends PureComponent {
             <Divider type="vertical" />
             <a onClick={() => this.showSpecDrawer(true, record.id)}>商品规格</a>
             <Divider type="vertical" />*/}
-            { record.status === '1' ? (
-              <Popconfirm title="是否要下架此商品？" onConfirm={() => this.handleDeleted(true, record.id)}>
+            {record.status === '1' ? (
+              <Popconfirm
+                title="是否要下架此商品？"
+                onConfirm={() => this.handleDeleted(true, record.id)}
+              >
                 <a>下架</a>
               </Popconfirm>
-            ) : <Popconfirm title="是否要上架此商品？" onConfirm={() => this.handleDeleted(false, record.id)}>
-                  <a>上架</a>
-                </Popconfirm>}
+            ) : (
+              <Popconfirm
+                title="是否要上架此商品？"
+                onConfirm={() => this.handleDeleted(false, record.id)}
+              >
+                <a>上架</a>
+              </Popconfirm>
+            )}
           </Fragment>
         ),
       },
@@ -512,9 +531,11 @@ class ProductList extends PureComponent {
                 <DescriptionItem title="上架用户" content={currentRecord.uploader} />
               </Col>
               <Col span={8}>
-                { currentRecord.status === '1' ? (
-                  <BadgeItem title="状态" status='success' content="上架" />
-                ) : <BadgeItem title="状态" status='error' content='下架' />}
+                {currentRecord.status === '1' ? (
+                  <BadgeItem title="状态" status="success" content="上架" />
+                ) : (
+                  <BadgeItem title="状态" status="error" content="下架" />
+                )}
               </Col>
               <Col span={8}>
                 <DescriptionItem title="分类" content={currentRecord.category_name} />
@@ -565,9 +586,9 @@ class ProductList extends PureComponent {
             <Row>
               <Col span={24}>
                 <DescriptionItem title="题图" />
-                { currentRecord.header_image ? (
+                {currentRecord.header_image ? (
                   <img style={{ width: '20%', height: '20%' }} src={currentRecord.header_image} />
-                ) : null }
+                ) : null}
               </Col>
             </Row>
             <Row style={{ marginTop: 20 }}>

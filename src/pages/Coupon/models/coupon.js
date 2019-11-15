@@ -1,13 +1,11 @@
-import { routerRedux } from 'dva/router';
-import { message } from 'antd';
-import { queryCoupons,
-         createCoupon,
-         patchCoupon,
-         queryCouponsLogs,
-         queryCategory,
-         fetchProductAllIds,
+import {
+  queryCoupons,
+  createCoupon,
+  patchCoupon,
+  queryCouponsLogs,
+  queryCategory,
+  fetchProductAllIds,
 } from '@/services/api';
-
 
 export default {
   namespace: 'coupon',
@@ -39,8 +37,8 @@ export default {
     *patch({ payload, couponID }, { call, put }) {
       yield call(patchCoupon, payload, couponID);
     },
-    *fetchCategory({ }, { call, put }) {
-      const response = yield call(queryCategory, );
+    *fetchCategory({}, { call, put }) {
+      const response = yield call(queryCategory);
       yield put({
         type: 'saveCategory',
         payload: response,
@@ -59,7 +57,7 @@ export default {
         type: 'saveLogData',
         payload: response,
       });
-    }
+    },
   },
 
   reducers: {

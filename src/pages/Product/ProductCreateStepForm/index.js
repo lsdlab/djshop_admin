@@ -25,10 +25,7 @@ export default class ProductCreateStepForm extends PureComponent {
   render() {
     const { location, children } = this.props;
     return (
-      <PageHeaderWrapper
-        title="商品上架"
-        tabActiveKey={location.pathname}
-      >
+      <PageHeaderWrapper title="商品上架" tabActiveKey={location.pathname}>
         <Card bordered={false}>
           <Fragment>
             <Steps current={this.getCurrentStep()} className={styles.steps}>

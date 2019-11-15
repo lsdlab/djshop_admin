@@ -1,10 +1,10 @@
-import { queryBanner,
-         createBanner,
-         patchBanner,
-         deleteBanner,
-         fetchProductAllIds,
-} from '@/services/api'
-
+import {
+  queryBanner,
+  createBanner,
+  patchBanner,
+  deleteBanner,
+  fetchProductAllIds,
+} from '@/services/api';
 
 export default {
   namespace: 'banner',

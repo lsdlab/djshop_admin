@@ -19,9 +19,7 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import styles from '../List/TableList.less';
 
-
 const FormItem = Form.Item;
-
 
 @Form.create()
 class UpdateForm extends PureComponent {
@@ -36,7 +34,13 @@ class UpdateForm extends PureComponent {
   }
 
   render() {
-    const { updateModalVisible, allStoreIds, form, handleUpdate, handleUpdateModalVisible } = this.props;
+    const {
+      updateModalVisible,
+      allStoreIds,
+      form,
+      handleUpdate,
+      handleUpdateModalVisible,
+    } = this.props;
     const { modalFormVals } = this.state;
 
     const okHandle = () => {
@@ -60,8 +64,10 @@ class UpdateForm extends PureComponent {
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="退货金额">
           {form.getFieldDecorator('refund_price', {
             initialValue: modalFormVals.refund_price,
-            rules: [{ required: true, message: "请输入退货金额" }],
-          })(<InputNumber min={0.01} step={0.01} style={{ width: "100%" }} placeholder="退货金额" />)}
+            rules: [{ required: true, message: '请输入退货金额' }],
+          })(
+            <InputNumber min={0.01} step={0.01} style={{ width: '100%' }} placeholder="退货金额" />
+          )}
         </FormItem>
       </Modal>
     );
@@ -89,11 +95,11 @@ class CollectList extends PureComponent {
     });
   }
 
-  routerPushDetail = (transactionID) => {
+  routerPushDetail = transactionID => {
     router.push('/transaction/transaction-detail/' + transactionID);
-  }
+  };
 
-  handleStandardTableChange = (pagination) => {
+  handleStandardTableChange = pagination => {
     const { dispatch } = this.props;
     const { formValues } = this.state;
 
@@ -161,7 +167,7 @@ class CollectList extends PureComponent {
     }
   };
 
-  handleUpdate = (fields) => {
+  handleUpdate = fields => {
     const { dispatch } = this.props;
     dispatch({
       type: 'refund/auditRefund',
@@ -182,8 +188,8 @@ class CollectList extends PureComponent {
     dispatch({
       type: 'refund/auditRefund',
       payload: {
-        "auditor": JSON.parse(localStorage.getItem('currentUser'))['userid'],
-        "audit": "2"
+        auditor: JSON.parse(localStorage.getItem('currentUser'))['userid'],
+        audit: '2',
       },
       transactionID: transactionID,
     }).then(() => {
@@ -194,7 +200,7 @@ class CollectList extends PureComponent {
     });
   };
 
-  withdrawRefund = (transactionID) => {
+  withdrawRefund = transactionID => {
     const { dispatch } = this.props;
     dispatch({
       type: 'refund/withdrawRefund',
@@ -215,9 +221,7 @@ class CollectList extends PureComponent {
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 6, lg: 24, xl: 48 }}>
           <Col md={6} sm={24}>
-            <FormItem label="sn">
-              {getFieldDecorator('sn')(<Input placeholder="sn" />)}
-            </FormItem>
+            <FormItem label="sn">{getFieldDecorator('sn')(<Input placeholder="sn" />)}</FormItem>
           </Col>
           <Col md={6} sm={24}>
             <span className={styles.submitButtons}>
@@ -345,26 +349,32 @@ class CollectList extends PureComponent {
             {/*<a onClick={() => this.routerPushDetail(record.transaction)}>详情</a>
             <Divider type="vertical" />*/}
 
-            { record.audit == '1' ? (
+            {record.audit == '1' ? (
               <a onClick={() => this.handleUpdateModalVisible(true, record)}>修改金额</a>
-            ) : <a disabled onClick={() => this.handleUpdateModalVisible(true, record)}>修改金额</a>}
+            ) : (
+              <a disabled onClick={() => this.handleUpdateModalVisible(true, record)}>
+                修改金额
+              </a>
+            )}
 
-            { record.audit == '1' ? (
-              <Divider type="vertical" />
-            ) : null}
+            {record.audit == '1' ? <Divider type="vertical" /> : null}
 
-            { record.audit == '1' ? (
-              <Popconfirm title="是否要允许此退货？" onConfirm={() => this.auditRefund(record.transaction, refundPrice)}>
+            {record.audit == '1' ? (
+              <Popconfirm
+                title="是否要允许此退货？"
+                onConfirm={() => this.auditRefund(record.transaction, refundPrice)}
+              >
                 <a>允许</a>
               </Popconfirm>
             ) : null}
 
-            { record.audit == '1' ? (
-              <Divider type="vertical" />
-            ) : null}
+            {record.audit == '1' ? <Divider type="vertical" /> : null}
 
-            { record.audit == '1' ? (
-              <Popconfirm title="是否要撤销此退货？" onConfirm={() => this.withdrawRefund(record.transaction)}>
+            {record.audit == '1' ? (
+              <Popconfirm
+                title="是否要撤销此退货？"
+                onConfirm={() => this.withdrawRefund(record.transaction)}
+              >
                 <a>撤销</a>
               </Popconfirm>
             ) : null}

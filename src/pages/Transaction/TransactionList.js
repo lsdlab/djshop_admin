@@ -1,20 +1,11 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
-import {
-  Row,
-  Col,
-  Card,
-  Form,
-  Input,
-  Select,
-  Button,
-} from 'antd';
+import { Row, Col, Card, Form, Input, Select, Button } from 'antd';
 import router from 'umi/router';
 import SimpleTable from '@/components/SimpleTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import styles from '../List/TableList.less';
-
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -38,11 +29,11 @@ class TransactionList extends PureComponent {
     });
   }
 
-  routerPushDetail = (transactionID) => {
+  routerPushDetail = transactionID => {
     router.push('/transaction/transaction-detail/' + transactionID);
-  }
+  };
 
-  handleStandardTableChange = (pagination) => {
+  handleStandardTableChange = pagination => {
     const { dispatch } = this.props;
     const { formValues } = this.state;
 
@@ -105,9 +96,7 @@ class TransactionList extends PureComponent {
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 6, lg: 24, xl: 48 }}>
           <Col md={6} sm={24}>
-            <FormItem label="sn">
-              {getFieldDecorator('sn')(<Input placeholder="sn" />)}
-            </FormItem>
+            <FormItem label="sn">{getFieldDecorator('sn')(<Input placeholder="sn" />)}</FormItem>
           </Col>
           <Col md={6} sm={24}>
             <FormItem label="状态">

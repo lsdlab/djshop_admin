@@ -21,22 +21,23 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import styles from '../List/TableList.less';
 
-
 const FormItem = Form.Item;
 const InputGroup = Input.Group;
 const { Option } = Select;
 
-
-const buildOptions = (optionData) => {
+const buildOptions = optionData => {
   if (optionData) {
     const arr = [];
     for (let i = 0; i < optionData.length; i++) {
-      arr.push(<Option name={optionData[i].combined_name} value={optionData[i].id} key={optionData[i].id}>{optionData[i].combined_name}</Option>)
+      arr.push(
+        <Option name={optionData[i].combined_name} value={optionData[i].id} key={optionData[i].id}>
+          {optionData[i].combined_name}
+        </Option>
+      );
     }
     return arr;
   }
-}
-
+};
 
 const CreateForm = Form.create()(props => {
   const { modalVisible, allProductSpecIds, form, handleAdd, handleModalVisible } = props;
@@ -60,51 +61,94 @@ const CreateForm = Form.create()(props => {
       onOk={okHandle}
       onCancel={() => handleModalVisible()}
     >
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="价格区间" >
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="价格区间">
         <InputGroup compact>
           {form.getFieldDecorator('start_price', {
-            rules: [{ required: true, message: "请输入起始价格！" }],
-          })(<InputNumber min={0.01} step={0.01} style={{ width: 150, textAlign: 'center', marginTop: 5 }} placeholder="起始价格" />)}
+            rules: [{ required: true, message: '请输入起始价格！' }],
+          })(
+            <InputNumber
+              min={0.01}
+              step={0.01}
+              style={{ width: 150, textAlign: 'center', marginTop: 5 }}
+              placeholder="起始价格"
+            />
+          )}
           <Input
             style={{
-              width: 30, borderLeft: 0, pointerEvents: 'none', backgroundColor: '#fff', marginTop: 5,
+              width: 30,
+              borderLeft: 0,
+              pointerEvents: 'none',
+              backgroundColor: '#fff',
+              marginTop: 5,
             }}
             placeholder="~"
             disabled
           />
           {form.getFieldDecorator('end_price', {
-            rules: [{ required: true, message: "请输入结束价格！" }],
-          })(<InputNumber min={0.01} step={0.01} style={{ width: 150, textAlign: 'center', borderLeft: 0, marginTop: 5 }} placeholder="结束价格" />)}
+            rules: [{ required: true, message: '请输入结束价格！' }],
+          })(
+            <InputNumber
+              min={0.01}
+              step={0.01}
+              style={{ width: 150, textAlign: 'center', borderLeft: 0, marginTop: 5 }}
+              placeholder="结束价格"
+            />
+          )}
         </InputGroup>
       </FormItem>
 
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="砍价比例" >
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="砍价比例">
         <InputGroup compact>
           {form.getFieldDecorator('bargain_percent_range_start', {
-            rules: [{ required: true, message: "请输入砍价比例！" }],
-          })(<InputNumber min={5} max={50} step={1} style={{ width: 150, textAlign: 'center', marginTop: 5 }} placeholder="砍价比例 5%" />)}
+            rules: [{ required: true, message: '请输入砍价比例！' }],
+          })(
+            <InputNumber
+              min={5}
+              max={50}
+              step={1}
+              style={{ width: 150, textAlign: 'center', marginTop: 5 }}
+              placeholder="砍价比例 5%"
+            />
+          )}
           <Input
             style={{
-              width: 30, borderLeft: 0, pointerEvents: 'none', backgroundColor: '#fff', marginTop: 5,
+              width: 30,
+              borderLeft: 0,
+              pointerEvents: 'none',
+              backgroundColor: '#fff',
+              marginTop: 5,
             }}
             placeholder="~"
             disabled
           />
           {form.getFieldDecorator('bargain_percent_range_end', {
-            rules: [{ required: true, message: "请输入砍价比例！" }],
-          })(<InputNumber min={5} max={50} step={1} style={{ width: 150, textAlign: 'center', borderLeft: 0, marginTop: 5 }} placeholder="砍价比例 50%" />)}
+            rules: [{ required: true, message: '请输入砍价比例！' }],
+          })(
+            <InputNumber
+              min={5}
+              max={50}
+              step={1}
+              style={{ width: 150, textAlign: 'center', borderLeft: 0, marginTop: 5 }}
+              placeholder="砍价比例 50%"
+            />
+          )}
         </InputGroup>
       </FormItem>
 
-      { allProductSpecIds ? (
+      {allProductSpecIds ? (
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="商品规格">
           {form.getFieldDecorator('product_spec', {
-              rules: [{ required: true, message: '请选择商品规格！' }],
-            })(
-              <Select style={{ width: '100%' }} placeholder="商品规格" showSearch={true} optionFilterProp="name">
-                {buildOptions(allProductSpecIds)}
-              </Select>
-            )}
+            rules: [{ required: true, message: '请选择商品规格！' }],
+          })(
+            <Select
+              style={{ width: '100%' }}
+              placeholder="商品规格"
+              showSearch={true}
+              optionFilterProp="name"
+            >
+              {buildOptions(allProductSpecIds)}
+            </Select>
+          )}
         </FormItem>
       ) : null}
     </Modal>
@@ -128,7 +172,13 @@ class UpdateForm extends PureComponent {
   }
 
   render() {
-    const { updateModalVisible, allProductSpecIds, form, handleUpdate, handleUpdateModalVisible } = this.props;
+    const {
+      updateModalVisible,
+      allProductSpecIds,
+      form,
+      handleUpdate,
+      handleUpdateModalVisible,
+    } = this.props;
     const { modalFormVals } = this.state;
 
     const okHandle = () => {
@@ -149,63 +199,105 @@ class UpdateForm extends PureComponent {
         onOk={okHandle}
         onCancel={() => handleUpdateModalVisible()}
       >
-        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="价格区间" >
+        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="价格区间">
           <InputGroup compact>
             {form.getFieldDecorator('start_price', {
               initialValue: modalFormVals.start_price,
-              rules: [{ required: true, message: "请输入起始价格！" }],
-            })(<InputNumber min={0.01} step={0.01} style={{ width: 150, textAlign: 'center', marginTop: 5 }} placeholder="起始价格" />)}
+              rules: [{ required: true, message: '请输入起始价格！' }],
+            })(
+              <InputNumber
+                min={0.01}
+                step={0.01}
+                style={{ width: 150, textAlign: 'center', marginTop: 5 }}
+                placeholder="起始价格"
+              />
+            )}
             <Input
               style={{
-                width: 30, borderLeft: 0, pointerEvents: 'none', backgroundColor: '#fff', marginTop: 5,
+                width: 30,
+                borderLeft: 0,
+                pointerEvents: 'none',
+                backgroundColor: '#fff',
+                marginTop: 5,
               }}
               placeholder="~"
               disabled
             />
             {form.getFieldDecorator('end_price', {
               initialValue: modalFormVals.end_price,
-              rules: [{ required: true, message: "请输入结束价格！" }],
-            })(<InputNumber min={0.01} step={0.01} style={{ width: 150, textAlign: 'center', borderLeft: 0, marginTop: 5 }} placeholder="结束价格" />)}
+              rules: [{ required: true, message: '请输入结束价格！' }],
+            })(
+              <InputNumber
+                min={0.01}
+                step={0.01}
+                style={{ width: 150, textAlign: 'center', borderLeft: 0, marginTop: 5 }}
+                placeholder="结束价格"
+              />
+            )}
           </InputGroup>
         </FormItem>
 
-        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="砍价比例" >
+        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="砍价比例">
           <InputGroup compact>
             {form.getFieldDecorator('bargain_percent_range_start', {
               initialValue: modalFormVals.bargain_percent_range_start,
-              rules: [{ required: true, message: "请输入砍价比例！" }],
-            })(<InputNumber min={5} max={10} step={1} style={{ width: 150, textAlign: 'center', marginTop: 5 }} placeholder="砍价比例" />)}
+              rules: [{ required: true, message: '请输入砍价比例！' }],
+            })(
+              <InputNumber
+                min={5}
+                max={10}
+                step={1}
+                style={{ width: 150, textAlign: 'center', marginTop: 5 }}
+                placeholder="砍价比例"
+              />
+            )}
             <Input
               style={{
-                width: 30, borderLeft: 0, pointerEvents: 'none', backgroundColor: '#fff', marginTop: 5,
+                width: 30,
+                borderLeft: 0,
+                pointerEvents: 'none',
+                backgroundColor: '#fff',
+                marginTop: 5,
               }}
               placeholder="~"
               disabled
             />
             {form.getFieldDecorator('bargain_percent_range_end', {
               initialValue: modalFormVals.bargain_percent_range_end,
-              rules: [{ required: true, message: "请输入砍价比例！" }],
-            })(<InputNumber min={5} max={10} step={1} style={{ width: 150, textAlign: 'center', borderLeft: 0, marginTop: 5 }} placeholder="砍价比例" />)}
+              rules: [{ required: true, message: '请输入砍价比例！' }],
+            })(
+              <InputNumber
+                min={5}
+                max={10}
+                step={1}
+                style={{ width: 150, textAlign: 'center', borderLeft: 0, marginTop: 5 }}
+                placeholder="砍价比例"
+              />
+            )}
           </InputGroup>
         </FormItem>
 
-        { allProductSpecIds ? (
+        {allProductSpecIds ? (
           <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="商品规格">
             {form.getFieldDecorator('product_spec', {
-                initialValue: modalFormVals.product_spec,
-                rules: [{ required: true, message: '请选择商品规格！' }],
-              })(
-                <Select style={{ width: '100%' }} placeholder="商品" showSearch={true} optionFilterProp="name">
-                  {buildOptions(allProductSpecIds)}
-                </Select>
-              )}
+              initialValue: modalFormVals.product_spec,
+              rules: [{ required: true, message: '请选择商品规格！' }],
+            })(
+              <Select
+                style={{ width: '100%' }}
+                placeholder="商品"
+                showSearch={true}
+                optionFilterProp="name"
+              >
+                {buildOptions(allProductSpecIds)}
+              </Select>
+            )}
           </FormItem>
         ) : null}
       </Modal>
     );
   }
 }
-
 
 /* eslint react/no-multi-comp:0 */
 @connect(({ bargain_product, loading }) => ({
@@ -229,7 +321,7 @@ class BargainProductList extends PureComponent {
     });
   }
 
-  handleStandardTableChange = (pagination) => {
+  handleStandardTableChange = pagination => {
     const { dispatch } = this.props;
     const { formValues } = this.state;
 
@@ -280,13 +372,14 @@ class BargainProductList extends PureComponent {
       product_spec: fields.product_spec,
       start_price: fields.start_price,
       end_price: fields.end_price,
-      bargain_percent_range: fields.bargain_percent_range_start + '-' + fields.bargain_percent_range_end,
+      bargain_percent_range:
+        fields.bargain_percent_range_start + '-' + fields.bargain_percent_range_end,
     };
 
     dispatch({
       type: 'bargain_product/create',
       payload: payload,
-    }).then((data) => {
+    }).then(data => {
       message.success('新增成功');
       this.handleModalVisible();
       this.props.dispatch({
@@ -296,13 +389,14 @@ class BargainProductList extends PureComponent {
     });
   };
 
-  handleUpdate = (fields) => {
+  handleUpdate = fields => {
     const { dispatch } = this.props;
     const payload = {
       product_spec: fields.product_spec,
       start_price: fields.start_price,
       end_price: fields.end_price,
-      bargain_percent_range: fields.bargain_percent_range_start + '-' + fields.bargain_percent_range_end,
+      bargain_percent_range:
+        fields.bargain_percent_range_start + '-' + fields.bargain_percent_range_end,
     };
     dispatch({
       type: 'bargain_product/patch',
@@ -392,7 +486,8 @@ class BargainProductList extends PureComponent {
             return (
               <Tooltip title={text}>
                 <span>{text.slice(0, 6) + '...' + text.substr(text.length - 6)}</span>
-              </Tooltip>);
+              </Tooltip>
+            );
           } else {
             return text;
           }
@@ -423,9 +518,9 @@ class BargainProductList extends PureComponent {
         dataIndex: 'deleted',
         render(text, record, index) {
           if (text) {
-            return <Badge status='error' text='下架中' />;
+            return <Badge status="error" text="下架中" />;
           } else {
-            return <Badge status='success' text='上架中' />;
+            return <Badge status="success" text="上架中" />;
           }
         },
       },
@@ -440,13 +535,21 @@ class BargainProductList extends PureComponent {
           <Fragment>
             <a onClick={() => this.handleUpdateModalVisible(true, record)}>编辑</a>
             <Divider type="vertical" />
-            { record.deleted ? (
-              <Popconfirm title="是否要上架此砍价商品？" onConfirm={() => this.bargainProductDeleted(false, record.id)}>
+            {record.deleted ? (
+              <Popconfirm
+                title="是否要上架此砍价商品？"
+                onConfirm={() => this.bargainProductDeleted(false, record.id)}
+              >
                 <a>上架</a>
               </Popconfirm>
-            ) : <Popconfirm title="是否要下架此推荐商品？" onConfirm={() => this.bargainProductDeleted(true, record.id)}>
+            ) : (
+              <Popconfirm
+                title="是否要下架此推荐商品？"
+                onConfirm={() => this.bargainProductDeleted(true, record.id)}
+              >
                 <a>下架</a>
-              </Popconfirm>}
+              </Popconfirm>
+            )}
           </Fragment>
         ),
       },
@@ -467,7 +570,11 @@ class BargainProductList extends PureComponent {
             />
           </div>
         </Card>
-        <CreateForm {...parentMethods} modalVisible={modalVisible} allProductSpecIds={allProductSpecIds} />
+        <CreateForm
+          {...parentMethods}
+          modalVisible={modalVisible}
+          allProductSpecIds={allProductSpecIds}
+        />
 
         {currentRecord && Object.keys(currentRecord).length ? (
           <UpdateForm

@@ -1,14 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
-import {
-  Row,
-  Col,
-  Card,
-  Form,
-  Input,
-  Button,
-  Badge,
-} from 'antd';
+import { Row, Col, Card, Form, Input, Button, Badge } from 'antd';
 import router from 'umi/router';
 import SimpleTable from '@/components/SimpleTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
@@ -16,7 +8,6 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import styles from '../List/TableList.less';
 
 const FormItem = Form.Item;
-
 
 /* eslint react/no-multi-comp:0 */
 @connect(({ user, loading }) => ({
@@ -37,11 +28,11 @@ class UserList extends PureComponent {
     });
   }
 
-  routerPushDetail = (userID) => {
+  routerPushDetail = userID => {
     router.push('/assist/user-detail/' + userID);
-  }
+  };
 
-  handleStandardTableChange = (pagination) => {
+  handleStandardTableChange = pagination => {
     const { dispatch } = this.props;
     const { formValues } = this.state;
 
@@ -120,7 +111,6 @@ class UserList extends PureComponent {
     );
   }
 
-
   render() {
     const {
       user: { data },
@@ -149,9 +139,9 @@ class UserList extends PureComponent {
         dataIndex: 'is_superuser',
         render(text, record, index) {
           if (text) {
-            return <Badge status='success' text='是' />;
+            return <Badge status="success" text="是" />;
           } else {
-            return <Badge status='error' text='否' />;
+            return <Badge status="error" text="否" />;
           }
         },
       },
@@ -164,9 +154,9 @@ class UserList extends PureComponent {
         dataIndex: 'profile.is_vip',
         render(text) {
           if (text) {
-            return <Badge status='success' text='是' />;
+            return <Badge status="success" text="是" />;
           } else {
-            return <Badge status='error' text='否' />;
+            return <Badge status="error" text="否" />;
           }
         },
       },

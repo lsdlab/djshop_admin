@@ -22,21 +22,24 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import styles from '../List/TableList.less';
 
-
 const FormItem = Form.Item;
 const { TextArea } = Input;
 const { Option } = Select;
-const timeFormat= "YYYY-MM-DD HH:mm:ss";
+const timeFormat = 'YYYY-MM-DD HH:mm:ss';
 
-const buildOptions = (optionData) => {
+const buildOptions = optionData => {
   if (optionData) {
     const arr = [];
     for (let i = 0; i < optionData.length; i++) {
-      arr.push(<Option name={optionData[i].combined_name} value={optionData[i].id} key={optionData[i].id}>{optionData[i].combined_name}</Option>)
+      arr.push(
+        <Option name={optionData[i].combined_name} value={optionData[i].id} key={optionData[i].id}>
+          {optionData[i].combined_name}
+        </Option>
+      );
     }
     return arr;
   }
-}
+};
 
 @Form.create()
 class UpdateForm extends PureComponent {
@@ -55,7 +58,13 @@ class UpdateForm extends PureComponent {
   }
 
   render() {
-    const { updateModalVisible, allStoreIds, form, handleUpdate, handleUpdateModalVisible } = this.props;
+    const {
+      updateModalVisible,
+      allStoreIds,
+      form,
+      handleUpdate,
+      handleUpdateModalVisible,
+    } = this.props;
     const { modalFormVals } = this.state;
 
     const okHandle = () => {
@@ -79,42 +88,49 @@ class UpdateForm extends PureComponent {
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="姓名">
           {form.getFieldDecorator('name', {
             initialValue: modalFormVals.name,
-            rules: [{ required: true, message: "请输入姓名！" }],
+            rules: [{ required: true, message: '请输入姓名！' }],
           })(<Input placeholder="姓名" />)}
         </FormItem>
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="手机号">
           {form.getFieldDecorator('mobile', {
             initialValue: modalFormVals.mobile,
-            rules: [{ required: true, message: "请输入手机号！" }],
+            rules: [{ required: true, message: '请输入手机号！' }],
           })(<Input placeholder="副标题" />)}
         </FormItem>
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="备注">
           {form.getFieldDecorator('note', {
             initialValue: modalFormVals.note,
-            rules: [{ required: false, message: "请输入备注！" }],
+            rules: [{ required: false, message: '请输入备注！' }],
           })(<TextArea autosize={{ minRows: 4, maxRows: 8 }} placeholder="备注" />)}
         </FormItem>
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="自提时间">
           {form.getFieldDecorator('pickup_datetime', {
             initialValue: moment(modalFormVals.pickup_datetime, timeFormat),
             rules: [{ required: true, message: '请选择自提时间！' }],
-          })(<DatePicker
-                showTime
-                placeholder="自提时间"
-                format={timeFormat}
-                style={{ width: '100%' }}
-              />)}
+          })(
+            <DatePicker
+              showTime
+              placeholder="自提时间"
+              format={timeFormat}
+              style={{ width: '100%' }}
+            />
+          )}
         </FormItem>
-        { allStoreIds ? (
+        {allStoreIds ? (
           <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="门店">
             {form.getFieldDecorator('store', {
-                initialValue: modalFormVals.store,
-                rules: [{ required: true, message: '请选择门店！' }],
-              })(
-                <Select style={{ width: '100%' }} placeholder="门店" showSearch={true} optionFilterProp="name">
-                  {buildOptions(allStoreIds)}
-                </Select>
-              )}
+              initialValue: modalFormVals.store,
+              rules: [{ required: true, message: '请选择门店！' }],
+            })(
+              <Select
+                style={{ width: '100%' }}
+                placeholder="门店"
+                showSearch={true}
+                optionFilterProp="name"
+              >
+                {buildOptions(allStoreIds)}
+              </Select>
+            )}
           </FormItem>
         ) : null}
       </Modal>
@@ -143,11 +159,11 @@ class CollectList extends PureComponent {
     });
   }
 
-  routerPushDetail = (transactionID) => {
+  routerPushDetail = transactionID => {
     router.push('/transaction/transaction-detail/' + transactionID);
-  }
+  };
 
-  handleStandardTableChange = (pagination) => {
+  handleStandardTableChange = pagination => {
     const { dispatch } = this.props;
     const { formValues } = this.state;
 
@@ -215,7 +231,7 @@ class CollectList extends PureComponent {
     }
   };
 
-  handleUpdate = (fields) => {
+  handleUpdate = fields => {
     const { dispatch } = this.props;
     const params = {
       pickup_datetime: moment(fields.pickup_datetime).format(timeFormat),
@@ -235,7 +251,7 @@ class CollectList extends PureComponent {
     });
   };
 
-  confirmPickup = (transactionID) => {
+  confirmPickup = transactionID => {
     const { dispatch } = this.props;
     dispatch({
       type: 'collect/confirmCollectPickup',
@@ -256,9 +272,7 @@ class CollectList extends PureComponent {
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 6, lg: 24, xl: 48 }}>
           <Col md={6} sm={24}>
-            <FormItem label="sn">
-              {getFieldDecorator('sn')(<Input placeholder="sn" />)}
-            </FormItem>
+            <FormItem label="sn">{getFieldDecorator('sn')(<Input placeholder="sn" />)}</FormItem>
           </Col>
           <Col md={6} sm={24}>
             <FormItem label="手机号">
@@ -327,9 +341,9 @@ class CollectList extends PureComponent {
         dataIndex: 'picked',
         render(text, record, index) {
           if (text) {
-            return <Badge status='success' text='已自提' />;
+            return <Badge status="success" text="已自提" />;
           } else {
-            return <Badge status='error' text='未自提' />;
+            return <Badge status="error" text="未自提" />;
           }
         },
       },
@@ -349,17 +363,24 @@ class CollectList extends PureComponent {
             <a onClick={() => this.routerPushDetail(record.transaction)}>订单</a>
             <Divider type="vertical" />
 
-            { record.picked ? (
-              <a disabled onClick={() => this.handleUpdateModalVisible(true, record)}>修改</a>
-            ) : <a onClick={() => this.handleUpdateModalVisible(true, record)}>修改</a>}
+            {record.picked ? (
+              <a disabled onClick={() => this.handleUpdateModalVisible(true, record)}>
+                修改
+              </a>
+            ) : (
+              <a onClick={() => this.handleUpdateModalVisible(true, record)}>修改</a>
+            )}
 
             <Divider type="vertical" />
 
-            { record.picked ? (
-              null
-            ) : <Popconfirm title="是否要确认自提此商品？" onConfirm={() => this.confirmPickup(record.transaction)}>
+            {record.picked ? null : (
+              <Popconfirm
+                title="是否要确认自提此商品？"
+                onConfirm={() => this.confirmPickup(record.transaction)}
+              >
                 <a>确认</a>
-              </Popconfirm>}
+              </Popconfirm>
+            )}
           </Fragment>
         ),
       },

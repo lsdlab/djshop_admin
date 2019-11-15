@@ -20,9 +20,7 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import styles from '../List/TableList.less';
 
-
 const FormItem = Form.Item;
-
 
 const CreateForm = Form.create()(props => {
   const { modalVisible, allProductSpecIds, form, handleAdd, handleModalVisible } = props;
@@ -46,20 +44,19 @@ const CreateForm = Form.create()(props => {
       onOk={okHandle}
       onCancel={() => handleModalVisible()}
     >
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="团购价格" >
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="团购价格">
         {form.getFieldDecorator('groupon_price', {
-          rules: [{ required: true, message: "请输入结束价格！" }],
+          rules: [{ required: true, message: '请输入结束价格！' }],
         })(<InputNumber min={0.01} step={0.01} style={{ width: '100%' }} placeholder="团购价格" />)}
       </FormItem>
 
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="几人团">
         {form.getFieldDecorator('limit', {
-          rules: [{ required: true, message: "请输入结束几人团！" }],
-        })(<InputNumber min={1} max={10} style={{ width: '100%' }} placeholder="几人团"/>)}
+          rules: [{ required: true, message: '请输入结束几人团！' }],
+        })(<InputNumber min={1} max={10} style={{ width: '100%' }} placeholder="几人团" />)}
       </FormItem>
 
-
-      { allProductSpecIds ? (
+      {allProductSpecIds ? (
         <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="商品规格">
           {form.getFieldDecorator('product_spec', {
             rules: [{ required: true, message: '请选择商品规格！' }],
@@ -78,7 +75,6 @@ const CreateForm = Form.create()(props => {
   );
 });
 
-
 @Form.create()
 class UpdateForm extends PureComponent {
   constructor(props) {
@@ -94,7 +90,13 @@ class UpdateForm extends PureComponent {
   }
 
   render() {
-    const { updateModalVisible, allProductSpecIds, form, handleUpdate, handleUpdateModalVisible } = this.props;
+    const {
+      updateModalVisible,
+      allProductSpecIds,
+      form,
+      handleUpdate,
+      handleUpdateModalVisible,
+    } = this.props;
     const { modalFormVals } = this.state;
 
     const okHandle = () => {
@@ -115,21 +117,23 @@ class UpdateForm extends PureComponent {
         onOk={okHandle}
         onCancel={() => handleUpdateModalVisible()}
       >
-        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="团购价格" >
+        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="团购价格">
           {form.getFieldDecorator('groupon_price', {
             initialValue: modalFormVals.groupon_price,
-            rules: [{ required: true, message: "请输入结束价格！" }],
-          })(<InputNumber min={0.01} step={0.01} style={{ width: '100%' }} placeholder="团购价格" />)}
+            rules: [{ required: true, message: '请输入结束价格！' }],
+          })(
+            <InputNumber min={0.01} step={0.01} style={{ width: '100%' }} placeholder="团购价格" />
+          )}
         </FormItem>
 
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="几人团">
           {form.getFieldDecorator('limit', {
             initialValue: modalFormVals.limit,
-            rules: [{ required: true, message: "请输入结束几人团！" }],
-          })(<InputNumber min={1} max={10} style={{ width: '100%' }} placeholder="几人团"/>)}
+            rules: [{ required: true, message: '请输入结束几人团！' }],
+          })(<InputNumber min={1} max={10} style={{ width: '100%' }} placeholder="几人团" />)}
         </FormItem>
 
-        { allProductSpecIds ? (
+        {allProductSpecIds ? (
           <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="商品规格">
             {form.getFieldDecorator('product_spec', {
               initialValue: modalFormVals.product_spec,
@@ -149,7 +153,6 @@ class UpdateForm extends PureComponent {
     );
   }
 }
-
 
 /* eslint react/no-multi-comp:0 */
 @connect(({ groupon_product, loading }) => ({
@@ -173,7 +176,7 @@ class GrouponProductList extends PureComponent {
     });
   }
 
-  handleStandardTableChange = (pagination) => {
+  handleStandardTableChange = pagination => {
     const { dispatch } = this.props;
     const { formValues } = this.state;
 
@@ -229,7 +232,7 @@ class GrouponProductList extends PureComponent {
     dispatch({
       type: 'groupon_product/create',
       payload: payload,
-    }).then((data) => {
+    }).then(data => {
       message.success('新增成功');
       this.handleModalVisible();
       this.props.dispatch({
@@ -239,7 +242,7 @@ class GrouponProductList extends PureComponent {
     });
   };
 
-  handleUpdate = (fields) => {
+  handleUpdate = fields => {
     const { dispatch } = this.props;
     dispatch({
       type: 'groupon_product/patch',
@@ -329,7 +332,8 @@ class GrouponProductList extends PureComponent {
             return (
               <Tooltip title={text}>
                 <span>{text.slice(0, 6) + '...' + text.substr(text.length - 6)}</span>
-              </Tooltip>);
+              </Tooltip>
+            );
           } else {
             return text;
           }
@@ -360,9 +364,9 @@ class GrouponProductList extends PureComponent {
         dataIndex: 'deleted',
         render(text, record, index) {
           if (text) {
-            return <Badge status='error' text='下架中' />;
+            return <Badge status="error" text="下架中" />;
           } else {
-            return <Badge status='success' text='上架中' />;
+            return <Badge status="success" text="上架中" />;
           }
         },
       },
@@ -381,13 +385,21 @@ class GrouponProductList extends PureComponent {
           <Fragment>
             <a onClick={() => this.handleUpdateModalVisible(true, record)}>编辑</a>
             <Divider type="vertical" />
-            { record.deleted ? (
-              <Popconfirm title="是否要上架此团购商品？" onConfirm={() => this.grouponProductDeleted(false, record.id)}>
+            {record.deleted ? (
+              <Popconfirm
+                title="是否要上架此团购商品？"
+                onConfirm={() => this.grouponProductDeleted(false, record.id)}
+              >
                 <a>上架</a>
               </Popconfirm>
-            ) : <Popconfirm title="是否要下架此推荐商品？" onConfirm={() => this.grouponProductDeleted(true, record.id)}>
+            ) : (
+              <Popconfirm
+                title="是否要下架此推荐商品？"
+                onConfirm={() => this.grouponProductDeleted(true, record.id)}
+              >
                 <a>下架</a>
-              </Popconfirm>}
+              </Popconfirm>
+            )}
           </Fragment>
         ),
       },
@@ -408,7 +420,11 @@ class GrouponProductList extends PureComponent {
             />
           </div>
         </Card>
-        <CreateForm {...parentMethods} modalVisible={modalVisible} allProductSpecIds={allProductSpecIds} />
+        <CreateForm
+          {...parentMethods}
+          modalVisible={modalVisible}
+          allProductSpecIds={allProductSpecIds}
+        />
 
         {currentRecord && Object.keys(currentRecord).length ? (
           <UpdateForm

@@ -18,23 +18,24 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import styles from '../List/TableList.less';
 
-
 const FormItem = Form.Item;
 const { Option } = Select;
 const { TreeNode } = Tree;
 const Search = Input.Search;
 
-
-const buildOptions = (optionData) => {
+const buildOptions = optionData => {
   if (optionData) {
     const arr = [];
     for (let i = 0; i < optionData.length; i++) {
-      arr.push(<Option value={optionData[i].id} key={optionData[i].id}>{optionData[i].name}</Option>)
+      arr.push(
+        <Option value={optionData[i].id} key={optionData[i].id}>
+          {optionData[i].name}
+        </Option>
+      );
     }
     return arr;
   }
-}
-
+};
 
 const CreateForm = Form.create()(props => {
   const { modalVisible, categoryData, form, handleAdd, handleModalVisible } = props;
@@ -59,35 +60,45 @@ const CreateForm = Form.create()(props => {
     >
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="名称">
         {form.getFieldDecorator('name', {
-          rules: [{ required: true, message: "请输入名称！" }],
+          rules: [{ required: true, message: '请输入名称！' }],
         })(<Input placeholder="名称" />)}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="类型">
         {form.getFieldDecorator('category_type', {
-            initialValue: '2',
-            rules: [{ required: true, message: '请选择类型！' }],
-          })(
-            <Select style={{ width: '100%' }} placeholder="类型">
-              <Option value="2">一级分类</Option>
-              <Option value="3">二级分类</Option>
-            </Select>
-          )}
+          initialValue: '2',
+          rules: [{ required: true, message: '请选择类型！' }],
+        })(
+          <Select style={{ width: '100%' }} placeholder="类型">
+            <Option value="2">一级分类</Option>
+            <Option value="3">二级分类</Option>
+          </Select>
+        )}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="图标链接">
         {form.getFieldDecorator('icon', {
           rules: [{ required: true, message: '请输入图标链接！' }],
         })(<Input placeholder="图标链接" />)}
       </FormItem>
-      { categoryData ? (
-        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="一级分类" style={{display: form.getFieldValue('category_type') === '3' ? 'block' : 'none'}}>
+      {categoryData ? (
+        <FormItem
+          labelCol={{ span: 5 }}
+          wrapperCol={{ span: 15 }}
+          label="一级分类"
+          style={{ display: form.getFieldValue('category_type') === '3' ? 'block' : 'none' }}
+        >
           {form.getFieldDecorator('parent_category', {
-              initialValue: categoryData[0] ? categoryData[0].id : '',
-              rules: [{ required: form.getFieldValue('category_type') === '3' ? true : false, message: '请选择一级分类！' }],
-            })(
-              <Select style={{ width: '100%' }} placeholder="一级分类">
-                {buildOptions(categoryData)}
-              </Select>
-            )}
+            initialValue: categoryData[0] ? categoryData[0].id : '',
+            rules: [
+              {
+                required: form.getFieldValue('category_type') === '3' ? true : false,
+                message: '请选择一级分类！',
+              },
+            ],
+          })(
+            <Select style={{ width: '100%' }} placeholder="一级分类">
+              {buildOptions(categoryData)}
+            </Select>
+          )}
         </FormItem>
       ) : null}
     </Modal>
@@ -140,12 +151,12 @@ class CategoryList extends PureComponent {
         icon: fields.icon,
         is_root: fields.category_type === '2' ? true : false,
         parent_category: fields.parent_category,
-      }
+      },
     }).then(() => {
       message.success('新增分类成功');
       this.handleModalVisible();
       this.props.dispatch({
-        type: 'category/fetch'
+        type: 'category/fetch',
       });
     });
   };
@@ -155,14 +166,14 @@ class CategoryList extends PureComponent {
     this.setState({
       currentSelected: info.selectedNodes[0].props.dataRef,
       editFormVisible: true,
-    })
+    });
     form.setFieldsValue({
       name: info.selectedNodes[0].props.dataRef.name,
       category_type: info.selectedNodes[0].props.dataRef.category_type,
       icon: info.selectedNodes[0].props.dataRef.icon,
       parent_category: info.selectedNodes[0].props.dataRef.parent_category,
     });
-  }
+  };
 
   handleSubmit = e => {
     const { dispatch, form } = this.props;
@@ -174,7 +185,7 @@ class CategoryList extends PureComponent {
         };
         if (params['category_type'] === '2') {
           params['is_root'] = true;
-        };
+        }
         dispatch({
           type: 'category/patch',
           payload: params,
@@ -182,26 +193,31 @@ class CategoryList extends PureComponent {
         }).then(() => {
           message.success('修改分类成功');
           dispatch({
-            type: 'category/fetch'
+            type: 'category/fetch',
           });
         });
       }
     });
   };
 
-  renderTreeNodes = data => data.map((item) => {
-    if (item && item.children) {
-      return (
-        <TreeNode title={item.title} key={item.key} dataRef={item}>
-          {this.renderTreeNodes(item.children)}
-        </TreeNode>
-      );
-    }
-    return <TreeNode {...item} dataRef={item} />;
-  })
+  renderTreeNodes = data =>
+    data.map(item => {
+      if (item && item.children) {
+        return (
+          <TreeNode title={item.title} key={item.key} dataRef={item}>
+            {this.renderTreeNodes(item.children)}
+          </TreeNode>
+        );
+      }
+      return <TreeNode {...item} dataRef={item} />;
+    });
 
   render() {
-    const { category: { data }, submitting, form } = this.props;
+    const {
+      category: { data },
+      submitting,
+      form,
+    } = this.props;
     const { modalVisible } = this.state;
 
     const parentMethods = {
@@ -217,7 +233,12 @@ class CategoryList extends PureComponent {
               <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
                 新增分类
               </Button>
-              <Button icon="retweet" type="primary" onClick={() => this.handleRefresh()} style={{ marginLeft: 10 }}>
+              <Button
+                icon="retweet"
+                type="primary"
+                onClick={() => this.handleRefresh()}
+                style={{ marginLeft: 10 }}
+              >
                 刷新
               </Button>
               <CreateForm {...parentMethods} modalVisible={modalVisible} categoryData={data} />
@@ -226,7 +247,7 @@ class CategoryList extends PureComponent {
           <Row gutter={{ md: 16, lg: 24, xl: 48 }} style={{ marginTop: 20 }}>
             <Col md={8} sm={24}>
               {/*<Search style={{ marginBottom: 8 }} placeholder="搜索" />*/}
-              { data ? (
+              {data ? (
                 <Tree
                   autoExpandParent={true}
                   defaultExpandAll={true}
@@ -237,45 +258,57 @@ class CategoryList extends PureComponent {
                 </Tree>
               ) : null}
             </Col>
-            <Col md={16} sm={24} style={{display: this.state.editFormVisible ? 'none' : 'block'}}>
+            <Col md={16} sm={24} style={{ display: this.state.editFormVisible ? 'none' : 'block' }}>
               <h3>请点击左侧分类名称进行编辑</h3>
             </Col>
-            <Col md={16} sm={24} style={{display: this.state.editFormVisible ? 'block' : 'none'}}>
+            <Col md={16} sm={24} style={{ display: this.state.editFormVisible ? 'block' : 'none' }}>
               <Form onSubmit={this.handleSubmit} style={{ marginTop: 8 }}>
                 <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="名称">
                   {form.getFieldDecorator('name', {
                     rules: [
                       {
                         required: true,
-                        message: "请输入名称！"
+                        message: '请输入名称！',
                       },
                     ],
                   })(<Input placeholder="名称" />)}
                 </FormItem>
                 <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="类型">
                   {form.getFieldDecorator('category_type', {
-                      rules: [{ required: true, message: '请选择类型！' }],
-                    })(
-                      <Select style={{ width: '100%' }} placeholder="类型">
-                        <Option value="2">一级分类</Option>
-                        <Option value="3">二级分类</Option>
-                      </Select>
-                    )}
+                    rules: [{ required: true, message: '请选择类型！' }],
+                  })(
+                    <Select style={{ width: '100%' }} placeholder="类型">
+                      <Option value="2">一级分类</Option>
+                      <Option value="3">二级分类</Option>
+                    </Select>
+                  )}
                 </FormItem>
                 <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="图标链接">
                   {form.getFieldDecorator('icon', {
                     rules: [{ required: true, message: '请输入图标链接！' }],
                   })(<Input placeholder="图标链接" />)}
                 </FormItem>
-                { data ? (
-                  <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="一级分类" style={{display: form.getFieldValue('category_type') === '3' ? 'block' : 'none'}}>
+                {data ? (
+                  <FormItem
+                    labelCol={{ span: 5 }}
+                    wrapperCol={{ span: 15 }}
+                    label="一级分类"
+                    style={{
+                      display: form.getFieldValue('category_type') === '3' ? 'block' : 'none',
+                    }}
+                  >
                     {form.getFieldDecorator('parent_category', {
-                        rules: [{ required: form.getFieldValue('category_type') === '3' ? true : false, message: '请选择一级分类！' }],
-                      })(
-                        <Select style={{ width: '100%' }} placeholder="一级分类">
-                          {buildOptions(data)}
-                        </Select>
-                      )}
+                      rules: [
+                        {
+                          required: form.getFieldValue('category_type') === '3' ? true : false,
+                          message: '请选择一级分类！',
+                        },
+                      ],
+                    })(
+                      <Select style={{ width: '100%' }} placeholder="一级分类">
+                        {buildOptions(data)}
+                      </Select>
+                    )}
                   </FormItem>
                 ) : null}
 

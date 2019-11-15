@@ -1,27 +1,24 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
-import {
-  Form,
-  Input,
-  InputNumber,
-  Select,
-  Modal,
-  message,
-} from 'antd';
+import { Form, Input, InputNumber, Select, Modal, message } from 'antd';
 
 const FormItem = Form.Item;
 const { Option } = Select;
 const { TextArea } = Input;
 
-const buildOptions = (optionData) => {
+const buildOptions = optionData => {
   if (optionData) {
     const arr = [];
     for (let i = 0; i < optionData.length; i++) {
-      arr.push(<Option name={optionData[i].combined_name} value={optionData[i].id} key={optionData[i].id}>{optionData[i].combined_name}</Option>)
+      arr.push(
+        <Option name={optionData[i].combined_name} value={optionData[i].id} key={optionData[i].id}>
+          {optionData[i].combined_name}
+        </Option>
+      );
     }
     return arr;
   }
-}
+};
 
 /* eslint react/no-multi-comp:0 */
 @connect(({ transaction, loading }) => ({
@@ -30,12 +27,9 @@ const buildOptions = (optionData) => {
 }))
 @Form.create()
 class TransactionPatchModal extends PureComponent {
-  state = {
-  };
+  state = {};
 
-  componentDidMount() {
-
-  }
+  componentDidMount() {}
 
   handleAdd = (fields, transactionID, mark) => {
     const { dispatch } = this.props;
@@ -70,11 +64,9 @@ class TransactionPatchModal extends PureComponent {
   };
 
   render() {
-    const {
-      currentTransaction, userAllAddress, patchModalVisible, form, mark,
-    } = this.props;
+    const { currentTransaction, userAllAddress, patchModalVisible, form, mark } = this.props;
 
-    const okHandle = (transactionID) => {
+    const okHandle = transactionID => {
       form.validateFields((err, fieldsValue) => {
         if (err) return;
         this.handleAdd(fieldsValue, transactionID, mark);
@@ -94,17 +86,21 @@ class TransactionPatchModal extends PureComponent {
       >
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="收货地址">
           {form.getFieldDecorator('address', {
-            initialValue: currentTransaction.address ? currentTransaction.address.id: '',
+            initialValue: currentTransaction.address ? currentTransaction.address.id : '',
             rules: [{ required: true, message: '请选择收货地址！' }],
-          })(<Select style={{ width: "100%" }} placeholder="收货地址">
+          })(
+            <Select style={{ width: '100%' }} placeholder="收货地址">
               {buildOptions(userAllAddress)}
-            </Select>)}
+            </Select>
+          )}
         </FormItem>
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="实付价格">
           {form.getFieldDecorator('paid', {
             initialValue: currentTransaction.paid,
             rules: [{ required: true, message: '请输入实付价格！' }],
-          })(<InputNumber min={0.01} step={0.01} style={{ width: '100%' }} placeholder="实付价格" />)}
+          })(
+            <InputNumber min={0.01} step={0.01} style={{ width: '100%' }} placeholder="实付价格" />
+          )}
         </FormItem>
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="卖家备注">
           {form.getFieldDecorator('seller_note', {

@@ -24,7 +24,6 @@ import styles from '../List/TableList.less';
 const FormItem = Form.Item;
 const { Option } = Select;
 
-
 const CreateForm = Form.create()(props => {
   const { modalVisible, allProductIds, form, handleAdd, handleModalVisible } = props;
   const okHandle = () => {
@@ -57,8 +56,13 @@ const CreateForm = Form.create()(props => {
         })(<Input placeholder="图片链接" />)}
       </FormItem>
 
-      { allProductIds ? (
-        <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="商品" style={{display: 'none'}}>
+      {allProductIds ? (
+        <Form.Item
+          labelCol={{ span: 5 }}
+          wrapperCol={{ span: 15 }}
+          label="商品"
+          style={{ display: 'none' }}
+        >
           {form.getFieldDecorator('product', {
             rules: [{ required: false, message: '请选择商品！' }],
           })(
@@ -96,7 +100,13 @@ class UpdateForm extends PureComponent {
   }
 
   render() {
-    const { updateModalVisible, allProductIds, form, handleUpdate, handleUpdateModalVisible } = this.props;
+    const {
+      updateModalVisible,
+      allProductIds,
+      form,
+      handleUpdate,
+      handleUpdateModalVisible,
+    } = this.props;
     const { modalFormVals } = this.state;
 
     const okHandle = () => {
@@ -139,8 +149,13 @@ class UpdateForm extends PureComponent {
           </CopyToClipboard>
         </FormItem>
 
-        { allProductIds ? (
-          <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="商品" style={{display: 'none'}}>
+        {allProductIds ? (
+          <Form.Item
+            labelCol={{ span: 5 }}
+            wrapperCol={{ span: 15 }}
+            label="商品"
+            style={{ display: 'none' }}
+          >
             {form.getFieldDecorator('product', {
               initialValue: modalFormVals.product,
               rules: [{ required: false, message: '请选择商品！' }],
@@ -182,7 +197,7 @@ class SplashList extends PureComponent {
     });
   }
 
-  handleStandardTableChange = (pagination) => {
+  handleStandardTableChange = pagination => {
     const { dispatch } = this.props;
     const { formValues } = this.state;
 
@@ -248,11 +263,11 @@ class SplashList extends PureComponent {
     };
     if (params['product'] === '无') {
       delete params['product'];
-    };
+    }
     dispatch({
       type: 'splash/create',
       payload: params,
-    }).then((data) => {
+    }).then(data => {
       message.success('新增开屏广告成功');
       this.handleModalVisible();
       this.props.dispatch({
@@ -262,14 +277,14 @@ class SplashList extends PureComponent {
     });
   };
 
-  handleUpdate = (fields) => {
+  handleUpdate = fields => {
     const { dispatch } = this.props;
     const params = {
       ...fields,
     };
     if (params['product'] === '无') {
       params['product'] = null;
-    };
+    }
     dispatch({
       type: 'splash/patch',
       payload: params,
@@ -284,7 +299,7 @@ class SplashList extends PureComponent {
     });
   };
 
-  handleConvert = (splashID) => {
+  handleConvert = splashID => {
     const { dispatch } = this.props;
     dispatch({
       type: 'splash/convert',
@@ -349,9 +364,9 @@ class SplashList extends PureComponent {
         dataIndex: 'status',
         render(val) {
           if (val === '1') {
-            return <Badge status='success' text='上线' />;
+            return <Badge status="success" text="上线" />;
           } else if (val === '2') {
-            return <Badge status='error' text='下线' />;
+            return <Badge status="error" text="下线" />;
           }
         },
       },
@@ -363,20 +378,31 @@ class SplashList extends PureComponent {
         title: '操作',
         render: (text, record) => (
           <Fragment>
-
-            { record.status_name === '下线' ? (
+            {record.status_name === '下线' ? (
               <a onClick={() => this.handleUpdateModalVisible(true, record)}>编辑</a>
-            ) : <a disabled onClick={() => this.handleUpdateModalVisible(true, record)}>编辑</a>}
+            ) : (
+              <a disabled onClick={() => this.handleUpdateModalVisible(true, record)}>
+                编辑
+              </a>
+            )}
 
             <Divider type="vertical" />
 
-            { record.status_name === '下线' ? (
-              <Popconfirm title="是否要上线此开屏广告？" onConfirm={() => this.handleConvert(record.id)}>
+            {record.status_name === '下线' ? (
+              <Popconfirm
+                title="是否要上线此开屏广告？"
+                onConfirm={() => this.handleConvert(record.id)}
+              >
                 <a>上线</a>
               </Popconfirm>
-            ) : <Popconfirm title="是否要上线此开屏广告？" onConfirm={() => this.handleConvert(record.id)}>
+            ) : (
+              <Popconfirm
+                title="是否要上线此开屏广告？"
+                onConfirm={() => this.handleConvert(record.id)}
+              >
                 <a disabled>上线</a>
-              </Popconfirm>}
+              </Popconfirm>
+            )}
           </Fragment>
         ),
       },

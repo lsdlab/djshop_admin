@@ -1,19 +1,10 @@
 import React, { Fragment } from 'react';
 import { connect } from 'dva';
-import { Form,
-         Input,
-         InputNumber,
-         Button,
-         Select,
-         Divider,
-         TreeSelect,
-         Icon,
-         Upload,
-} from 'antd';
+import { Form, Input, InputNumber, Button, Select, Divider, TreeSelect, Icon, Upload } from 'antd';
 import oss from 'ali-oss';
-import 'braft-editor/dist/index.css'
-import BraftEditor from 'braft-editor'
-import { ContentUtils } from 'braft-utils'
+import 'braft-editor/dist/index.css';
+import BraftEditor from 'braft-editor';
+import { ContentUtils } from 'braft-utils';
 import { Base64 } from 'js-base64';
 
 import router from 'umi/router';
@@ -33,28 +24,31 @@ const formItemLayout = {
   },
 };
 
-const client = (self) => {
+const client = self => {
   return new oss({
     accessKeyId: Base64.decode(defaultSettings.accessKeyId),
     accessKeySecret: Base64.decode(defaultSettings.accessKeySecret),
     region: defaultSettings.region,
     bucket: Base64.decode(defaultSettings.bucket),
   });
-}
+};
 
 const uploadPath = (path, file) => {
-  return `${path}/${file.name.split(".")[0]}-${file.uid}.${file.type.split("/")[1]}`
-}
+  return `${path}/${file.name.split('.')[0]}-${file.uid}.${file.type.split('/')[1]}`;
+};
 const UploadToOss = (self, path, file) => {
-  const url = uploadPath(path, file)
+  const url = uploadPath(path, file);
   return new Promise((resolve, reject) => {
-    client(self).put(url, file).then(data => {
-      resolve(data);
-    }).catch(error => {
-      reject(error)
-    })
-  })
-}
+    client(self)
+      .put(url, file)
+      .then(data => {
+        resolve(data);
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+};
 
 @connect(({ product, loading }) => ({
   product,
@@ -62,12 +56,15 @@ const UploadToOss = (self, path, file) => {
 }))
 @Form.create()
 class Step1 extends React.PureComponent {
-  state = {
-
-  };
+  state = {};
 
   componentDidMount() {
-    const { product: { newProduct }, dispatch, location, form } = this.props;
+    const {
+      product: { newProduct },
+      dispatch,
+      location,
+      form,
+    } = this.props;
     dispatch({
       type: 'product/fetchCategory',
     });
@@ -76,13 +73,13 @@ class Step1 extends React.PureComponent {
     if (location.state && newProduct) {
       setTimeout(() => {
         form.setFieldsValue({
-          content: BraftEditor.createEditorState(newProduct.content)
-        })
-      }, 1000)
+          content: BraftEditor.createEditorState(newProduct.content),
+        });
+      }, 1000);
     }
   }
 
-  beforeUpload = (file) => {
+  beforeUpload = file => {
     const isJPG = file.type === 'image/jpeg';
     const isPNG = file.type === 'image/png';
     if (!isJPG && !isPNG) {
@@ -92,50 +89,78 @@ class Step1 extends React.PureComponent {
     reader.readAsDataURL(file);
     reader.onloadend = () => {
       // 使用ossupload覆盖默认的上传方法
-      if (localStorage.getItem("currentMerchant") !== null) {
-        const merchantname = JSON.parse(localStorage.getItem("currentMerchant")).merchantname;
+      if (localStorage.getItem('currentMerchant') !== null) {
+        const merchantname = JSON.parse(localStorage.getItem('currentMerchant')).merchantname;
         UploadToOss(this, merchantname + '/' + 'product', file).then(data => {
           // 插入图片
           const { form } = this.props;
           const oldEditorValule = form.getFieldsValue()['content'];
           form.setFieldsValue({
-            content: ContentUtils.insertMedias(oldEditorValule, [{
-              type: 'IMAGE',
-              url: data.res.requestUrls,
-            }]),
+            content: ContentUtils.insertMedias(oldEditorValule, [
+              {
+                type: 'IMAGE',
+                url: data.res.requestUrls,
+              },
+            ]),
           });
-        })
+        });
       }
-    }
+    };
     return false;
-  }
+  };
 
   render() {
-    const { product: { categoryData, newProduct }, form, dispatch, submitting, location } = this.props;
+    const {
+      product: { categoryData, newProduct },
+      form,
+      dispatch,
+      submitting,
+      location,
+    } = this.props;
     const { getFieldDecorator, validateFields } = form;
 
-    const controls = ['undo', 'redo', 'separator',
-      'separator', 'bold', 'italic', 'underline', 'strike-through', 'separator',
-      'remove-styles',  'separator', 'text-indent', 'text-align', 'separator',
-      'headings', 'list-ul', 'list-ol', 'blockquote', 'code', 'hr', 'separator',
-      'link', 'separator']
+    const controls = [
+      'undo',
+      'redo',
+      'separator',
+      'separator',
+      'bold',
+      'italic',
+      'underline',
+      'strike-through',
+      'separator',
+      'remove-styles',
+      'separator',
+      'text-indent',
+      'text-align',
+      'separator',
+      'headings',
+      'list-ul',
+      'list-ol',
+      'blockquote',
+      'code',
+      'hr',
+      'separator',
+      'link',
+      'separator',
+    ];
     const extendControls = [
       {
         key: 'antd-uploader',
         type: 'component',
         component: (
-          <Upload
-            accept="image/*"
-            showUploadList={false}
-            beforeUpload={this.beforeUpload}
-          >
-            <button type="button" className="control-item button upload-button" data-title="插入图片">
+          <Upload accept="image/*" showUploadList={false} beforeUpload={this.beforeUpload}>
+            <button
+              type="button"
+              className="control-item button upload-button"
+              data-title="插入图片"
+            >
               <Icon type="picture" theme="filled" />
             </button>
           </Upload>
-        )
-      }
-    ]
+        ),
+      },
+    ];
 
     const onValidateForm = () => {
       validateFields((err, values) => {
@@ -161,7 +186,10 @@ class Step1 extends React.PureComponent {
               payload: values,
             });
           } else {
-            router.push({pathname: '/product/product-create-step-form/spec', state: {"productID": newProduct.id }});
+            router.push({
+              pathname: '/product/product-create-step-form/spec',
+              state: { productID: newProduct.id },
+            });
           }
         }
       });
@@ -169,9 +197,11 @@ class Step1 extends React.PureComponent {
 
     return (
       <Fragment>
-        <Form layout="horizontal" style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: 20, maxWidth: 740 }} >
-
-          { categoryData ? (
+        <Form
+          layout="horizontal"
+          style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: 20, maxWidth: 740 }}
+        >
+          {categoryData ? (
             <Form.Item {...formItemLayout} label="分类">
               {getFieldDecorator('category', {
                 initialValue: newProduct.category,
@@ -228,7 +258,9 @@ class Step1 extends React.PureComponent {
             {getFieldDecorator('limit', {
               initialValue: newProduct.limit,
               rules: [{ required: true, message: '请输入限购数量！' }],
-            })(<InputNumber min={1} max={10} style={{ width: '100%' }} placeholder="商品限购数量"/>)}
+            })(
+              <InputNumber min={1} max={10} style={{ width: '100%' }} placeholder="商品限购数量" />
+            )}
           </FormItem>
 
           {/*<FormItem {...formItemLayout} label="是否开发票">
@@ -267,8 +299,13 @@ class Step1 extends React.PureComponent {
           <FormItem {...formItemLayout} label="轮播图链接">
             {getFieldDecorator('carousel', {
               initialValue: newProduct.carousel,
-              rules: [{ required: true, message: '请输入轮播图链接！'}],
-            })(<TextArea autosize={{ minRows: 5, maxRows: 8 }} placeholder="轮播图链接可填写多个，使用英文逗号 , 进行分隔" />)}
+              rules: [{ required: true, message: '请输入轮播图链接！' }],
+            })(
+              <TextArea
+                autosize={{ minRows: 5, maxRows: 8 }}
+                placeholder="轮播图链接可填写多个，使用英文逗号 , 进行分隔"
+              />
+            )}
           </FormItem>
           <FormItem {...formItemLayout} label="题图链接">
             {getFieldDecorator('header_image', {
@@ -285,13 +322,15 @@ class Step1 extends React.PureComponent {
           <FormItem {...formItemLayout} label="商品详情">
             {getFieldDecorator('content', {
               initialValue: newProduct.content,
-              rules: [{ required: true, message: '请输入商品详情！'}],
-            })(<BraftEditor
-                style={{ border: "1px solid #d9d9d9" }}
+              rules: [{ required: true, message: '请输入商品详情！' }],
+            })(
+              <BraftEditor
+                style={{ border: '1px solid #d9d9d9' }}
                 controls={controls}
                 extendControls={extendControls}
                 placeholder="请输入商品详情"
-              />)}
+              />
+            )}
           </FormItem>
 
           <Form.Item
@@ -313,9 +352,7 @@ class Step1 extends React.PureComponent {
         <div className={styles.desc}>
           <h3>商品信息填写说明</h3>
           <h4>轮播图</h4>
-          <p>
-            轮播图链接可填写多个，使用英文逗号 , 进行分隔
-          </p>
+          <p>轮播图链接可填写多个，使用英文逗号 , 进行分隔</p>
         </div>
       </Fragment>
     );

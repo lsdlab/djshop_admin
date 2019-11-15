@@ -1,22 +1,12 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
-import {
-  Row,
-  Col,
-  Card,
-  Button,
-  Badge,
-  Checkbox,
-  Avatar,
-} from 'antd';
+import { Row, Col, Card, Button, Badge, Checkbox, Avatar } from 'antd';
 import DescriptionList from '@/components/DescriptionList';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import styles from '../Profile/AdvancedProfile.less';
 
-
 const { Description } = DescriptionList;
 const ButtonGroup = Button.Group;
-
 
 const DescriptionItem = ({ title, content }) => (
   <div
@@ -58,7 +48,7 @@ const CheckboxItem = ({ title, status }) => (
     >
       {title}:
     </p>
-    <Checkbox disabled checked={status}></Checkbox>
+    <Checkbox disabled checked={status} />
   </div>
 );
 
@@ -67,8 +57,7 @@ const CheckboxItem = ({ title, status }) => (
   user,
 }))
 class UserDetail extends PureComponent {
-  state = {
-  };
+  state = {};
 
   componentDidMount() {
     const { location, dispatch } = this.props;
@@ -80,7 +69,7 @@ class UserDetail extends PureComponent {
       type: 'user/fetchDetail',
       userID: userID,
     });
-  };
+  }
 
   buildAction(currentRecord) {
     return (
@@ -99,8 +88,8 @@ class UserDetail extends PureComponent {
         </ButtonGroup>
         {/*<Button type="primary">主操作</Button>*/}
       </Fragment>
-    )
-  };
+    );
+  }
 
   buildExtra(currentRecord) {
     return (
@@ -108,9 +97,11 @@ class UserDetail extends PureComponent {
         <Col xs={24} sm={12}>
           <div className={styles.textSecondary}>是否超级用户</div>
           <div className={styles.heading}>
-            { currentRecord.is_superuser ? (
-              <Badge status='success' text='超级用户' />
-            ) : <Badge status='error' text='非超级用户' />}
+            {currentRecord.is_superuser ? (
+              <Badge status="success" text="超级用户" />
+            ) : (
+              <Badge status="error" text="非超级用户" />
+            )}
           </div>
         </Col>
         {currentRecord.profile ? (
@@ -118,9 +109,11 @@ class UserDetail extends PureComponent {
             <Col xs={24} sm={12}>
               <div className={styles.textSecondary}>是否会员</div>
               <div className={styles.heading}>
-                { currentRecord.profile.is_vip ? (
-                  <Badge status='success' text='会员' />
-                ) : <Badge status='error' text='非会员' />}
+                {currentRecord.profile.is_vip ? (
+                  <Badge status="success" text="会员" />
+                ) : (
+                  <Badge status="error" text="非会员" />
+                )}
               </div>
             </Col>
             <Col xs={24} sm={6} style={{ marginTop: 8 }}>
@@ -129,34 +122,46 @@ class UserDetail extends PureComponent {
             </Col>
             <Col xs={24} sm={6} style={{ marginTop: 8 }}>
               <div className={styles.textSecondary}>会员周期</div>
-              <div className={styles.heading}>{currentRecord.profile.vip_session ? currentRecord.profile.vip_session : '-'}</div>
+              <div className={styles.heading}>
+                {currentRecord.profile.vip_session ? currentRecord.profile.vip_session : '-'}
+              </div>
             </Col>
             <Col xs={24} sm={12} style={{ marginTop: 8 }}>
               <div className={styles.textSecondary}>会员过期时间</div>
-              <div className={styles.heading}>{currentRecord.profile.vip_expired_datetime ? currentRecord.profile.vip_expired_datetime : '-'}</div>
+              <div className={styles.heading}>
+                {currentRecord.profile.vip_expired_datetime
+                  ? currentRecord.profile.vip_expired_datetime
+                  : '-'}
+              </div>
             </Col>
           </div>
         ) : null}
       </Row>
-    )
-  };
+    );
+  }
 
   buildDescription(currentRecord) {
     return (
       <DescriptionList className={styles.headerList} size="small" col="2">
         <Description term="手机号">{currentRecord.mobile}</Description>
-        <Description term="用户名"><Avatar size="small" src={currentRecord.avatar} style={{ marginRight: 8 }} />
-                                {currentRecord.username}</Description>
+        <Description term="用户名">
+          <Avatar size="small" src={currentRecord.avatar} style={{ marginRight: 8 }} />
+          {currentRecord.username}
+        </Description>
         <Description term="邮箱">{currentRecord.email}</Description>
         <Description term="注册时间">{currentRecord.date_joined}</Description>
         <Description term="ID">{currentRecord.id}</Description>
-        <Description term="备注">{currentRecord.profile ? currentRecord.profile.note : '-'}</Description>
+        <Description term="备注">
+          {currentRecord.profile ? currentRecord.profile.note : '-'}
+        </Description>
       </DescriptionList>
-    )
-  };
+    );
+  }
 
   render() {
-    const { user: { currentRecord } } = this.props;
+    const {
+      user: { currentRecord },
+    } = this.props;
 
     return (
       <PageHeaderWrapper
@@ -165,17 +170,29 @@ class UserDetail extends PureComponent {
         content={currentRecord ? this.buildDescription(currentRecord) : null}
         extraContent={currentRecord ? this.buildExtra(currentRecord) : null}
       >
-        <Card title="用户资料" style={{ marginBottom: 24 }} bordered={false} >
+        <Card title="用户资料" style={{ marginBottom: 24 }} bordered={false}>
           {currentRecord.weixin_userinfo ? (
             <Row>
               <Col span={12}>
                 <DescriptionItem title="微信openid" content={currentRecord.weixin_openid} />
               </Col>
               <Col span={6}>
-                <DescriptionItem title="微信头像" content={<Avatar size="small" src={currentRecord.weixin_userinfo.avatarUrl} style={{ marginRight: 8 }} />} />
+                <DescriptionItem
+                  title="微信头像"
+                  content={
+                    <Avatar
+                      size="small"
+                      src={currentRecord.weixin_userinfo.avatarUrl}
+                      style={{ marginRight: 8 }}
+                    />
+                  }
+                />
               </Col>
               <Col span={6}>
-                <DescriptionItem title="微信昵称" content={currentRecord.weixin_userinfo.nickName} />
+                <DescriptionItem
+                  title="微信昵称"
+                  content={currentRecord.weixin_userinfo.nickName}
+                />
               </Col>
             </Row>
           ) : null}
@@ -200,7 +217,10 @@ class UserDetail extends PureComponent {
                 <DescriptionItem title="语言" content={currentRecord.weixin_userinfo.language} />
               </Col>
               <Col span={6}>
-                <DescriptionItem title="性别" content={currentRecord.weixin_userinfo.gender == '1' ? '男' : '女'} />
+                <DescriptionItem
+                  title="性别"
+                  content={currentRecord.weixin_userinfo.gender == '1' ? '男' : '女'}
+                />
               </Col>
             </Row>
           ) : null}

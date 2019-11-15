@@ -1,20 +1,20 @@
 import { routerRedux } from 'dva/router';
 import { message } from 'antd';
-import { queryCategory,
-         queryProducts,
-         fetchProduct,
-         createProduct,
-         patchProduct,
-         createProductSpec,
-         queryProductSpecs,
-         patchProductSpec,
-         fetchProductSpec,
-         queryRecommendations,
-         createRecommendation,
-         patchRecommendation,
-         fetchProductAllIds,
+import {
+  queryCategory,
+  queryProducts,
+  fetchProduct,
+  createProduct,
+  patchProduct,
+  createProductSpec,
+  queryProductSpecs,
+  patchProductSpec,
+  fetchProductSpec,
+  queryRecommendations,
+  createRecommendation,
+  patchRecommendation,
+  fetchProductAllIds,
 } from '@/services/api';
-
 
 export default {
   namespace: 'product',
@@ -39,8 +39,8 @@ export default {
   },
 
   effects: {
-    *fetchCategory({ }, { call, put }) {
-      const response = yield call(queryCategory, );
+    *fetchCategory({}, { call, put }) {
+      const response = yield call(queryCategory);
       yield put({
         type: 'saveCategory',
         payload: response,
@@ -66,12 +66,17 @@ export default {
         type: 'saveNew',
         payload: response,
       });
-      yield put(routerRedux.push({pathname: '/product/product-create-step-form/spec', state: {"productID": response.id }}));
+      yield put(
+        routerRedux.push({
+          pathname: '/product/product-create-step-form/spec',
+          state: { productID: response.id },
+        })
+      );
     },
     *patch({ payload, productID }, { call, put }) {
       yield call(patchProduct, payload, productID);
     },
-    *clearNewProduct({ }, { call, put }) {
+    *clearNewProduct({}, { call, put }) {
       yield put({
         type: 'clearNew',
       });
@@ -102,7 +107,7 @@ export default {
         payload: response,
       });
     },
-    *fetchRecProduct({ }, { call, put }) {
+    *fetchRecProduct({}, { call, put }) {
       const response = yield call(queryRecommendations);
       yield put({
         type: 'saveRec',

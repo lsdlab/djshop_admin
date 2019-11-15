@@ -9,7 +9,6 @@ import styles from '../../Forms/StepForm/style.less';
   product,
 }))
 class Step3 extends React.PureComponent {
-
   componentDidMount() {
     const { dispatch, location } = this.props;
 
@@ -22,16 +21,20 @@ class Step3 extends React.PureComponent {
   }
 
   render() {
-    const { product: { currentRecord } } = this.props;
+    const {
+      product: { currentRecord },
+    } = this.props;
 
     const onFinish = () => {
       router.push('/product/product-create-step-form/product');
     };
 
     const onFinishSpec = () => {
-      router.push({pathname: '/product/product-spec-create/' + currentRecord.id, state: {"productID": currentRecord.id }});
+      router.push({
+        pathname: '/product/product-spec-create/' + currentRecord.id,
+        state: { productID: currentRecord.id },
+      });
     };
-
 
     const information = (
       <div className={styles.information}>
@@ -73,8 +76,10 @@ class Step3 extends React.PureComponent {
           </Col>
           <Col xs={24} sm={16}>
             {currentRecord.status === '1' ? (
-              <Badge status='success' text='上架' />
-            ) : <Badge status='error' text='下架' />}
+              <Badge status="success" text="上架" />
+            ) : (
+              <Badge status="error" text="下架" />
+            )}
           </Col>
         </Row>
       </div>

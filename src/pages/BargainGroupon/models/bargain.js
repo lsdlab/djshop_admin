@@ -1,6 +1,5 @@
 import { queryBargains, queryBargainsLogs } from '@/services/api';
 
-
 export default {
   namespace: 'bargain',
 

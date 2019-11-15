@@ -1,9 +1,9 @@
-import { queryReplenishlogs,
-         createReplenishlogs,
-         fetchStockAllIds,
-         deleteReplenishlogs,
-} from '@/services/api'
-
+import {
+  queryReplenishlogs,
+  createReplenishlogs,
+  fetchStockAllIds,
+  deleteReplenishlogs,
+} from '@/services/api';
 
 export default {
   namespace: 'replenishlog',

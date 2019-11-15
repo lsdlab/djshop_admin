@@ -23,20 +23,23 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import styles from '../List/TableList.less';
 
-
 const FormItem = Form.Item;
 const { TextArea } = Input;
 const { Option } = Select;
 
-const buildOptions = (optionData) => {
+const buildOptions = optionData => {
   if (optionData) {
     const arr = [];
     for (let i = 0; i < optionData.length; i++) {
-      arr.push(<Option name={optionData[i].combined_name} value={optionData[i].id} key={optionData[i].id}>{optionData[i].combined_name}</Option>)
+      arr.push(
+        <Option name={optionData[i].combined_name} value={optionData[i].id} key={optionData[i].id}>
+          {optionData[i].combined_name}
+        </Option>
+      );
     }
     return arr;
   }
-}
+};
 
 @Form.create()
 class UpdateForm extends PureComponent {
@@ -60,7 +63,13 @@ class UpdateForm extends PureComponent {
   }
 
   render() {
-    const { updateModalVisible, userAllAddress, form, handleUpdate, handleUpdateModalVisible } = this.props;
+    const {
+      updateModalVisible,
+      userAllAddress,
+      form,
+      handleUpdate,
+      handleUpdateModalVisible,
+    } = this.props;
     const { modalFormVals } = this.state;
 
     const okHandle = () => {
@@ -82,7 +91,7 @@ class UpdateForm extends PureComponent {
         onCancel={() => handleUpdateModalVisible()}
       >
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="发票类型">
-        {form.getFieldDecorator('type', {
+          {form.getFieldDecorator('type', {
             initialValue: modalFormVals.type,
             rules: [{ required: true, message: '请选择发票类型！' }],
           })(
@@ -91,37 +100,47 @@ class UpdateForm extends PureComponent {
               <Option value="2">公司发票</Option>
             </Select>
           )}
-      </FormItem>
+        </FormItem>
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="抬头">
           {form.getFieldDecorator('title', {
             initialValue: modalFormVals.title,
-            rules: [{ required: true, message: "请输入抬头！" }],
+            rules: [{ required: true, message: '请输入抬头！' }],
           })(<Input placeholder="抬头" />)}
         </FormItem>
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="开票金额">
           {form.getFieldDecorator('price', {
             initialValue: modalFormVals.price,
-            rules: [{ required: true, message: "请输入开票金额！" }],
-          })(<InputNumber min={0.01} step={0.01} style={{ width: "100%" }} placeholder="开票金额" />)}
+            rules: [{ required: true, message: '请输入开票金额！' }],
+          })(
+            <InputNumber min={0.01} step={0.01} style={{ width: '100%' }} placeholder="开票金额" />
+          )}
         </FormItem>
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="税号">
           {form.getFieldDecorator('company_tax_sn', {
             initialValue: modalFormVals.company_tax_sn,
-            rules: [{ required: true, message: "请输入税号！" }],
+            rules: [{ required: true, message: '请输入税号！' }],
           })(<Input placeholder="税号" />)}
         </FormItem>
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="地址">
           {form.getFieldDecorator('address', {
-            initialValue: modalFormVals.address ? modalFormVals.address.name + '-' + modalFormVals.address.mobile + '-' + modalFormVals.address.address : '',
+            initialValue: modalFormVals.address
+              ? modalFormVals.address.name +
+                '-' +
+                modalFormVals.address.mobile +
+                '-' +
+                modalFormVals.address.address
+              : '',
             rules: [{ required: false, message: '请选择地址！' }],
-          })(<Select style={{ width: "100%" }} placeholder="地址">
+          })(
+            <Select style={{ width: '100%' }} placeholder="地址">
               {buildOptions(userAllAddress)}
-            </Select>)}
+            </Select>
+          )}
         </FormItem>
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="备注">
           {form.getFieldDecorator('note', {
             initialValue: modalFormVals.note,
-            rules: [{ required: false, message: "请输入备注！" }],
+            rules: [{ required: false, message: '请输入备注！' }],
           })(<TextArea autosize={{ minRows: 4, maxRows: 8 }} placeholder="备注" />)}
         </FormItem>
       </Modal>
@@ -163,24 +182,16 @@ class ViewForm extends PureComponent {
         onCancel={() => handleViewModalVisible()}
       >
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="姓名">
-          <span>
-            {modalFormVals.address ? modalFormVals.address.name : '' }
-          </span>
+          <span>{modalFormVals.address ? modalFormVals.address.name : ''}</span>
         </FormItem>
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="手机号">
-          <span>
-            {modalFormVals.address ? modalFormVals.address.mobile : '' }
-          </span>
+          <span>{modalFormVals.address ? modalFormVals.address.mobile : ''}</span>
         </FormItem>
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="地址">
-          <span>
-            {modalFormVals.address ? modalFormVals.address.address : '' }
-          </span>
+          <span>{modalFormVals.address ? modalFormVals.address.address : ''}</span>
         </FormItem>
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="备注">
-          <span>
-            {modalFormVals.note}
-          </span>
+          <span>{modalFormVals.note}</span>
         </FormItem>
       </Modal>
     );
@@ -209,11 +220,11 @@ class InvoiceList extends PureComponent {
     });
   }
 
-  routerPushDetail = (transactionID) => {
+  routerPushDetail = transactionID => {
     router.push('/transaction/transaction-detail/' + transactionID);
-  }
+  };
 
-  handleStandardTableChange = (pagination) => {
+  handleStandardTableChange = pagination => {
     const { dispatch } = this.props;
     const { formValues } = this.state;
 
@@ -289,7 +300,7 @@ class InvoiceList extends PureComponent {
     });
   };
 
-  handleUpdate = (fields) => {
+  handleUpdate = fields => {
     const { dispatch } = this.props;
     dispatch({
       type: 'invoice/patch',
@@ -305,38 +316,38 @@ class InvoiceList extends PureComponent {
     });
   };
 
-  issuedInvoice = (transactionID) => {
+  issuedInvoice = transactionID => {
     const { dispatch } = this.props;
     dispatch({
-        type: 'invoice/patch',
-        payload: {
-          issued: true,
-          issued_datetime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-        },
-        recProductID: recProductID,
-      }).then(() => {
-        message.success('开具发票成功！');
-        dispatch({
-          type: 'invoice/fetch',
-        });
+      type: 'invoice/patch',
+      payload: {
+        issued: true,
+        issued_datetime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+      },
+      recProductID: recProductID,
+    }).then(() => {
+      message.success('开具发票成功！');
+      dispatch({
+        type: 'invoice/fetch',
       });
+    });
   };
 
-  shippedInvoice = (transactionID) => {
+  shippedInvoice = transactionID => {
     const { dispatch } = this.props;
     dispatch({
-        type: 'invoice/patch',
-        payload: {
-          shipped: true,
-          shipped_datetime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-        },
-        recProductID: recProductID,
-      }).then(() => {
-        message.success('发出发票成功！');
-        dispatch({
-          type: 'invoice/fetch',
-        });
+      type: 'invoice/patch',
+      payload: {
+        shipped: true,
+        shipped_datetime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+      },
+      recProductID: recProductID,
+    }).then(() => {
+      message.success('发出发票成功！');
+      dispatch({
+        type: 'invoice/fetch',
       });
+    });
   };
 
   renderSimpleForm() {
@@ -347,9 +358,7 @@ class InvoiceList extends PureComponent {
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 6, lg: 24, xl: 48 }}>
           <Col md={6} sm={24}>
-            <FormItem label="sn">
-              {getFieldDecorator('sn')(<Input placeholder="sn" />)}
-            </FormItem>
+            <FormItem label="sn">{getFieldDecorator('sn')(<Input placeholder="sn" />)}</FormItem>
           </Col>
           <Col md={6} sm={24}>
             <FormItem label="搜索">
@@ -377,7 +386,6 @@ class InvoiceList extends PureComponent {
       loading,
     } = this.props;
     const { updateModalVisible, viewModalVisible, currentRecord } = this.state;
-
 
     const updateMethods = {
       handleUpdateModalVisible: this.handleUpdateModalVisible,
@@ -418,9 +426,9 @@ class InvoiceList extends PureComponent {
         dataIndex: 'issued',
         render(text, record, index) {
           if (text) {
-            return <Badge status='success' text='已开具' />;
+            return <Badge status="success" text="已开具" />;
           } else {
-            return <Badge status='error' text='未开具' />;
+            return <Badge status="error" text="未开具" />;
           }
         },
       },
@@ -429,9 +437,9 @@ class InvoiceList extends PureComponent {
         dataIndex: 'issued_datetime',
         render(text) {
           if (text) {
-            return text
+            return text;
           } else {
-            return "-"
+            return '-';
           }
         },
       },
@@ -440,9 +448,9 @@ class InvoiceList extends PureComponent {
         dataIndex: 'shipped',
         render(text, record, index) {
           if (text) {
-            return <Badge status='success' text='已发出' />;
+            return <Badge status="success" text="已发出" />;
           } else {
-            return <Badge status='error' text='未发出' />;
+            return <Badge status="error" text="未发出" />;
           }
         },
       },
@@ -451,9 +459,9 @@ class InvoiceList extends PureComponent {
         dataIndex: 'shipped_datetime',
         render(text) {
           if (text) {
-            return text
+            return text;
           } else {
-            return "-"
+            return '-';
           }
         },
       },
@@ -469,29 +477,38 @@ class InvoiceList extends PureComponent {
             <a onClick={() => this.routerPushDetail(record.transaction)}>订单</a>
             <Divider type="vertical" />
 
-            { record.picked ? (
-              <a disabled onClick={() => this.handleUpdateModalVisible(true, record)}>修改</a>
-            ) : <a onClick={() => this.handleUpdateModalVisible(true, record)}>修改</a>}
+            {record.picked ? (
+              <a disabled onClick={() => this.handleUpdateModalVisible(true, record)}>
+                修改
+              </a>
+            ) : (
+              <a onClick={() => this.handleUpdateModalVisible(true, record)}>修改</a>
+            )}
 
             <Divider type="vertical" />
             <a onClick={() => this.handleViewModalVisible(true, record)}>地址</a>
 
             <Divider type="vertical" />
 
-            { record.issued ? (
-              null
-            ) : <Popconfirm title="是否要确认已开具此订单发票？" onConfirm={() => this.issuedInvoice(record.id)}>
+            {record.issued ? null : (
+              <Popconfirm
+                title="是否要确认已开具此订单发票？"
+                onConfirm={() => this.issuedInvoice(record.id)}
+              >
                 <a>已开具</a>
-              </Popconfirm>}
+              </Popconfirm>
+            )}
 
             <Divider type="vertical" />
 
-            { record.shipped ? (
-              null
-            ) : <Popconfirm title="是否要确认已发出此订单发票？" onConfirm={() => this.shippedInvoice(record.id)}>
+            {record.shipped ? null : (
+              <Popconfirm
+                title="是否要确认已发出此订单发票？"
+                onConfirm={() => this.shippedInvoice(record.id)}
+              >
                 <a>已发出</a>
-              </Popconfirm>}
-
+              </Popconfirm>
+            )}
           </Fragment>
         ),
       },
@@ -513,11 +530,7 @@ class InvoiceList extends PureComponent {
           </div>
 
           {currentRecord && Object.keys(currentRecord).length ? (
-            <ViewForm
-              {...viewMethods}
-              viewModalVisible={viewModalVisible}
-              values={currentRecord}
-            />
+            <ViewForm {...viewMethods} viewModalVisible={viewModalVisible} values={currentRecord} />
           ) : null}
 
           {currentRecord && Object.keys(currentRecord).length ? (

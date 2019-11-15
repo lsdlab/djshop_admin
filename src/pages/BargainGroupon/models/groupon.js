@@ -1,6 +1,5 @@
 import { queryGroupons, queryGrouponsLogs } from '@/services/api';
 
-
 export default {
   namespace: 'groupon',
 

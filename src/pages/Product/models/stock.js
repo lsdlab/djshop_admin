@@ -1,8 +1,4 @@
-import { queryStocks,
-         createStocks,
-         deleteStocks
-} from '@/services/api'
-
+import { queryStocks, createStocks, deleteStocks } from '@/services/api';
 
 export default {
   namespace: 'stock',

@@ -1,9 +1,9 @@
-import { queryBargainsProduct,
-         createBargainsProduct,
-         patchBargainsProduct,
-         fetchProductSpecAllIds,
+import {
+  queryBargainsProduct,
+  createBargainsProduct,
+  patchBargainsProduct,
+  fetchProductSpecAllIds,
 } from '@/services/api';
-
 
 export default {
   namespace: 'bargain_product',
@@ -36,7 +36,7 @@ export default {
         type: 'saveProductSpecAllIds',
         payload: response,
       });
-    }
+    },
   },
 
   reducers: {

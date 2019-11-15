@@ -1,9 +1,9 @@
-import { querySeckillsProduct,
-         createSeckillsProduct,
-         patchSeckillsProduct,
-         fetchProductSpecAllIds,
+import {
+  querySeckillsProduct,
+  createSeckillsProduct,
+  patchSeckillsProduct,
+  fetchProductSpecAllIds,
 } from '@/services/api';
-
 
 export default {
   namespace: 'seckill_product',
@@ -36,7 +36,7 @@ export default {
         type: 'saveProductSpecAllIds',
         payload: response,
       });
-    }
+    },
   },
 
   reducers: {

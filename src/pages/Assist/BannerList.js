@@ -25,7 +25,6 @@ import styles from '../List/TableList.less';
 const FormItem = Form.Item;
 const { Option } = Select;
 
-
 const CreateForm = Form.create()(props => {
   const { modalVisible, allProductIds, form, handleAdd, handleModalVisible } = props;
   const okHandle = () => {
@@ -59,20 +58,20 @@ const CreateForm = Form.create()(props => {
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="显示顺序">
         {form.getFieldDecorator('display_order', {
           rules: [{ required: true, message: '请输入显示顺序！' }],
-        })(<InputNumber min={1} max={10} style={{ width: '100%' }} placeholder="显示顺序"/>)}
+        })(<InputNumber min={1} max={10} style={{ width: '100%' }} placeholder="显示顺序" />)}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="状态">
         {form.getFieldDecorator('status', {
-            rules: [{ required: true, message: '请选择状态！' }],
-          })(
-            <Select style={{ width: '100%' }}>
-              <Option value="1">上线</Option>
-              <Option value="2">下线</Option>
-            </Select>
-          )}
+          rules: [{ required: true, message: '请选择状态！' }],
+        })(
+          <Select style={{ width: '100%' }}>
+            <Option value="1">上线</Option>
+            <Option value="2">下线</Option>
+          </Select>
+        )}
       </FormItem>
 
-      { allProductIds ? (
+      {allProductIds ? (
         <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="商品">
           {form.getFieldDecorator('product', {
             rules: [{ required: false, message: '请选择商品！' }],
@@ -87,7 +86,6 @@ const CreateForm = Form.create()(props => {
           )}
         </Form.Item>
       ) : null}
-
     </Modal>
   );
 });
@@ -114,7 +112,13 @@ class UpdateForm extends PureComponent {
   }
 
   render() {
-    const { updateModalVisible, allProductIds, form, handleUpdate, handleUpdateModalVisible } = this.props;
+    const {
+      updateModalVisible,
+      allProductIds,
+      form,
+      handleUpdate,
+      handleUpdateModalVisible,
+    } = this.props;
     const { modalFormVals } = this.state;
 
     const okHandle = () => {
@@ -160,10 +164,10 @@ class UpdateForm extends PureComponent {
           {form.getFieldDecorator('display_order', {
             initialValue: modalFormVals.display_order,
             rules: [{ required: true, message: '请输入显示顺序！' }],
-          })(<InputNumber min={1} max={10} style={{ width: '100%' }} placeholder="显示顺序"/>)}
+          })(<InputNumber min={1} max={10} style={{ width: '100%' }} placeholder="显示顺序" />)}
         </FormItem>
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="状态">
-        {form.getFieldDecorator('status', {
+          {form.getFieldDecorator('status', {
             initialValue: modalFormVals.status,
             rules: [{ required: true, message: '请选择状态！' }],
           })(
@@ -172,25 +176,24 @@ class UpdateForm extends PureComponent {
               <Option value="2">下线</Option>
             </Select>
           )}
-      </FormItem>
+        </FormItem>
 
-      { allProductIds ? (
-        <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="商品">
-          {form.getFieldDecorator('product', {
-            initialValue: modalFormVals.product,
-            rules: [{ required: false, message: '请选择商品！' }],
-          })(
-            <TreeSelect
-              style={{ width: '100%' }}
-              treeData={allProductIds}
-              placeholder="商品"
-              treeDefaultExpandAll={true}
-              showSearch={true}
-            />
-          )}
-        </Form.Item>
-      ) : null}
-
+        {allProductIds ? (
+          <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="商品">
+            {form.getFieldDecorator('product', {
+              initialValue: modalFormVals.product,
+              rules: [{ required: false, message: '请选择商品！' }],
+            })(
+              <TreeSelect
+                style={{ width: '100%' }}
+                treeData={allProductIds}
+                placeholder="商品"
+                treeDefaultExpandAll={true}
+                showSearch={true}
+              />
+            )}
+          </Form.Item>
+        ) : null}
       </Modal>
     );
   }
@@ -218,7 +221,7 @@ class BannerList extends PureComponent {
     });
   }
 
-  handleStandardTableChange = (pagination) => {
+  handleStandardTableChange = pagination => {
     const { dispatch } = this.props;
     const { formValues } = this.state;
 
@@ -284,11 +287,11 @@ class BannerList extends PureComponent {
     };
     if (params['product'] === '无') {
       delete params['product'];
-    };
+    }
     dispatch({
       type: 'banner/create',
       payload: params,
-    }).then((data) => {
+    }).then(data => {
       message.success('新增成功');
       this.handleModalVisible();
       this.props.dispatch({
@@ -298,14 +301,14 @@ class BannerList extends PureComponent {
     });
   };
 
-  handleUpdate = (fields) => {
+  handleUpdate = fields => {
     const { dispatch } = this.props;
     const params = {
       ...fields,
     };
     if (params['product'] === '无') {
       params['product'] = null;
-    };
+    }
     dispatch({
       type: 'banner/patch',
       payload: params,
@@ -320,7 +323,7 @@ class BannerList extends PureComponent {
     });
   };
 
-  handleDeleted = (bannerID) => {
+  handleDeleted = bannerID => {
     const { dispatch } = this.props;
     dispatch({
       type: 'banner/delete',
@@ -334,7 +337,7 @@ class BannerList extends PureComponent {
     });
   };
 
-  handleConvertUp = (bannerID) => {
+  handleConvertUp = bannerID => {
     const { dispatch } = this.props;
     dispatch({
       type: 'banner/patch',
@@ -351,7 +354,7 @@ class BannerList extends PureComponent {
     });
   };
 
-  handleConvertDown = (bannerID) => {
+  handleConvertDown = bannerID => {
     const { dispatch } = this.props;
     dispatch({
       type: 'banner/patch',
@@ -420,9 +423,9 @@ class BannerList extends PureComponent {
         dataIndex: 'status',
         render(val) {
           if (val === '1') {
-            return <Badge status='success' text='上线' />;
+            return <Badge status="success" text="上线" />;
           } else if (val === '2') {
-            return <Badge status='error' text='下线' />;
+            return <Badge status="error" text="下线" />;
           }
         },
       },
@@ -436,21 +439,37 @@ class BannerList extends PureComponent {
           <Fragment>
             <a onClick={() => this.handleUpdateModalVisible(true, record)}>编辑</a>
             <Divider type="vertical" />
-            { record.status_name === '上线' ? (
-              <Popconfirm title="是否要下线此轮播图？" onConfirm={() => this.handleConvertDown(record.id)}>
+            {record.status_name === '上线' ? (
+              <Popconfirm
+                title="是否要下线此轮播图？"
+                onConfirm={() => this.handleConvertDown(record.id)}
+              >
                 <a>下线</a>
               </Popconfirm>
-            ) : <Popconfirm title="是否要上线此轮播图？" onConfirm={() => this.handleConvertUp(record.id)}>
+            ) : (
+              <Popconfirm
+                title="是否要上线此轮播图？"
+                onConfirm={() => this.handleConvertUp(record.id)}
+              >
                 <a>上线</a>
-              </Popconfirm>}
+              </Popconfirm>
+            )}
             <Divider type="vertical" />
-            { record.status_name === '上线' ? (
-              <Popconfirm title="是否要删除此轮播图？" onConfirm={() => this.handleDeleted(record.id)}>
+            {record.status_name === '上线' ? (
+              <Popconfirm
+                title="是否要删除此轮播图？"
+                onConfirm={() => this.handleDeleted(record.id)}
+              >
                 <a disabled>删除</a>
               </Popconfirm>
-            ) : <Popconfirm title="是否要删除此轮播图？" onConfirm={() => this.handleDeleted(record.id)}>
-                  <a>删除</a>
-                </Popconfirm>}
+            ) : (
+              <Popconfirm
+                title="是否要删除此轮播图？"
+                onConfirm={() => this.handleDeleted(record.id)}
+              >
+                <a>删除</a>
+              </Popconfirm>
+            )}
           </Fragment>
         ),
       },
@@ -461,11 +480,7 @@ class BannerList extends PureComponent {
         <Card bordered={false}>
           <div className={styles.tableList}>
             <div className={styles.tableListForm}>{this.renderSimpleForm()}</div>
-            <SimpleNonPaginationTable
-              loading={loading}
-              data={data}
-              columns={columns}
-            />
+            <SimpleNonPaginationTable loading={loading} data={data} columns={columns} />
           </div>
         </Card>
 

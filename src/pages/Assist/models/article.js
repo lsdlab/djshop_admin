@@ -1,10 +1,10 @@
-import { queryArticles,
-         createArticle,
-         patchArticle,
-         fetchArticle,
-         fetchProductAllIds,
-} from '@/services/api'
-
+import {
+  queryArticles,
+  createArticle,
+  patchArticle,
+  fetchArticle,
+  fetchProductAllIds,
+} from '@/services/api';
 
 export default {
   namespace: 'article',

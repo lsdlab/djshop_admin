@@ -3,8 +3,6 @@ import request from '@/utils/request';
 import router from 'umi/router';
 // const axios = require('axios');
 import defaultSettings from '../defaultSettings';
-import analysis from '@/locales/en-US/analysis';
-
 
 export async function queryProjectNotice() {
   return request('/api/project/notice');
@@ -130,10 +128,8 @@ export async function getFakeCaptcha(mobile) {
   return request(`/api/captcha?mobile=${mobile}`);
 }
 
-
 const apiHost = defaultSettings.apiHost;
 const apiVersion = '/api/v1';
-
 
 // function refreshToken(oldToken) {
 //   axios.post(`${apiHost}${apiVersion}/jwt/token-refresh/`, {
@@ -146,11 +142,10 @@ const apiVersion = '/api/v1';
 //   })
 // }
 
-
 function getToken() {
-  var token = ''
-  if (localStorage.getItem("token") !== null) {
-    if (localStorage.getItem('now') + (1 * 24 * 60 * 60 * 1000) < new Date().getTime()) {
+  var token = '';
+  if (localStorage.getItem('token') !== null) {
+    if (localStorage.getItem('now') + 1 * 24 * 60 * 60 * 1000 < new Date().getTime()) {
       // token 过期 重新登录
       localStorage.clear();
       router.push('/user/login');
@@ -158,9 +153,9 @@ function getToken() {
       // token = refreshToken(localStorage.getItem('token'));
     } else {
       // token 未过期
-      token = localStorage.getItem("token");
+      token = localStorage.getItem('token');
     }
-    return token
+    return token;
   }
 }
 
@@ -180,7 +175,7 @@ export async function fetchCurrent() {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -191,7 +186,7 @@ export async function fetchActivityStream() {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -202,7 +197,7 @@ export async function fetchCurrentMerchant(merchantID) {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -213,7 +208,7 @@ export async function queryArticles(params) {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -225,7 +220,7 @@ export async function createArticle(params) {
     body: params,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -237,7 +232,7 @@ export async function patchArticle(params, aritcleID) {
     body: params,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -248,7 +243,7 @@ export async function fetchArticle(aritcleID) {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -260,7 +255,7 @@ export async function querySplash(params) {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -273,7 +268,7 @@ export async function createSplash(params) {
     body: params,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -286,7 +281,7 @@ export async function patchSplash(params, splashID) {
     body: params,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -298,7 +293,7 @@ export async function deleteSplash(splashID) {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -311,7 +306,7 @@ export async function convertSplash(params, splashID) {
     body: params,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -323,7 +318,7 @@ export async function queryBanner(params) {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -336,7 +331,7 @@ export async function createBanner(params) {
     body: params,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -349,7 +344,7 @@ export async function patchBanner(params, bannerID) {
     body: params,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -361,7 +356,7 @@ export async function deleteBanner(bannerID) {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -373,7 +368,7 @@ export async function queryNotice(params) {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -386,7 +381,7 @@ export async function createNotice(params) {
     body: params,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -398,7 +393,7 @@ export async function deleteNotice(noticesID) {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -410,7 +405,7 @@ export async function queryReplenishlogs(params) {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -423,7 +418,7 @@ export async function createReplenishlogs(params) {
     body: params,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -435,7 +430,7 @@ export async function deleteReplenishlogs(replenishlogID) {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -447,7 +442,7 @@ export async function fetchStockAllIds() {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -459,7 +454,7 @@ export async function queryStocks(params) {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -472,7 +467,7 @@ export async function createStocks(params) {
     body: params,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -484,11 +479,10 @@ export async function deleteStocks(stockID) {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
-
 
 // 分类列表
 export async function queryCategory() {
@@ -497,7 +491,7 @@ export async function queryCategory() {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -510,7 +504,7 @@ export async function createCategory(params) {
     body: params,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -523,7 +517,7 @@ export async function patchCategory(params, categoryID) {
     body: params,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -536,7 +530,7 @@ export async function createProduct(params) {
     body: params,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -549,7 +543,7 @@ export async function createProductSpec(params, productID) {
     body: params,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -562,7 +556,7 @@ export async function patchProductSpec(params, productSpecID) {
     body: params,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -574,7 +568,7 @@ export async function fetchProductSpec(productSpecID) {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -586,7 +580,7 @@ export async function queryProducts(params) {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -598,7 +592,7 @@ export async function fetchProduct(productID) {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -611,7 +605,7 @@ export async function patchProduct(params, productID) {
     body: params,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -623,11 +617,10 @@ export async function queryProductSpecs(productID) {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
-
 
 // 获取商品评价列表
 export async function queryProductReviews(params, productID) {
@@ -636,7 +629,7 @@ export async function queryProductReviews(params, productID) {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -648,7 +641,7 @@ export async function queryRecommendations(params) {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -661,7 +654,7 @@ export async function createRecommendation(params) {
     body: params,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -674,7 +667,7 @@ export async function patchRecommendation(params, recProductID) {
     body: params,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -686,7 +679,7 @@ export async function fetchProductAllIds(params) {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -698,7 +691,7 @@ export async function fetchProductSpecAllIds() {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -710,7 +703,7 @@ export async function queryBargainsProduct(params) {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -723,7 +716,7 @@ export async function createBargainsProduct(params) {
     body: params,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -736,7 +729,7 @@ export async function patchBargainsProduct(params, bargainProductSpecID) {
     body: params,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -748,7 +741,7 @@ export async function queryBargains(params) {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -760,7 +753,7 @@ export async function queryBargainsLogs(bargainID) {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -772,7 +765,7 @@ export async function queryGrouponsProduct(params) {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -785,7 +778,7 @@ export async function createGrouponsProduct(params) {
     body: params,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -798,7 +791,7 @@ export async function patchGrouponsProduct(params, grouponProductSpecID) {
     body: params,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -810,7 +803,7 @@ export async function queryGroupons(params) {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -822,7 +815,7 @@ export async function queryGrouponsLogs(grouponID) {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -834,7 +827,7 @@ export async function querySeckillsProduct(params) {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -847,7 +840,7 @@ export async function createSeckillsProduct(params) {
     body: params,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -860,7 +853,7 @@ export async function patchSeckillsProduct(params, grouponProductSpecID) {
     body: params,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -873,7 +866,7 @@ export async function createSeckills(params) {
     body: params,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -885,7 +878,7 @@ export async function querySeckills(params) {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -897,11 +890,10 @@ export async function querySeckillsLogs(grouponID) {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
-
 
 // 获取优惠卷
 export async function queryCoupons(params) {
@@ -910,7 +902,7 @@ export async function queryCoupons(params) {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -923,7 +915,7 @@ export async function createCoupon(params) {
     body: params,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -936,7 +928,7 @@ export async function patchCoupon(params, couponID) {
     body: params,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -948,7 +940,7 @@ export async function queryCouponsLogs(couponID) {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -960,7 +952,7 @@ export async function queryTransactions(params) {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -972,7 +964,7 @@ export async function fetchTransaction(transactionID) {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -985,7 +977,7 @@ export async function patchTransaction(params, transactionID) {
     body: params,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -998,7 +990,7 @@ export async function manualCloseTransaction(transactionID) {
     body: params,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -1011,7 +1003,7 @@ export async function receivePackageTransaction(transactionID) {
     body: params,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -1024,7 +1016,7 @@ export async function createExpress(params) {
     body: params,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -1036,7 +1028,7 @@ export async function queryUserAllAddress(userID) {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -1048,7 +1040,7 @@ export async function queryUsers(params) {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -1060,7 +1052,7 @@ export async function fetchUser(userID) {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -1073,7 +1065,7 @@ export async function patchUser(params, userID) {
     body: params,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -1086,7 +1078,7 @@ export async function patchProfile(params, userID) {
     body: params,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -1098,11 +1090,10 @@ export async function deleteUser(userID) {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
-
 
 // 获取自提列表
 export async function queryCollects(params) {
@@ -1111,7 +1102,7 @@ export async function queryCollects(params) {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -1124,7 +1115,7 @@ export async function patchCollect(params, transactionID) {
     body: params,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -1136,7 +1127,7 @@ export async function confirmCollectPickup(transactionID) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -1148,11 +1139,10 @@ export async function queryStores(params) {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
-
 
 // 获取所有门店 id name
 export async function fetchStoreAllIds() {
@@ -1161,7 +1151,7 @@ export async function fetchStoreAllIds() {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -1173,7 +1163,7 @@ export async function queryRefunds(params) {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -1186,7 +1176,7 @@ export async function patchRefund(params, transactionID) {
     body: params,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -1199,7 +1189,7 @@ export async function auditRefund(params, transactionID) {
     body: params,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -1211,7 +1201,7 @@ export async function withdrawRefund(transactionID) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -1223,7 +1213,7 @@ export async function queryInvoices(params) {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }
@@ -1236,7 +1226,7 @@ export async function patchInvoice(params, transactionID) {
     body: params,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `JWT ${token}`,
+      Authorization: `JWT ${token}`,
     },
   });
 }

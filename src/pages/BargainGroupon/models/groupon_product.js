@@ -1,9 +1,9 @@
-import { queryGrouponsProduct,
-         createGrouponsProduct,
-         patchGrouponsProduct,
-         fetchProductSpecAllIds,
+import {
+  queryGrouponsProduct,
+  createGrouponsProduct,
+  patchGrouponsProduct,
+  fetchProductSpecAllIds,
 } from '@/services/api';
-
 
 export default {
   namespace: 'groupon_product',
@@ -36,7 +36,7 @@ export default {
         type: 'saveProductSpecAllIds',
         payload: response,
       });
-    }
+    },
   },
 
   reducers: {

@@ -1,10 +1,10 @@
-import { querySplash,
-         createSplash,
-         patchSplash,
-         convertSplash,
-         fetchProductAllIds,
-} from '@/services/api'
-
+import {
+  querySplash,
+  createSplash,
+  patchSplash,
+  convertSplash,
+  fetchProductAllIds,
+} from '@/services/api';
 
 export default {
   namespace: 'splash',

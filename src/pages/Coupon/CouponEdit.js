@@ -2,40 +2,38 @@ import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
 import moment from 'moment';
 import {
-  Row,
-  Col,
   Card,
   Form,
-  Icon,
   Button,
   Input,
   Select,
   InputNumber,
   DatePicker,
   message,
-  Tooltip,
   TreeSelect,
 } from 'antd';
 import router from 'umi/router';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
-
 const FormItem = Form.Item;
 const { TextArea } = Input;
 const { Option } = Select;
 const { RangePicker } = DatePicker;
-const timeFormat= "YYYY-MM-DD HH:mm:ss";
+const timeFormat = 'YYYY-MM-DD HH:mm:ss';
 
-const buildOptions = (optionData) => {
+const buildOptions = optionData => {
   if (optionData) {
     const arr = [];
     for (let i = 0; i < optionData.length; i++) {
-      arr.push(<Option name={optionData[i].combined_name} value={optionData[i].id} key={optionData[i].id}>{optionData[i].combined_name}</Option>)
+      arr.push(
+        <Option name={optionData[i].combined_name} value={optionData[i].id} key={optionData[i].id}>
+          {optionData[i].combined_name}
+        </Option>
+      );
     }
     return arr;
   }
-}
-
+};
 
 /* eslint react/no-multi-comp:0 */
 @connect(({ coupon, loading }) => ({
@@ -83,7 +81,12 @@ class CouponEdit extends PureComponent {
   };
 
   render() {
-    const { coupon: { categoryData, allProductIds }, form, submitting, location } = this.props;
+    const {
+      coupon: { categoryData, allProductIds },
+      form,
+      submitting,
+      location,
+    } = this.props;
     const { getFieldDecorator } = form;
 
     const currentRecord = location.state.currentRecord;
@@ -108,7 +111,7 @@ class CouponEdit extends PureComponent {
     };
 
     return (
-      <PageHeaderWrapper title='编辑优惠卷'>
+      <PageHeaderWrapper title="编辑优惠卷">
         <Card bordered={false}>
           <Form layout="horizontal" onSubmit={this.handleSubmit} style={{ marginTop: 8 }}>
             <FormItem {...formItemLayout} label="ID">
@@ -130,11 +133,20 @@ class CouponEdit extends PureComponent {
               )}
             </Form.Item>
 
-            <FormItem {...formItemLayout} label="所需积分" style={{display: form.getFieldValue('type') === '2' ? 'block' : 'none'}}>
+            <FormItem
+              {...formItemLayout}
+              label="所需积分"
+              style={{ display: form.getFieldValue('type') === '2' ? 'block' : 'none' }}
+            >
               {getFieldDecorator('points', {
                 initialValue: currentRecord.points,
-                rules: [{ required: form.getFieldValue('type') === '2' ? true : false, message: '请输入所需积分' }],
-              })(<InputNumber min={1} step={1} style={{ width: '100%' }} placeholder="所需积分"/>)}
+                rules: [
+                  {
+                    required: form.getFieldValue('type') === '2' ? true : false,
+                    message: '请输入所需积分',
+                  },
+                ],
+              })(<InputNumber min={1} step={1} style={{ width: '100%' }} placeholder="所需积分" />)}
             </FormItem>
 
             <Form.Item {...formItemLayout} label="内部类型">
@@ -153,11 +165,30 @@ class CouponEdit extends PureComponent {
               )}
             </Form.Item>
 
-            { categoryData ? (
-              <Form.Item {...formItemLayout} label="分类" style={{display: form.getFieldValue('internal_type') === '2' || form.getFieldValue('internal_type') === '5' ? 'block' : 'none'}}>
+            {categoryData ? (
+              <Form.Item
+                {...formItemLayout}
+                label="分类"
+                style={{
+                  display:
+                    form.getFieldValue('internal_type') === '2' ||
+                    form.getFieldValue('internal_type') === '5'
+                      ? 'block'
+                      : 'none',
+                }}
+              >
                 {getFieldDecorator('category', {
                   initialValue: currentRecord.category,
-                  rules: [{ required: form.getFieldValue('internal_type') === '2' || form.getFieldValue('internal_type') === '5' ? true : false, message: '请选择分类！' }],
+                  rules: [
+                    {
+                      required:
+                        form.getFieldValue('internal_type') === '2' ||
+                        form.getFieldValue('internal_type') === '5'
+                          ? true
+                          : false,
+                      message: '请选择分类！',
+                    },
+                  ],
                 })(
                   <TreeSelect
                     style={{ width: '100%' }}
@@ -170,10 +201,29 @@ class CouponEdit extends PureComponent {
               </Form.Item>
             ) : null}
 
-            { allProductIds ? (
-              <Form.Item {...formItemLayout} label="商品" style={{display: form.getFieldValue('internal_type') === '3' || form.getFieldValue('internal_type') === '6' ? 'block' : 'none'}}>
+            {allProductIds ? (
+              <Form.Item
+                {...formItemLayout}
+                label="商品"
+                style={{
+                  display:
+                    form.getFieldValue('internal_type') === '3' ||
+                    form.getFieldValue('internal_type') === '6'
+                      ? 'block'
+                      : 'none',
+                }}
+              >
                 {form.getFieldDecorator('product', {
-                  rules: [{ required: form.getFieldValue('internal_type') === '3' || form.getFieldValue('internal_type') === '6' ? true : false, message: '请选择商品！' }],
+                  rules: [
+                    {
+                      required:
+                        form.getFieldValue('internal_type') === '3' ||
+                        form.getFieldValue('internal_type') === '6'
+                          ? true
+                          : false,
+                      message: '请选择商品！',
+                    },
+                  ],
                 })(
                   <TreeSelect
                     style={{ width: '100%' }}
@@ -186,25 +236,88 @@ class CouponEdit extends PureComponent {
               </Form.Item>
             ) : null}
 
-            <FormItem {...formItemLayout} label="达到价格" style={{display: form.getFieldValue('internal_type') === '1' || form.getFieldValue('internal_type') === '2' || form.getFieldValue('internal_type') === '3' ? 'block' : 'none'}}>
+            <FormItem
+              {...formItemLayout}
+              label="达到价格"
+              style={{
+                display:
+                  form.getFieldValue('internal_type') === '1' ||
+                  form.getFieldValue('internal_type') === '2' ||
+                  form.getFieldValue('internal_type') === '3'
+                    ? 'block'
+                    : 'none',
+              }}
+            >
               {getFieldDecorator('reach_price', {
                 initialValue: currentRecord.reach_price,
-                rules: [{ required: form.getFieldValue('internal_type') === '1' || form.getFieldValue('internal_type') === '2' || form.getFieldValue('internal_type') === '3' ? true : false, message: '请输入达到价格！' }],
-              })(<InputNumber min={0.01} step={0.01} style={{ width: '100%' }} placeholder="达到价格"/>)}
+                rules: [
+                  {
+                    required:
+                      form.getFieldValue('internal_type') === '1' ||
+                      form.getFieldValue('internal_type') === '2' ||
+                      form.getFieldValue('internal_type') === '3'
+                        ? true
+                        : false,
+                    message: '请输入达到价格！',
+                  },
+                ],
+              })(
+                <InputNumber
+                  min={0.01}
+                  step={0.01}
+                  style={{ width: '100%' }}
+                  placeholder="达到价格"
+                />
+              )}
             </FormItem>
 
-            <FormItem {...formItemLayout} label="达到件数" style={{display: form.getFieldValue('internal_type') === '4' || form.getFieldValue('internal_type') === '5' || form.getFieldValue('internal_type') === '6' ? 'block' : 'none'}}>
+            <FormItem
+              {...formItemLayout}
+              label="达到件数"
+              style={{
+                display:
+                  form.getFieldValue('internal_type') === '4' ||
+                  form.getFieldValue('internal_type') === '5' ||
+                  form.getFieldValue('internal_type') === '6'
+                    ? 'block'
+                    : 'none',
+              }}
+            >
               {getFieldDecorator('reach_unit', {
                 initialValue: currentRecord.reach_unit,
-                rules: [{ required: form.getFieldValue('internal_type') === '4' || form.getFieldValue('internal_type') === '5' || form.getFieldValue('internal_type') === '6' ? true : false, message: '请输入达到件数！' }],
-              })(<InputNumber min={1} max={10} style={{ width: '100%' }} placeholder="商品达到件数"/>)}
+                rules: [
+                  {
+                    required:
+                      form.getFieldValue('internal_type') === '4' ||
+                      form.getFieldValue('internal_type') === '5' ||
+                      form.getFieldValue('internal_type') === '6'
+                        ? true
+                        : false,
+                    message: '请输入达到件数！',
+                  },
+                ],
+              })(
+                <InputNumber
+                  min={1}
+                  max={10}
+                  style={{ width: '100%' }}
+                  placeholder="商品达到件数"
+                />
+              )}
             </FormItem>
 
             <FormItem {...formItemLayout} label="折扣价格">
               {getFieldDecorator('discount_price', {
                 initialValue: currentRecord.discount_price,
                 rules: [{ required: true, message: '请输入折扣价格！' }],
-              })(<InputNumber min={0.01} step={0.01} style={{ width: '100%' }} placeholder="折扣价格"/>)}
+              })(
+                <InputNumber
+                  min={0.01}
+                  step={0.01}
+                  style={{ width: '100%' }}
+                  placeholder="折扣价格"
+                />
+              )}
             </FormItem>
 
             <FormItem {...formItemLayout} label="名称">
@@ -217,30 +330,30 @@ class CouponEdit extends PureComponent {
             <FormItem {...formItemLayout} label="描述">
               {getFieldDecorator('desc', {
                 initialValue: currentRecord.desc,
-                rules: [{ required: true, message: '请输入描述！'}],
-              })(<TextArea autosize={{ minRows: 4, maxRows: 8 }} placeholder="优惠卷描述，长文本" />)}
+                rules: [{ required: true, message: '请输入描述！' }],
+              })(
+                <TextArea autosize={{ minRows: 4, maxRows: 8 }} placeholder="优惠卷描述，长文本" />
+              )}
             </FormItem>
 
             <FormItem {...formItemLayout} label="有效日期">
               {getFieldDecorator('date_range', {
-                initialValue: [moment(currentRecord.start_datetime, timeFormat), moment(currentRecord.end_datetime, timeFormat)],
+                initialValue: [
+                  moment(currentRecord.start_datetime, timeFormat),
+                  moment(currentRecord.end_datetime, timeFormat),
+                ],
                 rules: [{ required: true, message: '请选择有效日期' }],
-              })(
-                <RangePicker
-                  style={{ width: '100%' }}
-                  placeholder={[ "开始日期", "结束日期" ]}
-                />
-              )}
+              })(<RangePicker style={{ width: '100%' }} placeholder={['开始日期', '结束日期']} />)}
             </FormItem>
 
             <FormItem {...formItemLayout} label="发放总数">
               {getFieldDecorator('total', {
                 initialValue: currentRecord.total,
                 rules: [{ required: true, message: '请输入发放总数！' }],
-              })(<InputNumber min={1} max={10} style={{ width: '100%' }} placeholder="发放总数"/>)}
+              })(<InputNumber min={1} max={10} style={{ width: '100%' }} placeholder="发放总数" />)}
             </FormItem>
 
-            <Form.Item {...formItemLayout} label='是否启用'>
+            <Form.Item {...formItemLayout} label="是否启用">
               {getFieldDecorator('in_use', {
                 initialValue: currentRecord.in_use.toString(),
                 rules: [{ required: true, message: '请选择是否启用！' }],

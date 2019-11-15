@@ -1,18 +1,11 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
-import {
-  Row,
-  Card,
-  Badge,
-  Drawer,
-  Tooltip,
-} from 'antd';
+import { Row, Card, Badge, Drawer, Tooltip } from 'antd';
 import SimpleTable from '@/components/SimpleTable';
 import SmallTable from '@/components/SmallTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import styles from '../List/TableList.less';
-
 
 const pStyle = {
   fontSize: 16,
@@ -21,7 +14,6 @@ const pStyle = {
   display: 'block',
   marginBottom: 16,
 };
-
 
 /* eslint react/no-multi-comp:0 */
 @connect(({ bargain, loading }) => ({
@@ -68,7 +60,7 @@ class BargainList extends PureComponent {
     });
   };
 
-  handleStandardTableChange = (pagination) => {
+  handleStandardTableChange = pagination => {
     const { dispatch } = this.props;
     const { formValues } = this.state;
 
@@ -107,7 +99,8 @@ class BargainList extends PureComponent {
             return (
               <Tooltip title={text}>
                 <span>{text.slice(0, 6) + '...' + text.substr(text.length - 6)}</span>
-              </Tooltip>);
+              </Tooltip>
+            );
           } else {
             return text;
           }
@@ -138,9 +131,9 @@ class BargainList extends PureComponent {
         dataIndex: 'dealed',
         render(text) {
           if (text) {
-            return <Badge status='error' text='结束' />;
+            return <Badge status="error" text="结束" />;
           } else {
-            return <Badge status='success' text='进行中' />;
+            return <Badge status="success" text="进行中" />;
           }
         },
       },
@@ -220,11 +213,7 @@ class BargainList extends PureComponent {
             <p style={{ ...pStyle, marginBottom: 24 }}>砍价记录</p>
             <Row>
               {logData && Object.keys(logData).length ? (
-                <SmallTable
-                  size='small'
-                  data={logData}
-                  columns={drawerColumns}
-                />
+                <SmallTable size="small" data={logData} columns={drawerColumns} />
               ) : null}
             </Row>
           </Drawer>

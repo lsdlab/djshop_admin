@@ -1,14 +1,12 @@
-import { routerRedux } from 'dva/router';
-import { message } from 'antd';
-import { queryTransactions,
-         fetchTransaction,
-         patchTransaction,
-         manualCloseTransaction,
-         receivePackageTransaction,
-         createExpress,
-         queryUserAllAddress,
+import {
+  queryTransactions,
+  fetchTransaction,
+  patchTransaction,
+  manualCloseTransaction,
+  receivePackageTransaction,
+  createExpress,
+  queryUserAllAddress,
 } from '@/services/api';
-
 
 export default {
   namespace: 'transaction',
@@ -52,7 +50,7 @@ export default {
         type: 'saveUserAllAddress',
         payload: response,
       });
-    }
+    },
   },
 
   reducers: {

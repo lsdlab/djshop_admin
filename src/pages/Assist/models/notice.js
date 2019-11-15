@@ -1,4 +1,4 @@
-import { queryNotice, createNotice, deleteNotice } from '@/services/api'
+import { queryNotice, createNotice, deleteNotice } from '@/services/api';
 
 export default {
   namespace: 'notice',

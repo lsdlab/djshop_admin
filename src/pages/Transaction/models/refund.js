@@ -1,11 +1,4 @@
-import { routerRedux } from 'dva/router';
-import { message } from 'antd';
-import { queryRefunds,
-         patchRefund,
-         auditRefund,
-         withdrawRefund,
-} from '@/services/api';
-
+import { queryRefunds, patchRefund, auditRefund, withdrawRefund } from '@/services/api';
 
 export default {
   namespace: 'refund',

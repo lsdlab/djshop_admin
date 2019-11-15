@@ -1,10 +1,4 @@
-import { routerRedux } from 'dva/router';
-import { message } from 'antd';
-import { queryInvoices,
-         patchInvoice,
-         queryUserAllAddress,
-} from '@/services/api';
-
+import { queryInvoices, patchInvoice, queryUserAllAddress } from '@/services/api';
 
 export default {
   namespace: 'invoice',
@@ -34,7 +28,7 @@ export default {
         type: 'saveUserAllAddress',
         payload: response,
       });
-    }
+    },
   },
 
   reducers: {

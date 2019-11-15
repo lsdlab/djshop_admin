@@ -1,18 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
-import {
-  Row,
-  Col,
-  Card,
-  Badge,
-  Drawer,
-  Tooltip,
-  Form,
-  Button,
-  Modal,
-  Select,
-  message,
-} from 'antd';
+import { Row, Col, Card, Badge, Drawer, Tooltip, Form, Button, Modal, Select, message } from 'antd';
 import SimpleTable from '@/components/SimpleTable';
 import SmallTable from '@/components/SmallTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
@@ -30,15 +18,19 @@ const pStyle = {
   marginBottom: 16,
 };
 
-const buildOptions = (optionData) => {
+const buildOptions = optionData => {
   if (optionData) {
     const arr = [];
     for (let i = 0; i < optionData.length; i++) {
-      arr.push(<Option name={optionData[i].combined_name} value={optionData[i].id} key={optionData[i].id}>{optionData[i].combined_name}</Option>)
+      arr.push(
+        <Option name={optionData[i].combined_name} value={optionData[i].id} key={optionData[i].id}>
+          {optionData[i].combined_name}
+        </Option>
+      );
     }
     return arr;
   }
-}
+};
 
 const CreateForm = Form.create()(props => {
   const { modalVisible, allProductSpecIds, form, handleAdd, handleModalVisible } = props;
@@ -62,21 +54,25 @@ const CreateForm = Form.create()(props => {
       onOk={okHandle}
       onCancel={() => handleModalVisible()}
     >
-      { allProductSpecIds ? (
+      {allProductSpecIds ? (
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="商品规格">
           {form.getFieldDecorator('product_spec', {
-              rules: [{ required: true, message: '请选择商品规格！' }],
-            })(
-              <Select style={{ width: '100%' }} placeholder="商品" showSearch={true} optionFilterProp="name">
-                {buildOptions(allProductSpecIds)}
-              </Select>
-            )}
+            rules: [{ required: true, message: '请选择商品规格！' }],
+          })(
+            <Select
+              style={{ width: '100%' }}
+              placeholder="商品"
+              showSearch={true}
+              optionFilterProp="name"
+            >
+              {buildOptions(allProductSpecIds)}
+            </Select>
+          )}
         </FormItem>
       ) : null}
     </Modal>
   );
 });
-
 
 /* eslint react/no-multi-comp:0 */
 @connect(({ seckill, loading }) => ({
@@ -126,7 +122,7 @@ class SeckillList extends PureComponent {
     });
   };
 
-  handleStandardTableChange = (pagination) => {
+  handleStandardTableChange = pagination => {
     const { dispatch } = this.props;
     const { formValues } = this.state;
 
@@ -163,7 +159,7 @@ class SeckillList extends PureComponent {
     dispatch({
       type: 'seckill/create',
       payload: payload,
-    }).then((data) => {
+    }).then(data => {
       message.success('新增成功');
       this.handleModalVisible();
       this.props.dispatch({
@@ -212,7 +208,8 @@ class SeckillList extends PureComponent {
             return (
               <Tooltip title={text}>
                 <span>{text.slice(0, 6) + '...' + text.substr(text.length - 6)}</span>
-              </Tooltip>);
+              </Tooltip>
+            );
           } else {
             return text;
           }
@@ -239,9 +236,9 @@ class SeckillList extends PureComponent {
         dataIndex: 'dealed',
         render(text) {
           if (text) {
-            return <Badge status='error' text='结束' />;
+            return <Badge status="error" text="结束" />;
           } else {
-            return <Badge status='success' text='进行中' />;
+            return <Badge status="success" text="进行中" />;
           }
         },
       },
@@ -309,16 +306,16 @@ class SeckillList extends PureComponent {
             <p style={{ ...pStyle, marginBottom: 24 }}>秒杀记录</p>
             <Row>
               {logData && Object.keys(logData).length ? (
-                <SmallTable
-                  size='small'
-                  data={logData}
-                  columns={drawerColumns}
-                />
+                <SmallTable size="small" data={logData} columns={drawerColumns} />
               ) : null}
             </Row>
           </Drawer>
         </Card>
-        <CreateForm {...parentMethods} modalVisible={modalVisible} allProductSpecIds={allProductSpecIds} />
+        <CreateForm
+          {...parentMethods}
+          modalVisible={modalVisible}
+          allProductSpecIds={allProductSpecIds}
+        />
       </PageHeaderWrapper>
     );
   }

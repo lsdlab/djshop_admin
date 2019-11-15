@@ -48,7 +48,7 @@ const CreateForm = Form.create()(props => {
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="内容">
         {form.getFieldDecorator('desc', {
-          rules: [{ required: true, message: '请输入内容！'}],
+          rules: [{ required: true, message: '请输入内容！' }],
         })(<TextArea autosize={{ minRows: 6, maxRows: 10 }} placeholder="内容(纯文本)" />)}
       </FormItem>
     </Modal>
@@ -93,38 +93,34 @@ class UpdateForm extends PureComponent {
         onCancel={() => handleUpdateModalVisible()}
       >
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="标题">
-          <span>
-            {modalFormVals.title}
-          </span>
+          <span>{modalFormVals.title}</span>
         </FormItem>
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="内容">
-          <span>
-            {modalFormVals.desc}
-          </span>
+          <span>{modalFormVals.desc}</span>
         </FormItem>
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="删除">
           <span>
-            { modalFormVals.deleted ? (
-              <Badge status='error' text='已删除' />
-            ) : (<Badge status='success' text='未删除' />)}
+            {modalFormVals.deleted ? (
+              <Badge status="error" text="已删除" />
+            ) : (
+              <Badge status="success" text="未删除" />
+            )}
           </span>
         </FormItem>
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="发送">
           <span>
-            { modalFormVals.sent ? (
-              <Badge status='success' text='已发送' />
-            ) : (<Badge status='error' text='未发送' />)}
+            {modalFormVals.sent ? (
+              <Badge status="success" text="已发送" />
+            ) : (
+              <Badge status="error" text="未发送" />
+            )}
           </span>
         </FormItem>
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="发送时间">
-          <span>
-            {modalFormVals.sent_datetime}
-          </span>
+          <span>{modalFormVals.sent_datetime}</span>
         </FormItem>
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="创建时间">
-          <span>
-            {modalFormVals.created_at}
-          </span>
+          <span>{modalFormVals.created_at}</span>
         </FormItem>
       </Modal>
     );
@@ -153,7 +149,7 @@ class NoticeList extends PureComponent {
     });
   }
 
-  handleStandardTableChange = (pagination) => {
+  handleStandardTableChange = pagination => {
     const { dispatch } = this.props;
     const { formValues } = this.state;
 
@@ -199,7 +195,7 @@ class NoticeList extends PureComponent {
     dispatch({
       type: 'notice/create',
       payload: fields,
-    }).then((data) => {
+    }).then(data => {
       message.success('新增成功');
       this.handleModalVisible();
       this.props.dispatch({
@@ -209,7 +205,7 @@ class NoticeList extends PureComponent {
     });
   };
 
-  handleDeleted = (noticeID) => {
+  handleDeleted = noticeID => {
     const { dispatch } = this.props;
     dispatch({
       type: 'notice/delete',
@@ -266,9 +262,9 @@ class NoticeList extends PureComponent {
         dataIndex: 'deleted',
         render(text, record, index) {
           if (text) {
-            return <Badge status='error' text='已删除' />;
+            return <Badge status="error" text="已删除" />;
           } else {
-            return <Badge status='success' text='未删除' />;
+            return <Badge status="success" text="未删除" />;
           }
         },
       },
@@ -277,9 +273,9 @@ class NoticeList extends PureComponent {
         dataIndex: 'sent',
         render(text, record, index) {
           if (record.sent) {
-            return <Badge status='success' text='已发送' />;
+            return <Badge status="success" text="已发送" />;
           } else {
-            return <Badge status='error' text='未发送' />;
+            return <Badge status="error" text="未发送" />;
           }
         },
       },
@@ -304,13 +300,21 @@ class NoticeList extends PureComponent {
           <Fragment>
             <a onClick={() => this.handleUpdateModalVisible(true, record)}>详情</a>
             <Divider type="vertical" />
-            { record.deleted ? (
-              <Popconfirm title="是否要删除此全网通知？" onConfirm={() => this.handleDeleted(record.id)}>
+            {record.deleted ? (
+              <Popconfirm
+                title="是否要删除此全网通知？"
+                onConfirm={() => this.handleDeleted(record.id)}
+              >
                 <a disabled>删除</a>
               </Popconfirm>
-            ) : <Popconfirm title="是否要删除此全网通知？" onConfirm={() => this.handleDeleted(record.id)}>
-                  <a>删除</a>
-                </Popconfirm>}
+            ) : (
+              <Popconfirm
+                title="是否要删除此全网通知？"
+                onConfirm={() => this.handleDeleted(record.id)}
+              >
+                <a>删除</a>
+              </Popconfirm>
+            )}
           </Fragment>
         ),
       },

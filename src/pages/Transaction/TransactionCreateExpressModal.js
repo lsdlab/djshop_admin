@@ -1,12 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
-import {
-  Form,
-  Input,
-  Select,
-  Modal,
-  message,
-} from 'antd';
+import { Form, Input, Select, Modal, message } from 'antd';
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -18,12 +12,9 @@ const { Option } = Select;
 }))
 @Form.create()
 class TransactionCreateExpressModal extends PureComponent {
-  state = {
-  };
+  state = {};
 
-  componentDidMount() {
-
-  }
+  componentDidMount() {}
 
   handleAdd = (fields, transactionID, mark) => {
     const { dispatch } = this.props;
@@ -34,7 +25,7 @@ class TransactionCreateExpressModal extends PureComponent {
         status: '0',
         shipper: fields.shipper,
         sn: fields.sn,
-      }
+      },
     }).then(() => {
       message.success('发货成功');
       this.handleModalVisible();
@@ -58,11 +49,9 @@ class TransactionCreateExpressModal extends PureComponent {
   };
 
   render() {
-    const {
-      currentTransaction, createExpressModalVisible, form, mark,
-    } = this.props;
+    const { currentTransaction, createExpressModalVisible, form, mark } = this.props;
 
-    const okHandle = (transactionID) => {
+    const okHandle = transactionID => {
       form.validateFields((err, fieldsValue) => {
         if (err) return;
         this.handleAdd(fieldsValue, transactionID, mark);
@@ -84,7 +73,8 @@ class TransactionCreateExpressModal extends PureComponent {
           {form.getFieldDecorator('shipper', {
             initialValue: '顺丰',
             rules: [{ required: true, message: '请选择快递名称！' }],
-          })(<Select showSearch style={{ width: "100%" }}>
+          })(
+            <Select showSearch style={{ width: '100%' }}>
               <Option value="顺丰">顺丰</Option>
               <Option value="京东">京东</Option>
               <Option value="邮政">邮政</Option>
@@ -98,7 +88,8 @@ class TransactionCreateExpressModal extends PureComponent {
               <Option value="天天">天天</Option>
               <Option value="优速">优速</Option>
               <Option value="宅急送">宅急送</Option>
-            </Select>)}
+            </Select>
+          )}
         </FormItem>
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="快递单号">
           {form.getFieldDecorator('sn', {

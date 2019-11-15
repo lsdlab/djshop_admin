@@ -1,11 +1,9 @@
-import { routerRedux } from 'dva/router';
-import { message } from 'antd';
-import { queryCollects,
-         patchCollect,
-         confirmCollectPickup,
-         fetchStoreAllIds
+import {
+  queryCollects,
+  patchCollect,
+  confirmCollectPickup,
+  fetchStoreAllIds,
 } from '@/services/api';
-
 
 export default {
   namespace: 'collect',

@@ -2,27 +2,16 @@ import React, { PureComponent, Fragment } from 'react';
 import Debounce from 'lodash-decorators/debounce';
 import Bind from 'lodash-decorators/bind';
 import { connect } from 'dva';
-import {
-  Row,
-  Col,
-  Card,
-  Button,
-  Checkbox,
-  Avatar,
-  Steps,
-  message,
-} from 'antd';
+import { Row, Col, Card, Button, Checkbox, Avatar, Steps, message } from 'antd';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import ReactToPrint from 'react-to-print';
 
-import classNames from 'classnames';
-import router from 'umi/router';
 import DescriptionList from '@/components/DescriptionList';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import styles from '../Profile/AdvancedProfile.less';
 import SimpleTransactionTable from '@/components/SimpleTransactionTable';
-import TransactionCreateExpressModal from './TransactionCreateExpressModal'
-import TransactionPatchModal from './TransactionPatchModal'
+import TransactionCreateExpressModal from './TransactionCreateExpressModal';
+import TransactionPatchModal from './TransactionPatchModal';
 
 const { Description } = DescriptionList;
 const ButtonGroup = Button.Group;
@@ -30,55 +19,7 @@ const { Step } = Steps;
 
 const getWindowWidth = () => window.innerWidth || document.documentElement.clientWidth;
 
-
-const customDot = (dot, { status }) =>
-  (
-    dot
-  );
-
-const DescriptionItem = ({ title, content }) => (
-  <div
-    style={{
-      fontSize: 14,
-      lineHeight: '22px',
-      marginBottom: 7,
-      color: 'rgba(0,0,0,0.65)',
-    }}
-  >
-    <p
-      style={{
-        marginRight: 8,
-        display: 'inline-block',
-        color: 'rgba(0,0,0,0.85)',
-      }}
-    >
-      {title}:
-    </p>
-    {content}
-  </div>
-);
-
-const CheckboxItem = ({ title, status }) => (
-  <div
-    style={{
-      fontSize: 14,
-      lineHeight: '22px',
-      marginBottom: 7,
-      color: 'rgba(0,0,0,0.65)',
-    }}
-  >
-    <p
-      style={{
-        marginRight: 8,
-        display: 'inline-block',
-        color: 'rgba(0,0,0,0.85)',
-      }}
-    >
-      {title}:
-    </p>
-    <Checkbox disabled checked={status}></Checkbox>
-  </div>
-);
+const customDot = (dot, { status }) => dot;
 
 /* eslint react/no-multi-comp:0 */
 @connect(({ transaction }) => ({
@@ -104,7 +45,7 @@ class TransactionDetail extends PureComponent {
 
     this.setStepDirection();
     window.addEventListener('resize', this.setStepDirection, { passive: true });
-  };
+  }
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.setStepDirection);
@@ -131,36 +72,43 @@ class TransactionDetail extends PureComponent {
     return (
       <Fragment>
         <ButtonGroup>
-
-          { currentRecord.status == '1' ? (
+          {currentRecord.status == '1' ? (
             <Button onClick={() => this.handlePatchModalVisible(true, currentRecord)}>修改</Button>
-          ) : <Button disabled>修改</Button>}
+          ) : (
+            <Button disabled>修改</Button>
+          )}
 
-          { currentRecord.status == '4' ? (
-            <ReactToPrint
-              trigger={() => <Button>打印</Button>}
-              content={() => this.componentRef}
-            />
-          ) : <Button disabled>打印</Button>}
+          {currentRecord.status == '4' ? (
+            <ReactToPrint trigger={() => <Button>打印</Button>} content={() => this.componentRef} />
+          ) : (
+            <Button disabled>打印</Button>
+          )}
 
-          { currentRecord.address && currentRecord.status == '4' ? (
+          {currentRecord.address && currentRecord.status == '4' ? (
             <CopyToClipboard
-              text={`${currentRecord.address.name} ${currentRecord.address.mobile} ${currentRecord.address.address}`}
+              text={`${currentRecord.address.name} ${currentRecord.address.mobile} ${
+                currentRecord.address.address
+              }`}
               onCopy={() => message.success('复制成功')}
               style={{ marginTop: 10 }}
-              >
+            >
               <Button>复制地址</Button>
             </CopyToClipboard>
-          ) : <Button disabled>复制地址</Button>}
+          ) : (
+            <Button disabled>复制地址</Button>
+          )}
         </ButtonGroup>
 
-        { currentRecord.status == '4' ? (
-          <Button type="primary" onClick={() => this.handleCreateExpressModalVisible(true)}>发货</Button>
-        ) : <Button disabled>发货</Button>}
-
+        {currentRecord.status == '4' ? (
+          <Button type="primary" onClick={() => this.handleCreateExpressModalVisible(true)}>
+            发货
+          </Button>
+        ) : (
+          <Button disabled>发货</Button>
+        )}
       </Fragment>
-    )
-  };
+    );
+  }
 
   buildExtra(currentRecord) {
     return (
@@ -186,8 +134,8 @@ class TransactionDetail extends PureComponent {
           <div className={styles.heading}>{currentRecord.paid}</div>
         </Col>
       </Row>
-    )
-  };
+    );
+  }
 
   buildDescription(currentRecord) {
     return (
@@ -199,58 +147,44 @@ class TransactionDetail extends PureComponent {
         <Description term="sn">{currentRecord.sn}</Description>
         <Description term="ID">{currentRecord.id}</Description>
         {currentRecord.user ? (
-          <Description term="用户"><Avatar size="small" src={currentRecord.user.avatar} style={{ marginRight: 8 }} />
-                                {currentRecord.user.nickname}</Description>
+          <Description term="用户">
+            <Avatar size="small" src={currentRecord.user.avatar} style={{ marginRight: 8 }} />
+            {currentRecord.user.nickname}
+          </Description>
         ) : null}
         <Description term="备注">{currentRecord.note ? currentRecord.note : '-'}</Description>
-        <Description term="商家备注">{currentRecord.seller_note ? currentRecord.seller_note : '-'}</Description>
+        <Description term="商家备注">
+          {currentRecord.seller_note ? currentRecord.seller_note : '-'}
+        </Description>
       </DescriptionList>
-    )
-  };
+    );
+  }
 
   buildCreatedAt(currentRecord) {
-    return (
-      <span>
-        {currentRecord.created_at}
-      </span>)
+    return <span>{currentRecord.created_at}</span>;
   }
 
   buildClosedAt(currentRecord) {
-    return (
-      <span>
-        {currentRecord.closed_datetime}
-      </span>)
+    return <span>{currentRecord.closed_datetime}</span>;
   }
 
   buildPaymentAt(currentRecord) {
-    return (
-      <span>
-        {currentRecord.payment_datetime}
-      </span>)
+    return <span>{currentRecord.payment_datetime}</span>;
   }
 
   buildPackagedAt(currentRecord) {
-    return (
-      <span>
-        {currentRecord.seller_packaged_datetime}
-      </span>)
+    return <span>{currentRecord.seller_packaged_datetime}</span>;
   }
 
   buildReceivedAt(currentRecord) {
-    return (
-      <span>
-        {currentRecord.received_datetime}
-      </span>)
+    return <span>{currentRecord.received_datetime}</span>;
   }
 
   buildReviewedAt(currentRecord) {
-    return (
-      <span>
-        {currentRecord.review_datetime}
-      </span>)
+    return <span>{currentRecord.review_datetime}</span>;
   }
 
-  handleCreateExpressModalVisible = (flag) => {
+  handleCreateExpressModalVisible = flag => {
     this.setState({
       createExpressModalVisible: !!flag,
     });
@@ -270,7 +204,9 @@ class TransactionDetail extends PureComponent {
   };
 
   render() {
-    const { transaction: { currentRecord, userAllAddress } } = this.props;
+    const {
+      transaction: { currentRecord, userAllAddress },
+    } = this.props;
     const { stepDirection, createExpressModalVisible, patchModalVisible } = this.state;
 
     const transactionProductColumns = [
@@ -328,26 +264,48 @@ class TransactionDetail extends PureComponent {
             <Step title="创建成功-待支付" description={this.buildCreatedAt(currentRecord)} />
 
             {currentRecord.status == '2' ? (
-              <Step title="支付超时-订单关闭" description={currentRecord ? this.buildClosedAt(currentRecord) : null} />
+              <Step
+                title="支付超时-订单关闭"
+                description={currentRecord ? this.buildClosedAt(currentRecord) : null}
+              />
             ) : null}
 
             {currentRecord.status == '3' ? (
-              <Step title="手动关闭订单" description={currentRecord ? this.buildClosedAt(currentRecord) : null} />
+              <Step
+                title="手动关闭订单"
+                description={currentRecord ? this.buildClosedAt(currentRecord) : null}
+              />
             ) : null}
 
-            <Step title="支付完成-待发货" description={currentRecord ? this.buildPaymentAt(currentRecord) : null} />
-            <Step title="已发货-待收货" description={currentRecord ? this.buildPackagedAt(currentRecord) : null} />
-            <Step title="已收货-待评价" description={currentRecord ? this.buildReceivedAt(currentRecord) : null} />
-            <Step title="已评价-交易完成" description={currentRecord ? this.buildReviewedAt(currentRecord) : null} />
+            <Step
+              title="支付完成-待发货"
+              description={currentRecord ? this.buildPaymentAt(currentRecord) : null}
+            />
+            <Step
+              title="已发货-待收货"
+              description={currentRecord ? this.buildPackagedAt(currentRecord) : null}
+            />
+            <Step
+              title="已收货-待评价"
+              description={currentRecord ? this.buildReceivedAt(currentRecord) : null}
+            />
+            <Step
+              title="已评价-交易完成"
+              description={currentRecord ? this.buildReviewedAt(currentRecord) : null}
+            />
           </Steps>
         </Card>
 
-        <Card title="支付信息 & 优惠卷信息" style={{ marginBottom: 24 }} bordered={false} >
+        <Card title="支付信息 & 优惠卷信息" style={{ marginBottom: 24 }} bordered={false}>
           <DescriptionList style={{ marginBottom: 24 }} title="支付信息">
             <Description term="支付渠道">{currentRecord.payment_name}</Description>
             <Description term="总价">{currentRecord.total_amount}</Description>
-            <Description term="支付时间">{currentRecord.payment_datetime ? currentRecord.payment_datetime : '-'}</Description>
-            <Description term="支付流水号">{currentRecord.payment_sn ? currentRecord.payment_sn : '-'}</Description>
+            <Description term="支付时间">
+              {currentRecord.payment_datetime ? currentRecord.payment_datetime : '-'}
+            </Description>
+            <Description term="支付流水号">
+              {currentRecord.payment_sn ? currentRecord.payment_sn : '-'}
+            </Description>
           </DescriptionList>
 
           {currentRecord.coupon_log ? (
@@ -357,11 +315,16 @@ class TransactionDetail extends PureComponent {
               <Description term="使用时间">{currentRecord.coupon_log.used_datetime}</Description>
               <Description term="优惠卷ID">{currentRecord.coupon_log.coupon.id}</Description>
               <Description term="优惠卷名称">{currentRecord.coupon_log.coupon.name}</Description>
-              <Description term="优惠卷类型">{currentRecord.coupon_log.coupon.type_name}</Description>
-              <Description term="优惠卷内部类型">{currentRecord.coupon_log.coupon.internal_type_name}</Description>
+              <Description term="优惠卷类型">
+                {currentRecord.coupon_log.coupon.type_name}
+              </Description>
+              <Description term="优惠卷内部类型">
+                {currentRecord.coupon_log.coupon.internal_type_name}
+              </Description>
             </DescriptionList>
-          ) : <DescriptionList style={{ marginBottom: 24 }} title="未使用优惠卷">
-            </DescriptionList>}
+          ) : (
+            <DescriptionList style={{ marginBottom: 24 }} title="未使用优惠卷" />
+          )}
         </Card>
 
         <Card title="地址 & 快递信息" style={{ marginBottom: 24 }} bordered={false}>
@@ -376,15 +339,24 @@ class TransactionDetail extends PureComponent {
           {currentRecord.express ? (
             <DescriptionList style={{ marginBottom: 24 }} title="快递信息">
               <Description term="状态">{currentRecord.express.status_name}</Description>
-              <Description term="快递信息提供商">{currentRecord.express.shipper_info_provider ? currentRecord.express.shipper_info_provider : '-'}</Description>
-              <Description term="shipper_code">{currentRecord.address.shipper_code ? currentRecord.address.shipper_code: '-' }</Description>
-              <Description term="shipper_name">{currentRecord.address.shipper_name ? currentRecord.address.shipper_name : '-'}</Description>
+              <Description term="快递信息提供商">
+                {currentRecord.express.shipper_info_provider
+                  ? currentRecord.express.shipper_info_provider
+                  : '-'}
+              </Description>
+              <Description term="shipper_code">
+                {currentRecord.address.shipper_code ? currentRecord.address.shipper_code : '-'}
+              </Description>
+              <Description term="shipper_name">
+                {currentRecord.address.shipper_name ? currentRecord.address.shipper_name : '-'}
+              </Description>
             </DescriptionList>
-          ) : <DescriptionList style={{ marginBottom: 24 }} title="无快递信息">
-            </DescriptionList>}
+          ) : (
+            <DescriptionList style={{ marginBottom: 24 }} title="无快递信息" />
+          )}
         </Card>
 
-        <div ref={el => (this.componentRef = el)} >
+        <div ref={el => (this.componentRef = el)}>
           {currentRecord.products ? (
             <Card title="订单包含商品" style={{ marginBottom: 24 }} bordered={false}>
               <SimpleTransactionTable
@@ -398,7 +370,7 @@ class TransactionDetail extends PureComponent {
         <TransactionCreateExpressModal
           createExpressModalVisible={createExpressModalVisible}
           currentTransaction={currentRecord}
-          mark='detail'
+          mark="detail"
           onCancel={this.handleCreateExpressModalVisible}
         />
 
@@ -406,10 +378,9 @@ class TransactionDetail extends PureComponent {
           patchModalVisible={patchModalVisible}
           currentTransaction={currentRecord}
           userAllAddress={userAllAddress}
-          mark='detail'
+          mark="detail"
           onCancel={this.handlePatchModalVisible}
         />
-
       </PageHeaderWrapper>
     );
   }
