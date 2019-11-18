@@ -24,6 +24,7 @@ class BargainList extends PureComponent {
   state = {
     currentPage: 1,
     visible: false,
+    currentRecord: {},
   };
 
   componentDidMount() {
@@ -152,7 +153,7 @@ class BargainList extends PureComponent {
       {
         title: '操作',
         fixed: 'right',
-        render: (text, record) => (
+        render: (record) => (
           <Fragment>
             <a onClick={() => this.showDrawer(true, record)}>砍价记录</a>
           </Fragment>
@@ -206,7 +207,7 @@ class BargainList extends PureComponent {
           <Drawer
             width={800}
             placement="right"
-            closable={false}
+            closable={true}
             onClose={this.onClose}
             visible={this.state.visible}
           >

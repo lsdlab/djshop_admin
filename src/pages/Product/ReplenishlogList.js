@@ -360,10 +360,6 @@ class ReplenishlogList extends PureComponent {
       {
         title: '备注',
         dataIndex: 'note',
-      },
-      {
-        title: '库存商品',
-        dataIndex: 'stock.name',
         render(text) {
           if (text.length > 12) {
             return (
@@ -375,6 +371,10 @@ class ReplenishlogList extends PureComponent {
             return text;
           }
         },
+      },
+      {
+        title: '库存商品',
+        dataIndex: 'stock.name',
       },
       {
         title: '数量',

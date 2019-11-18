@@ -484,6 +484,18 @@ export async function deleteStocks(stockID) {
   });
 }
 
+// 获取某个库存商品的进货日志
+export async function queryStocksReplenishlogs(stockID) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/assist/inventory/stocks/${stockID}/logs/`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `JWT ${token}`,
+    },
+  });
+}
+
 // 分类列表
 export async function queryCategory() {
   const token = getToken();

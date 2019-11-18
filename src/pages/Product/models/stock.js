@@ -1,10 +1,14 @@
-import { queryStocks, createStocks, deleteStocks } from '@/services/api';
+import { queryStocks, createStocks, deleteStocks, queryStocksReplenishlogs } from '@/services/api';
 
 export default {
   namespace: 'stock',
 
   state: {
     data: {
+      results: [],
+      count: undefined,
+    },
+    logData: {
       results: [],
       count: undefined,
     },
@@ -24,6 +28,13 @@ export default {
     *delete({ stockID }, { call }) {
       yield call(deleteStocks, stockID);
     },
+    *fetchLog({ stockID }, { call, put }) {
+      const response = yield call(queryStocksReplenishlogs, stockID);
+      yield put({
+        type: 'saveLog',
+        payload: response,
+      });
+    },
   },
 
   reducers: {
@@ -31,6 +42,12 @@ export default {
       return {
         ...state,
         data: action.payload,
+      };
+    },
+    saveLog(state, action) {
+      return {
+        ...state,
+        logData: action.payload,
       };
     },
   },

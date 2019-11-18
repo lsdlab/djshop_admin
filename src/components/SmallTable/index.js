@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import { Table } from 'antd';
 import styles from '../SmallTable/index.less';
 

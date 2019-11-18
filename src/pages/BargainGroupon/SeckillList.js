@@ -299,7 +299,7 @@ class SeckillList extends PureComponent {
           <Drawer
             width={800}
             placement="right"
-            closable={false}
+            closable={true}
             onClose={this.onClose}
             visible={this.state.visible}
           >

@@ -12,11 +12,21 @@ import {
   message,
   Divider,
   Popconfirm,
+  Drawer,
 } from 'antd';
 import SimpleTable from '@/components/SimpleTable';
+import SmallTable from '@/components/SmallTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import styles from '../List/TableList.less';
+
+const pStyle = {
+  fontSize: 16,
+  color: 'rgba(0,0,0,0.85)',
+  lineHeight: '24px',
+  display: 'block',
+  marginBottom: 16,
+};
 
 const FormItem = Form.Item;
 const { TextArea } = Input;
@@ -140,6 +150,7 @@ class StockList extends PureComponent {
     modalVisible: false,
     updateModalVisible: false,
     formValues: {},
+    drawerVisible: false,
     currentRecord: {},
   };
 
@@ -180,6 +191,33 @@ class StockList extends PureComponent {
     this.setState({
       updateModalVisible: !!flag,
       currentRecord: record || {},
+    });
+  };
+
+  showDrawer = (flag, currentRecord) => {
+    this.setState({
+      drawerVisible: !!flag,
+    });
+
+    if (flag && currentRecord) {
+      this.setState({
+        currentRecord: currentRecord,
+      });
+
+      this.props.dispatch({
+        type: 'stock/fetchLog',
+        stockID: currentRecord.id,
+      });
+    } else {
+      this.setState({
+        currentRecord: {},
+      });
+    }
+  };
+
+  onClose = () => {
+    this.setState({
+      drawerVisible: false,
     });
   };
 
@@ -253,7 +291,7 @@ class StockList extends PureComponent {
 
   render() {
     const {
-      stock: { data },
+      stock: { data, logData },
       loading,
     } = this.props;
     const { modalVisible, updateModalVisible, currentRecord } = this.state;
@@ -307,8 +345,44 @@ class StockList extends PureComponent {
             <Popconfirm title="是否要删除此库存商品？" onConfirm={() => this.handleDeleted(true, record.id)}>
               <a>删除</a>
             </Popconfirm>
+            <Divider type="vertical" />
+            <a onClick={() => this.showDrawer(true, record)}>进货记录</a>
           </Fragment>
         ),
+      },
+    ];
+
+    const drawerColumns = [
+      {
+        title: 'ID',
+        dataIndex: 'id'
+      },
+      {
+        title: '名称',
+        dataIndex: 'name',
+      },
+      {
+        title: '备注',
+        dataIndex: 'note',
+        render(text) {
+          if (text.length > 12) {
+            return (
+              <Tooltip title={text}>
+                <span>{text.slice(0, 6) + '...' + text.substr(text.length - 6)}</span>
+              </Tooltip>
+            );
+          } else {
+            return text;
+          }
+        },
+      },
+      {
+        title: '数量',
+        dataIndex: 'nums',
+      },
+      {
+        title: '创建时间',
+        dataIndex: 'created_at',
       },
     ];
 
@@ -325,6 +399,20 @@ class StockList extends PureComponent {
               onChange={this.handleStandardTableChange}
             />
           </div>
+          <Drawer
+            width={800}
+            placement="right"
+            closable={true}
+            onClose={this.onClose}
+            visible={this.state.drawerVisible}
+          >
+            <p style={{ ...pStyle, marginBottom: 24 }}>进货记录</p>
+            <Row>
+              {logData && Object.keys(logData).length ? (
+                <SmallTable size="small" data={logData} columns={drawerColumns} />
+              ) : null}
+            </Row>
+          </Drawer>
         </Card>
 
         <CreateForm {...parentMethods} modalVisible={modalVisible} />
