@@ -29,7 +29,7 @@ const buildOptions = optionData => {
     for (let i = 0; i < optionData.length; i++) {
       arr.push(
         <Option name={optionData[i].name} value={optionData[i].id} key={optionData[i].id}>
-          {optionData[i].id} - {optionData[i].name}
+          ID: {optionData[i].id} 名称：{optionData[i].name} 当前库存数：{optionData[i].nums}
         </Option>
       );
     }
