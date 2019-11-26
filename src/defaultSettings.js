@@ -13,6 +13,7 @@ module.exports = {
   "pwa": true,
   "iconfontUrl": "",
   "collapse": true,
+  "merchantID": "2",
   "apiHost": "http://localhost:9000",
   // "apiHost": "https://shopapi.nuclearst.com",
   "access_key_id": 'TFRBSWNQcm41WjZDWFl4Qw==',

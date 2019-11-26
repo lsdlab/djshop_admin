@@ -111,6 +111,12 @@ class UpdateForm extends PureComponent {
     };
   }
 
+  routerImageNewTab = (url) => {
+    window.open(
+      url, '_blank'
+    );
+  };
+
   render() {
     const {
       updateModalVisible,
@@ -159,6 +165,9 @@ class UpdateForm extends PureComponent {
               复制图片地址
             </Button>
           </CopyToClipboard>
+          <Button block icon="plus" onClick={() => this.routerImageNewTab(modalFormVals.banner)}>
+            新页面打开
+          </Button>
         </FormItem>
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="显示顺序">
           {form.getFieldDecorator('display_order', {

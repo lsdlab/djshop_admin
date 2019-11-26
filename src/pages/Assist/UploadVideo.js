@@ -80,8 +80,11 @@ class UploadVideo extends PureComponent {
   render() {
     const { form } = this.props;
     const imageUrl = this.state.imageUrl;
-    const onChange = e => {
-      // console.log(e);
+
+    const routerImageNewTab = (url) => {
+      window.open(
+        url, '_blank'
+      );
     };
 
     return (
@@ -127,6 +130,9 @@ class UploadVideo extends PureComponent {
             >
               <Button icon="copy">复制视频地址</Button>
             </CopyToClipboard>
+            <Button block icon="plus" onClick={() => routerImageNewTab(imageUrl)} style={{ display: imageUrl ? 'block' : 'none' }}>
+              新页面打开
+            </Button>
           </div>
         </Card>
       </PageHeaderWrapper>

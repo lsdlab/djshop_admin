@@ -81,8 +81,10 @@ class UploadImage extends PureComponent {
     const { form } = this.props;
     const imageUrl = this.state.imageUrl;
 
-    const onChange = e => {
-      // console.log(e);
+    const routerImageNewTab = (url) => {
+      window.open(
+        url, '_blank'
+      );
     };
 
     return (
@@ -125,7 +127,7 @@ class UploadImage extends PureComponent {
           </div>
 
           <div style={{ marginTop: 20 }}>
-            {imageUrl ? <Input value={imageUrl} onChange={onChange} /> : null}
+            {imageUrl ? <Input value={imageUrl} /> : null}
           </div>
 
           <div style={{ marginTop: 20 }}>
@@ -136,6 +138,9 @@ class UploadImage extends PureComponent {
             >
               <Button icon="copy">复制图片地址</Button>
             </CopyToClipboard>
+            <Button block icon="plus" onClick={() => routerImageNewTab(imageUrl)} style={{ display: imageUrl ? 'block' : 'none' }}>
+              新页面打开
+            </Button>
           </div>
         </Card>
       </PageHeaderWrapper>

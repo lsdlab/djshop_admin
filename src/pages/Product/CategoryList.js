@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import {
   Row,
@@ -10,18 +10,14 @@ import {
   Button,
   Modal,
   message,
-  Popconfirm,
   Tree,
 } from 'antd';
-import SimpleTable from '@/components/SimpleTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
-import styles from '../List/TableList.less';
 
 const FormItem = Form.Item;
 const { Option } = Select;
 const { TreeNode } = Tree;
-const Search = Input.Search;
 
 const buildOptions = optionData => {
   if (optionData) {
