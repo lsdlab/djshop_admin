@@ -472,7 +472,7 @@ class ProductDetail extends PureComponent {
         <Card style={{ marginBottom: 24 }} bordered={false}>
           <Row>
             <Col span={6}>
-              <DescriptionItem title="销量" content={currentRecord.sold} />
+              <DescriptionItem title="限购" content={currentRecord.limit} />
             </Col>
             <Col span={6}>
               <DescriptionItem title="浏览量" content={currentRecord.pv} />
@@ -484,20 +484,7 @@ class ProductDetail extends PureComponent {
               <DescriptionItem title="评论量" content={currentRecord.review} />
             </Col>
           </Row>
-          <Row>
-            <Col span={6}>
-              <DescriptionItem title="销量" content={currentRecord.sold} />
-            </Col>
-            <Col span={6}>
-              <DescriptionItem title="浏览量" content={currentRecord.pv} />
-            </Col>
-            <Col span={6}>
-              <DescriptionItem title="收藏量" content={currentRecord.fav} />
-            </Col>
-            <Col span={6}>
-              <DescriptionItem title="评论量" content={currentRecord.review} />
-            </Col>
-          </Row>
+
           {/* <Row>
               <Col span={6}>
                 <CheckboxItem title="可开发票" status={currentRecord.has_invoice} />

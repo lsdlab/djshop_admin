@@ -216,47 +216,31 @@ class ProductEdit extends React.PureComponent {
       });
     };
 
-    return (
-      <PageHeaderWrapper title="商品信息编辑">
+    return <PageHeaderWrapper title="商品信息编辑">
         <Card bordered={false}>
           <Fragment>
-            <Form
-              layout="horizontal"
-              style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: 20, maxWidth: 600 }}
-            >
+            <Form layout="horizontal" style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: 20, maxWidth: 600 }}>
               <FormItem {...formItemLayout} label="ID">
                 {getFieldDecorator('id', {
                   initialValue: currentRecord.id,
                 })(<Input disabled placeholder="ID" />)}
               </FormItem>
 
-              {categoryData ? (
-                <Form.Item {...formItemLayout} label="分类">
+              {categoryData ? <Form.Item {...formItemLayout} label="分类">
                   {getFieldDecorator('category', {
                     initialValue: currentRecord.category,
                     rules: [{ required: true, message: '请选择分类！' }],
-                  })(
-                    <TreeSelect
-                      style={{ width: '100%' }}
-                      treeData={categoryData}
-                      placeholder="商品分类"
-                      treeDefaultExpandAll={true}
-                      showSearch={true}
-                    />
-                  )}
-                </Form.Item>
-              ) : null}
+                  })(<TreeSelect style={{ width: '100%' }} treeData={categoryData} placeholder="商品分类" treeDefaultExpandAll={true} showSearch={true} />)}
+                </Form.Item> : null}
 
               <Form.Item {...formItemLayout} label="上架状态">
                 {getFieldDecorator('status', {
                   initialValue: currentRecord.status,
                   rules: [{ required: true, message: '请选择上架状态！' }],
-                })(
-                  <Select placeholder="商品上架状态" style={{ width: '100%' }}>
+                })(<Select placeholder="商品上架状态" style={{ width: '100%' }}>
                     <Option value="1">上架</Option>
                     <Option value="2">下架</Option>
-                  </Select>
-                )}
+                  </Select>)}
               </Form.Item>
 
               <FormItem {...formItemLayout} label="名称">
@@ -271,34 +255,26 @@ class ProductEdit extends React.PureComponent {
                   rules: [{ required: true, message: '请输入副标题！' }],
                 })(<Input placeholder="商品副标题，十个字符以内" />)}
               </FormItem>
-              <FormItem {...formItemLayout} label="单位">
+              {/* <FormItem {...formItemLayout} label="单位">
                 {getFieldDecorator('unit', {
                   initialValue: currentRecord.unit,
-                  rules: [{ required: true, message: '请输入单位！' }],
+                  rules: [{ required: false, message: '请输入单位！' }],
                 })(<Input placeholder="商品单位" />)}
               </FormItem>
               <FormItem {...formItemLayout} label="重量">
                 {getFieldDecorator('weight', {
                   initialValue: currentRecord.weight,
-                  rules: [{ required: true, message: '请输入重量！' }],
+                  rules: [{ required: false, message: '请输入重量！' }],
                 })(<Input placeholder="商品重量" />)}
-              </FormItem>
-
+              </FormItem> */}
               <FormItem {...formItemLayout} label="限购数量">
                 {getFieldDecorator('limit', {
                   initialValue: currentRecord.limit,
                   rules: [{ required: true, message: '请输入限购数量！' }],
-                })(
-                  <InputNumber
-                    min={1}
-                    max={10}
-                    style={{ width: '100%' }}
-                    placeholder="商品限购数量"
-                  />
-                )}
+                })(<InputNumber min={1} max={10} style={{ width: '100%' }} placeholder="商品限购数量" />)}
               </FormItem>
 
-              <FormItem {...formItemLayout} label="是否开发票">
+              {/* <FormItem {...formItemLayout} label="是否开发票">
                 {getFieldDecorator('has_invoice', {
                   initialValue: currentRecord.has_invoice,
                   rules: [{ required: false }],
@@ -321,18 +297,13 @@ class ProductEdit extends React.PureComponent {
                   initialValue: currentRecord.is_new,
                   rules: [{ required: false }],
                 })(<Checkbox />)}
-              </FormItem>
+              </FormItem> */}
 
               <FormItem {...formItemLayout} label="轮播图链接">
                 {getFieldDecorator('carousel', {
                   initialValue: currentRecord ? currentRecord.carousel : '',
                   rules: [{ required: true, message: '请输入轮播图链接！' }],
-                })(
-                  <TextArea
-                    autosize={{ minRows: 5, maxRows: 8 }}
-                    placeholder="轮播图链接可填写多个，使用英文逗号 , 进行分隔"
-                  />
-                )}
+                })(<TextArea autosize={{ minRows: 5, maxRows: 8 }} placeholder="轮播图链接可填写多个，使用英文逗号 , 进行分隔" />)}
               </FormItem>
               <FormItem {...formItemLayout} label="题图链接">
                 {getFieldDecorator('header_image', {
@@ -344,26 +315,10 @@ class ProductEdit extends React.PureComponent {
                 {getFieldDecorator('content', {
                   initialValue: currentRecord.content,
                   rules: [{ required: true, message: '请输入商品详情！' }],
-                })(
-                  <BraftEditor
-                    style={{ border: '1px solid #d9d9d9' }}
-                    controls={controls}
-                    extendControls={extendControls}
-                    placeholder="请输入商品详情"
-                  />
-                )}
+                })(<BraftEditor style={{ border: '1px solid #d9d9d9' }} controls={controls} extendControls={extendControls} placeholder="请输入商品详情" />)}
               </FormItem>
 
-              <Form.Item
-                wrapperCol={{
-                  xs: { span: 24, offset: 0 },
-                  sm: {
-                    span: formItemLayout.wrapperCol.span,
-                    offset: formItemLayout.labelCol.span,
-                  },
-                }}
-                label=""
-              >
+              <Form.Item wrapperCol={{ xs: { span: 24, offset: 0 }, sm: { span: formItemLayout.wrapperCol.span, offset: formItemLayout.labelCol.span } }} label="">
                 <Button type="primary" onClick={onValidateForm} loading={submitting}>
                   保存
                 </Button>
@@ -377,8 +332,7 @@ class ProductEdit extends React.PureComponent {
             </div>
           </Fragment>
         </Card>
-      </PageHeaderWrapper>
-    );
+      </PageHeaderWrapper>;
   }
 }
 

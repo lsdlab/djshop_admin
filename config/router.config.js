@@ -120,55 +120,48 @@ export default [
           },
         ],
       },
-      // {
-      //   path: '/promotion',
-      //   name: 'promotion',
-      //   icon: 'shopping',
-      //   routes: [
-      //     {
-      //       path: '/promotion/product-promotion-list',
-      //       name: 'product-promotion-list',
-      //       component: './Promotion/ProductPromotionList',
-      //     },
-      //     {
-      //       path: '/promotion/promotion-list',
-      //       name: 'promotion-list',
-      //       component: './Promotion/PromotionList',
-      //     },
-      //   ],
-      // },
       {
-        path: '/bargaingroupon',
-        name: 'bargaingroupon',
+        path: '/promotion',
+        name: 'promotion',
         icon: 'shopping',
         routes: [
           {
-            path: '/bargaingroupon/bargain-product-list',
+            path: '/promotion/product-promotion-list',
+            name: 'product-promotion-list',
+            component: './Promotion/ProductPromotionList',
+          },
+          {
+            path: '/promotion/promotion-list',
+            name: 'promotion-list',
+            component: './Promotion/PromotionList',
+          },
+          {
+            path: '/promotion/bargain-product-list',
             name: 'bargain-product-list',
             component: './BargainGroupon/BargainProductList',
           },
           {
-            path: '/bargaingroupon/bargain-list',
+            path: '/promotion/bargain-list',
             name: 'bargain-list',
             component: './BargainGroupon/BargainList',
           },
           {
-            path: '/bargaingroupon/groupon-product-list',
+            path: '/promotion/groupon-product-list',
             name: 'groupon-product-list',
             component: './BargainGroupon/GrouponProductList',
           },
           {
-            path: '/bargaingroupon/groupon-list',
+            path: '/promotion/groupon-list',
             name: 'groupon-list',
             component: './BargainGroupon/GrouponList',
           },
           {
-            path: '/bargaingroupon/seckill-product-list',
+            path: '/promotion/seckill-product-list',
             name: 'seckill-product-list',
             component: './BargainGroupon/SeckillProductList',
           },
           {
-            path: '/bargaingroupon/seckill-list',
+            path: '/promotion/seckill-list',
             name: 'seckill-list',
             component: './BargainGroupon/SeckillList',
           },

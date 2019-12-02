@@ -195,39 +195,23 @@ class Step1 extends React.PureComponent {
       });
     };
 
-    return (
-      <Fragment>
-        <Form
-          layout="horizontal"
-          style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: 20, maxWidth: 740 }}
-        >
-          {categoryData ? (
-            <Form.Item {...formItemLayout} label="分类">
+    return <Fragment>
+        <Form layout="horizontal" style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: 20, maxWidth: 740 }}>
+          {categoryData ? <Form.Item {...formItemLayout} label="分类">
               {getFieldDecorator('category', {
                 initialValue: newProduct.category,
                 rules: [{ required: true, message: '请选择分类！' }],
-              })(
-                <TreeSelect
-                  style={{ width: '100%' }}
-                  treeData={categoryData}
-                  placeholder="商品分类"
-                  treeDefaultExpandAll={true}
-                  showSearch={true}
-                />
-              )}
-            </Form.Item>
-          ) : null}
+              })(<TreeSelect style={{ width: '100%' }} treeData={categoryData} placeholder="商品分类" treeDefaultExpandAll={true} showSearch={true} />)}
+            </Form.Item> : null}
 
           <Form.Item {...formItemLayout} label="上架状态">
             {getFieldDecorator('status', {
               initialValue: newProduct.status,
               rules: [{ required: true, message: '请选择上架状态！' }],
-            })(
-              <Select placeholder="商品上架状态" style={{ width: '100%' }}>
+            })(<Select placeholder="商品上架状态" style={{ width: '100%' }}>
                 <Option value="1">上架</Option>
                 <Option value="2">下架</Option>
-              </Select>
-            )}
+              </Select>)}
           </Form.Item>
 
           <FormItem {...formItemLayout} label="名称">
@@ -242,25 +226,23 @@ class Step1 extends React.PureComponent {
               rules: [{ required: true, message: '请输入副标题！' }],
             })(<Input placeholder="商品副标题，十个字符以内" />)}
           </FormItem>
-          <FormItem {...formItemLayout} label="单位">
+          {/* <FormItem {...formItemLayout} label="单位">
             {getFieldDecorator('unit', {
               initialValue: newProduct.unit,
-              rules: [{ required: true, message: '请输入单位！' }],
+              rules: [{ required: false, message: '请输入单位！' }],
             })(<Input placeholder="商品单位" />)}
           </FormItem>
           <FormItem {...formItemLayout} label="重量">
             {getFieldDecorator('weight', {
               initialValue: newProduct.weight,
-              rules: [{ required: true, message: '请输入重量！' }],
+              rules: [{ required: false, message: '请输入重量！' }],
             })(<Input placeholder="商品重量" />)}
-          </FormItem>
+          </FormItem> */}
           <FormItem {...formItemLayout} label="限购数量">
             {getFieldDecorator('limit', {
               initialValue: newProduct.limit,
               rules: [{ required: true, message: '请输入限购数量！' }],
-            })(
-              <InputNumber min={1} max={10} style={{ width: '100%' }} placeholder="商品限购数量" />
-            )}
+            })(<InputNumber min={1} max={10} style={{ width: '100%' }} placeholder="商品限购数量" />)}
           </FormItem>
 
           {/*<FormItem {...formItemLayout} label="是否开发票">
@@ -300,12 +282,7 @@ class Step1 extends React.PureComponent {
             {getFieldDecorator('carousel', {
               initialValue: newProduct.carousel,
               rules: [{ required: true, message: '请输入轮播图链接！' }],
-            })(
-              <TextArea
-                autosize={{ minRows: 5, maxRows: 8 }}
-                placeholder="轮播图链接可填写多个，使用英文逗号 , 进行分隔"
-              />
-            )}
+            })(<TextArea autosize={{ minRows: 5, maxRows: 8 }} placeholder="轮播图链接可填写多个，使用英文逗号 , 进行分隔" />)}
           </FormItem>
           <FormItem {...formItemLayout} label="题图链接">
             {getFieldDecorator('header_image', {
@@ -313,36 +290,20 @@ class Step1 extends React.PureComponent {
               rules: [{ required: true, message: '请输入题图链接！' }],
             })(<Input placeholder="题图链接，单个链接" />)}
           </FormItem>
-          <FormItem {...formItemLayout} label="视频链接">
+          {/* <FormItem {...formItemLayout} label="视频链接">
             {getFieldDecorator('video_url', {
               initialValue: newProduct.video_url,
               rules: [{ required: false, message: '请输入视频链接！' }],
             })(<Input placeholder="视频链接，单个链接" />)}
-          </FormItem>
+          </FormItem> */}
           <FormItem {...formItemLayout} label="商品详情">
             {getFieldDecorator('content', {
               initialValue: newProduct.content,
               rules: [{ required: true, message: '请输入商品详情！' }],
-            })(
-              <BraftEditor
-                style={{ border: '1px solid #d9d9d9' }}
-                controls={controls}
-                extendControls={extendControls}
-                placeholder="请输入商品详情"
-              />
-            )}
+            })(<BraftEditor style={{ border: '1px solid #d9d9d9' }} controls={controls} extendControls={extendControls} placeholder="请输入商品详情" />)}
           </FormItem>
 
-          <Form.Item
-            wrapperCol={{
-              xs: { span: 24, offset: 0 },
-              sm: {
-                span: formItemLayout.wrapperCol.span,
-                offset: formItemLayout.labelCol.span,
-              },
-            }}
-            label=""
-          >
+          <Form.Item wrapperCol={{ xs: { span: 24, offset: 0 }, sm: { span: formItemLayout.wrapperCol.span, offset: formItemLayout.labelCol.span } }} label="">
             <Button type="primary" onClick={onValidateForm} loading={submitting}>
               下一步
             </Button>
@@ -353,9 +314,12 @@ class Step1 extends React.PureComponent {
           <h3>商品信息填写说明</h3>
           <h4>轮播图</h4>
           <p>轮播图链接可填写多个，使用英文逗号 , 进行分隔</p>
+          <h4>题图链接</h4>
+          <p>题图链接填写单个链接，无需使用标点符号</p>
+          <h4>商品详情</h4>
+          <p>商品详情使用富文本编辑器，插入图片使用内置的上传功能</p>
         </div>
-      </Fragment>
-    );
+      </Fragment>;
   }
 }
 
