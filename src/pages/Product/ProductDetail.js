@@ -1,18 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
-import {
-  Row,
-  Col,
-  Card,
-  Form,
-  Input,
-  InputNumber,
-  Button,
-  Modal,
-  message,
-  Badge,
-  Checkbox,
-} from 'antd';
+import { Row, Col, Card, Form, Input, InputNumber, Button, Modal, message, Badge } from 'antd';
 import router from 'umi/router';
 import DescriptionList from '@/components/DescriptionList';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
@@ -44,28 +32,6 @@ const DescriptionItem = ({ title, content }) => (
       {title}:
     </p>
     {content}
-  </div>
-);
-
-const CheckboxItem = ({ title, status }) => (
-  <div
-    style={{
-      fontSize: 14,
-      lineHeight: '22px',
-      marginBottom: 7,
-      color: 'rgba(0,0,0,0.65)',
-    }}
-  >
-    <p
-      style={{
-        marginRight: 8,
-        display: 'inline-block',
-        color: 'rgba(0,0,0,0.85)',
-      }}
-    >
-      {title}:
-    </p>
-    <Checkbox disabled checked={status} />
   </div>
 );
 
@@ -292,7 +258,6 @@ class ProductDetail extends PureComponent {
           <Button onClick={() => this.routerPushEdit(currentRecord.id)}>编辑详情</Button>
           <Button onClick={() => this.routerPushSpecCreate(currentRecord.id)}>上架规格</Button>
         </ButtonGroup>
-        {/* <Button type="primary">商品详情(移动端渲染效果)</Button> */}
       </Fragment>
     );
   }
@@ -348,7 +313,7 @@ class ProductDetail extends PureComponent {
     if (srcList) {
       const arr = [];
       for (let i = 0; i < srcList.length; i++) {
-        arr.push(<img key={i} style={{ width: '10%', height: '10%' }} src={srcList[i]} />);
+        arr.push(<img key={i} style={{ width: '20%', height: '20%' }} src={srcList[i]} />);
       }
       return arr;
     } else {
@@ -473,7 +438,7 @@ class ProductDetail extends PureComponent {
               <Col span={24}>
                 <DescriptionItem title="题图" />
                 {specData[i].header_image ? (
-                  <img style={{ width: '10%', height: '10%' }} src={specData[i].header_image} />
+                  <img style={{ width: '20%', height: '20%' }} src={specData[i].header_image} />
                 ) : null}
               </Col>
             </Row>
@@ -551,7 +516,7 @@ class ProductDetail extends PureComponent {
             <Col span={24}>
               <DescriptionItem title="题图" />
               {currentRecord.header_image ? (
-                <img style={{ width: '10%', height: '10%' }} src={currentRecord.header_image} />
+                <img style={{ width: '20%', height: '20%' }} src={currentRecord.header_image} />
               ) : null}
             </Col>
           </Row>
