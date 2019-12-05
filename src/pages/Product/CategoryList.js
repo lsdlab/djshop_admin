@@ -247,7 +247,6 @@ class CategoryList extends PureComponent {
                 <Tree
                   autoExpandParent={true}
                   defaultExpandAll={true}
-                  defaultExpandParent={true}
                   onSelect={this.onSelect}
                 >
                   {this.renderTreeNodes(data)}
