@@ -16,9 +16,9 @@ const pStyle = {
 };
 
 /* eslint react/no-multi-comp:0 */
-@connect(({ bargain, loading }) => ({
-  bargain,
-  loading: loading.models.bargain,
+@connect(({ promotion, loading }) => ({
+  promotion,
+  loading: loading.models.promotion,
 }))
 class BargainList extends PureComponent {
   state = {
@@ -29,7 +29,7 @@ class BargainList extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'bargain/fetch',
+      type: 'promotion/fetch',
     });
   }
 
@@ -44,7 +44,7 @@ class BargainList extends PureComponent {
       });
 
       this.props.dispatch({
-        type: 'bargain/fetchLog',
+        type: 'promotion/fetchLog',
         bargainID: currentRecord.id,
       });
     } else {
@@ -75,16 +75,13 @@ class BargainList extends PureComponent {
     });
 
     dispatch({
-      type: 'bargain/fetch',
+      type: 'promotion/fetch',
       payload: params,
     });
   };
 
   render() {
-    const {
-      bargain: { data, logData },
-      loading,
-    } = this.props;
+    const { promotion: { data, logData }, loading } = this.props;
 
     const columns = [
       {
@@ -94,7 +91,7 @@ class BargainList extends PureComponent {
       {
         title: '商品名称',
         dataIndex: 'bargain_product.product_spec.product.name',
-        render(text, record) {
+        render(text) {
           if (text.length > 12) {
             return (
               <Tooltip title={text}>

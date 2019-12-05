@@ -300,9 +300,9 @@ class UpdateForm extends PureComponent {
 }
 
 /* eslint react/no-multi-comp:0 */
-@connect(({ bargain_product, loading }) => ({
-  bargain_product,
-  loading: loading.models.bargain_product,
+@connect(({ promotion_product, loading }) => ({
+  promotion_product,
+  loading: loading.models.promotion_product,
 }))
 @Form.create()
 class BargainProductList extends PureComponent {
@@ -317,7 +317,7 @@ class BargainProductList extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'bargain_product/fetch',
+      type: 'promotion_product/fetch',
     });
   }
 
@@ -336,7 +336,7 @@ class BargainProductList extends PureComponent {
     });
 
     dispatch({
-      type: 'bargain_product/fetch',
+      type: 'promotion_product/fetch',
       payload: params,
     });
   };
@@ -348,7 +348,7 @@ class BargainProductList extends PureComponent {
 
     if (flag) {
       this.props.dispatch({
-        type: 'bargain_product/fetchProductSpecAllIds',
+        type: 'promotion_product/fetchProductSpecAllIds',
       });
     }
   };
@@ -361,7 +361,7 @@ class BargainProductList extends PureComponent {
 
     if (flag) {
       this.props.dispatch({
-        type: 'bargain_product/fetchProductSpecAllIds',
+        type: 'promotion_product/fetchProductSpecAllIds',
       });
     }
   };
@@ -377,13 +377,13 @@ class BargainProductList extends PureComponent {
     };
 
     dispatch({
-      type: 'bargain_product/create',
+      type: 'promotion_product/create',
       payload: payload,
     }).then(data => {
       message.success('新增成功');
       this.handleModalVisible();
       this.props.dispatch({
-        type: 'bargain_product/fetch',
+        type: 'promotion_product/fetch',
         payload: {},
       });
     });
@@ -399,14 +399,14 @@ class BargainProductList extends PureComponent {
         fields.bargain_percent_range_start + '-' + fields.bargain_percent_range_end,
     };
     dispatch({
-      type: 'bargain_product/patch',
+      type: 'promotion_product/patch',
       payload: payload,
       bargainProductSpecID: this.state.currentRecord.id,
     }).then(() => {
       message.success('更新成功');
       this.handleUpdateModalVisible();
       dispatch({
-        type: 'bargain_product/fetch',
+        type: 'promotion_product/fetch',
         payload: {},
       });
     });
@@ -416,7 +416,7 @@ class BargainProductList extends PureComponent {
     const { dispatch } = this.props;
     if (flag && bargainProductSpecID) {
       dispatch({
-        type: 'bargain_product/patch',
+        type: 'promotion_product/patch',
         payload: {
           deleted: true,
         },
@@ -424,12 +424,12 @@ class BargainProductList extends PureComponent {
       }).then(() => {
         message.success('下架砍价商品成功！');
         dispatch({
-          type: 'bargain_product/fetch',
+          type: 'promotion_product/fetch',
         });
       });
     } else {
       dispatch({
-        type: 'bargain_product/patch',
+        type: 'promotion_product/patch',
         payload: {
           deleted: false,
         },
@@ -437,7 +437,7 @@ class BargainProductList extends PureComponent {
       }).then(() => {
         message.success('上架砍价商品成功！');
         dispatch({
-          type: 'bargain_product/fetch',
+          type: 'promotion_product/fetch',
         });
       });
     }
@@ -459,7 +459,7 @@ class BargainProductList extends PureComponent {
 
   render() {
     const {
-      bargain_product: { data, allProductSpecIds },
+      promotion_product: { data, allProductSpecIds },
       loading,
     } = this.props;
     const { modalVisible, updateModalVisible, currentRecord } = this.state;
