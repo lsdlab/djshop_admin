@@ -649,7 +649,7 @@ export async function queryProductReviews(params, productID) {
 // 获取推荐商品列表
 export async function queryRecommendations(params) {
   const token = getToken();
-  return request(`${apiHost}${apiVersion}/product/recommendations/?${stringify(params)}`, {
+  return request(`${apiHost}${apiVersion}/product_recommendations/?${stringify(params)}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -661,7 +661,7 @@ export async function queryRecommendations(params) {
 // 创建推荐商品
 export async function createRecommendation(params) {
   const token = getToken();
-  return request(`${apiHost}${apiVersion}/product/recommendations/`, {
+  return request(`${apiHost}${apiVersion}/product_recommendations/`, {
     method: 'POST',
     body: params,
     headers: {
@@ -674,7 +674,7 @@ export async function createRecommendation(params) {
 // 修改推荐商品
 export async function patchRecommendation(params, recProductID) {
   const token = getToken();
-  return request(`${apiHost}${apiVersion}/product/recommendations/${recProductID}/`, {
+  return request(`${apiHost}${apiVersion}/product_recommendations/${recProductID}/`, {
     method: 'PATCH',
     body: params,
     headers: {

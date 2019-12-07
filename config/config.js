@@ -35,7 +35,6 @@ const plugins = [
               include: ['dva', 'dva/router', 'dva/saga', 'dva/fetch'],
               exclude: ['@babel/runtime'],
             },
-            hardSource: true,
           }
         : {}),
     },
