@@ -220,7 +220,7 @@ class CollectList extends PureComponent {
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 6, lg: 24, xl: 48 }}>
-          <Col md={6} sm={24}>
+          <Col md={8} sm={24}>
             <FormItem label="sn">{getFieldDecorator('sn')(<Input placeholder="sn" />)}</FormItem>
           </Col>
           <Col md={6} sm={24}>

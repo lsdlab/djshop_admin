@@ -218,11 +218,7 @@ class UserDetail extends PureComponent {
       },
     ];
 
-    return (
-      <div>
-        <SimpleTable data={transactionData} columns={drawerColumns} pagination={false} scroll={{ x: 1240 }}/>
-      </div>
-    );
+    return <SimpleTable data={transactionData} columns={drawerColumns} pagination={false} scroll={{ x: 1240 }} />;
   }
 
   render() {
