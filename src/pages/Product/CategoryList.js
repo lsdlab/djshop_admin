@@ -245,7 +245,6 @@ class CategoryList extends PureComponent {
               {/*<Search style={{ marginBottom: 8 }} placeholder="搜索" />*/}
               {data ? (
                 <Tree
-                  autoExpandParent={true}
                   defaultExpandAll={true}
                   onSelect={this.onSelect}
                 >
