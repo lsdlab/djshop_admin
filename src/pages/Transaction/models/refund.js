@@ -18,13 +18,13 @@ export default {
         payload: response,
       });
     },
-    *patch({ payload, transactionID }, { call, put }) {
+    *patch({ payload, transactionID }, { call }) {
       yield call(patchRefund, payload, transactionID);
     },
-    *auditRefund({ payload, transactionID }, { call, put }) {
+    *auditRefund({ payload, transactionID }, { call }) {
       yield call(auditRefund, payload, transactionID);
     },
-    *withdrawRefund({ transactionID }, { call, put }) {
+    *withdrawRefund({ transactionID }, { call }) {
       yield call(withdrawRefund, transactionID);
     },
   },

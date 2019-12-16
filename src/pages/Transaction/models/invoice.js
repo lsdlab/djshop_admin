@@ -19,7 +19,7 @@ export default {
         payload: response,
       });
     },
-    *patch({ payload, transactionID }, { call, put }) {
+    *patch({ payload, transactionID }, { call }) {
       yield call(patchInvoice, payload, transactionID);
     },
     *fetchUserAllAddress({ userID }, { call, put }) {

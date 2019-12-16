@@ -299,7 +299,7 @@ class ProductDetail extends PureComponent {
 
   buildDescription(currentRecord) {
     return (
-      <DescriptionList className={styles.headerList} size="small" col="2">
+      <DescriptionList className={styles.headerList} size="small" col="1">
         <Description term="副标题">{currentRecord.subtitle}</Description>
         <Description term="上架用户">{currentRecord.uploader}</Description>
         <Description term="创建时间">{currentRecord.created_at}</Description>

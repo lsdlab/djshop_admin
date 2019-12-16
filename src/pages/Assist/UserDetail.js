@@ -1,8 +1,10 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
-import { Row, Col, Card, Button, Badge, Checkbox, Avatar } from 'antd';
+import { Row, Col, Card, Button, Badge, Avatar } from 'antd';
+import router from 'umi/router';
 import DescriptionList from '@/components/DescriptionList';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import SimpleTable from '@/components/SimpleTable';
 import styles from '../Profile/AdvancedProfile.less';
 
 const { Description } = DescriptionList;
@@ -30,34 +32,29 @@ const DescriptionItem = ({ title, content }) => (
   </div>
 );
 
-const CheckboxItem = ({ title, status }) => (
-  <div
-    style={{
-      fontSize: 14,
-      lineHeight: '22px',
-      marginBottom: 7,
-      color: 'rgba(0,0,0,0.65)',
-    }}
-  >
-    <p
-      style={{
-        marginRight: 8,
-        display: 'inline-block',
-        color: 'rgba(0,0,0,0.85)',
-      }}
-    >
-      {title}:
-    </p>
-    <Checkbox disabled checked={status} />
-  </div>
-);
+const operationTabList = [
+  {
+    key: 'tab1',
+    tab: '用户资料',
+  },
+  {
+    key: 'tab2',
+    tab: '订单列表',
+  },
+  {
+    key: 'tab3',
+    tab: '购物车 & 收藏夹',
+  },
+];
 
 /* eslint react/no-multi-comp:0 */
 @connect(({ user }) => ({
   user,
 }))
 class UserDetail extends PureComponent {
-  state = {};
+  state = {
+    operationkey: 'tab1',
+  };
 
   componentDidMount() {
     const { location, dispatch } = this.props;
@@ -71,7 +68,21 @@ class UserDetail extends PureComponent {
     });
   }
 
-  buildAction(currentRecord) {
+  routerPushDetail = transactionID => {
+    router.push('/transaction/transaction-detail/' + transactionID);
+  };
+
+  onOperationTabChange = key => {
+    this.setState({ operationkey: key });
+    if (key === 'tab2') {
+      this.props.dispatch({
+        type: 'transaction/fetch',
+        payload: { user: this.state.userID },
+      });
+    }
+  };
+
+  buildAction() {
     return (
       <Fragment>
         <ButtonGroup>
@@ -142,7 +153,7 @@ class UserDetail extends PureComponent {
 
   buildDescription(currentRecord) {
     return (
-      <DescriptionList className={styles.headerList} size="small" col="2">
+      <DescriptionList className={styles.headerList} size="small" col="1">
         <Description term="手机号">{currentRecord.mobile}</Description>
         <Description term="用户名">
           <Avatar size="small" src={currentRecord.avatar} style={{ marginRight: 8 }} />
@@ -158,19 +169,71 @@ class UserDetail extends PureComponent {
     );
   }
 
-  render() {
-    const {
-      user: { currentRecord },
-    } = this.props;
+  buildTransactionList(transactionData) {
+    const drawerColumns = [
+      {
+        title: 'sn',
+        dataIndex: 'sn',
+      },
+      {
+        title: '用户',
+        dataIndex: 'user.nickname',
+      },
+      {
+        title: '状态',
+        dataIndex: 'status_name',
+      },
+      {
+        title: '支付渠道',
+        dataIndex: 'payment_name',
+      },
+      {
+        title: '类型',
+        dataIndex: 'deal_type_name',
+      },
+      {
+        title: '总价',
+        dataIndex: 'total_amount',
+      },
+      {
+        title: '实付',
+        dataIndex: 'paid',
+      },
+      {
+        title: '创建时间',
+        dataIndex: 'created_at',
+      },
+      {
+        title: '创建时间',
+        dataIndex: 'created_at',
+      },
+      {
+        title: '操作',
+        fixed: 'right',
+        render: record => (
+          <Fragment>
+            <a onClick={() => this.routerPushDetail(record.id)}>详情</a>
+          </Fragment>
+        ),
+      },
+    ];
 
     return (
-      <PageHeaderWrapper
-        title={currentRecord.username}
-        action={currentRecord ? this.buildAction(currentRecord) : null}
-        content={currentRecord ? this.buildDescription(currentRecord) : null}
-        extraContent={currentRecord ? this.buildExtra(currentRecord) : null}
-      >
-        <Card title="用户资料" style={{ marginBottom: 24 }} bordered={false}>
+      <div>
+        <SimpleTable data={transactionData} columns={drawerColumns} pagination={false} scroll={{ x: 1240 }}/>
+      </div>
+    );
+  }
+
+  render() {
+    const {
+      user: { currentRecord, transactionData },
+    } = this.props;
+    const { operationkey } = this.state;
+
+    const contentList = {
+      tab1: (
+        <Card style={{ marginBottom: 24 }} bordered={false}>
           {currentRecord.weixin_userinfo ? (
             <Row>
               <Col span={12}>
@@ -196,7 +259,6 @@ class UserDetail extends PureComponent {
               </Col>
             </Row>
           ) : null}
-
           {currentRecord.weixin_userinfo ? (
             <Row>
               <Col span={6}>
@@ -210,7 +272,6 @@ class UserDetail extends PureComponent {
               </Col>
             </Row>
           ) : null}
-
           {currentRecord.weixin_userinfo ? (
             <Row>
               <Col span={6}>
@@ -225,6 +286,25 @@ class UserDetail extends PureComponent {
             </Row>
           ) : null}
         </Card>
+      ),
+      tab2: (
+        <Card style={{ marginBottom: 24 }} bordered={false}>
+          {transactionData ? this.buildTransactionList(transactionData) : null}
+        </Card>
+      ),
+      tab3: <Card style={{ marginBottom: 24 }} bordered={false} />,
+    };
+
+    return (
+      <PageHeaderWrapper
+        title={currentRecord.username}
+        action={this.buildAction(currentRecord)}
+        content={currentRecord ? this.buildDescription(currentRecord) : null}
+        extraContent={currentRecord ? this.buildExtra(currentRecord) : null}
+        tabList={operationTabList}
+        onTabChange={this.onOperationTabChange}
+      >
+        {contentList[operationkey]}
       </PageHeaderWrapper>
     );
   }

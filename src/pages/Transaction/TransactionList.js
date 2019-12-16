@@ -179,7 +179,7 @@ class TransactionList extends PureComponent {
       {
         title: '操作',
         fixed: 'right',
-        render: (text, record) => (
+        render: (record) => (
           <Fragment>
             <a onClick={() => this.routerPushDetail(record.id)}>详情</a>
           </Fragment>

@@ -3,7 +3,6 @@ import {
   fetchTransaction,
   patchTransaction,
   manualCloseTransaction,
-  receivePackageTransaction,
   createExpress,
   queryUserAllAddress,
 } from '@/services/api';
@@ -35,13 +34,13 @@ export default {
         payload: response,
       });
     },
-    *patch({ payload, transactionID }, { call, put }) {
+    *patch({ payload, transactionID }, { call }) {
       yield call(patchTransaction, payload, transactionID);
     },
-    *manualClose({ transactionID }, { call, put }) {
+    *manualClose({ transactionID }, { call }) {
       yield call(manualCloseTransaction, transactionID);
     },
-    *createExpress({ payload }, { call, put }) {
+    *createExpress({ payload }, { call }) {
       yield call(createExpress, payload);
     },
     *fetchUserAllAddress({ userID }, { call, put }) {

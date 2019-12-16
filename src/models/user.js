@@ -3,6 +3,7 @@ import {
   fetchCurrentMerchant,
   queryUsers,
   fetchUser,
+  queryTransactions,
   patchUser,
   patchProfile,
   deleteUser,
@@ -21,6 +22,7 @@ export default {
       count: undefined,
       results: [],
     },
+    transactionData: [],
     currentRecord: {},
     activitystream: {
       count: undefined,
@@ -54,20 +56,24 @@ export default {
         payload: response,
       });
     },
-    *fetchDetail({ userID }, { call, put }) {
-      const response = yield call(fetchUser, userID);
+    *fetchDetail({ userID }, { all, call, put }) {
+      const [usersResponse, transactionsResponse] = yield all([
+        call(fetchUser, userID),
+        call(queryTransactions, userID)
+      ])
       yield put({
         type: 'saveDetail',
-        payload: response,
+        payload1: usersResponse,
+        payload2: transactionsResponse,
       });
     },
-    *patch({ payload, userID }, { call, put }) {
+    *patch({ payload, userID }, { call }) {
       yield call(patchUser, payload, userID);
     },
-    *patchProfile({ payload, userID }, { call, put }) {
+    *patchProfile({ payload, userID }, { call }) {
       yield call(patchProfile, payload, userID);
     },
-    *delete({ userID }, { call, put }) {
+    *delete({ userID }, { call }) {
       yield call(deleteUser, userID);
     },
     *fetchActivityStream({ payload }, { call, put }) {
@@ -101,7 +107,8 @@ export default {
     saveDetail(state, action) {
       return {
         ...state,
-        currentRecord: action.payload,
+        currentRecord: action.payload1,
+        transactionData: action.payload2,
       };
     },
     saveActivityStream(state, action) {

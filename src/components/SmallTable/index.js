@@ -11,6 +11,7 @@ class SmallTable extends PureComponent {
       loading,
       columns,
       size,
+      scroll
     } = this.props;
 
     return (
@@ -20,8 +21,9 @@ class SmallTable extends PureComponent {
           rowKey={results => results.id}
           dataSource={results}
           columns={columns}
-          size={size || 'default'}
           pagination={false}
+          size={size || 'default'}
+          scroll={scroll}
         />
       </div>
     );
