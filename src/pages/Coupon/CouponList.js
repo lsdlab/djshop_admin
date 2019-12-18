@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import { Row, Col, Card, Form, Input, Select, Button, Divider, Badge, Drawer } from 'antd';
 import router from 'umi/router';
 import SimpleTable from '@/components/SimpleTable';
-import SmallTable from '@/components/SmallTable';
+import SmallNonPaginationlTable from '@/components/SmallNonPaginationlTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import styles from '../List/TableList.less';
@@ -345,7 +345,7 @@ class CouponList extends PureComponent {
             <p style={{ ...pStyle, marginBottom: 24 }}>优惠卷领取记录</p>
             <Row>
               {logData && Object.keys(logData).length ? (
-                <SmallTable data={logData} columns={drawerColumns} />
+                <SmallNonPaginationlTable data={logData} columns={drawerColumns} />
               ) : null}
             </Row>
           </Drawer>

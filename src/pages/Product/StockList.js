@@ -15,7 +15,7 @@ import {
   Drawer,
 } from 'antd';
 import SimpleTable from '@/components/SimpleTable';
-import SmallTable from '@/components/SmallTable';
+import SmallNonPaginationlTable from '@/components/SmallNonPaginationlTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import styles from '../List/TableList.less';
@@ -409,7 +409,7 @@ class StockList extends PureComponent {
             <p style={{ ...pStyle, marginBottom: 24 }}>进货记录</p>
             <Row>
               {logData && Object.keys(logData).length ? (
-                <SmallTable data={logData} columns={drawerColumns} />
+                <SmallNonPaginationlTable data={logData} columns={drawerColumns} />
               ) : null}
             </Row>
           </Drawer>

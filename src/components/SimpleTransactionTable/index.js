@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Table } from 'antd';
-import styles from '../SimpleNonPaginationTable/index.less';
+import styles from '../SimpleTable/index.less';
 
 
 class SimpleTransactionTable extends PureComponent {

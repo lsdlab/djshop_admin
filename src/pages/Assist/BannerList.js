@@ -17,7 +17,7 @@ import {
   TreeSelect,
 } from 'antd';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import SimpleNonPaginationTable from '@/components/SimpleNonPaginationTable';
+import SimpleTable from '@/components/SimpleTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import styles from '../List/TableList.less';
@@ -239,6 +239,10 @@ class BannerList extends PureComponent {
       page_size: pagination.pageSize,
       ...formValues,
     };
+
+    this.setState({
+      currentPage: pagination.current,
+    });
 
     dispatch({
       type: 'banner/fetch',
@@ -489,7 +493,13 @@ class BannerList extends PureComponent {
         <Card bordered={false}>
           <div className={styles.tableList}>
             <div className={styles.tableListForm}>{this.renderSimpleForm()}</div>
-            <SimpleNonPaginationTable loading={loading} data={data} columns={columns} />
+            <SimpleTable
+              loading={loading}
+              data={data}
+              columns={columns}
+              current={this.state.currentPage}
+              onChange={this.handleStandardTableChange}
+            />
           </div>
         </Card>
 

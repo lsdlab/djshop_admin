@@ -13,7 +13,7 @@ import {
   Popconfirm,
   Badge,
 } from 'antd';
-import SimpleNonPaginationTable from '@/components/SimpleNonPaginationTable';
+import SimpleTable from '@/components/SimpleTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import styles from '../List/TableList.less';
@@ -158,6 +158,10 @@ class NoticeList extends PureComponent {
       page_size: pagination.pageSize,
       ...formValues,
     };
+
+    this.setState({
+      currentPage: pagination.current,
+    });
 
     dispatch({
       type: 'notice/fetch',
@@ -325,10 +329,11 @@ class NoticeList extends PureComponent {
         <Card bordered={false}>
           <div className={styles.tableList}>
             <div className={styles.tableListForm}>{this.renderSimpleForm()}</div>
-            <SimpleNonPaginationTable
+            <SimpleTable
               loading={loading}
               data={data}
               columns={columns}
+              current={this.state.currentPage}
               onChange={this.handleStandardTableChange}
             />
           </div>

@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
 import { Table } from 'antd';
-import styles from '../SmallTable/index.less';
+import styles from '../SimpleTable/index.less';
 
 
-class SmallTable extends PureComponent {
+class SmallNonPaginationlTable extends PureComponent {
 
   render() {
     const {
@@ -25,4 +25,4 @@ class SmallTable extends PureComponent {
   }
 }
 
-export default SmallTable;
+export default SmallNonPaginationlTable;

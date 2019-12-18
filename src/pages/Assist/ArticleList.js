@@ -225,6 +225,7 @@ class ArticleList extends PureComponent {
       type: 'article/fetch',
     });
   }
+  
 
   handleStandardTableChange = pagination => {
     const { dispatch } = this.props;
