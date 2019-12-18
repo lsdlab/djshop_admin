@@ -392,7 +392,7 @@ class ProductList extends PureComponent {
       {
         title: '名称',
         dataIndex: 'name',
-        render(text, record) {
+        render(text) {
           if (text.length > 16) {
             return (
               <Tooltip title={text}>

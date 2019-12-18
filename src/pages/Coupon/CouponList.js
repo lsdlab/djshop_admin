@@ -345,7 +345,7 @@ class CouponList extends PureComponent {
             <p style={{ ...pStyle, marginBottom: 24 }}>优惠卷领取记录</p>
             <Row>
               {logData && Object.keys(logData).length ? (
-                <SmallTable size="small" data={logData} columns={drawerColumns} />
+                <SmallTable data={logData} columns={drawerColumns} />
               ) : null}
             </Row>
           </Drawer>

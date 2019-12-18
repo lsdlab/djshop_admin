@@ -8,22 +8,17 @@ class SmallTable extends PureComponent {
   render() {
     const {
       data: { results },
-      loading,
       columns,
-      size,
-      scroll
     } = this.props;
 
     return (
       <div className={styles.simpleTable}>
         <Table
-          loading={loading}
           rowKey={results => results.id}
           dataSource={results}
           columns={columns}
           pagination={false}
-          size={size || 'default'}
-          scroll={scroll}
+          size={'small'}
         />
       </div>
     );

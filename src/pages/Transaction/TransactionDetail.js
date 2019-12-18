@@ -211,8 +211,27 @@ class TransactionDetail extends PureComponent {
 
     const transactionProductColumns = [
       {
+        title: '商品ID',
+        dataIndex: 'product_spec.product.id',
+      },
+      {
         title: '商品名称',
         dataIndex: 'product_spec.product.name',
+        render(text) {
+          if (text.length > 12) {
+            return (
+              <Tooltip title={text}>
+                <span>{text.slice(0, 6) + '...' + text.substr(text.length - 6)}</span>
+              </Tooltip>
+            );
+          } else {
+            return text;
+          }
+        },
+      },
+      {
+        title: '商品规格ID',
+        dataIndex: 'product_spec.id',
       },
       {
         title: '商品规格名称',

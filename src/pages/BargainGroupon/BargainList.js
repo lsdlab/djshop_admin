@@ -214,7 +214,7 @@ class BargainList extends PureComponent {
             <p style={{ ...pStyle, marginBottom: 24 }}>砍价记录</p>
             <Row>
               {logData && Object.keys(logData).length ? (
-                <SmallTable size="small" data={logData} columns={drawerColumns} />
+                <SmallTable data={logData} columns={drawerColumns} />
               ) : null}
             </Row>
           </Drawer>

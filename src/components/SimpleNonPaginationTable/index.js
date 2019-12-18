@@ -1,13 +1,9 @@
 import React, { PureComponent, Fragment } from 'react';
-import { Table, Alert } from 'antd';
+import { Table } from 'antd';
 import styles from '../SimpleNonPaginationTable/index.less';
 
 
 class SimpleNonPaginationTable extends PureComponent {
-  constructor(props) {
-    super(props);
-    const { columns } = props;
-  }
 
   handleTableChange = (pagination, filters, sorter) => {
     const { onChange } = this.props;

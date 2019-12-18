@@ -91,12 +91,12 @@ class UserList extends PureComponent {
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 6, lg: 24, xl: 48 }}>
-          <Col md={12} sm={24}>
+          <Col md={8} sm={24}>
             <FormItem label="搜索">
               {getFieldDecorator('search')(<Input placeholder="用户名/手机号" />)}
             </FormItem>
           </Col>
-          <Col md={12} sm={24}>
+          <Col md={6} sm={24}>
             <span className={styles.submitButtons}>
               <Button type="primary" htmlType="submit">
                 查询
@@ -137,7 +137,7 @@ class UserList extends PureComponent {
       {
         title: '是否超级用户',
         dataIndex: 'is_superuser',
-        render(text, record, index) {
+        render(text) {
           if (text) {
             return <Badge status="success" text="是" />;
           } else {

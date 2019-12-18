@@ -306,7 +306,7 @@ class SeckillList extends PureComponent {
             <p style={{ ...pStyle, marginBottom: 24 }}>秒杀记录</p>
             <Row>
               {logData && Object.keys(logData).length ? (
-                <SmallTable size="small" data={logData} columns={drawerColumns} />
+                <SmallTable data={logData} columns={drawerColumns} />
               ) : null}
             </Row>
           </Drawer>
