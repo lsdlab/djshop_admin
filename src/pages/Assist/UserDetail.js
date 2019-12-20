@@ -43,7 +43,15 @@ const operationTabList = [
   },
   {
     key: 'tab3',
-    tab: '购物车 & 收藏夹',
+    tab: '购物车',
+  },
+  {
+    key: 'tab4',
+    tab: '收藏夹',
+  },
+  {
+    key: 'tab5',
+    tab: '地址',
   },
 ];
 
@@ -65,6 +73,7 @@ class UserDetail extends PureComponent {
     dispatch({
       type: 'user/fetchDetail',
       userID: userID,
+      ordering: '-created_at',
     });
   }
 
