@@ -4,6 +4,9 @@ import {
   queryUsers,
   fetchUser,
   queryTransactions,
+  fetchCart,
+  fetchCollection,
+  queryUserAllAddress,
   patchUser,
   patchProfile,
   deleteUser,
@@ -23,6 +26,9 @@ export default {
       results: [],
     },
     transactionData: [],
+    cartData: [],
+    collectionData: [],
+    addressData: [],
     currentRecord: {},
     activitystream: {
       count: undefined,
@@ -33,11 +39,29 @@ export default {
   effects: {
     *fetchCurrent(_, { call, put }) {
       const responseJSON = yield call(fetchCurrent);
-      const response = {"userid": responseJSON.id, "email": responseJSON.email, "username": responseJSON.username, "name": responseJSON.username,"avatar": responseJSON.avatar, "bio": responseJSON.bio, "location": responseJSON.location, "url": responseJSON.url, "date_joined": responseJSON.date_joined};
+      const response = {
+        userid: responseJSON.id,
+        email: responseJSON.email,
+        username: responseJSON.username,
+        name: responseJSON.username,
+        avatar: responseJSON.avatar,
+        bio: responseJSON.bio,
+        location: responseJSON.location,
+        url: responseJSON.url,
+        date_joined: responseJSON.date_joined,
+      };
       localStorage.setItem('currentUser', JSON.stringify(response));
 
       const responseMerchantJSON = yield call(fetchCurrentMerchant, defaultSettings.merchantID);
-      const responseMerchant = {"merchantid": responseMerchantJSON.id, "merchantname": responseMerchantJSON.name, "merchantmobile": responseMerchantJSON.mobile, "merchantremark": responseMerchantJSON.remark, "merchantdeleted": responseMerchantJSON.deleted, "merchantcreatedat": responseMerchantJSON.created_at, "merchantupdatedat": responseMerchantJSON.updated_at};
+      const responseMerchant = {
+        merchantid: responseMerchantJSON.id,
+        merchantname: responseMerchantJSON.name,
+        merchantmobile: responseMerchantJSON.mobile,
+        merchantremark: responseMerchantJSON.remark,
+        merchantdeleted: responseMerchantJSON.deleted,
+        merchantcreatedat: responseMerchantJSON.created_at,
+        merchantupdatedat: responseMerchantJSON.updated_at,
+      };
       localStorage.setItem('currentMerchant', JSON.stringify(responseMerchant));
 
       yield put({
@@ -56,15 +80,21 @@ export default {
         payload: response,
       });
     },
-    *fetchDetail({ userID }, { all, call, put }) {
-      const [usersResponse, transactionsResponse] = yield all([
+    *fetchDetail({ payload, userID }, { all, call, put }) {
+      const [usersResponse, transactionsResponse, cartResponse, collectionResponse, addressResponse] = yield all([
         call(fetchUser, userID),
-        call(queryTransactions, userID)
-      ])
+        call(queryTransactions, payload),
+        call(fetchCart, payload),
+        call(fetchCollection, payload),
+        call(queryUserAllAddress, userID),
+      ]);
       yield put({
         type: 'saveDetail',
         payload1: usersResponse,
         payload2: transactionsResponse,
+        payload3: cartResponse,
+        payload4: collectionResponse,
+        payload5: addressResponse,
       });
     },
     *patch({ payload, userID }, { call }) {
@@ -109,6 +139,9 @@ export default {
         ...state,
         currentRecord: action.payload1,
         transactionData: action.payload2,
+        cartData: action.payload3,
+        collectionData: action.payload4,
+        addressData: action.payload5,
       };
     },
     saveActivityStream(state, action) {

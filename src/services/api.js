@@ -1107,6 +1107,31 @@ export async function deleteUser(userID) {
   });
 }
 
+// 获取用户购物车
+export async function fetchCart(params) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/cart/?${stringify(params)}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `JWT ${token}`,
+    },
+  });
+}
+
+
+// 获取用户收藏夹
+export async function fetchCollection(params) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/collection/?${stringify(params)}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `JWT ${token}`,
+    },
+  });
+}
+
 // 获取自提列表
 export async function queryCollects(params) {
   const token = getToken();

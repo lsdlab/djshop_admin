@@ -393,7 +393,7 @@ class ProductList extends PureComponent {
         title: '名称',
         dataIndex: 'name',
         render(text) {
-          if (text.length > 16) {
+          if (text.length > 12) {
             return (
               <Tooltip title={text}>
                 <span>{text.slice(0, 6) + '...' + text.substr(text.length - 6)}</span>
@@ -443,12 +443,20 @@ class ProductList extends PureComponent {
         dataIndex: 'start_price',
       },
       {
+        title: '限购',
+        dataIndex: 'limit',
+      },
+      {
         title: '浏览',
         dataIndex: 'pv',
       },
       {
         title: '收藏',
         dataIndex: 'fav',
+      },
+      {
+        title: '评论',
+        dataIndex: 'review',
       },
       {
         title: '创建时间',
@@ -461,7 +469,7 @@ class ProductList extends PureComponent {
       {
         title: '操作',
         fixed: 'right',
-        render: (text, record) => (
+        render: (record) => (
           <Fragment>
             <a onClick={() => this.routerPushDetail(record.id)}>详情</a>
             <Divider type="vertical" />
@@ -498,7 +506,7 @@ class ProductList extends PureComponent {
               loading={loading}
               data={data}
               columns={columns}
-              scroll={{ x: 1300 }}
+              scroll={{ x: 1360 }}
               current={this.state.currentPage}
               onChange={this.handleStandardTableChange}
             />

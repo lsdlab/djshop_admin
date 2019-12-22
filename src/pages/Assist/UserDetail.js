@@ -72,8 +72,10 @@ class UserDetail extends PureComponent {
 
     dispatch({
       type: 'user/fetchDetail',
+      payload: {
+        user_id: userID,
+      },
       userID: userID,
-      ordering: '-created_at',
     });
   }
 
@@ -81,14 +83,12 @@ class UserDetail extends PureComponent {
     router.push('/transaction/transaction-detail/' + transactionID);
   };
 
+  routerPushProductDetail = productID => {
+    router.push('/product/product-detail/' + productID);
+  };
+
   onOperationTabChange = key => {
     this.setState({ operationkey: key });
-    if (key === 'tab2') {
-      this.props.dispatch({
-        type: 'transaction/fetch',
-        payload: { user: this.state.userID },
-      });
-    }
   };
 
   buildAction() {
@@ -179,7 +179,7 @@ class UserDetail extends PureComponent {
   }
 
   buildTransactionList(transactionData) {
-    const drawerColumns = [
+    const transactionColumns = [
       {
         title: 'sn',
         dataIndex: 'sn',
@@ -227,12 +227,58 @@ class UserDetail extends PureComponent {
       },
     ];
 
-    return <SimpleTable data={transactionData} columns={drawerColumns} pagination={false} scroll={{ x: 1240 }} />;
+    return (
+      <SimpleTable
+        data={transactionData}
+        columns={transactionColumns}
+        pagination={false}
+        scroll={{ x: 1240 }}
+      />
+    );
+  }
+
+  buildCartList(cartData) {
+    const cartColumns = [
+      {
+        title: '商品名称',
+        dataIndex: 'product_spec.product.name',
+      },
+      {
+        title: '商品ID',
+        dataIndex: 'product_spec.product.id',
+      },
+      {
+        title: '规格名称',
+        dataIndex: 'product_spec.name',
+      },
+      {
+        title: '规格ID',
+        dataIndex: 'product_spec.id',
+      },
+      {
+        title: '价格',
+        dataIndex: 'product_spec.price',
+      },
+      {
+        title: '数量',
+        dataIndex: 'nums',
+      },
+      {
+        title: '操作',
+        render: record => (
+          <Fragment>
+            <a onClick={() => this.routerPushProductDetail(record.product_spec.product.id)}>详情</a>
+          </Fragment>
+        ),
+      },
+    ];
+
+    return <SimpleTable data={cartData} columns={cartColumns} pagination={false} />;
   }
 
   render() {
     const {
-      user: { currentRecord, transactionData },
+      user: { currentRecord, transactionData, cartData },
     } = this.props;
     const { operationkey } = this.state;
 
@@ -297,7 +343,11 @@ class UserDetail extends PureComponent {
           {transactionData ? this.buildTransactionList(transactionData) : null}
         </Card>
       ),
-      tab3: <Card style={{ marginBottom: 24 }} bordered={false} />,
+      tab3: (
+        <Card style={{ marginBottom: 24 }} bordered={false}>
+          {transactionData ? this.buildCartList(cartData) : null}
+        </Card>
+      ),
     };
 
     return (
