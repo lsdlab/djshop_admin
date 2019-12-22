@@ -13,8 +13,6 @@
     "lint:fix": "eslint --fix --ext .js src mock tests && npm run lint:style",
     "lint-staged": "lint-staged",
     "lint-staged:js": "eslint --ext .js",
-    "tslint": "npm run tslint:fix",
-    "tslint:fix": "tslint --fix 'src/**/*.ts*'",
     "prettier": "prettier --write './src/**/*'"
   },
   "dependencies": {
