@@ -261,7 +261,8 @@ class UserDetail extends PureComponent {
         render(_, record) {
           return (
             <span>
-              {record.product_spec.product.category_first_name} / {record.product_spec.product.category_name}
+              {record.product_spec.product.category_first_name} /{' '}
+              {record.product_spec.product.category_name}
             </span>
           );
         },
@@ -287,9 +288,62 @@ class UserDetail extends PureComponent {
     return <SimpleTable data={cartData} columns={cartColumns} pagination={false} />;
   }
 
+  buildCollectionList(collectionData) {
+    const collectionColumns = [
+      {
+        title: '商品名称',
+        dataIndex: 'name',
+      },
+      {
+        title: '商品ID',
+        dataIndex: 'id',
+      },
+      {
+        title: '分类',
+        dataIndex: 'category_name',
+        render(_, record) {
+          return (
+            <span>
+              {record.category_first_name} / {record.category_name}
+            </span>
+          );
+        },
+      },
+      {
+        title: '操作',
+        render: record => (
+          <Fragment>
+            <a onClick={() => this.routerPushProductDetail(record.id)}>详情</a>
+          </Fragment>
+        ),
+      },
+    ];
+
+    return <SimpleTable data={collectionData} columns={collectionColumns} pagination={false} />;
+  }
+
+  buildAddressList(addressData) {
+    const addressColumns = [
+      {
+        title: '姓名',
+        dataIndex: 'name',
+      },
+      {
+        title: '手机号',
+        dataIndex: 'mobile',
+      },
+      {
+        title: '地址',
+        dataIndex: 'address',
+      }
+    ];
+
+    return <SimpleTable data={addressData} columns={addressColumns} pagination={false} />;
+  }
+
   render() {
     const {
-      user: { currentRecord, transactionData, cartData, collectionData },
+      user: { currentRecord, transactionData, cartData, collectionData, addressData },
     } = this.props;
     const { operationkey } = this.state;
 
@@ -356,7 +410,17 @@ class UserDetail extends PureComponent {
       ),
       tab3: (
         <Card style={{ marginBottom: 24 }} bordered={false}>
-          {transactionData ? this.buildCartList(cartData) : null}
+          {cartData ? this.buildCartList(cartData) : null}
+        </Card>
+      ),
+      tab4: (
+        <Card style={{ marginBottom: 24 }} bordered={false}>
+          {collectionData ? this.buildCollectionList(collectionData) : null}
+        </Card>
+      ),
+      tab5: (
+        <Card style={{ marginBottom: 24 }} bordered={false}>
+          {addressData ? this.buildAddressList(addressData) : null}
         </Card>
       ),
     };
