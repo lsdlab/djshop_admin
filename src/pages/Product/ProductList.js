@@ -422,7 +422,7 @@ class ProductList extends PureComponent {
       {
         title: '分类',
         dataIndex: 'category_name',
-        render(text, record) {
+        render(_, record) {
           return (
             <span>
               {record.category_first_name} / {record.category_name}
@@ -506,7 +506,7 @@ class ProductList extends PureComponent {
               loading={loading}
               data={data}
               columns={columns}
-              scroll={{ x: 1360 }}
+              scroll={{ x: 1420 }}
               current={this.state.currentPage}
               onChange={this.handleStandardTableChange}
             />

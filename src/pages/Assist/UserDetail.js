@@ -256,6 +256,17 @@ class UserDetail extends PureComponent {
         dataIndex: 'product_spec.id',
       },
       {
+        title: '分类',
+        dataIndex: 'category_name',
+        render(_, record) {
+          return (
+            <span>
+              {record.product_spec.product.category_first_name} / {record.product_spec.product.category_name}
+            </span>
+          );
+        },
+      },
+      {
         title: '价格',
         dataIndex: 'product_spec.price',
       },
@@ -278,7 +289,7 @@ class UserDetail extends PureComponent {
 
   render() {
     const {
-      user: { currentRecord, transactionData, cartData },
+      user: { currentRecord, transactionData, cartData, collectionData },
     } = this.props;
     const { operationkey } = this.state;
 

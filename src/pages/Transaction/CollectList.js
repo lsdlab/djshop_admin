@@ -339,7 +339,7 @@ class CollectList extends PureComponent {
       {
         title: '自提成功',
         dataIndex: 'picked',
-        render(text, record, index) {
+        render(text) {
           if (text) {
             return <Badge status="success" text="已自提" />;
           } else {

@@ -424,7 +424,7 @@ class InvoiceList extends PureComponent {
       {
         title: '是否开具',
         dataIndex: 'issued',
-        render(text, record, index) {
+        render(text) {
           if (text) {
             return <Badge status="success" text="已开具" />;
           } else {
@@ -446,7 +446,7 @@ class InvoiceList extends PureComponent {
       {
         title: '是否发出',
         dataIndex: 'shipped',
-        render(text, record, index) {
+        render(text) {
           if (text) {
             return <Badge status="success" text="已发出" />;
           } else {
