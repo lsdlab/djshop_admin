@@ -9,6 +9,7 @@ import {
   queryProductSpecs,
   patchProductSpec,
   fetchProductSpec,
+  queryProductReviews,
   queryRecommendations,
   createRecommendation,
   patchRecommendation,
@@ -30,6 +31,10 @@ export default {
     newProduct: {},
     newProductSpec: {},
     specData: [],
+    reviewData: {
+      results: [],
+      count: undefined,
+    },
     specCurrentRecord: {},
     recData: {
       results: [],
@@ -77,24 +82,41 @@ export default {
     *patch({ payload, productID }, { call, put }) {
       yield call(patchProduct, payload, productID);
     },
-    *clearNewProduct({}, { call, put }) {
+    *clearNewProduct({}, { put }) {
       yield put({
         type: 'clearNew',
       });
     },
-    *createProductSpec({ payload, productID }, { call, put }) {
+    *createProductSpec({ payload, productID }, { call }) {
       yield call(createProductSpec, payload, productID);
     },
-    *saveSpecTemp({ payload }, { call, put }) {
+    *saveSpecTemp({ payload }, { put }) {
       yield put({
         type: 'saveNewSpec',
         payload: payload,
       });
     },
-    *fetchProductSpecs({ productID }, { call, put }) {
+    *fetchProductSpecs({ payload, productID }, { all, call, put }) {
       const response = yield call(queryProductSpecs, productID);
       yield put({
         type: 'saveSpecs',
+        payload: response,
+      });
+
+      // const [specResponse, reviewResponse] = yield all([
+      //   call(queryProductSpecs, productID),
+      //   call(queryProductReviews, payload, productID),
+      // ]);
+      // yield put({
+      //   type: 'saveSpecs',
+      //   payload1: specResponse,
+      //   payload2: reviewResponse,
+      // });
+    },
+    *fetchProductReviews({ payload, productID }, { call, put }) {
+      const response = yield call(queryProductReviews, payload, productID);
+      yield put({
+        type: 'saveReviews',
         payload: response,
       });
     },
@@ -182,6 +204,13 @@ export default {
       return {
         ...state,
         specData: action.payload,
+        // reviewData: action.payload2
+      };
+    },
+    saveReviews(state, action) {
+      return {
+        ...state,
+        reviewData: action.payload,
       };
     },
     saveSpecDetail(state, action) {

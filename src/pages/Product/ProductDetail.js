@@ -46,6 +46,10 @@ const operationTabList = [
   },
   {
     key: 'tab3',
+    tab: '商品评价',
+  },
+  {
+    key: 'tab4',
     tab: '详情(移动端渲染效果)',
   },
 ];
@@ -218,6 +222,14 @@ class ProductDetail extends PureComponent {
         this.props.dispatch({
           type: 'product/fetchProductSpecs',
           productID: productID,
+          payload: {},
+        });
+      })
+      .then(() => {
+        this.props.dispatch({
+          type: 'product/fetchProductReviews',
+          productID: productID,
+          payload: {},
         });
       });
   }
@@ -461,10 +473,57 @@ class ProductDetail extends PureComponent {
     }
   }
 
+  buildReviews(reviewData, productID) {
+    if (reviewData) {
+      const arr = [];
+
+      for (let i = 0; i < reviewData.length; i++) {
+        arr.push(
+          <Card
+            style={{ marginBottom: 20 }}
+            bodyStyle={{ padding: '20px 24px 8px 24px' }}
+            key={i}
+            type="inner"
+            title={reviewData[i].name}
+          >
+            <Row>
+              <Col span={24}>
+                <DescriptionItem title="评价内容" content={reviewData[i].content} />
+              </Col>
+            </Row>
+            <Row>
+              <Col span={6}>
+                <DescriptionItem title="评价" content={reviewData[i].type_name} />
+              </Col>
+              <Col span={6}>
+                <DescriptionItem title="星级" content={reviewData[i].rate} />
+              </Col>
+              <Col span={6}>
+                <DescriptionItem title="用户名" content={reviewData[i].user_name} />
+              </Col>
+            </Row>
+            <Row>
+              <Col span={24}>
+                <DescriptionItem title="附图" />
+                {reviewData[i].image ? (
+                  <img style={{ width: '20%', height: '20%' }} src={reviewData[i].reviewData} />
+                ) : null}
+              </Col>
+            </Row>
+          </Card>
+        );
+      }
+      return arr;
+    } else {
+      return <div />;
+    }
+  }
+
+
   render() {
     const { operationkey } = this.state;
     const {
-      product: { currentRecord, specData },
+      product: { currentRecord, specData, reviewData },
     } = this.props;
 
     const contentList = {
@@ -521,6 +580,11 @@ class ProductDetail extends PureComponent {
         </Card>
       ),
       tab3: (
+        <Card style={{ marginBottom: 24 }} bordered={false}>
+          {this.buildReviews(reviewData.results, currentRecord.id)}
+        </Card>
+      ),
+      tab4: (
         <Card style={{ marginBottom: 24 }} bordered={false}>
           <Button onClick={() => this.routerProductDetailNewTab(currentRecord.id)}>
             商品详情(移动端渲染效果) 新页面打开

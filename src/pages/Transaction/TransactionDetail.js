@@ -2,7 +2,8 @@ import React, { PureComponent, Fragment } from 'react';
 import Debounce from 'lodash-decorators/debounce';
 import Bind from 'lodash-decorators/bind';
 import { connect } from 'dva';
-import { Row, Col, Card, Button, Checkbox, Avatar, Steps, message } from 'antd';
+import { Row, Col, Card, Button, Avatar, Steps, message } from 'antd';
+import router from 'umi/router';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import ReactToPrint from 'react-to-print';
 
@@ -67,6 +68,10 @@ class TransactionDetail extends PureComponent {
       });
     }
   }
+
+  routerPushProductDetail = productID => {
+    router.push('/product/product-detail/' + productID);
+  };
 
   buildAction(currentRecord) {
     return (
@@ -244,6 +249,14 @@ class TransactionDetail extends PureComponent {
       {
         title: '价格',
         dataIndex: 'price',
+      },
+      {
+        title: '操作',
+        render: record => (
+          <Fragment>
+            <a onClick={() => this.routerPushProductDetail(record.product_spec.product.id)}>详情</a>
+          </Fragment>
+        ),
       },
     ];
 
