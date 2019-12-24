@@ -487,29 +487,32 @@ class ProductDetail extends PureComponent {
             title={reviewData[i].name}
           >
             <Row>
-              <Col span={24}>
-                <DescriptionItem title="评价内容" content={reviewData[i].content} />
+              <Col span={6}>
+                <DescriptionItem title="ID" content={reviewData[i].id} />
               </Col>
-            </Row>
-            <Row>
+              <Col span={6}>
+                <DescriptionItem title="用户名" content={reviewData[i].user_name} />
+              </Col>
               <Col span={6}>
                 <DescriptionItem title="评价" content={reviewData[i].type_name} />
               </Col>
               <Col span={6}>
                 <DescriptionItem title="星级" content={reviewData[i].rate} />
               </Col>
-              <Col span={6}>
-                <DescriptionItem title="用户名" content={reviewData[i].user_name} />
-              </Col>
             </Row>
             <Row>
               <Col span={24}>
-                <DescriptionItem title="附图" />
-                {reviewData[i].image ? (
-                  <img style={{ width: '20%', height: '20%' }} src={reviewData[i].reviewData} />
-                ) : null}
+                <DescriptionItem title="评价内容" content={reviewData[i].content} />
               </Col>
             </Row>
+            {reviewData[i].image ? (
+              <Row>
+                <Col span={24}>
+                  <DescriptionItem title="附图" />
+                    <img style={{ width: '20%', height: '20%' }} src={reviewData[i].reviewData} />
+                </Col>
+              </Row>
+            ) : null}
           </Card>
         );
       }

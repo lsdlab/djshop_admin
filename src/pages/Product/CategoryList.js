@@ -70,11 +70,11 @@ const CreateForm = Form.create()(props => {
           </Select>
         )}
       </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="图标链接">
+      {/* <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="图标链接">
         {form.getFieldDecorator('icon', {
           rules: [{ required: true, message: '请输入图标链接！' }],
         })(<Input placeholder="图标链接" />)}
-      </FormItem>
+      </FormItem> */}
       {categoryData ? (
         <FormItem
           labelCol={{ span: 5 }}
@@ -144,7 +144,7 @@ class CategoryList extends PureComponent {
       payload: {
         name: fields.name,
         category_type: fields.category_type,
-        icon: fields.icon,
+        // icon: fields.icon,
         is_root: fields.category_type === '2' ? true : false,
         parent_category: fields.parent_category,
       },
@@ -166,7 +166,7 @@ class CategoryList extends PureComponent {
     form.setFieldsValue({
       name: info.selectedNodes[0].props.dataRef.name,
       category_type: info.selectedNodes[0].props.dataRef.category_type,
-      icon: info.selectedNodes[0].props.dataRef.icon,
+      // icon: info.selectedNodes[0].props.dataRef.icon,
       parent_category: info.selectedNodes[0].props.dataRef.parent_category,
     });
   };
@@ -277,11 +277,11 @@ class CategoryList extends PureComponent {
                     </Select>
                   )}
                 </FormItem>
-                <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="图标链接">
+                {/* <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="图标链接">
                   {form.getFieldDecorator('icon', {
                     rules: [{ required: true, message: '请输入图标链接！' }],
                   })(<Input placeholder="图标链接" />)}
-                </FormItem>
+                </FormItem> */}
                 {data ? (
                   <FormItem
                     labelCol={{ span: 5 }}
