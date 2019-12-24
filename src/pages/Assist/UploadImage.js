@@ -100,7 +100,6 @@ class UploadImage extends PureComponent {
                     <Select style={{ width: '100%' }}>
                       <Option value="tmp">临时文件夹</Option>
                       <Option value="assist">开屏广告 & 轮播图 & 全网通知配图 & 专题题图</Option>
-                      <Option value="category">分类图标</Option>
                       <Option value="product">商品</Option>
                     </Select>
                   )}

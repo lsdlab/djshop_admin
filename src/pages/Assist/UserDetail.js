@@ -244,10 +244,6 @@ class UserDetail extends PureComponent {
         dataIndex: 'product_spec.product.name',
       },
       {
-        title: '商品ID',
-        dataIndex: 'product_spec.product.id',
-      },
-      {
         title: '规格名称',
         dataIndex: 'product_spec.name',
       },
@@ -293,10 +289,6 @@ class UserDetail extends PureComponent {
       {
         title: '商品名称',
         dataIndex: 'name',
-      },
-      {
-        title: '商品ID',
-        dataIndex: 'id',
       },
       {
         title: '分类',

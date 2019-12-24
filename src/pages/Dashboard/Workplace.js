@@ -24,8 +24,8 @@ class Workplace extends PureComponent {
     const client = new Client({
       brokerURL: 'ws://localhost:15674/ws',
       connectHeaders: {
-        login: 'guest',
-        passcode: 'guest',
+        login: 'djshop',
+        passcode: 'GkTM2HxZN27pws8t',
       },
       debug(str) {
         console.log(str);
@@ -38,21 +38,25 @@ class Workplace extends PureComponent {
           duration: 1,
         });
 
-        client.subscribe('/exchange/test_exchange/test_hello', (message) => {
+        client.subscribe('/exchange/test_exchange/test_hello', message => {
           notification.open({
             message: message.body,
             duration: 1,
           });
         });
 
-        client.subscribe('/exchange/transaction_create_notify_exchange/transaction_create_notify', (message) => {
-          const messageBody = JSON.parse(message.body)
-          notification.open({
-            message: messageBody["user"] + " 提交了 " + messageBody["transaction_name"] + " 订单",
-            description: "sn: " + messageBody["transaction_sn"],
-            duration: 3,
-          });
-        });
+        client.subscribe(
+          '/exchange/transaction_create_notify_exchange/transaction_create_notify',
+          message => {
+            const messageBody = JSON.parse(message.body);
+            notification.open({
+              message:
+                messageBody['user'] + ' 提交了 ' + messageBody['transaction_name'] + ' 订单',
+              description: 'sn: ' + messageBody['transaction_sn'],
+              duration: 3,
+            });
+          }
+        );
       },
       reconnectDelay: 10000,
       heartbeatIncoming: 0,
