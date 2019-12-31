@@ -15,7 +15,6 @@ import {
   Drawer,
 } from 'antd';
 import SimpleTable from '@/components/SimpleTable';
-import SmallNonPaginationlTable from '@/components/SmallNonPaginationlTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import styles from '../List/TableList.less';
@@ -318,10 +317,10 @@ class StockList extends PureComponent {
         title: '备注',
         dataIndex: 'desc',
         render(text) {
-          if (text.length > 12) {
+          if (text.length > 8) {
             return (
               <Tooltip title={text}>
-                <span>{text.slice(0, 6) + '...' + text.substr(text.length - 6)}</span>
+                <span>{text.slice(0, 4) + '...' + text.substr(text.length - 4)}</span>
               </Tooltip>);
           } else {
             return text;
@@ -365,10 +364,10 @@ class StockList extends PureComponent {
         title: '备注',
         dataIndex: 'note',
         render(text) {
-          if (text.length > 12) {
+          if (text.length > 8) {
             return (
               <Tooltip title={text}>
-                <span>{text.slice(0, 6) + '...' + text.substr(text.length - 6)}</span>
+                <span>{text.slice(0, 4) + '...' + text.substr(text.length - 4)}</span>
               </Tooltip>
             );
           } else {
@@ -409,7 +408,7 @@ class StockList extends PureComponent {
             <p style={{ ...pStyle, marginBottom: 24 }}>进货记录</p>
             <Row>
               {logData && Object.keys(logData).length ? (
-                <SmallNonPaginationlTable data={logData} columns={drawerColumns} />
+                <SimpleTable data={logData} columns={drawerColumns} pagination={false} size={'small'} />
               ) : null}
             </Row>
           </Drawer>

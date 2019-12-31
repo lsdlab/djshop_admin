@@ -465,10 +465,10 @@ class BargainProductList extends PureComponent {
         title: '商品名称',
         dataIndex: 'product_spec.product.name',
         render(text) {
-          if (text.length > 12) {
+          if (text.length > 8) {
             return (
               <Tooltip title={text}>
-                <span>{text.slice(0, 6) + '...' + text.substr(text.length - 6)}</span>
+                <span>{text.slice(0, 4) + '...' + text.substr(text.length - 4)}</span>
               </Tooltip>
             );
           } else {

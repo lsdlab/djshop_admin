@@ -1,4 +1,4 @@
-import { queryBargains, queryBargainsLogs } from '@/services/api';
+import { queryPromotions, queryPromotionsLogs } from '@/services/api';
 
 export default {
   namespace: 'promotion',
@@ -16,14 +16,14 @@ export default {
 
   effects: {
     *fetch({ payload }, { call, put }) {
-      const response = yield call(queryBargains, payload);
+      const response = yield call(queryPromotions, payload);
       yield put({
         type: 'save',
         payload: response,
       });
     },
     *fetchLog({ bargainID }, { call, put }) {
-      const response = yield call(queryBargainsLogs, bargainID);
+      const response = yield call(queryPromotionsLogs, bargainID);
       yield put({
         type: 'saveLog',
         payload: response,

@@ -709,10 +709,10 @@ export async function fetchProductSpecAllIds() {
   });
 }
 
-// 获取可砍价商品列表
-export async function queryBargainsProduct(params) {
+// 获取可促销商品列表
+export async function queryPromotionsProduct(params) {
   const token = getToken();
-  return request(`${apiHost}${apiVersion}/bargains/products/?${stringify(params)}`, {
+  return request(`${apiHost}${apiVersion}/promotions/products/?${stringify(params)}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -721,8 +721,8 @@ export async function queryBargainsProduct(params) {
   });
 }
 
-// 创建可砍价商品
-export async function createBargainsProduct(params) {
+// 创建可促销商品
+export async function createPromotionsProduct(params) {
   const token = getToken();
   return request(`${apiHost}${apiVersion}/bargains/products/`, {
     method: 'POST',
@@ -734,10 +734,10 @@ export async function createBargainsProduct(params) {
   });
 }
 
-// 修改可砍价商品
-export async function patchBargainsProduct(params, bargainProductSpecID) {
+// 修改可促销商品
+export async function patchPromotionsProduct(params, promotionProductSpecID) {
   const token = getToken();
-  return request(`${apiHost}${apiVersion}/bargains/products/${bargainProductSpecID}/`, {
+  return request(`${apiHost}${apiVersion}/promotions/products/${promotionProductSpecID}/`, {
     method: 'PATCH',
     body: params,
     headers: {
@@ -747,10 +747,10 @@ export async function patchBargainsProduct(params, bargainProductSpecID) {
   });
 }
 
-// 获取砍价列表
-export async function queryBargains(params) {
+// 获取促销列表
+export async function queryPromotions(params) {
   const token = getToken();
-  return request(`${apiHost}${apiVersion}/bargains/?${stringify(params)}`, {
+  return request(`${apiHost}${apiVersion}/promotions/?${stringify(params)}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -759,10 +759,10 @@ export async function queryBargains(params) {
   });
 }
 
-// 获取砍价记录
-export async function queryBargainsLogs(bargainID) {
+// 获取促销记录
+export async function queryPromotionsLogs(bargainID) {
   const token = getToken();
-  return request(`${apiHost}${apiVersion}/bargains/${bargainID}/logs/`, {
+  return request(`${apiHost}${apiVersion}/promotions/${bargainID}/logs/`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -771,142 +771,6 @@ export async function queryBargainsLogs(bargainID) {
   });
 }
 
-// 获取可团购商品列表
-export async function queryGrouponsProduct(params) {
-  const token = getToken();
-  return request(`${apiHost}${apiVersion}/groupons/products/?${stringify(params)}`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `JWT ${token}`,
-    },
-  });
-}
-
-// 创建可团购商品
-export async function createGrouponsProduct(params) {
-  const token = getToken();
-  return request(`${apiHost}${apiVersion}/groupons/products/`, {
-    method: 'POST',
-    body: params,
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `JWT ${token}`,
-    },
-  });
-}
-
-// 修改可团购商品
-export async function patchGrouponsProduct(params, grouponProductSpecID) {
-  const token = getToken();
-  return request(`${apiHost}${apiVersion}/groupons/products/${grouponProductSpecID}/`, {
-    method: 'PATCH',
-    body: params,
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `JWT ${token}`,
-    },
-  });
-}
-
-// 获取团购列表
-export async function queryGroupons(params) {
-  const token = getToken();
-  return request(`${apiHost}${apiVersion}/groupons/?${stringify(params)}`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `JWT ${token}`,
-    },
-  });
-}
-
-// 获取团购记录
-export async function queryGrouponsLogs(grouponID) {
-  const token = getToken();
-  return request(`${apiHost}${apiVersion}/groupons/${grouponID}/logs/`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `JWT ${token}`,
-    },
-  });
-}
-
-// 获取可秒杀商品列表
-export async function querySeckillsProduct(params) {
-  const token = getToken();
-  return request(`${apiHost}${apiVersion}/seckills/products/?${stringify(params)}`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `JWT ${token}`,
-    },
-  });
-}
-
-// 创建可秒杀商品
-export async function createSeckillsProduct(params) {
-  const token = getToken();
-  return request(`${apiHost}${apiVersion}/seckills/products/`, {
-    method: 'POST',
-    body: params,
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `JWT ${token}`,
-    },
-  });
-}
-
-// 修改可秒杀商品
-export async function patchSeckillsProduct(params, grouponProductSpecID) {
-  const token = getToken();
-  return request(`${apiHost}${apiVersion}/seckills/products/${grouponProductSpecID}/`, {
-    method: 'PATCH',
-    body: params,
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `JWT ${token}`,
-    },
-  });
-}
-
-// 创建秒杀
-export async function createSeckills(params) {
-  const token = getToken();
-  return request(`${apiHost}${apiVersion}/seckills/`, {
-    method: 'POST',
-    body: params,
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `JWT ${token}`,
-    },
-  });
-}
-
-// 获取秒杀列表
-export async function querySeckills(params) {
-  const token = getToken();
-  return request(`${apiHost}${apiVersion}/seckills/?${stringify(params)}`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `JWT ${token}`,
-    },
-  });
-}
-
-// 获取秒杀记录
-export async function querySeckillsLogs(grouponID) {
-  const token = getToken();
-  return request(`${apiHost}${apiVersion}/seckills/${grouponID}/logs/`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `JWT ${token}`,
-    },
-  });
-}
 
 // 获取优惠卷
 export async function queryCoupons(params) {

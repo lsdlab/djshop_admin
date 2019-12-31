@@ -55,7 +55,7 @@ const CreateForm = Form.create()(props => {
       destroyOnClose
       centered
       keyboard
-      title="新增砍价商品"
+      title="新增促销商品"
       width={1000}
       visible={modalVisible}
       onOk={okHandle}
@@ -99,7 +99,7 @@ const CreateForm = Form.create()(props => {
 
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="砍价比例">
         <InputGroup compact>
-          {form.getFieldDecorator('bargain_percent_range_start', {
+          {form.getFieldDecorator('promotion_percent_range_start', {
             rules: [{ required: true, message: '请输入砍价比例！' }],
           })(
             <InputNumber
@@ -121,7 +121,7 @@ const CreateForm = Form.create()(props => {
             placeholder="~"
             disabled
           />
-          {form.getFieldDecorator('bargain_percent_range_end', {
+          {form.getFieldDecorator('promotion_percent_range_end', {
             rules: [{ required: true, message: '请输入砍价比例！' }],
           })(
             <InputNumber
@@ -164,8 +164,8 @@ class UpdateForm extends PureComponent {
       modalFormVals: {
         start_price: props.values.start_price,
         end_price: props.values.end_price,
-        bargain_percent_range_start: props.values.bargain_percent_range.split('-')[0],
-        bargain_percent_range_end: props.values.bargain_percent_range.split('-')[1],
+        promotion_percent_range_start: props.values.promotion_percent_range.split('-')[0],
+        promotion_percent_range_end: props.values.promotion_percent_range.split('-')[1],
         product_spec: props.values.product_spec.id,
       },
     };
@@ -193,7 +193,7 @@ class UpdateForm extends PureComponent {
         destroyOnClose
         centered
         keyboard
-        title="编辑砍价商品"
+        title="编辑促销商品"
         width={1000}
         visible={updateModalVisible}
         onOk={okHandle}
@@ -239,8 +239,8 @@ class UpdateForm extends PureComponent {
 
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="砍价比例">
           <InputGroup compact>
-            {form.getFieldDecorator('bargain_percent_range_start', {
-              initialValue: modalFormVals.bargain_percent_range_start,
+            {form.getFieldDecorator('promotion_percent_range_start', {
+              initialValue: modalFormVals.promotion_percent_range_start,
               rules: [{ required: true, message: '请输入砍价比例！' }],
             })(
               <InputNumber
@@ -262,8 +262,8 @@ class UpdateForm extends PureComponent {
               placeholder="~"
               disabled
             />
-            {form.getFieldDecorator('bargain_percent_range_end', {
-              initialValue: modalFormVals.bargain_percent_range_end,
+            {form.getFieldDecorator('promotion_percent_range_end', {
+              initialValue: modalFormVals.promotion_percent_range_end,
               rules: [{ required: true, message: '请输入砍价比例！' }],
             })(
               <InputNumber
@@ -305,7 +305,7 @@ class UpdateForm extends PureComponent {
   loading: loading.models.promotion_product,
 }))
 @Form.create()
-class BargainProductList extends PureComponent {
+class PromotionsProductList extends PureComponent {
   state = {
     currentPage: 1,
     modalVisible: false,
@@ -372,8 +372,8 @@ class BargainProductList extends PureComponent {
       product_spec: fields.product_spec,
       start_price: fields.start_price,
       end_price: fields.end_price,
-      bargain_percent_range:
-        fields.bargain_percent_range_start + '-' + fields.bargain_percent_range_end,
+      promotion_percent_range:
+        fields.promotion_percent_range_start + '-' + fields.promotion_percent_range_end,
     };
 
     dispatch({
@@ -395,13 +395,13 @@ class BargainProductList extends PureComponent {
       product_spec: fields.product_spec,
       start_price: fields.start_price,
       end_price: fields.end_price,
-      bargain_percent_range:
-        fields.bargain_percent_range_start + '-' + fields.bargain_percent_range_end,
+      promotion_percent_range:
+        fields.promotion_percent_range_start + '-' + fields.promotion_percent_range_end,
     };
     dispatch({
       type: 'promotion_product/patch',
       payload: payload,
-      bargainProductSpecID: this.state.currentRecord.id,
+      promotionProductSpecID: this.state.currentRecord.id,
     }).then(() => {
       message.success('更新成功');
       this.handleUpdateModalVisible();
@@ -412,17 +412,17 @@ class BargainProductList extends PureComponent {
     });
   };
 
-  bargainProductDeleted = (flag, bargainProductSpecID) => {
+  promotionProductDeleted = (flag, promotionProductSpecID) => {
     const { dispatch } = this.props;
-    if (flag && bargainProductSpecID) {
+    if (flag && promotionProductSpecID) {
       dispatch({
         type: 'promotion_product/patch',
         payload: {
           deleted: true,
         },
-        bargainProductSpecID: bargainProductSpecID,
+        promotionProductSpecID: promotionProductSpecID,
       }).then(() => {
-        message.success('下架砍价商品成功！');
+        message.success('下架促销商品成功！');
         dispatch({
           type: 'promotion_product/fetch',
         });
@@ -433,9 +433,9 @@ class BargainProductList extends PureComponent {
         payload: {
           deleted: false,
         },
-        bargainProductSpecID: bargainProductSpecID,
+        promotionProductSpecID: promotionProductSpecID,
       }).then(() => {
-        message.success('上架砍价商品成功！');
+        message.success('上架促销商品成功！');
         dispatch({
           type: 'promotion_product/fetch',
         });
@@ -449,7 +449,7 @@ class BargainProductList extends PureComponent {
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
             <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
-              新增砍价商品
+              新增促销商品
             </Button>
           </Col>
         </Row>
@@ -481,11 +481,11 @@ class BargainProductList extends PureComponent {
       {
         title: '商品名称',
         dataIndex: 'product_spec.product.name',
-        render(text, record) {
-          if (text.length > 12) {
+        render(text) {
+          if (text.length > 8) {
             return (
               <Tooltip title={text}>
-                <span>{text.slice(0, 6) + '...' + text.substr(text.length - 6)}</span>
+                <span>{text.slice(0, 4) + '...' + text.substr(text.length - 4)}</span>
               </Tooltip>
             );
           } else {
@@ -498,20 +498,8 @@ class BargainProductList extends PureComponent {
         dataIndex: 'product_spec.name',
       },
       {
-        title: '起始价格',
-        dataIndex: 'start_price',
-      },
-      {
-        title: '结束价格',
-        dataIndex: 'end_price',
-      },
-      {
-        title: '砍价比例(%)',
-        dataIndex: 'bargain_percent_range',
-      },
-      {
-        title: '销量',
-        dataIndex: 'sold',
+        title: '促销类型',
+        dataIndex: 'promotion_type_name',
       },
       {
         title: '状态',
@@ -525,27 +513,90 @@ class BargainProductList extends PureComponent {
         },
       },
       {
+        title: '原价',
+        dataIndex: 'original_sale_price',
+      },
+      {
+        title: '团购/秒杀价格',
+        dataIndex: 'promotion_price',
+        render(text) {
+          if (text) {
+            return text;
+          } else {
+            return '-';
+          }
+        },
+      },
+      {
+        title: '团购人数',
+        dataIndex: 'groupon_limit',
+        render(text) {
+          if (text) {
+            return text;
+          } else {
+            return '-';
+          }
+        },
+      },
+      {
+        title: '促销库存',
+        dataIndex: 'promotion_stock',
+        render(text) {
+          if (text) {
+            return text;
+          } else {
+            return '-';
+          }
+        },
+      },
+      {
+        title: '砍价价格区间',
+        dataIndex: 'bargain_start_price',
+        render(text, record) {
+          if (text) {
+            return record.bargain_start_price + ' - ' + record.bargain_end_price;
+          } else {
+            return '-';
+          }
+        },
+      },
+      {
+        title: '砍价砍价比例(%)',
+        dataIndex: 'bargain_percent_range',
+        render(text) {
+          if (text) {
+            return text;
+          } else {
+            return '-';
+          }
+        },
+      },
+      {
+        title: '销量',
+        dataIndex: 'sold',
+      },
+      {
         title: '创建时间',
         dataIndex: 'created_at',
       },
       {
         title: '操作',
         fixed: 'right',
-        render: (text, record) => (
+        render: (_, record) => (
           <Fragment>
             <a onClick={() => this.handleUpdateModalVisible(true, record)}>编辑</a>
             <Divider type="vertical" />
             {record.deleted ? (
               <Popconfirm
-                title="是否要上架此砍价商品？"
-                onConfirm={() => this.bargainProductDeleted(false, record.id)}
+                title="是否要上架此促销商品？"
+                onConfirm={() => this.promotionProductDeleted(false, record.id)}
               >
                 <a>上架</a>
               </Popconfirm>
             ) : (
               <Popconfirm
                 title="是否要下架此推荐商品？"
-                onConfirm={() => this.bargainProductDeleted(true, record.id)}
+                onConfirm={() => this.promotionProductDeleted(true, record.id)}
               >
                 <a>下架</a>
               </Popconfirm>
@@ -556,7 +607,7 @@ class BargainProductList extends PureComponent {
     ];
 
     return (
-      <PageHeaderWrapper title="砍价商品列表">
+      <PageHeaderWrapper title="促销商品列表">
         <Card bordered={false}>
           <div className={styles.tableList}>
             <div className={styles.tableListForm}>{this.renderSimpleForm()}</div>
@@ -564,7 +615,7 @@ class BargainProductList extends PureComponent {
               loading={loading}
               data={data}
               columns={columns}
-              scroll={{ x: 1180 }}
+              scroll={{ x: 1480 }}
               current={this.state.currentPage}
               onChange={this.handleStandardTableChange}
             />
@@ -589,4 +640,4 @@ class BargainProductList extends PureComponent {
   }
 }
 
-export default BargainProductList;
+export default PromotionsProductList;

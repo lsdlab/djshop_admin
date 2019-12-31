@@ -1,7 +1,7 @@
 import {
-  queryBargainsProduct,
-  createBargainsProduct,
-  patchBargainsProduct,
+  queryPromotionsProduct,
+  createPromotionsProduct,
+  patchPromotionsProduct,
   fetchProductSpecAllIds,
 } from '@/services/api';
 
@@ -18,17 +18,17 @@ export default {
 
   effects: {
     *fetch({ payload }, { call, put }) {
-      const response = yield call(queryBargainsProduct, payload);
+      const response = yield call(queryPromotionsProduct, payload);
       yield put({
         type: 'save',
         payload: response,
       });
     },
     *create({ payload }, { call }) {
-      yield call(createBargainsProduct, payload);
+      yield call(createPromotionsProduct, payload);
     },
-    *patch({ payload, bargainProductSpecID }, { call }) {
-      yield call(patchBargainsProduct, payload, bargainProductSpecID);
+    *patch({ payload, promotionProductSpecID }, { call }) {
+      yield call(patchPromotionsProduct, payload, promotionProductSpecID);
     },
     *fetchProductSpecAllIds({}, { call, put }) {
       const response = yield call(fetchProductSpecAllIds);

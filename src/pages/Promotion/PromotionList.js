@@ -2,7 +2,6 @@ import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
 import { Row, Card, Badge, Drawer, Tooltip } from 'antd';
 import SimpleTable from '@/components/SimpleTable';
-import SmallNonPaginationlTable from '@/components/SmallNonPaginationlTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import styles from '../List/TableList.less';
@@ -20,7 +19,7 @@ const pStyle = {
   promotion,
   loading: loading.models.promotion,
 }))
-class BargainList extends PureComponent {
+class PromotionList extends PureComponent {
   state = {
     currentPage: 1,
     visible: false,
@@ -45,7 +44,7 @@ class BargainList extends PureComponent {
 
       this.props.dispatch({
         type: 'promotion/fetchLog',
-        bargainID: currentRecord.id,
+        promotionID: currentRecord.id,
       });
     } else {
       this.setState({
@@ -81,7 +80,10 @@ class BargainList extends PureComponent {
   };
 
   render() {
-    const { promotion: { data, logData }, loading } = this.props;
+    const {
+      promotion: { data, logData },
+      loading,
+    } = this.props;
 
     const columns = [
       {
@@ -90,12 +92,12 @@ class BargainList extends PureComponent {
       },
       {
         title: '商品名称',
-        dataIndex: 'bargain_product.product_spec.product.name',
+        dataIndex: 'promotion_product.product_spec.product.name',
         render(text) {
-          if (text.length > 12) {
+          if (text.length > 8) {
             return (
               <Tooltip title={text}>
-                <span>{text.slice(0, 6) + '...' + text.substr(text.length - 6)}</span>
+                <span>{text.slice(0, 4) + '...' + text.substr(text.length - 4)}</span>
               </Tooltip>
             );
           } else {
@@ -105,7 +107,7 @@ class BargainList extends PureComponent {
       },
       {
         title: '商品规格名称',
-        dataIndex: 'bargain_product.product_spec.name',
+        dataIndex: 'promotion_product.product_spec.name',
       },
       {
         title: '用户',
@@ -117,11 +119,11 @@ class BargainList extends PureComponent {
       },
       {
         title: '起始价格',
-        dataIndex: 'bargain_product.start_price',
+        dataIndex: 'promotion_product.start_price',
       },
       {
         title: '结束价格',
-        dataIndex: 'bargain_product.end_price',
+        dataIndex: 'promotion_product.end_price',
       },
       {
         title: '状态',
@@ -188,7 +190,7 @@ class BargainList extends PureComponent {
     ];
 
     return (
-      <PageHeaderWrapper title="砍价列表">
+      <PageHeaderWrapper title="促销列表">
         <Card bordered={false}>
           <div className={styles.tableList}>
             <SimpleTable
@@ -210,7 +212,7 @@ class BargainList extends PureComponent {
             <p style={{ ...pStyle, marginBottom: 24 }}>砍价记录</p>
             <Row>
               {logData && Object.keys(logData).length ? (
-                <SmallNonPaginationlTable data={logData} columns={drawerColumns} />
+                <SimpleTable data={logData} columns={drawerColumns} />
               ) : null}
             </Row>
           </Drawer>
@@ -220,4 +222,4 @@ class BargainList extends PureComponent {
   }
 }
 
-export default BargainList;
+export default PromotionList;

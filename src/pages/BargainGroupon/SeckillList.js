@@ -2,7 +2,7 @@ import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
 import { Row, Col, Card, Badge, Drawer, Tooltip, Form, Button, Modal, Select, message } from 'antd';
 import SimpleTable from '@/components/SimpleTable';
-import SmallNonPaginationlTable from '@/components/SmallNonPaginationlTable';
+import SimpleListTable from '@/components/SimpleListTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import styles from '../List/TableList.less';
@@ -204,10 +204,10 @@ class SeckillList extends PureComponent {
         title: '商品名称',
         dataIndex: 'seckill_product.product_spec.product.name',
         render(text) {
-          if (text.length > 12) {
+          if (text.length > 8) {
             return (
               <Tooltip title={text}>
-                <span>{text.slice(0, 6) + '...' + text.substr(text.length - 6)}</span>
+                <span>{text.slice(0, 4) + '...' + text.substr(text.length - 4)}</span>
               </Tooltip>
             );
           } else {
@@ -306,7 +306,7 @@ class SeckillList extends PureComponent {
             <p style={{ ...pStyle, marginBottom: 24 }}>秒杀记录</p>
             <Row>
               {logData && Object.keys(logData).length ? (
-                <SmallNonPaginationlTable data={logData} columns={drawerColumns} />
+                <SimpleListTable data={logData} columns={drawerColumns} />
               ) : null}
             </Row>
           </Drawer>
