@@ -9,10 +9,10 @@ import ReactToPrint from 'react-to-print';
 
 import DescriptionList from '@/components/DescriptionList';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import styles from '../Profile/AdvancedProfile.less';
-import SimpleTransactionTable from '@/components/SimpleTransactionTable';
+import SimpleListTable from '@/components/SimpleListTable';
 import TransactionCreateExpressModal from './TransactionCreateExpressModal';
 import TransactionPatchModal from './TransactionPatchModal';
+import styles from '../Profile/AdvancedProfile.less';
 
 const { Description } = DescriptionList;
 const ButtonGroup = Button.Group;
@@ -260,6 +260,40 @@ class TransactionDetail extends PureComponent {
       },
     ];
 
+    const reviewColumns = [
+      {
+        title: 'ID',
+        dataIndex: 'id',
+      },
+      {
+        title: '用户名',
+        dataIndex: 'user_name',
+      },
+      {
+        title: '评价',
+        dataIndex: 'type_name',
+      },
+      {
+        title: '⭐️️',
+        dataIndex: 'rate',
+      },
+      {
+        title: '评价内容',
+        dataIndex: 'content',
+        render(text) {
+          if (text.length > 12) {
+            return (
+              <Tooltip title={text}>
+                <span>{text.slice(0, 6) + '...' + text.substr(text.length - 6)}</span>
+              </Tooltip>
+            );
+          } else {
+            return text;
+          }
+        },
+      },
+    ];
+
     let stepCurrent = 0;
     if (currentRecord.status == '1') {
       // 创建成功-待支付
@@ -391,10 +425,15 @@ class TransactionDetail extends PureComponent {
         <div ref={el => (this.componentRef = el)}>
           {currentRecord.products ? (
             <Card title="订单包含商品" style={{ marginBottom: 24 }} bordered={false}>
-              <SimpleTransactionTable
-                data={currentRecord.products}
-                columns={transactionProductColumns}
-              />
+              <SimpleListTable data={currentRecord.products} columns={transactionProductColumns} />
+            </Card>
+          ) : null}
+        </div>
+
+        <div ref={el => (this.componentRef = el)}>
+          {currentRecord.reviews ? (
+            <Card title="订单评价" style={{ marginBottom: 24 }} bordered={false}>
+              <SimpleListTable data={currentRecord.reviews} columns={reviewColumns} />
             </Card>
           ) : null}
         </div>

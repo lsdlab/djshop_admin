@@ -4,8 +4,8 @@ import {
   queryUsers,
   fetchUser,
   queryTransactions,
-  fetchCart,
-  fetchCollection,
+  fetchUserCart,
+  fetchUserCollection,
   queryUserAllAddress,
   patchUser,
   patchProfile,
@@ -84,8 +84,8 @@ export default {
       const [usersResponse, transactionsResponse, cartResponse, collectionResponse, addressResponse] = yield all([
         call(fetchUser, userID),
         call(queryTransactions, payload),
-        call(fetchCart, payload),
-        call(fetchCollection, payload),
+        call(fetchUserCart, userID),
+        call(fetchUserCollection, userID, payload),
         call(queryUserAllAddress, userID),
       ]);
       yield put({

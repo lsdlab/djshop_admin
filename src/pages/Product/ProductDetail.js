@@ -4,6 +4,7 @@ import { Row, Col, Card, Form, Input, InputNumber, Button, Modal, message, Badge
 import router from 'umi/router';
 import DescriptionList from '@/components/DescriptionList';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import SimpleTable from '@/components/SimpleTable';
 
 import styles from '../Profile/AdvancedProfile.less';
 import defaultSettings from '../../defaultSettings';
@@ -473,55 +474,43 @@ class ProductDetail extends PureComponent {
     }
   }
 
-  buildReviews(reviewData, productID) {
-    if (reviewData) {
-      const arr = [];
+  buildReviewList(reviewData) {
+    const reviewColumns = [
+      {
+        title: 'ID',
+        dataIndex: 'id',
+      },
+      {
+        title: '用户名',
+        dataIndex: 'user_name',
+      },
+      {
+        title: '评价',
+        dataIndex: 'type_name',
+      },
+      {
+        title: '⭐️️',
+        dataIndex: 'rate',
+      },
+      {
+        title: '评价内容',
+        dataIndex: 'content',
+        render(text) {
+          if (text.length > 12) {
+            return (
+              <Tooltip title={text}>
+                <span>{text.slice(0, 6) + '...' + text.substr(text.length - 6)}</span>
+              </Tooltip>
+            );
+          } else {
+            return text;
+          }
+        },
+      },
+    ];
 
-      for (let i = 0; i < reviewData.length; i++) {
-        arr.push(
-          <Card
-            style={{ marginBottom: 20 }}
-            bodyStyle={{ padding: '20px 24px 8px 24px' }}
-            key={i}
-            type="inner"
-            title={reviewData[i].name}
-          >
-            <Row>
-              <Col span={6}>
-                <DescriptionItem title="ID" content={reviewData[i].id} />
-              </Col>
-              <Col span={6}>
-                <DescriptionItem title="用户名" content={reviewData[i].user_name} />
-              </Col>
-              <Col span={6}>
-                <DescriptionItem title="评价" content={reviewData[i].type_name} />
-              </Col>
-              <Col span={6}>
-                <DescriptionItem title="星级" content={reviewData[i].rate} />
-              </Col>
-            </Row>
-            <Row>
-              <Col span={24}>
-                <DescriptionItem title="评价内容" content={reviewData[i].content} />
-              </Col>
-            </Row>
-            {reviewData[i].image ? (
-              <Row>
-                <Col span={24}>
-                  <DescriptionItem title="附图" />
-                    <img style={{ width: '20%', height: '20%' }} src={reviewData[i].reviewData} />
-                </Col>
-              </Row>
-            ) : null}
-          </Card>
-        );
-      }
-      return arr;
-    } else {
-      return <div />;
-    }
+    return <SimpleTable data={reviewData} columns={reviewColumns} pagination={true} />;
   }
-
 
   render() {
     const { operationkey } = this.state;
@@ -584,7 +573,7 @@ class ProductDetail extends PureComponent {
       ),
       tab3: (
         <Card style={{ marginBottom: 24 }} bordered={false}>
-          {this.buildReviews(reviewData.results, currentRecord.id)}
+          {this.buildReviewList(reviewData)}
         </Card>
       ),
       tab4: (

@@ -48,6 +48,11 @@ export default [
             component: './Product/CategoryList',
           },
           {
+            path: '/product/article-list',
+            name: 'article-list',
+            component: './Product/ArticleList',
+          },
+          {
             path: '/product/product-create-step-form',
             name: 'product-create-step-form',
             component: './Product/ProductCreateStepForm',
@@ -135,36 +140,6 @@ export default [
             name: 'promotion-list',
             component: './Promotion/PromotionList',
           },
-          {
-            path: '/promotion/bargain-product-list',
-            name: 'bargain-product-list',
-            component: './BargainGroupon/BargainProductList',
-          },
-          {
-            path: '/promotion/bargain-list',
-            name: 'bargain-list',
-            component: './BargainGroupon/BargainList',
-          },
-          {
-            path: '/promotion/groupon-product-list',
-            name: 'groupon-product-list',
-            component: './BargainGroupon/GrouponProductList',
-          },
-          {
-            path: '/promotion/groupon-list',
-            name: 'groupon-list',
-            component: './BargainGroupon/GrouponList',
-          },
-          {
-            path: '/promotion/seckill-product-list',
-            name: 'seckill-product-list',
-            component: './BargainGroupon/SeckillProductList',
-          },
-          {
-            path: '/promotion/seckill-list',
-            name: 'seckill-list',
-            component: './BargainGroupon/SeckillList',
-          },
         ],
       },
       {
@@ -206,16 +181,16 @@ export default [
             name: 'transaction-detail',
             component: './Transaction/TransactionDetail',
           },
-          {
-            path: '/transaction/collect-list',
-            name: 'collect-list',
-            component: './Transaction/CollectList',
-          },
-          {
-            path: '/transaction/invoice-list',
-            name: 'invoice-list',
-            component: './Transaction/InvoiceList',
-          },
+          // {
+          //   path: '/transaction/collect-list',
+          //   name: 'collect-list',
+          //   component: './Transaction/CollectList',
+          // },
+          // {
+          //   path: '/transaction/invoice-list',
+          //   name: 'invoice-list',
+          //   component: './Transaction/InvoiceList',
+          // },
           {
             path: '/transaction/refund-list',
             name: 'refund-list',
@@ -242,11 +217,6 @@ export default [
             path: '/assist/notice-list',
             name: 'notice-list',
             component: './Assist/NoticeList',
-          },
-          {
-            path: '/assist/article-list',
-            name: 'article-list',
-            component: './Assist/ArticleList',
           },
           {
             path: '/assist/user-list',

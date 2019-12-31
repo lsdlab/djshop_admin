@@ -3,7 +3,7 @@ import { Table } from 'antd';
 import styles from '../SimpleTable/index.less';
 
 
-class SimpleTransactionTable extends PureComponent {
+class SimpleListTable extends PureComponent {
 
   render() {
     const {
@@ -25,4 +25,4 @@ class SimpleTransactionTable extends PureComponent {
   }
 }
 
-export default SimpleTransactionTable;
+export default SimpleListTable;

@@ -3,6 +3,7 @@ import request from '@/utils/request';
 import router from 'umi/router';
 // const axios = require('axios');
 import defaultSettings from '../defaultSettings';
+import { func } from 'prop-types';
 
 export async function queryProjectNotice() {
   return request('/api/project/notice');
@@ -204,7 +205,7 @@ export async function fetchCurrentMerchant(merchantID) {
 
 export async function queryArticles(params) {
   const token = getToken();
-  return request(`${apiHost}${apiVersion}/assist/articles/?${stringify(params)}`, {
+  return request(`${apiHost}${apiVersion}/articles/?${stringify(params)}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -215,7 +216,7 @@ export async function queryArticles(params) {
 
 export async function createArticle(params) {
   const token = getToken();
-  return request(`${apiHost}${apiVersion}/assist/articles/`, {
+  return request(`${apiHost}${apiVersion}/articles/`, {
     method: 'POST',
     body: params,
     headers: {
@@ -227,7 +228,7 @@ export async function createArticle(params) {
 
 export async function patchArticle(params, aritcleID) {
   const token = getToken();
-  return request(`${apiHost}${apiVersion}/assist/articles/${aritcleID}/`, {
+  return request(`${apiHost}${apiVersion}/articles/${aritcleID}/`, {
     method: 'PATCH',
     body: params,
     headers: {
@@ -239,7 +240,7 @@ export async function patchArticle(params, aritcleID) {
 
 export async function fetchArticle(aritcleID) {
   const token = getToken();
-  return request(`${apiHost}${apiVersion}/assist/articles/${aritcleID}/`, {
+  return request(`${apiHost}${apiVersion}/articles/${aritcleID}/`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -969,7 +970,7 @@ export async function queryTransactions(params) {
   });
 }
 
-// 获取单个商品详细信息
+// 获取单个订单的详细信息
 export async function fetchTransaction(transactionID) {
   const token = getToken();
   return request(`${apiHost}${apiVersion}/transactions/${transactionID}/`, {
@@ -1013,6 +1014,18 @@ export async function receivePackageTransaction(transactionID) {
   return request(`${apiHost}${apiVersion}/transactions/${transactionID}/receive_package/`, {
     method: 'POST',
     body: params,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `JWT ${token}`,
+    },
+  });
+}
+
+// 获取单个订单关联的评价
+export async function fetchTransactionReviews(transactionID) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/transactions/${transactionID}/reviews/`, {
+    method: 'GET',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `JWT ${token}`,
@@ -1100,6 +1113,31 @@ export async function deleteUser(userID) {
   const token = getToken();
   return request(`${apiHost}${apiVersion}/users/${userID}/`, {
     method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `JWT ${token}`,
+    },
+  });
+}
+
+// 获取用户的购物车
+export async function fetchUserCart(userID) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/users/${userID}/cart/`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `JWT ${token}`,
+    },
+  });
+}
+
+
+// 获取用户的收藏夹
+export async function fetchUserCollection(userID, params) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/users/${userID}/collection/?${stringify(params)}`, {
+    method: 'GET',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `JWT ${token}`,
