@@ -21,20 +21,6 @@ const { Option } = Select;
 const { RangePicker } = DatePicker;
 const timeFormat = 'YYYY-MM-DD HH:mm:ss';
 
-const buildOptions = optionData => {
-  if (optionData) {
-    const arr = [];
-    for (let i = 0; i < optionData.length; i++) {
-      arr.push(
-        <Option name={optionData[i].combined_name} value={optionData[i].id} key={optionData[i].id}>
-          {optionData[i].combined_name}
-        </Option>
-      );
-    }
-    return arr;
-  }
-};
-
 /* eslint react/no-multi-comp:0 */
 @connect(({ coupon, loading }) => ({
   coupon,

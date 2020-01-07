@@ -106,7 +106,7 @@ class PromotionList extends PureComponent {
         },
       },
       {
-        title: '商品规格名称',
+        title: '规格名称',
         dataIndex: 'promotion_product.product_spec.name',
       },
       {
@@ -114,25 +114,67 @@ class PromotionList extends PureComponent {
         dataIndex: 'user.nickname',
       },
       {
-        title: '当前价格',
+        title: '促销类型',
+        dataIndex: 'promotion_type_name',
+        render(text, record) {
+          if (record.promotion_type == '1') {
+            return <span style={{ color: 'red' }}>{text}</span>;
+          } else if (record.promotion_type == '2') {
+            return <span style={{ color: 'green' }}>{text}</span>;
+          } else if (record.promotion_type == '3') {
+            return <span style={{ color: 'yellow' }}>{text}</span>;
+          }
+        },
+      },
+      {
+        title: '当前加入',
+        dataIndex: 'current_nums',
+      },
+      {
+        title: '砍价当前价(团购/秒杀价)',
         dataIndex: 'current_price',
       },
       {
-        title: '起始价格',
-        dataIndex: 'promotion_product.start_price',
+        title: '起始价',
+        dataIndex: 'promotion_product.bargain_start_price',
+        render(text, record) {
+          if (record.promotion_type == '1') {
+            return text;
+          } else {
+            return '-';
+          }
+        },
       },
       {
-        title: '结束价格',
-        dataIndex: 'promotion_product.end_price',
+        title: '结束价',
+        dataIndex: 'promotion_product.bargain_end_price',
+        render(text, record) {
+          if (record.promotion_type == '1') {
+            return text;
+          } else {
+            return '-';
+          }
+        },
       },
       {
         title: '状态',
         dataIndex: 'dealed',
         render(text) {
           if (text) {
-            return <Badge status="error" text="结束" />;
+            return <Badge status="success" text="结束" />;
           } else {
-            return <Badge status="success" text="进行中" />;
+            return <Badge status="error" text="进行中" />;
+          }
+        },
+      },
+      {
+        title: '创建订单',
+        dataIndex: 'transaction_created',
+        render(text) {
+          if (text) {
+            return <Badge status="success" text="已创建" />;
+          } else {
+            return <Badge status="error" text="未创建" />;
           }
         },
       },
@@ -145,15 +187,11 @@ class PromotionList extends PureComponent {
         dataIndex: 'end_datetime',
       },
       {
-        title: '创建时间',
-        dataIndex: 'created_at',
-      },
-      {
         title: '操作',
         fixed: 'right',
-        render: (text, record) => (
+        render: (_, record) => (
           <Fragment>
-            <a onClick={() => this.showDrawer(true, record)}>砍价记录</a>
+            <a onClick={() => this.showDrawer(true, record)}>促销记录</a>
           </Fragment>
         ),
       },
@@ -163,7 +201,7 @@ class PromotionList extends PureComponent {
       {
         title: '用户',
         dataIndex: 'user.nickname',
-        render(text, record) {
+        render(text) {
           if (text) {
             return text;
           } else {
@@ -173,15 +211,36 @@ class PromotionList extends PureComponent {
       },
       {
         title: '开始价格',
-        dataIndex: 'from_price',
+        dataIndex: 'bargain_from_price',
+        render(text) {
+          if (text) {
+            return text;
+          } else {
+            return '-';
+          }
+        },
       },
       {
         title: '结束价格',
-        dataIndex: 'to_price',
+        dataIndex: 'bargain_to_price',
+        render(text) {
+          if (text) {
+            return text;
+          } else {
+            return '-';
+          }
+        },
       },
       {
         title: '折扣',
-        dataIndex: 'discount',
+        dataIndex: 'bargain_discount',
+        render(text) {
+          if (text) {
+            return text;
+          } else {
+            return '-';
+          }
+        },
       },
       {
         title: '创建时间',
@@ -197,7 +256,7 @@ class PromotionList extends PureComponent {
               loading={loading}
               data={data}
               columns={columns}
-              scroll={{ x: 1580 }}
+              scroll={{ x: 1620 }}
               current={this.state.currentPage}
               onChange={this.handleStandardTableChange}
             />
@@ -209,7 +268,7 @@ class PromotionList extends PureComponent {
             onClose={this.onClose}
             visible={this.state.visible}
           >
-            <p style={{ ...pStyle, marginBottom: 24 }}>砍价记录</p>
+            <p style={{ ...pStyle, marginBottom: 24 }}>促销参与记录</p>
             <Row>
               {logData && Object.keys(logData).length ? (
                 <SimpleTable data={logData} columns={drawerColumns} />

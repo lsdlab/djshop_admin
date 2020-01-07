@@ -418,7 +418,7 @@ class ProductDetail extends PureComponent {
                   style={{ marginLeft: 8 }}
                   onClick={() => this.handleModalVisibleGroupon(true, specData[i].id)}
                 >
-                  新增拼团商品
+                  新增团购商品
                 </a>
               </span>
             }

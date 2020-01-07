@@ -760,9 +760,9 @@ export async function queryPromotions(params) {
 }
 
 // 获取促销记录
-export async function queryPromotionsLogs(bargainID) {
+export async function queryPromotionsLogs(promptionID) {
   const token = getToken();
-  return request(`${apiHost}${apiVersion}/promotions/${bargainID}/logs/`, {
+  return request(`${apiHost}${apiVersion}/promotions/${promptionID}/logs/`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

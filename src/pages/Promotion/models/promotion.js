@@ -22,8 +22,8 @@ export default {
         payload: response,
       });
     },
-    *fetchLog({ bargainID }, { call, put }) {
-      const response = yield call(queryPromotionsLogs, bargainID);
+    *fetchLog({ promotionID }, { call, put }) {
+      const response = yield call(queryPromotionsLogs, promotionID);
       yield put({
         type: 'saveLog',
         payload: response,

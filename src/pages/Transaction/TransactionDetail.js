@@ -2,7 +2,7 @@ import React, { PureComponent, Fragment } from 'react';
 import Debounce from 'lodash-decorators/debounce';
 import Bind from 'lodash-decorators/bind';
 import { connect } from 'dva';
-import { Row, Col, Card, Button, Avatar, Steps, message } from 'antd';
+import { Row, Col, Card, Button, Avatar, Steps, Tooltip, message } from 'antd';
 import router from 'umi/router';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import ReactToPrint from 'react-to-print';
@@ -235,11 +235,11 @@ class TransactionDetail extends PureComponent {
         },
       },
       {
-        title: '商品规格ID',
+        title: '规格ID',
         dataIndex: 'product_spec.id',
       },
       {
-        title: '商品规格名称',
+        title: '规格名称',
         dataIndex: 'product_spec.name',
       },
       {

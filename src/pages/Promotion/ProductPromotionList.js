@@ -15,6 +15,7 @@ import {
   Popconfirm,
   Badge,
   Tooltip,
+  TreeSelect,
 } from 'antd';
 import SimpleTable from '@/components/SimpleTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
@@ -23,21 +24,7 @@ import styles from '../List/TableList.less';
 
 const FormItem = Form.Item;
 const InputGroup = Input.Group;
-const { Option } = Select;
 
-const buildOptions = optionData => {
-  if (optionData) {
-    const arr = [];
-    for (let i = 0; i < optionData.length; i++) {
-      arr.push(
-        <Option name={optionData[i].combined_name} value={optionData[i].id} key={optionData[i].id}>
-          {optionData[i].combined_name}
-        </Option>
-      );
-    }
-    return arr;
-  }
-};
 
 const CreateForm = Form.create()(props => {
   const { modalVisible, allProductSpecIds, form, handleAdd, handleModalVisible } = props;
@@ -50,109 +37,109 @@ const CreateForm = Form.create()(props => {
     });
   };
 
-  return (
-    <Modal
-      destroyOnClose
-      centered
-      keyboard
-      title="新增促销商品"
-      width={1000}
-      visible={modalVisible}
-      onOk={okHandle}
-      onCancel={() => handleModalVisible()}
-    >
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="价格区间">
+  return <Modal destroyOnClose centered keyboard title="新增促销商品" width={1000} visible={modalVisible} onOk={okHandle} onCancel={() => handleModalVisible()}>
+      <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="是否上架">
+        {form.getFieldDecorator('deleted', {
+          initialValue: 'false',
+          rules: [{ required: true, message: '请选择是否上架！' }],
+        })(<Select placeholder="是否启用" style={{ width: '100%' }}>
+            <Option value="false">上架</Option>
+            <Option value="true">下滑</Option>
+          </Select>)}
+      </Form.Item>
+
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="促销类型">
+        {form.getFieldDecorator('promotion_type', {
+          rules: [{ required: true, message: '请选择促销类型！' }],
+        })(<Select placeholder="促销类型" style={{ width: '100%' }}>
+            <Option value="1">砍价</Option>
+            <Option value="2">团购</Option>
+            <Option value="3">秒杀</Option>
+          </Select>)}
+      </FormItem>
+
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="促销库存">
+        {form.getFieldDecorator('promotion_stock', {
+          rules: [{ required: true, message: '请选择促销库存！' }],
+        })(<InputNumber min={5} style={{ width: '100%' }} placeholder="促销库存" />)}
+      </FormItem>
+
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="砍价价格区间" style={{ display: form.getFieldValue('promotion_type') === '1' ? 'block' : 'none' }}>
         <InputGroup compact>
-          {form.getFieldDecorator('start_price', {
-            rules: [{ required: true, message: '请输入起始价格！' }],
-          })(
-            <InputNumber
-              min={0.01}
-              step={0.01}
-              style={{ width: 150, textAlign: 'center', marginTop: 5 }}
-              placeholder="起始价格"
-            />
-          )}
-          <Input
-            style={{
-              width: 30,
-              borderLeft: 0,
-              pointerEvents: 'none',
-              backgroundColor: '#fff',
-              marginTop: 5,
-            }}
-            placeholder="~"
-            disabled
-          />
-          {form.getFieldDecorator('end_price', {
-            rules: [{ required: true, message: '请输入结束价格！' }],
-          })(
-            <InputNumber
-              min={0.01}
-              step={0.01}
-              style={{ width: 150, textAlign: 'center', borderLeft: 0, marginTop: 5 }}
-              placeholder="结束价格"
-            />
-          )}
+          {form.getFieldDecorator('bargain_start_price', {
+            rules: [
+              {
+                required: form.getFieldValue('promotion_type') === '1' ? true : false,
+                message: '请输入砍价起始价格！',
+              },
+            ],
+          })(<InputNumber min={0.01} step={0.01} style={{ width: 150, textAlign: 'center', marginTop: 5 }} placeholder="起始价格" />)}
+          <Input style={{ width: 30, borderLeft: 0, pointerEvents: 'none', backgroundColor: '#fff', marginTop: 5 }} placeholder="~" disabled />
+          {form.getFieldDecorator('bargain_end_price', {
+            rules: [
+              {
+                required: form.getFieldValue('promotion_type') === '1' ? true : false,
+                message: '请输入砍价结束价格！',
+              },
+            ],
+          })(<InputNumber min={0.01} step={0.01} style={{ width: 150, textAlign: 'center', borderLeft: 0, marginTop: 5 }} placeholder="结束价格" />)}
         </InputGroup>
       </FormItem>
 
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="砍价比例">
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="砍价比例" style={{ display: form.getFieldValue('promotion_type') === '1' ? 'block' : 'none' }}>
         <InputGroup compact>
-          {form.getFieldDecorator('promotion_percent_range_start', {
-            rules: [{ required: true, message: '请输入砍价比例！' }],
-          })(
-            <InputNumber
-              min={5}
-              max={50}
-              step={1}
-              style={{ width: 150, textAlign: 'center', marginTop: 5 }}
-              placeholder="砍价比例 5%"
-            />
-          )}
-          <Input
-            style={{
-              width: 30,
-              borderLeft: 0,
-              pointerEvents: 'none',
-              backgroundColor: '#fff',
-              marginTop: 5,
-            }}
-            placeholder="~"
-            disabled
-          />
-          {form.getFieldDecorator('promotion_percent_range_end', {
-            rules: [{ required: true, message: '请输入砍价比例！' }],
-          })(
-            <InputNumber
-              min={5}
-              max={50}
-              step={1}
-              style={{ width: 150, textAlign: 'center', borderLeft: 0, marginTop: 5 }}
-              placeholder="砍价比例 50%"
-            />
-          )}
+          {form.getFieldDecorator('bargain_percent_range_start', {
+            rules: [
+              {
+                required: form.getFieldValue('promotion_type') === '1' ? true : false,
+                message: '请输入砍价比例！',
+              },
+            ],
+          })(<InputNumber min={5} max={50} step={1} style={{ width: 150, textAlign: 'center', marginTop: 5 }} placeholder="砍价比例 5%" />)}
+          <Input style={{ width: 30, borderLeft: 0, pointerEvents: 'none', backgroundColor: '#fff', marginTop: 5 }} placeholder="~" disabled />
+          {form.getFieldDecorator('bargain_percent_range_end', {
+            rules: [
+              {
+                required: form.getFieldValue('promotion_type') === '1' ? true : false,
+                message: '请输入砍价比例！',
+              },
+            ],
+          })(<InputNumber min={5} max={50} step={1} style={{ width: 150, textAlign: 'center', borderLeft: 0, marginTop: 5 }} placeholder="砍价比例 50%" />)}
         </InputGroup>
       </FormItem>
 
-      {allProductSpecIds ? (
-        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="商品规格">
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="团购人数" style={{ display: form.getFieldValue('promotion_type') === '2' ? 'block' : 'none' }}>
+        {form.getFieldDecorator('groupon_limit', {
+          rules: [
+            {
+              required: form.getFieldValue('promotion_type') === '2' ? true : false,
+              message: '请选择团购人数！',
+            },
+          ],
+        })(<InputNumber min={3} style={{ width: '100%' }} placeholder="团购人数" />)}
+      </FormItem>
+
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="团购/秒杀价格" style={{ display: form.getFieldValue('promotion_type') === '2' || form.getFieldValue('promotion_type') === '3' ? 'block' : 'none' }}>
+        {form.getFieldDecorator('promotion_price', {
+          rules: [
+            {
+              required:
+                form.getFieldValue('promotion_type') === '2' ||
+                form.getFieldValue('promotion_type') === '3'
+                  ? true
+                  : false,
+              message: '请选择团购/秒杀价格！',
+            },
+          ],
+        })(<InputNumber min={0.01} step={0.01} style={{ width: '100%' }} placeholder="团购/秒杀价格" />)}
+      </FormItem>
+
+      {allProductSpecIds ? <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="商品规格">
           {form.getFieldDecorator('product_spec', {
             rules: [{ required: true, message: '请选择商品规格！' }],
-          })(
-            <Select
-              style={{ width: '100%' }}
-              placeholder="商品规格"
-              showSearch={true}
-              optionFilterProp="name"
-            >
-              {buildOptions(allProductSpecIds)}
-            </Select>
-          )}
-        </FormItem>
-      ) : null}
-    </Modal>
-  );
+          })(<TreeSelect style={{ width: '100%' }} treeData={allProductSpecIds} placeholder="商品规格" treeDefaultExpandAll={true} showSearch={true} />)}
+        </FormItem> : null}
+    </Modal>;
 });
 
 @Form.create()
@@ -160,15 +147,37 @@ class UpdateForm extends PureComponent {
   constructor(props) {
     super(props);
 
-    this.state = {
-      modalFormVals: {
-        start_price: props.values.start_price,
-        end_price: props.values.end_price,
-        promotion_percent_range_start: props.values.promotion_percent_range.split('-')[0],
-        promotion_percent_range_end: props.values.promotion_percent_range.split('-')[1],
-        product_spec: props.values.product_spec.id,
-      },
-    };
+
+    if (props.values.promotion_type == '1') {
+      this.state = {
+        modalFormVals: {
+          deleted: props.values.deleted.toString(),
+          promotion_type: props.values.promotion_type,
+          promotion_stock: props.values.promotion_stock,
+          bargain_start_price: props.values.bargain_start_price,
+          bargain_end_price: props.values.bargain_end_price,
+          bargain_percent_range_start: props.values.bargain_percent_range.split('-')[0],
+          bargain_percent_range_end: props.values.bargain_percent_range.split('-')[1],
+          groupon_limit: props.values.groupon_limit,
+          promotion_price: props.values.promotion_price,
+          product_spec: props.values.product_spec.id,
+        },
+      };
+    }
+
+    if (props.values.promotion_type == '2') {
+      this.state = {
+        modalFormVals: {
+          deleted: props.values.deleted.toString(),
+          promotion_type: props.values.promotion_type,
+          promotion_stock: props.values.promotion_stock,
+          groupon_limit: props.values.groupon_limit,
+          promotion_price: props.values.promotion_price,
+          product_spec: props.values.product_spec.id,
+        },
+      };
+    }
+
   }
 
   render() {
@@ -188,114 +197,118 @@ class UpdateForm extends PureComponent {
       });
     };
 
-    return (
-      <Modal
-        destroyOnClose
-        centered
-        keyboard
-        title="编辑促销商品"
-        width={1000}
-        visible={updateModalVisible}
-        onOk={okHandle}
-        onCancel={() => handleUpdateModalVisible()}
-      >
-        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="价格区间">
+    return <Modal destroyOnClose centered keyboard title="编辑促销商品" width={1000} visible={updateModalVisible} onOk={okHandle} onCancel={() => handleUpdateModalVisible()}>
+        <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="是否上架">
+          {form.getFieldDecorator('deleted', {
+            initialValue: modalFormVals.deleted,
+            rules: [{ required: true, message: '请选择是否上架！' }],
+          })(<Select placeholder="是否启用" style={{ width: '100%' }}>
+              <Option value="false">上架</Option>
+              <Option value="true">下滑</Option>
+            </Select>)}
+        </Form.Item>
+
+        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="促销类型">
+          {form.getFieldDecorator('promotion_type', {
+            initialValue: modalFormVals.promotion_type,
+            rules: [{ required: true, message: '请选择促销类型！' }],
+          })(<Select placeholder="促销类型" style={{ width: '100%' }}>
+              <Option value="1">砍价</Option>
+              <Option value="2">团购</Option>
+              <Option value="3">秒杀</Option>
+            </Select>)}
+        </FormItem>
+
+        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="促销库存">
+          {form.getFieldDecorator('promotion_stock', {
+            initialValue: modalFormVals.promotion_stock,
+            rules: [{ required: true, message: '请选择促销库存！' }],
+          })(<InputNumber min={5} style={{ width: '100%' }} placeholder="促销库存" />)}
+        </FormItem>
+
+        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="砍价价格区间" style={{ display: form.getFieldValue('promotion_type') === '1' ? 'block' : 'none' }}>
           <InputGroup compact>
-            {form.getFieldDecorator('start_price', {
-              initialValue: modalFormVals.start_price,
-              rules: [{ required: true, message: '请输入起始价格！' }],
-            })(
-              <InputNumber
-                min={0.01}
-                step={0.01}
-                style={{ width: 150, textAlign: 'center', marginTop: 5 }}
-                placeholder="起始价格"
-              />
-            )}
-            <Input
-              style={{
-                width: 30,
-                borderLeft: 0,
-                pointerEvents: 'none',
-                backgroundColor: '#fff',
-                marginTop: 5,
-              }}
-              placeholder="~"
-              disabled
-            />
-            {form.getFieldDecorator('end_price', {
-              initialValue: modalFormVals.end_price,
-              rules: [{ required: true, message: '请输入结束价格！' }],
-            })(
-              <InputNumber
-                min={0.01}
-                step={0.01}
-                style={{ width: 150, textAlign: 'center', borderLeft: 0, marginTop: 5 }}
-                placeholder="结束价格"
-              />
-            )}
+            {form.getFieldDecorator('bargain_start_price', {
+              initialValue: modalFormVals.bargain_start_price,
+              rules: [
+                {
+                  required: form.getFieldValue('promotion_type') === '1' ? true : false,
+                  message: '请输入砍价起始价格！',
+                },
+              ],
+            })(<InputNumber min={0.01} step={0.01} style={{ width: 150, textAlign: 'center', marginTop: 5 }} placeholder="起始价格" />)}
+            <Input style={{ width: 30, borderLeft: 0, pointerEvents: 'none', backgroundColor: '#fff', marginTop: 5 }} placeholder="~" disabled />
+            {form.getFieldDecorator('bargain_end_price', {
+              initialValue: modalFormVals.bargain_end_price,
+              rules: [
+                {
+                  required: form.getFieldValue('promotion_type') === '1' ? true : false,
+                  message: '请输入砍价结束价格！',
+                },
+              ],
+            })(<InputNumber min={0.01} step={0.01} style={{ width: 150, textAlign: 'center', borderLeft: 0, marginTop: 5 }} placeholder="结束价格" />)}
           </InputGroup>
         </FormItem>
 
-        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="砍价比例">
+        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="砍价比例" style={{ display: form.getFieldValue('promotion_type') === '1' ? 'block' : 'none' }}>
           <InputGroup compact>
-            {form.getFieldDecorator('promotion_percent_range_start', {
-              initialValue: modalFormVals.promotion_percent_range_start,
-              rules: [{ required: true, message: '请输入砍价比例！' }],
-            })(
-              <InputNumber
-                min={5}
-                max={10}
-                step={1}
-                style={{ width: 150, textAlign: 'center', marginTop: 5 }}
-                placeholder="砍价比例"
-              />
-            )}
-            <Input
-              style={{
-                width: 30,
-                borderLeft: 0,
-                pointerEvents: 'none',
-                backgroundColor: '#fff',
-                marginTop: 5,
-              }}
-              placeholder="~"
-              disabled
-            />
-            {form.getFieldDecorator('promotion_percent_range_end', {
-              initialValue: modalFormVals.promotion_percent_range_end,
-              rules: [{ required: true, message: '请输入砍价比例！' }],
-            })(
-              <InputNumber
-                min={5}
-                max={10}
-                step={1}
-                style={{ width: 150, textAlign: 'center', borderLeft: 0, marginTop: 5 }}
-                placeholder="砍价比例"
-              />
-            )}
+            {form.getFieldDecorator('bargain_percent_range_start', {
+              initialValue: modalFormVals.bargain_percent_range_start,
+              rules: [
+                {
+                  required: form.getFieldValue('promotion_type') === '1' ? true : false,
+                  message: '请输入砍价比例！',
+                },
+              ],
+            })(<InputNumber min={5} max={50} step={1} style={{ width: 150, textAlign: 'center', marginTop: 5 }} placeholder="砍价比例 5%" />)}
+            <Input style={{ width: 30, borderLeft: 0, pointerEvents: 'none', backgroundColor: '#fff', marginTop: 5 }} placeholder="~" disabled />
+            {form.getFieldDecorator('bargain_percent_range_end', {
+              initialValue: modalFormVals.bargain_percent_range_end,
+              rules: [
+                {
+                  required: form.getFieldValue('promotion_type') === '1' ? true : false,
+                  message: '请输入砍价比例！',
+                },
+              ],
+            })(<InputNumber min={5} max={50} step={1} style={{ width: 150, textAlign: 'center', borderLeft: 0, marginTop: 5 }} placeholder="砍价比例 50%" />)}
           </InputGroup>
         </FormItem>
 
-        {allProductSpecIds ? (
-          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="商品规格">
+        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="团购人数" style={{ display: form.getFieldValue('promotion_type') === '2' ? 'block' : 'none' }}>
+          {form.getFieldDecorator('groupon_limit', {
+            initialValue: modalFormVals.groupon_limit,
+            rules: [
+              {
+                required: form.getFieldValue('promotion_type') === '2' ? true : false,
+                message: '请选择团购人数！',
+              },
+            ],
+          })(<InputNumber min={3} style={{ width: '100%' }} placeholder="团购人数" />)}
+        </FormItem>
+
+        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="团购/秒杀价格" style={{ display: form.getFieldValue('promotion_type') === '2' || form.getFieldValue('promotion_type') === '3' ? 'block' : 'none' }}>
+          {form.getFieldDecorator('promotion_price', {
+            initialValue: modalFormVals.promotion_price,
+            rules: [
+              {
+                required:
+                  form.getFieldValue('promotion_type') === '2' ||
+                  form.getFieldValue('promotion_type') === '3'
+                    ? true
+                    : false,
+                message: '请选择团购/秒杀价格！',
+              },
+            ],
+          })(<InputNumber min={0.01} step={0.01} style={{ width: '100%' }} placeholder="团购/秒杀价格" />)}
+        </FormItem>
+
+        {allProductSpecIds ? <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="商品规格">
             {form.getFieldDecorator('product_spec', {
               initialValue: modalFormVals.product_spec,
               rules: [{ required: true, message: '请选择商品规格！' }],
-            })(
-              <Select
-                style={{ width: '100%' }}
-                placeholder="商品"
-                showSearch={true}
-                optionFilterProp="name"
-              >
-                {buildOptions(allProductSpecIds)}
-              </Select>
-            )}
-          </FormItem>
-        ) : null}
-      </Modal>
-    );
+            })(<TreeSelect style={{ width: '100%' }} treeData={allProductSpecIds} placeholder="商品规格" treeDefaultExpandAll={true} showSearch={true} />)}
+          </FormItem> : null}
+      </Modal>;
   }
 }
 
@@ -494,17 +507,26 @@ class PromotionsProductList extends PureComponent {
         },
       },
       {
-        title: '商品规格名称',
+        title: '商品规格',
         dataIndex: 'product_spec.name',
       },
       {
         title: '促销类型',
         dataIndex: 'promotion_type_name',
+        render(text, record) {
+          if (record.promotion_type == '1') {
+            return <span style={{ color: 'red' }}>{text}</span>;
+          } else if (record.promotion_type == '2') {
+            return <span style={{ color: 'green' }}>{text}</span>;
+          } else if (record.promotion_type == '3') {
+            return <span style={{ color: 'yellow' }}>{text}</span>;
+          }
+        },
       },
       {
-        title: '状态',
+        title: '促销状态',
         dataIndex: 'deleted',
-        render(text, record, index) {
+        render(text) {
           if (text) {
             return <Badge status="error" text="下架中" />;
           } else {
@@ -517,7 +539,22 @@ class PromotionsProductList extends PureComponent {
         dataIndex: 'original_sale_price',
       },
       {
-        title: '团购/秒杀价格',
+        title: '促销销量',
+        dataIndex: 'sold',
+      },
+      {
+        title: '促销库存',
+        dataIndex: 'promotion_stock',
+        render(text) {
+          if (text) {
+            return text;
+          } else {
+            return '-';
+          }
+        },
+      },
+      {
+        title: '团购/秒杀价',
         dataIndex: 'promotion_price',
         render(text) {
           if (text) {
@@ -539,18 +576,7 @@ class PromotionsProductList extends PureComponent {
         },
       },
       {
-        title: '促销库存',
-        dataIndex: 'promotion_stock',
-        render(text) {
-          if (text) {
-            return text;
-          } else {
-            return '-';
-          }
-        },
-      },
-      {
-        title: '砍价价格区间',
+        title: '砍格区间',
         dataIndex: 'bargain_start_price',
         render(text, record) {
           if (text) {
@@ -561,7 +587,7 @@ class PromotionsProductList extends PureComponent {
         },
       },
       {
-        title: '砍价砍价比例(%)',
+        title: '砍价比例(%)',
         dataIndex: 'bargain_percent_range',
         render(text) {
           if (text) {
@@ -570,10 +596,6 @@ class PromotionsProductList extends PureComponent {
             return '-';
           }
         },
-      },
-      {
-        title: '销量',
-        dataIndex: 'sold',
       },
       {
         title: '创建时间',
@@ -615,7 +637,7 @@ class PromotionsProductList extends PureComponent {
               loading={loading}
               data={data}
               columns={columns}
-              scroll={{ x: 1480 }}
+              scroll={{ x: 1460 }}
               current={this.state.currentPage}
               onChange={this.handleStandardTableChange}
             />
