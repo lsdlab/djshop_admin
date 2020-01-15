@@ -77,29 +77,11 @@ class CouponEdit extends PureComponent {
 
     const currentRecord = location.state.currentRecord;
 
-    const formItemLayout = {
-      labelCol: {
-        xs: { span: 24 },
-        sm: { span: 7 },
-      },
-      wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 12 },
-        md: { span: 10 },
-      },
-    };
+    const formItemLayout = { labelCol: { span: 4 }, wrapperCol: { span: 20 } };
 
-    const submitFormLayout = {
-      wrapperCol: {
-        xs: { span: 24, offset: 0 },
-        sm: { span: 10, offset: 7 },
-      },
-    };
-
-    return (
-      <PageHeaderWrapper title="编辑优惠卷">
+    return <PageHeaderWrapper title="编辑优惠卷">
         <Card bordered={false}>
-          <Form layout="horizontal" onSubmit={this.handleSubmit} style={{ marginTop: 8 }}>
+          <Form layout="horizontal" onSubmit={this.handleSubmit} style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: 20, maxWidth: 700 }}>
             <FormItem {...formItemLayout} label="ID">
               {getFieldDecorator('id', {
                 initialValue: currentRecord.id,
@@ -110,20 +92,14 @@ class CouponEdit extends PureComponent {
               {getFieldDecorator('type', {
                 initialValue: currentRecord.type,
                 rules: [{ required: true, message: '请选择类型！' }],
-              })(
-                <Select placeholder="类型" style={{ width: '100%' }}>
+              })(<Select placeholder="类型" style={{ width: '100%' }}>
                   <Option value="3">普通</Option>
                   <Option value="2">积分</Option>
                   <Option value="1">会员</Option>
-                </Select>
-              )}
+                </Select>)}
             </Form.Item>
 
-            <FormItem
-              {...formItemLayout}
-              label="所需积分"
-              style={{ display: form.getFieldValue('type') === '2' ? 'block' : 'none' }}
-            >
+            <FormItem {...formItemLayout} label="所需积分" style={{ display: form.getFieldValue('type') === '2' ? 'block' : 'none' }}>
               {getFieldDecorator('points', {
                 initialValue: currentRecord.points,
                 rules: [
@@ -139,30 +115,17 @@ class CouponEdit extends PureComponent {
               {getFieldDecorator('internal_type', {
                 initialValue: currentRecord.internal_type,
                 rules: [{ required: true, message: '请选择内部类型！' }],
-              })(
-                <Select placeholder="内部类型" style={{ width: '100%' }}>
+              })(<Select placeholder="内部类型" style={{ width: '100%' }}>
                   <Option value="1">全场满金额减</Option>
                   <Option value="2">分类满金额减</Option>
                   <Option value="3">单品满金额减</Option>
                   <Option value="4">全场满件数减</Option>
                   <Option value="5">分类满件数减</Option>
                   <Option value="6">单品满件数减</Option>
-                </Select>
-              )}
+                </Select>)}
             </Form.Item>
 
-            {categoryData ? (
-              <Form.Item
-                {...formItemLayout}
-                label="分类"
-                style={{
-                  display:
-                    form.getFieldValue('internal_type') === '2' ||
-                    form.getFieldValue('internal_type') === '5'
-                      ? 'block'
-                      : 'none',
-                }}
-              >
+            {categoryData ? <Form.Item {...formItemLayout} label="分类" style={{ display: form.getFieldValue('internal_type') === '2' || form.getFieldValue('internal_type') === '5' ? 'block' : 'none' }}>
                 {getFieldDecorator('category', {
                   initialValue: currentRecord.category,
                   rules: [
@@ -175,30 +138,10 @@ class CouponEdit extends PureComponent {
                       message: '请选择分类！',
                     },
                   ],
-                })(
-                  <TreeSelect
-                    style={{ width: '100%' }}
-                    treeData={categoryData}
-                    placeholder="商品分类"
-                    treeDefaultExpandAll={true}
-                    showSearch={true}
-                  />
-                )}
-              </Form.Item>
-            ) : null}
+                })(<TreeSelect style={{ width: '100%' }} treeData={categoryData} placeholder="商品分类" treeDefaultExpandAll={true} showSearch={true} />)}
+              </Form.Item> : null}
 
-            {allProductIds ? (
-              <Form.Item
-                {...formItemLayout}
-                label="商品"
-                style={{
-                  display:
-                    form.getFieldValue('internal_type') === '3' ||
-                    form.getFieldValue('internal_type') === '6'
-                      ? 'block'
-                      : 'none',
-                }}
-              >
+            {allProductIds ? <Form.Item {...formItemLayout} label="商品" style={{ display: form.getFieldValue('internal_type') === '3' || form.getFieldValue('internal_type') === '6' ? 'block' : 'none' }}>
                 {form.getFieldDecorator('product', {
                   rules: [
                     {
@@ -210,30 +153,10 @@ class CouponEdit extends PureComponent {
                       message: '请选择商品！',
                     },
                   ],
-                })(
-                  <TreeSelect
-                    style={{ width: '100%' }}
-                    treeData={allProductIds}
-                    placeholder="商品"
-                    treeDefaultExpandAll={true}
-                    showSearch={true}
-                  />
-                )}
-              </Form.Item>
-            ) : null}
+                })(<TreeSelect style={{ width: '100%' }} treeData={allProductIds} placeholder="商品" treeDefaultExpandAll={true} showSearch={true} />)}
+              </Form.Item> : null}
 
-            <FormItem
-              {...formItemLayout}
-              label="达到价格"
-              style={{
-                display:
-                  form.getFieldValue('internal_type') === '1' ||
-                  form.getFieldValue('internal_type') === '2' ||
-                  form.getFieldValue('internal_type') === '3'
-                    ? 'block'
-                    : 'none',
-              }}
-            >
+            <FormItem {...formItemLayout} label="达到价格" style={{ display: form.getFieldValue('internal_type') === '1' || form.getFieldValue('internal_type') === '2' || form.getFieldValue('internal_type') === '3' ? 'block' : 'none' }}>
               {getFieldDecorator('reach_price', {
                 initialValue: currentRecord.reach_price,
                 rules: [
@@ -247,28 +170,10 @@ class CouponEdit extends PureComponent {
                     message: '请输入达到价格！',
                   },
                 ],
-              })(
-                <InputNumber
-                  min={0.01}
-                  step={0.01}
-                  style={{ width: '100%' }}
-                  placeholder="达到价格"
-                />
-              )}
+              })(<InputNumber min={0.01} step={0.01} style={{ width: '100%' }} placeholder="达到价格" />)}
             </FormItem>
 
-            <FormItem
-              {...formItemLayout}
-              label="达到件数"
-              style={{
-                display:
-                  form.getFieldValue('internal_type') === '4' ||
-                  form.getFieldValue('internal_type') === '5' ||
-                  form.getFieldValue('internal_type') === '6'
-                    ? 'block'
-                    : 'none',
-              }}
-            >
+            <FormItem {...formItemLayout} label="达到件数" style={{ display: form.getFieldValue('internal_type') === '4' || form.getFieldValue('internal_type') === '5' || form.getFieldValue('internal_type') === '6' ? 'block' : 'none' }}>
               {getFieldDecorator('reach_unit', {
                 initialValue: currentRecord.reach_unit,
                 rules: [
@@ -282,28 +187,14 @@ class CouponEdit extends PureComponent {
                     message: '请输入达到件数！',
                   },
                 ],
-              })(
-                <InputNumber
-                  min={1}
-                  max={10}
-                  style={{ width: '100%' }}
-                  placeholder="商品达到件数"
-                />
-              )}
+              })(<InputNumber min={1} max={10} style={{ width: '100%' }} placeholder="商品达到件数" />)}
             </FormItem>
 
             <FormItem {...formItemLayout} label="折扣价格">
               {getFieldDecorator('discount_price', {
                 initialValue: currentRecord.discount_price,
                 rules: [{ required: true, message: '请输入折扣价格！' }],
-              })(
-                <InputNumber
-                  min={0.01}
-                  step={0.01}
-                  style={{ width: '100%' }}
-                  placeholder="折扣价格"
-                />
-              )}
+              })(<InputNumber min={0.01} step={0.01} style={{ width: '100%' }} placeholder="折扣价格" />)}
             </FormItem>
 
             <FormItem {...formItemLayout} label="名称">
@@ -317,9 +208,7 @@ class CouponEdit extends PureComponent {
               {getFieldDecorator('desc', {
                 initialValue: currentRecord.desc,
                 rules: [{ required: true, message: '请输入描述！' }],
-              })(
-                <TextArea autosize={{ minRows: 4, maxRows: 8 }} placeholder="优惠卷描述，长文本" />
-              )}
+              })(<TextArea autosize={{ minRows: 4, maxRows: 8 }} placeholder="优惠卷描述，长文本" />)}
             </FormItem>
 
             <FormItem {...formItemLayout} label="有效日期">
@@ -343,23 +232,20 @@ class CouponEdit extends PureComponent {
               {getFieldDecorator('in_use', {
                 initialValue: currentRecord.in_use.toString(),
                 rules: [{ required: true, message: '请选择是否启用！' }],
-              })(
-                <Select placeholder="是否启用" style={{ width: '100%' }}>
+              })(<Select placeholder="是否启用" style={{ width: '100%' }}>
                   <Option value="true">启用</Option>
                   <Option value="false">未启用</Option>
-                </Select>
-              )}
+                </Select>)}
             </Form.Item>
 
-            <Form.Item {...submitFormLayout} style={{ marginTop: 32 }}>
+            <Form.Item wrapperCol={{ xs: { span: 24, offset: 0 }, sm: { span: formItemLayout.wrapperCol.span, offset: formItemLayout.labelCol.span } }} label="">
               <Button type="primary" htmlType="submit" loading={submitting}>
                 保存
               </Button>
             </Form.Item>
           </Form>
         </Card>
-      </PageHeaderWrapper>
-    );
+      </PageHeaderWrapper>;
   }
 }
 

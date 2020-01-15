@@ -6,7 +6,6 @@ import {
   InputNumber,
   Button,
   Select,
-  Checkbox,
   Divider,
   TreeSelect,
   Card,
@@ -219,7 +218,7 @@ class ProductEdit extends React.PureComponent {
     return <PageHeaderWrapper title="商品信息编辑">
         <Card bordered={false}>
           <Fragment>
-            <Form layout="horizontal" style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: 20, maxWidth: 600 }}>
+            <Form layout="horizontal" style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: 20, maxWidth: 700 }}>
               <FormItem {...formItemLayout} label="ID">
                 {getFieldDecorator('id', {
                   initialValue: currentRecord.id,

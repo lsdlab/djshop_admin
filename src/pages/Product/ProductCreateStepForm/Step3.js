@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import { Button, Row, Col, Badge } from 'antd';
 import router from 'umi/router';
 import Result from '@/components/Result';
-import styles from '../../Forms/StepForm/style.less';
+import styles from './style.less';
 
 @connect(({ product }) => ({
   product,

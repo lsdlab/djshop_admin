@@ -78,7 +78,7 @@ class Step2 extends React.PureComponent {
       <Fragment>
         <Form
           layout="horizontal"
-          style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: 20, maxWidth: 600 }}
+          style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: 20, maxWidth: 700 }}
         >
           <FormItem {...formItemLayout} label="规格名称">
             {getFieldDecorator('name', {

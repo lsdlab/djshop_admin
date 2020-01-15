@@ -176,6 +176,11 @@ export default [
             component: './Transaction/TransactionList',
           },
           {
+            path: '/transaction/transaction-list-today',
+            name: 'transaction-list-today',
+            component: './Transaction/TransactionListToday',
+          },
+          {
             path: '/transaction/transaction-detail/:id',
             hideInMenu: true,
             name: 'transaction-detail',

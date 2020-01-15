@@ -1,13 +1,10 @@
 import React, { Fragment } from 'react';
 import { connect } from 'dva';
-import { Form, Input, InputNumber, Button, Select, Divider, Card, message } from 'antd';
+import { Form, Input, InputNumber, Button, Divider, Card, message } from 'antd';
 import router from 'umi/router';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import styles from './ProductCreateStepForm/style.less';
 
 const FormItem = Form.Item;
-const { Option } = Select;
-const { TextArea } = Input;
 
 const formItemLayout = {
   labelCol: {
@@ -50,11 +47,10 @@ class ProductSpecCreate extends React.PureComponent {
       });
     };
 
-    return (
-      <PageHeaderWrapper title="创建商品规格">
+    return <PageHeaderWrapper title="创建商品规格">
         <Card bordered={false}>
           <Fragment>
-            <Form layout="horizontal" className={styles.stepForm}>
+            <Form layout="horizontal" style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: 20, maxWidth: 700 }}>
               <FormItem {...formItemLayout} label="规格名称">
                 {getFieldDecorator('name', {
                   rules: [{ required: true, message: '请输入规格名称！' }],
@@ -70,53 +66,25 @@ class ProductSpecCreate extends React.PureComponent {
               <FormItem {...formItemLayout} label="售价">
                 {getFieldDecorator('price', {
                   rules: [{ required: true, message: '请输入售价！' }],
-                })(
-                  <InputNumber
-                    min={0.01}
-                    step={0.01}
-                    style={{ width: '100%' }}
-                    placeholder="售价"
-                  />
-                )}
+                })(<InputNumber min={0.01} step={0.01} style={{ width: '100%' }} placeholder="售价" />)}
               </FormItem>
 
               <FormItem {...formItemLayout} label="市场价">
                 {getFieldDecorator('market_price', {
                   rules: [{ required: true, message: '请输入市场价！' }],
-                })(
-                  <InputNumber
-                    min={0.01}
-                    step={0.01}
-                    style={{ width: '100%' }}
-                    placeholder="市场价"
-                  />
-                )}
+                })(<InputNumber min={0.01} step={0.01} style={{ width: '100%' }} placeholder="市场价" />)}
               </FormItem>
 
               <FormItem {...formItemLayout} label="成本价">
                 {getFieldDecorator('cost_price', {
                   rules: [{ required: true, message: '请输入限成本价！' }],
-                })(
-                  <InputNumber
-                    min={0.01}
-                    step={0.01}
-                    style={{ width: '100%' }}
-                    placeholder="成本价"
-                  />
-                )}
+                })(<InputNumber min={0.01} step={0.01} style={{ width: '100%' }} placeholder="成本价" />)}
               </FormItem>
 
               <FormItem {...formItemLayout} label="库存数量">
                 {getFieldDecorator('stock', {
                   rules: [{ required: true, message: '请输入库存数量！' }],
-                })(
-                  <InputNumber
-                    min={1}
-                    max={9999}
-                    style={{ width: '100%' }}
-                    placeholder="库存数量"
-                  />
-                )}
+                })(<InputNumber min={1} max={9999} style={{ width: '100%' }} placeholder="库存数量" />)}
               </FormItem>
 
               <FormItem {...formItemLayout} label="商品货号">
@@ -125,16 +93,7 @@ class ProductSpecCreate extends React.PureComponent {
                 })(<Input placeholder="商品货号" />)}
               </FormItem>
 
-              <Form.Item
-                wrapperCol={{
-                  xs: { span: 24, offset: 0 },
-                  sm: {
-                    span: formItemLayout.wrapperCol.span,
-                    offset: formItemLayout.labelCol.span,
-                  },
-                }}
-                label=""
-              >
+              <Form.Item wrapperCol={{ xs: { span: 24, offset: 0 }, sm: { span: formItemLayout.wrapperCol.span, offset: formItemLayout.labelCol.span } }} label="">
                 <Button type="primary" onClick={onValidateForm} loading={submitting}>
                   保存
                 </Button>
@@ -143,8 +102,7 @@ class ProductSpecCreate extends React.PureComponent {
             <Divider style={{ margin: '40px 0 24px' }} />
           </Fragment>
         </Card>
-      </PageHeaderWrapper>
-    );
+      </PageHeaderWrapper>;
   }
 }
 

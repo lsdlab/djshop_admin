@@ -126,6 +126,10 @@ class Workplace extends PureComponent {
     router.push({pathname: '/assist/upload-video/'});
   }
 
+  routerPushTransacitonListToday = () => {
+    router.push({pathname: '/transaction/transaction-list-today/'});
+  }
+
   routerPushTransacitonList = () => {
     router.push({pathname: '/transaction/transaction-list/'});
   }
@@ -168,49 +172,37 @@ class Workplace extends PureComponent {
         </div>
       ) : null;
 
-    return (
-      <PageHeaderWrapper
-        hiddenBreadcrumb={false}
-        loading={currentUserLoading}
-        content={pageHeaderContent}
-      >
+    return <PageHeaderWrapper hiddenBreadcrumb={false} loading={currentUserLoading} content={pageHeaderContent}>
         <Row gutter={24}>
           <Col xl={16} lg={24} md={24} sm={24} xs={24}>
-            <Card
-              bodyStyle={{ padding: 0 }}
-              bordered={false}
-              className={styles.activeCard}
-              title="操作历史记录"
-              loading={activitiesLoading}
-            >
+            <Card bodyStyle={{ padding: 0 }} bordered={false} className={styles.activeCard} title="操作历史记录" loading={activitiesLoading}>
               <List loading={activitiesLoading} size="large">
                 <div className={styles.activitiesList}>{this.renderActivities()}</div>
               </List>
             </Card>
           </Col>
           <Col xl={8} lg={24} md={24} sm={24} xs={24}>
-            <Card
-              style={{ marginBottom: 24 }}
-              title="便捷导航"
-              bordered={false}
-              bodyStyle={{ padding: 0 }}
-            >
+            <Card style={{ marginBottom: 24 }} title="便捷导航" bordered={false} bodyStyle={{ padding: 0 }}>
+              <div className={linkStyles.linkGroup}>
+                <a onClick={() => this.routerPushTransacitonListToday()}>今日待发货</a>
+                <a onClick={() => this.routerPushTransacitonList()}>订单列表</a>
+              </div>
               <div className={linkStyles.linkGroup}>
                 <a onClick={() => this.routerPushNewProduct()}>商品上架</a>
                 <a onClick={() => this.routerPushProductList()}>商品列表</a>
+                <a onClick={() => this.routerPushCouponCreate()}>新增优惠卷</a>
+                <a onClick={() => this.routerPushCouponList()}>优惠卷列表</a>
+              </div>
+              <div className={linkStyles.linkGroup}>
                 <a onClick={() => this.routerPushSplashList()}>开屏广告</a>
                 <a onClick={() => this.routerPushBannerList()}>轮播图</a>
                 <a onClick={() => this.routerPushUploadImage()}>上传图片</a>
                 <a onClick={() => this.routerPushUploadVideo()}>上传视频</a>
-                <a onClick={() => this.routerPushTransacitonList()}>订单列表</a>
-                <a onClick={() => this.routerPushCouponCreate()}>新增优惠卷</a>
-                <a onClick={() => this.routerPushCouponList()}>优惠卷列表</a>
               </div>
             </Card>
           </Col>
         </Row>
-      </PageHeaderWrapper>
-    );
+      </PageHeaderWrapper>;
   }
 }
 

@@ -8,7 +8,7 @@ import { ContentUtils } from 'braft-utils';
 import { Base64 } from 'js-base64';
 
 import router from 'umi/router';
-import styles from '../../Forms/StepForm/style.less';
+import styles from './style.less';
 import defaultSettings from '../../../defaultSettings';
 
 const FormItem = Form.Item;
