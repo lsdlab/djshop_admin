@@ -12,17 +12,14 @@ import {
   Divider,
   Popconfirm,
   Badge,
-  Select,
   TreeSelect,
 } from 'antd';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import SimpleTable from '@/components/SimpleTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-
 import styles from '../List/TableList.less';
 
 const FormItem = Form.Item;
-const { Option } = Select;
 
 const CreateForm = Form.create()(props => {
   const { modalVisible, allProductIds, form, handleAdd, handleModalVisible } = props;
@@ -375,10 +372,10 @@ class SplashList extends PureComponent {
       {
         title: '状态',
         dataIndex: 'status',
-        render(val) {
-          if (val === '1') {
+        render(text) {
+          if (text === '1') {
             return <Badge status="success" text="上线" />;
-          } else if (val === '2') {
+          } else if (text === '2') {
             return <Badge status="error" text="下线" />;
           }
         },
@@ -389,7 +386,7 @@ class SplashList extends PureComponent {
       },
       {
         title: '操作',
-        render: (text, record) => (
+        render: (_, record) => (
           <Fragment>
             {record.status_name === '下线' ? (
               <a onClick={() => this.handleUpdateModalVisible(true, record)}>编辑</a>

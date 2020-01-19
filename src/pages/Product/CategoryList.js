@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
 import {
   Row,
@@ -10,14 +10,14 @@ import {
   Button,
   Modal,
   message,
-  Tree,
 } from 'antd';
+import SimpleTable from '@/components/SimpleTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import styles from '../List/TableList.less';
 
 
 const FormItem = Form.Item;
 const { Option } = Select;
-const { TreeNode } = Tree;
 
 const buildOptions = optionData => {
   if (optionData) {
@@ -66,7 +66,7 @@ const CreateForm = Form.create()(props => {
         })(
           <Select style={{ width: '100%' }} placeholder="类型">
             <Option value="2">一级分类</Option>
-            <Option value="3">二级分类</Option>
+            {/* <Option value="3">二级分类</Option> */}
           </Select>
         )}
       </FormItem>
@@ -101,20 +101,115 @@ const CreateForm = Form.create()(props => {
   );
 });
 
+@Form.create()
+class UpdateForm extends PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      modalFormVals: {
+        name: props.values.name,
+        category_type: props.values.category_type,
+        // icon: props.values.icon,
+        is_root: props.values.category_type === '2' ? true : false,
+        parent_category: props.values.parent_category,
+      },
+    };
+
+    this.formLayout = {
+      labelCol: { span: 7 },
+      wrapperCol: { span: 13 },
+    };
+  }
+
+  render() {
+    const {
+      updateModalVisible,
+      form,
+      categoryData,
+      handleUpdate,
+      handleUpdateModalVisible,
+    } = this.props;
+    const { modalFormVals } = this.state;
+
+    const okHandle = () => {
+      form.validateFields((err, fieldsValue) => {
+        if (err) return;
+        handleUpdate(fieldsValue);
+      });
+    };
+
+    return (
+      <Modal
+        destroyOnClose
+        centered
+        keyboard
+        title="编辑分类"
+        width={800}
+        visible={updateModalVisible}
+        onOk={okHandle}
+        onCancel={() => handleUpdateModalVisible()}
+      >
+        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="名称">
+          {form.getFieldDecorator('name', {
+            initialValue: modalFormVals.name,
+            rules: [{ required: true, message: '请输入名称！' }],
+          })(<Input placeholder="名称" />)}
+        </FormItem>
+        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="类型">
+          {form.getFieldDecorator('category_type', {
+            initialValue: '2',
+            rules: [{ required: true, message: '请选择类型！' }],
+          })(
+            <Select style={{ width: '100%' }} placeholder="类型">
+              <Option value="2">一级分类</Option>
+              {/* <Option value="3">二级分类</Option> */}
+            </Select>
+          )}
+        </FormItem>
+        {/* <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="图标链接">
+          {form.getFieldDecorator('icon', {
+            rules: [{ required: true, message: '请输入图标链接！' }],
+          })(<Input placeholder="图标链接" />)}
+        </FormItem> */}
+        {categoryData ? (
+          <FormItem
+            labelCol={{ span: 5 }}
+            wrapperCol={{ span: 15 }}
+            label="一级分类"
+            style={{ display: form.getFieldValue('category_type') === '3' ? 'block' : 'none' }}
+          >
+            {form.getFieldDecorator('parent_category', {
+              initialValue: categoryData[0] ? categoryData[0].id : '',
+              rules: [
+                {
+                  required: form.getFieldValue('category_type') === '3' ? true : false,
+                  message: '请选择一级分类！',
+                },
+              ],
+            })(
+              <Select style={{ width: '100%' }} placeholder="一级分类">
+                {buildOptions(categoryData)}
+              </Select>
+            )}
+          </FormItem>
+        ) : null}
+      </Modal>
+    );
+  }
+}
+
 /* eslint react/no-multi-comp:0 */
 @connect(({ category, loading }) => ({
   category,
-  submitting: loading.effects['category/create'],
+  loading: loading.models.category
 }))
 @Form.create()
 class CategoryList extends PureComponent {
   state = {
     modalVisible: false,
-    editFormVisible: false,
-    currentSelected: {},
-    expandedKeys: [],
-    searchValue: '',
-    autoExpandParent: true,
+    updateModalVisible: false,
+    currentRecord: {},
   };
 
   componentDidMount() {
@@ -124,16 +219,16 @@ class CategoryList extends PureComponent {
     });
   }
 
-  handleRefresh = () => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'category/fetch',
-    });
-  };
-
   handleModalVisible = flag => {
     this.setState({
       modalVisible: !!flag,
+    });
+  };
+
+  handleUpdateModalVisible = (flag, record) => {
+    this.setState({
+      updateModalVisible: !!flag,
+      currentRecord: record || {},
     });
   };
 
@@ -157,164 +252,115 @@ class CategoryList extends PureComponent {
     });
   };
 
-  onSelect = (selectedKeys, info) => {
-    const { form } = this.props;
-    this.setState({
-      currentSelected: info.selectedNodes[0].props.dataRef,
-      editFormVisible: true,
-    });
-    form.setFieldsValue({
-      name: info.selectedNodes[0].props.dataRef.name,
-      category_type: info.selectedNodes[0].props.dataRef.category_type,
-      // icon: info.selectedNodes[0].props.dataRef.icon,
-      parent_category: info.selectedNodes[0].props.dataRef.parent_category,
-    });
-  };
-
-  handleSubmit = e => {
-    const { dispatch, form } = this.props;
-    e.preventDefault();
-    form.validateFieldsAndScroll((err, values) => {
-      if (!err) {
-        const params = {
-          ...values,
-        };
-        if (params['category_type'] === '2') {
-          params['is_root'] = true;
-        }
-        dispatch({
-          type: 'category/patch',
-          payload: params,
-          categoryID: this.state.currentSelected.id,
-        }).then(() => {
-          message.success('修改分类成功');
-          dispatch({
-            type: 'category/fetch',
-          });
-        });
-      }
+  handleUpdate = fields => {
+    const { dispatch } = this.props;
+    const params = {
+      ...fields,
+    };
+    dispatch({
+      type: 'category/patch',
+      payload: params,
+      categoryID: this.state.currentRecord.id,
+    }).then(() => {
+      message.success('更新成功');
+      this.handleUpdateModalVisible();
+      dispatch({
+        type: 'category/fetch',
+        payload: {},
+      });
     });
   };
 
-  renderTreeNodes = data =>
-    data.map(item => {
-      if (item && item.children) {
-        return (
-          <TreeNode title={item.title} key={item.key} dataRef={item}>
-            {this.renderTreeNodes(item.children)}
-          </TreeNode>
-        );
-      }
-      return <TreeNode {...item} dataRef={item} />;
-    });
+  renderSimpleForm() {
+    return (
+      <Form layout="inline" style={{ marginBottom: 15 }}>
+        <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+          <Col md={8} sm={24}>
+            <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
+              新增分类
+            </Button>
+          </Col>
+        </Row>
+      </Form>
+    );
+  }
+
 
   render() {
     const {
       category: { data },
-      submitting,
-      form,
+      loading,
     } = this.props;
-    const { modalVisible } = this.state;
+    const { modalVisible, updateModalVisible, currentRecord } = this.state;
 
     const parentMethods = {
       handleAdd: this.handleAdd,
       handleModalVisible: this.handleModalVisible,
     };
 
+    const updateMethods = {
+      handleUpdateModalVisible: this.handleUpdateModalVisible,
+      handleUpdate: this.handleUpdate,
+    };
+
+    const columns = [
+      {
+        title: 'ID',
+        dataIndex: 'id',
+      },
+      {
+        title: '名称',
+        dataIndex: 'name',
+      },
+      {
+        title: '类型',
+        dataIndex: 'category_type_name',
+      },
+      {
+        title: '创建时间',
+        dataIndex: 'created_at',
+      },
+      {
+        title: '更新时间',
+        dataIndex: 'updated_at',
+      },
+      {
+        title: '操作',
+        render: (_, record) => (
+          <Fragment>
+            <a onClick={() => this.handleUpdateModalVisible(true, record)}>
+              编辑
+            </a>
+          </Fragment>
+        )
+      },
+    ];
+
     return (
       <PageHeaderWrapper title="分类">
         <Card bordered={false}>
-          <Row gutter={{ md: 12, lg: 24, xl: 48 }}>
-            <Col md={8} sm={24}>
-              <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
-                新增分类
-              </Button>
-              <Button
-                icon="retweet"
-                type="primary"
-                onClick={() => this.handleRefresh()}
-                style={{ marginLeft: 10 }}
-              >
-                刷新
-              </Button>
-              <CreateForm {...parentMethods} modalVisible={modalVisible} categoryData={data} />
-            </Col>
-          </Row>
-          <Row gutter={{ md: 16, lg: 24, xl: 48 }} style={{ marginTop: 20 }}>
-            <Col md={8} sm={24}>
-              {/*<Search style={{ marginBottom: 8 }} placeholder="搜索" />*/}
-              {data ? (
-                <Tree
-                  defaultExpandAll={true}
-                  onSelect={this.onSelect}
-                >
-                  {this.renderTreeNodes(data)}
-                </Tree>
-              ) : null}
-            </Col>
-            <Col md={16} sm={24} style={{ display: this.state.editFormVisible ? 'none' : 'block' }}>
-              <h3>请点击左侧分类名称进行编辑</h3>
-            </Col>
-            <Col md={16} sm={24} style={{ display: this.state.editFormVisible ? 'block' : 'none' }}>
-              <Form onSubmit={this.handleSubmit} style={{ marginTop: 8 }}>
-                <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="名称">
-                  {form.getFieldDecorator('name', {
-                    rules: [
-                      {
-                        required: true,
-                        message: '请输入名称！',
-                      },
-                    ],
-                  })(<Input placeholder="名称" />)}
-                </FormItem>
-                <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="类型">
-                  {form.getFieldDecorator('category_type', {
-                    rules: [{ required: true, message: '请选择类型！' }],
-                  })(
-                    <Select style={{ width: '100%' }} placeholder="类型">
-                      <Option value="2">一级分类</Option>
-                      <Option value="3">二级分类</Option>
-                    </Select>
-                  )}
-                </FormItem>
-                {/* <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="图标链接">
-                  {form.getFieldDecorator('icon', {
-                    rules: [{ required: true, message: '请输入图标链接！' }],
-                  })(<Input placeholder="图标链接" />)}
-                </FormItem> */}
-                {data ? (
-                  <FormItem
-                    labelCol={{ span: 5 }}
-                    wrapperCol={{ span: 15 }}
-                    label="一级分类"
-                    style={{
-                      display: form.getFieldValue('category_type') === '3' ? 'block' : 'none',
-                    }}
-                  >
-                    {form.getFieldDecorator('parent_category', {
-                      rules: [
-                        {
-                          required: form.getFieldValue('category_type') === '3' ? true : false,
-                          message: '请选择一级分类！',
-                        },
-                      ],
-                    })(
-                      <Select style={{ width: '100%' }} placeholder="一级分类">
-                        {buildOptions(data)}
-                      </Select>
-                    )}
-                  </FormItem>
-                ) : null}
-
-                <FormItem wrapperCol={{ span: 10, offset: 5 }} style={{ marginTop: 32 }}>
-                  <Button type="primary" htmlType="submit" loading={submitting}>
-                    保存
-                  </Button>
-                </FormItem>
-              </Form>
-            </Col>
-          </Row>
+          <div className={styles.tableList}>
+            <div className={styles.tableListForm}>{this.renderSimpleForm()}</div>
+            <SimpleTable
+              loading={loading}
+              data={data}
+              columns={columns}
+              current={this.state.currentPage}
+              onChange={this.handleStandardTableChange}
+            />
+          </div>
         </Card>
+
+        <CreateForm {...parentMethods} modalVisible={modalVisible} categoryData={data} />
+
+        {currentRecord && Object.keys(currentRecord).length ? (
+          <UpdateForm
+            {...updateMethods}
+            updateModalVisible={updateModalVisible}
+            values={currentRecord}
+            categoryData={data}
+          />
+        ) : null}
       </PageHeaderWrapper>
     );
   }
