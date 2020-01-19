@@ -26,8 +26,8 @@ class ProductSpecCreate extends React.PureComponent {
   componentDidMount() {}
 
   render() {
-    const { product, form, dispatch, submitting, location } = this.props;
-    const { getFieldDecorator, validateFields, getFieldValue } = form;
+    const { form, dispatch, submitting, location } = this.props;
+    const { getFieldDecorator, validateFields } = form;
 
     const onValidateForm = () => {
       validateFields((err, values) => {

@@ -15,7 +15,7 @@ module.exports = {
   "collapse": true,
   "merchantID": "2",
   "apiHost": "http://localhost:9000",
-  // "apiHost": "https://shopapi.nuclearst.com",
+  // "apiHost": "https://shopapi.mldit.com",
   "access_key_id": 'TFRBSWNQcm41WjZDWFl4Qw==',
   "access_key_secret": 'Wkp4WjJ5RUJnRHNhNEJjcHVMRWxwVG9HejlhS1FV',
   "region": 'oss-cn-shanghai',

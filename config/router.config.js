@@ -177,8 +177,15 @@ export default [
           },
           {
             path: '/transaction/transaction-list-today',
+            hideInMenu: true,
             name: 'transaction-list-today',
             component: './Transaction/TransactionListToday',
+          },
+          {
+            path: '/transaction/transaction-list-yesterday',
+            hideInMenu: true,
+            name: 'transaction-list-yesterday',
+            component: './Transaction/TransactionListYesterday',
           },
           {
             path: '/transaction/transaction-detail/:id',

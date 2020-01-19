@@ -35,6 +35,7 @@ export default {
   'menu.transaction': '订单',
   'menu.transaction.transaction-list': '订单列表',
   'menu.transaction.transaction-list-today': '今日待发货订单',
+  'menu.transaction.transaction-list-yesterday': '昨日订单',
   'menu.transaction.transaction-detail': '订单详情',
   'menu.transaction.collect-list': '自提列表',
   'menu.transaction.invoice-list': '发票列表',

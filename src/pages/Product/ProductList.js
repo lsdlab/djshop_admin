@@ -393,10 +393,10 @@ class ProductList extends PureComponent {
         title: '名称',
         dataIndex: 'name',
         render(text) {
-          if (text.length > 8) {
+          if (text.length > 12) {
             return (
               <Tooltip title={text}>
-                <span>{text.slice(0, 4) + '...' + text.substr(text.length - 4)}</span>
+                <span>{text.slice(0, 6) + '...' + text.substr(text.length - 6)}</span>
               </Tooltip>
             );
           } else {
@@ -506,7 +506,7 @@ class ProductList extends PureComponent {
               loading={loading}
               data={data}
               columns={columns}
-              scroll={{ x: 1420 }}
+              scroll={{ x: 1360 }}
               current={this.state.currentPage}
               onChange={this.handleStandardTableChange}
             />

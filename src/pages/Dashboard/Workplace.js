@@ -18,9 +18,7 @@ import styles from './Workplace.less';
   activitiesLoading: loading.effects['activities/fetchList'],
 }))
 class Workplace extends PureComponent {
-
   componentDidMount() {
-
     const client = new Client({
       brokerURL: 'ws://localhost:15674/ws',
       connectHeaders: {
@@ -32,11 +30,11 @@ class Workplace extends PureComponent {
       },
       onConnect: () => {
         console.log('onConnect');
-        notification.open({
-          message: 'rabbitmq + stomp',
-          description: 'realtime notification connected',
-          duration: 1,
-        });
+        // notification.open({
+        //   message: 'rabbitmq + stomp',
+        //   description: 'realtime notification connected',
+        //   duration: 1,
+        // });
 
         client.subscribe('/exchange/test_exchange/test_hello', message => {
           notification.open({
@@ -50,8 +48,7 @@ class Workplace extends PureComponent {
           message => {
             const messageBody = JSON.parse(message.body);
             notification.open({
-              message:
-                messageBody['user'] + ' 提交了 ' + messageBody['transaction_name'] + ' 订单',
+              message: messageBody['user'] + ' 提交了 ' + messageBody['transaction_name'] + ' 订单',
               description: 'sn: ' + messageBody['transaction_sn'],
               duration: 3,
             });
@@ -76,7 +73,9 @@ class Workplace extends PureComponent {
 
   renderActivities() {
     const {
-      activities: { data: { results } },
+      activities: {
+        data: { results },
+      },
     } = this.props;
     return results.map(item => {
       return (
@@ -103,52 +102,51 @@ class Workplace extends PureComponent {
   }
 
   routerPushNewProduct = () => {
-    router.push({pathname: '/product/product-create-step-form/product/'});
-  }
+    router.push({ pathname: '/product/product-create-step-form/product/' });
+  };
 
   routerPushProductList = () => {
-    router.push({pathname: '/product/product-list/'});
-  }
+    router.push({ pathname: '/product/product-list/' });
+  };
 
   routerPushSplashList = () => {
-    router.push({pathname: '/assist/splash-list/'});
-  }
+    router.push({ pathname: '/assist/splash-list/' });
+  };
 
   routerPushBannerList = () => {
-    router.push({pathname: '/assist/banner-list/'});
-  }
+    router.push({ pathname: '/assist/banner-list/' });
+  };
 
   routerPushUploadImage = () => {
-    router.push({pathname: '/assist/upload-image/'});
-  }
+    router.push({ pathname: '/assist/upload-image/' });
+  };
 
   routerPushUploadVideo = () => {
-    router.push({pathname: '/assist/upload-video/'});
-  }
+    router.push({ pathname: '/assist/upload-video/' });
+  };
 
   routerPushTransacitonListToday = () => {
-    router.push({pathname: '/transaction/transaction-list-today/'});
-  }
+    router.push({ pathname: '/transaction/transaction-list-today/' });
+  };
+
+  routerPushTransacitonListYesterday = () => {
+    router.push({ pathname: '/transaction/transaction-list-yesterday/' });
+  };
 
   routerPushTransacitonList = () => {
-    router.push({pathname: '/transaction/transaction-list/'});
-  }
+    router.push({ pathname: '/transaction/transaction-list/' });
+  };
 
   routerPushCouponCreate = () => {
-    router.push({pathname: '/coupon/coupon-create/'});
-  }
+    router.push({ pathname: '/coupon/coupon-create/' });
+  };
 
-  routerPushCouponList= () => {
-    router.push({pathname: '/coupon/coupon-list/'});
-  }
+  routerPushCouponList = () => {
+    router.push({ pathname: '/coupon/coupon-list/' });
+  };
 
   render() {
-    const {
-      currentUser,
-      currentMerchant,
-      currentUserLoading,
-      activitiesLoading,
-    } = this.props;
+    const { currentUser, currentMerchant, currentUserLoading, activitiesLoading } = this.props;
 
     const pageHeaderContent =
       currentUser && Object.keys(currentUser).length ? (
@@ -163,28 +161,47 @@ class Workplace extends PureComponent {
               ，祝你开心每一天！
             </div>
             <div>
-              邮箱：{currentUser.email} | 手机号：{currentUser.mobile} | 用户创建时间：{currentUser.date_joined}
+              邮箱：{currentUser.email} | 手机号：{currentUser.mobile} | 用户创建时间：
+              {currentUser.date_joined}
             </div>
             <div>
-              商户名：{currentMerchant.name} | 商户手机号：{currentMerchant.mobile} | 商户创建时间：{currentMerchant.created_at}
+              商户名：{currentMerchant.name} | 商户手机号：{currentMerchant.mobile} | 商户创建时间：
+              {currentMerchant.created_at}
             </div>
           </div>
         </div>
       ) : null;
 
-    return <PageHeaderWrapper hiddenBreadcrumb={false} loading={currentUserLoading} content={pageHeaderContent}>
+    return (
+      <PageHeaderWrapper
+        hiddenBreadcrumb={false}
+        loading={currentUserLoading}
+        content={pageHeaderContent}
+      >
         <Row gutter={24}>
           <Col xl={16} lg={24} md={24} sm={24} xs={24}>
-            <Card bodyStyle={{ padding: 0 }} bordered={false} className={styles.activeCard} title="操作历史记录" loading={activitiesLoading}>
+            <Card
+              bodyStyle={{ padding: 0 }}
+              bordered={false}
+              className={styles.activeCard}
+              title="操作历史记录"
+              loading={activitiesLoading}
+            >
               <List loading={activitiesLoading} size="large">
                 <div className={styles.activitiesList}>{this.renderActivities()}</div>
               </List>
             </Card>
           </Col>
           <Col xl={8} lg={24} md={24} sm={24} xs={24}>
-            <Card style={{ marginBottom: 24 }} title="便捷导航" bordered={false} bodyStyle={{ padding: 0 }}>
+            <Card
+              style={{ marginBottom: 24 }}
+              title="便捷导航"
+              bordered={false}
+              bodyStyle={{ padding: 0 }}
+            >
               <div className={linkStyles.linkGroup}>
                 <a onClick={() => this.routerPushTransacitonListToday()}>今日待发货</a>
+                <a onClick={() => this.routerPushTransacitonListYesterday()}>昨日订单</a>
                 <a onClick={() => this.routerPushTransacitonList()}>订单列表</a>
               </div>
               <div className={linkStyles.linkGroup}>
@@ -202,7 +219,8 @@ class Workplace extends PureComponent {
             </Card>
           </Col>
         </Row>
-      </PageHeaderWrapper>;
+      </PageHeaderWrapper>
+    );
   }
 }
 
