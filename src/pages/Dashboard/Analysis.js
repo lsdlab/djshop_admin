@@ -168,6 +168,16 @@ class Analysis extends Component {
               />
             </Suspense>
           </Col>
+          <Col xl={12} lg={24} md={24} sm={24} xs={24}>
+            <Suspense fallback={null}>
+              <ProportionSales
+                salesType={salesType}
+                loading={loading}
+                salesPieData={salesPieData}
+                handleChangeSalesType={this.handleChangeSalesType}
+              />
+            </Suspense>
+          </Col>
         </Row>
 
       </GridContent>
