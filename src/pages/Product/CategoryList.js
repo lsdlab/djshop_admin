@@ -317,6 +317,10 @@ class CategoryList extends PureComponent {
         dataIndex: 'category_type_name',
       },
       {
+        title: '包含商品数量',
+        dataIndex: 'products_count',
+      },
+      {
         title: '创建时间',
         dataIndex: 'created_at',
       },
