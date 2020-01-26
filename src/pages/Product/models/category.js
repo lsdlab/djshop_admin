@@ -4,7 +4,10 @@ export default {
   namespace: 'category',
 
   state: {
-    data: [],
+    data: {
+      results: [],
+      count: undefined,
+    },
   },
 
   effects: {

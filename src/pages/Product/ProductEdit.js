@@ -96,7 +96,7 @@ class ProductEdit extends React.PureComponent {
         if (productID && currentRecord) {
           setTimeout(() => {
             form.setFieldsValue({
-              content: BraftEditor.createEditorState(currentRecord.content),
+              desc: BraftEditor.createEditorState(currentRecord.desc),
             });
           }, 1000);
         }
@@ -118,9 +118,9 @@ class ProductEdit extends React.PureComponent {
         UploadToOss(this, merchantname + '/' + 'product', file).then(data => {
           // 插入图片
           const { form } = this.props;
-          const oldEditorValule = form.getFieldsValue()['content'];
+          const oldEditorValule = form.getFieldsValue()['desc'];
           form.setFieldsValue({
-            content: ContentUtils.insertMedias(oldEditorValule, [
+            desc: ContentUtils.insertMedias(oldEditorValule, [
               {
                 type: 'IMAGE',
                 url: data.res.requestUrls,
@@ -201,7 +201,7 @@ class ProductEdit extends React.PureComponent {
             newCarousel.push(values['carousel']);
           }
           values['carousel'] = newCarousel;
-          values['content'] = values.content.toHTML();
+          values['desc'] = values.content.toHTML();
 
           dispatch({
             type: 'product/patch',
@@ -311,8 +311,8 @@ class ProductEdit extends React.PureComponent {
                 })(<Input placeholder="题图链接，单个链接" />)}
               </FormItem>
               <FormItem {...formItemLayout} label="商品详情">
-                {getFieldDecorator('content', {
-                  initialValue: currentRecord.content,
+                {getFieldDecorator('desc', {
+                  initialValue: currentRecord.desc,
                   rules: [{ required: true, message: '请输入商品详情！' }],
                 })(<BraftEditor style={{ border: '1px solid #d9d9d9' }} controls={controls} extendControls={extendControls} placeholder="请输入商品详情" />)}
               </FormItem>

@@ -34,7 +34,7 @@ const buildOptions = optionData => {
 };
 
 const CreateForm = Form.create()(props => {
-  const { modalVisible, categoryData, form, handleAdd, handleModalVisible } = props;
+  const { modalVisible, form, handleAdd, handleModalVisible } = props;
   const okHandle = () => {
     form.validateFields((err, fieldsValue) => {
       if (err) return;
@@ -75,7 +75,7 @@ const CreateForm = Form.create()(props => {
           rules: [{ required: true, message: '请输入图标链接！' }],
         })(<Input placeholder="图标链接" />)}
       </FormItem> */}
-      {categoryData ? (
+      {/* {categoryData ? (
         <FormItem
           labelCol={{ span: 5 }}
           wrapperCol={{ span: 15 }}
@@ -96,7 +96,7 @@ const CreateForm = Form.create()(props => {
             </Select>
           )}
         </FormItem>
-      ) : null}
+      ) : null} */}
     </Modal>
   );
 });
@@ -126,7 +126,6 @@ class UpdateForm extends PureComponent {
     const {
       updateModalVisible,
       form,
-      categoryData,
       handleUpdate,
       handleUpdateModalVisible,
     } = this.props;
@@ -172,7 +171,7 @@ class UpdateForm extends PureComponent {
             rules: [{ required: true, message: '请输入图标链接！' }],
           })(<Input placeholder="图标链接" />)}
         </FormItem> */}
-        {categoryData ? (
+        {/* {categoryData ? (
           <FormItem
             labelCol={{ span: 5 }}
             wrapperCol={{ span: 15 }}
@@ -193,7 +192,7 @@ class UpdateForm extends PureComponent {
               </Select>
             )}
           </FormItem>
-        ) : null}
+        ) : null} */}
       </Modal>
     );
   }
@@ -355,14 +354,13 @@ class CategoryList extends PureComponent {
           </div>
         </Card>
 
-        <CreateForm {...parentMethods} modalVisible={modalVisible} categoryData={data} />
+        <CreateForm {...parentMethods} modalVisible={modalVisible}/>
 
         {currentRecord && Object.keys(currentRecord).length ? (
           <UpdateForm
             {...updateMethods}
             updateModalVisible={updateModalVisible}
             values={currentRecord}
-            categoryData={data}
           />
         ) : null}
       </PageHeaderWrapper>

@@ -73,7 +73,7 @@ class Step1 extends React.PureComponent {
     if (location.state && newProduct) {
       setTimeout(() => {
         form.setFieldsValue({
-          content: BraftEditor.createEditorState(newProduct.content),
+          desc: BraftEditor.createEditorState(newProduct.desc),
         });
       }, 1000);
     }
@@ -94,9 +94,9 @@ class Step1 extends React.PureComponent {
         UploadToOss(this, merchantname + '/' + 'product', file).then(data => {
           // 插入图片
           const { form } = this.props;
-          const oldEditorValule = form.getFieldsValue()['content'];
+          const oldEditorValule = form.getFieldsValue()['desc'];
           form.setFieldsValue({
-            content: ContentUtils.insertMedias(oldEditorValule, [
+            desc: ContentUtils.insertMedias(oldEditorValule, [
               {
                 type: 'IMAGE',
                 url: data.res.requestUrls,
@@ -177,7 +177,7 @@ class Step1 extends React.PureComponent {
             newCarousel.push(values['carousel']);
           }
           values['carousel'] = newCarousel;
-          values['content'] = values.content.toHTML();
+          values['desc'] = values.content.toHTML();
           // console.log(values);
 
           if (!location.state) {
@@ -197,11 +197,11 @@ class Step1 extends React.PureComponent {
 
     return <Fragment>
         <Form layout="horizontal" style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: 20, maxWidth: 740 }}>
-          {categoryData ? <Form.Item {...formItemLayout} label="分类">
+          {categoryData.results ? <Form.Item {...formItemLayout} label="分类">
               {getFieldDecorator('category', {
                 initialValue: newProduct.category,
                 rules: [{ required: true, message: '请选择分类！' }],
-              })(<TreeSelect style={{ width: '100%' }} treeData={categoryData} placeholder="商品分类" treeDefaultExpandAll={true} showSearch={true} />)}
+              })(<TreeSelect style={{ width: '100%' }} treeData={categoryData.results} placeholder="商品分类" treeDefaultExpandAll={true} showSearch={true} />)}
             </Form.Item> : null}
 
           <Form.Item {...formItemLayout} label="上架状态">
@@ -297,8 +297,8 @@ class Step1 extends React.PureComponent {
             })(<Input placeholder="视频链接，单个链接" />)}
           </FormItem> */}
           <FormItem {...formItemLayout} label="商品详情">
-            {getFieldDecorator('content', {
-              initialValue: newProduct.content,
+            {getFieldDecorator('desc', {
+              initialValue: newProduct.desc,
               rules: [{ required: true, message: '请输入商品详情！' }],
             })(<BraftEditor style={{ border: '1px solid #d9d9d9' }} controls={controls} extendControls={extendControls} placeholder="请输入商品详情" />)}
           </FormItem>
