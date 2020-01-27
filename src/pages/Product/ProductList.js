@@ -425,7 +425,7 @@ class ProductList extends PureComponent {
         render(_, record) {
           return (
             <span>
-              {record.category_first_name} / {record.category_name}
+              {record.category_first_name} {record.category_name}
             </span>
           );
         },
@@ -473,10 +473,6 @@ class ProductList extends PureComponent {
           <Fragment>
             <a onClick={() => this.routerPushDetail(record.id)}>详情</a>
             <Divider type="vertical" />
-            {/*<a onClick={() => this.showDrawer(true, record.id)}>商品详情</a>
-            <Divider type="vertical" />
-            <a onClick={() => this.showSpecDrawer(true, record.id)}>商品规格</a>
-            <Divider type="vertical" />*/}
             {record.status === '1' ? (
               <Popconfirm
                 title="是否要下架此商品？"

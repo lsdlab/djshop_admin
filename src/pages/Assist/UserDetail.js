@@ -296,7 +296,7 @@ class UserDetail extends PureComponent {
         render(_, record) {
           return (
             <span>
-              {record.category_first_name} / {record.category_name}
+              {record.category_first_name} {record.category_name}
             </span>
           );
         },
