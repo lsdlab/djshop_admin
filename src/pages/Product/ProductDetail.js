@@ -281,7 +281,7 @@ class ProductDetail extends PureComponent {
         <Col xs={24} sm={24}>
           <div className={styles.textSecondary}>分类</div>
           <div className={styles.heading}>
-            {currentRecord.category_first_name} / {currentRecord.category_name}
+            {currentRecord.category_first_name} {currentRecord.category_name}
           </div>
         </Col>
         <Col xs={24} sm={24} style={{ marginTop: 8 }}>
