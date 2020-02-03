@@ -87,8 +87,7 @@ class UploadVideo extends PureComponent {
       );
     };
 
-    return (
-      <PageHeaderWrapper title="上传视频">
+    return <PageHeaderWrapper title="上传视频">
         <Card bordered={false}>
           <Row gutter={{ md: 12, lg: 24, xl: 48 }}>
             <Col md={12} sm={24}>
@@ -96,12 +95,10 @@ class UploadVideo extends PureComponent {
                 <FormItem>
                   {form.getFieldDecorator('dir', {
                     initialValue: 'tmp',
-                  })(
-                    <Select style={{ width: '100%' }}>
+                  })(<Select style={{ width: '100%' }}>
                       <Option value="tmp">临时文件夹</Option>
                       <Option value="product">商品详情图</Option>
-                    </Select>
-                  )}
+                    </Select>)}
                 </FormItem>
               </Form>
             </Col>
@@ -123,20 +120,21 @@ class UploadVideo extends PureComponent {
           </div>
 
           <div style={{ marginTop: 20 }}>
-            <CopyToClipboard
-              text={imageUrl}
-              onCopy={() => message.success('复制成功')}
-              style={{ display: imageUrl ? 'block' : 'none' }}
-            >
+            <CopyToClipboard text={imageUrl} onCopy={() => message.success('复制成功')} style={{ display: imageUrl ? 'block' : 'none' }}>
               <Button icon="copy">复制视频地址</Button>
             </CopyToClipboard>
             <Button block icon="plus" onClick={() => routerImageNewTab(imageUrl)} style={{ display: imageUrl ? 'block' : 'none' }}>
               新页面打开
             </Button>
           </div>
+
+          <div style={{ marginTop: 20 }}>
+            <Button block icon="plus" onClick={() => routerImageNewTab(imageUrl)} style={{ display: imageUrl ? 'block' : 'none' }}>
+              新页面打开
+            </Button>
+          </div>
         </Card>
-      </PageHeaderWrapper>
-    );
+      </PageHeaderWrapper>;
   }
 }
 

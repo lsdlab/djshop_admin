@@ -87,8 +87,7 @@ class UploadImage extends PureComponent {
       );
     };
 
-    return (
-      <PageHeaderWrapper title="上传图片">
+    return <PageHeaderWrapper title="上传图片">
         <Card bordered={false}>
           <Row gutter={{ md: 12, lg: 24, xl: 48 }}>
             <Col md={12} sm={24}>
@@ -96,13 +95,13 @@ class UploadImage extends PureComponent {
                 <FormItem>
                   {form.getFieldDecorator('dir', {
                     initialValue: 'tmp',
-                  })(
-                    <Select style={{ width: '100%' }}>
+                  })(<Select style={{ width: '100%' }}>
                       <Option value="tmp">临时文件夹</Option>
-                      <Option value="assist">开屏广告 & 轮播图 & 全网通知配图 & 专题题图</Option>
+                      <Option value="assist">
+                        开屏广告 & 轮播图 & 全网通知配图 & 专题题图
+                      </Option>
                       <Option value="product">商品</Option>
-                    </Select>
-                  )}
+                    </Select>)}
                 </FormItem>
               </Form>
             </Col>
@@ -125,25 +124,21 @@ class UploadImage extends PureComponent {
             ) : null}
           </div>
 
+          <div style={{ marginTop: 20 }}>{imageUrl ? <Input value={imageUrl} /> : null}</div>
+
           <div style={{ marginTop: 20 }}>
-            {imageUrl ? <Input value={imageUrl} /> : null}
+            <CopyToClipboard text={imageUrl} onCopy={() => message.success('复制成功')} style={{ display: imageUrl ? 'block' : 'none' }}>
+              <Button icon="copy">复制图片地址</Button>
+            </CopyToClipboard>
           </div>
 
           <div style={{ marginTop: 20 }}>
-            <CopyToClipboard
-              text={imageUrl}
-              onCopy={() => message.success('复制成功')}
-              style={{ display: imageUrl ? 'block' : 'none' }}
-            >
-              <Button icon="copy">复制图片地址</Button>
-            </CopyToClipboard>
             <Button block icon="plus" onClick={() => routerImageNewTab(imageUrl)} style={{ display: imageUrl ? 'block' : 'none' }}>
               新页面打开
             </Button>
           </div>
         </Card>
-      </PageHeaderWrapper>
-    );
+      </PageHeaderWrapper>;
   }
 }
 
