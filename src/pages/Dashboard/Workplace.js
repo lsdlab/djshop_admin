@@ -3,7 +3,7 @@ import moment from 'moment';
 import { connect } from 'dva';
 import router from 'umi/router';
 import { Row, Col, Card, List, Avatar, notification } from 'antd';
-import { Client } from '@stomp/stompjs';
+// import { Client } from '@stomp/stompjs';
 
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import linkStyles from '../../components/EditableLinkGroup/index.less';
@@ -19,48 +19,48 @@ import styles from './Workplace.less';
 }))
 class Workplace extends PureComponent {
   componentDidMount() {
-    const client = new Client({
-      brokerURL: 'ws://localhost:15674/ws',
-      connectHeaders: {
-        login: 'djshop',
-        passcode: 'GkTM2HxZN27pws8t',
-      },
-      debug(str) {
-        console.log(str);
-      },
-      onConnect: () => {
-        console.log('onConnect');
-        // notification.open({
-        //   message: 'rabbitmq + stomp',
-        //   description: 'realtime notification connected',
-        //   duration: 1,
-        // });
+    // const client = new Client({
+    //   brokerURL: 'ws://localhost:15674/ws',
+    //   connectHeaders: {
+    //     login: 'djshop',
+    //     passcode: 'GkTM2HxZN27pws8t',
+    //   },
+    //   debug(str) {
+    //     console.log(str);
+    //   },
+    //   onConnect: () => {
+    //     console.log('onConnect');
+    //     // notification.open({
+    //     //   message: 'rabbitmq + stomp',
+    //     //   description: 'realtime notification connected',
+    //     //   duration: 1,
+    //     // });
 
-        client.subscribe('/exchange/test_exchange/test_hello', message => {
-          notification.open({
-            message: message.body,
-            duration: 1,
-          });
-        });
+    //     client.subscribe('/exchange/test_exchange/test_hello', message => {
+    //       notification.open({
+    //         message: message.body,
+    //         duration: 1,
+    //       });
+    //     });
 
-        client.subscribe(
-          '/exchange/transaction_create_notify_exchange/transaction_create_notify',
-          message => {
-            const messageBody = JSON.parse(message.body);
-            notification.open({
-              message: messageBody['user'] + ' 提交了 ' + messageBody['transaction_name'] + ' 订单',
-              description: 'sn: ' + messageBody['transaction_sn'],
-              duration: 3,
-            });
-          }
-        );
-      },
-      reconnectDelay: 10000,
-      heartbeatIncoming: 0,
-      heartbeatOutgoing: 0,
-    });
+    //     client.subscribe(
+    //       '/exchange/transaction_create_notify_exchange/transaction_create_notify',
+    //       message => {
+    //         const messageBody = JSON.parse(message.body);
+    //         notification.open({
+    //           message: messageBody['user'] + ' 提交了 ' + messageBody['transaction_name'] + ' 订单',
+    //           description: 'sn: ' + messageBody['transaction_sn'],
+    //           duration: 3,
+    //         });
+    //       }
+    //     );
+    //   },
+    //   reconnectDelay: 10000,
+    //   heartbeatIncoming: 0,
+    //   heartbeatOutgoing: 0,
+    // });
 
-    client.activate();
+    // client.activate();
 
     const { dispatch } = this.props;
     dispatch({
