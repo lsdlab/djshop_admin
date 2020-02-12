@@ -215,11 +215,11 @@ export default [
         name: 'assist',
         icon: 'appstore',
         routes: [
-          {
-            path: '/assist/splash-list',
-            name: 'splash-list',
-            component: './Assist/SplashList',
-          },
+          // {
+          //   path: '/assist/splash-list',
+          //   name: 'splash-list',
+          //   component: './Assist/SplashList',
+          // },
           {
             path: '/assist/banner-list',
             name: 'banner-list',
