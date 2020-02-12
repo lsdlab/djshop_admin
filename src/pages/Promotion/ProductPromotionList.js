@@ -44,7 +44,7 @@ const CreateForm = Form.create()(props => {
           rules: [{ required: true, message: '请选择是否上架！' }],
         })(<Select placeholder="是否启用" style={{ width: '100%' }}>
             <Option value="false">上架</Option>
-            <Option value="true">下滑</Option>
+            <Option value="true">下架</Option>
           </Select>)}
       </Form.Item>
 
@@ -54,7 +54,7 @@ const CreateForm = Form.create()(props => {
         })(<Select placeholder="促销类型" style={{ width: '100%' }}>
             <Option value="1">砍价</Option>
             <Option value="2">团购</Option>
-            <Option value="3">秒杀</Option>
+            {/* <Option value="3">秒杀</Option> */}
           </Select>)}
       </FormItem>
 
@@ -147,7 +147,6 @@ class UpdateForm extends PureComponent {
   constructor(props) {
     super(props);
 
-
     if (props.values.promotion_type == '1') {
       this.state = {
         modalFormVals: {
@@ -156,16 +155,11 @@ class UpdateForm extends PureComponent {
           promotion_stock: props.values.promotion_stock,
           bargain_start_price: props.values.bargain_start_price,
           bargain_end_price: props.values.bargain_end_price,
-          bargain_percent_range_start: props.values.bargain_percent_range.split('-')[0],
-          bargain_percent_range_end: props.values.bargain_percent_range.split('-')[1],
-          groupon_limit: props.values.groupon_limit,
-          promotion_price: props.values.promotion_price,
+          bargain_percent_range: props.values.bargain_percent_range,
           product_spec: props.values.product_spec.id,
         },
       };
-    }
-
-    if (props.values.promotion_type == '2') {
+    } else if (props.values.promotion_type == '2') {
       this.state = {
         modalFormVals: {
           deleted: props.values.deleted.toString(),
@@ -177,7 +171,6 @@ class UpdateForm extends PureComponent {
         },
       };
     }
-
   }
 
   render() {
@@ -204,7 +197,7 @@ class UpdateForm extends PureComponent {
             rules: [{ required: true, message: '请选择是否上架！' }],
           })(<Select placeholder="是否启用" style={{ width: '100%' }}>
               <Option value="false">上架</Option>
-              <Option value="true">下滑</Option>
+              <Option value="true">下架</Option>
             </Select>)}
         </Form.Item>
 
@@ -215,7 +208,7 @@ class UpdateForm extends PureComponent {
           })(<Select placeholder="促销类型" style={{ width: '100%' }}>
               <Option value="1">砍价</Option>
               <Option value="2">团购</Option>
-              <Option value="3">秒杀</Option>
+              {/* <Option value="3">秒杀</Option> */}
             </Select>)}
         </FormItem>
 
@@ -381,13 +374,30 @@ class PromotionsProductList extends PureComponent {
 
   handleAdd = fields => {
     const { dispatch } = this.props;
-    const payload = {
-      product_spec: fields.product_spec,
-      start_price: fields.start_price,
-      end_price: fields.end_price,
-      promotion_percent_range:
-        fields.promotion_percent_range_start + '-' + fields.promotion_percent_range_end,
-    };
+
+    if (fields.promotion_type == '1') {
+      const payload = {
+        deleted: fields.deleted.toString(),
+        promotion_type: fields.promotion_type,
+        promotion_stock: fields.promotion_stock,
+        bargain_start_price: fields.bargain_start_price,
+        bargain_end_price: fields.bargain_end_price,
+        bargain_percent_range:
+          fields.bargain_percent_range_start + '-' + fields.bargain_percent_range_end,
+        product_spec: fields.product_spec.id,
+      };
+    } else if (fields.promotion_type == '2') {
+      this.state = {
+        modalFormVals: {
+          deleted: fieldss.deleted.toString(),
+          promotion_type: fields.promotion_type,
+          promotion_stock: fields.promotion_stock,
+          groupon_limit: fields.groupon_limit,
+          promotion_price: fields.promotion_price,
+          product_spec: fields.product_spec.id,
+        },
+      };
+    }
 
     dispatch({
       type: 'promotion_product/create',

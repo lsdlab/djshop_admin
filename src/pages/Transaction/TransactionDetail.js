@@ -430,7 +430,7 @@ class TransactionDetail extends PureComponent {
           ) : null}
         </div>
 
-        <div ref={el => (this.componentRef = el)}>
+        <div>
           {currentRecord.reviews ? (
             <Card title="订单评价" style={{ marginBottom: 24 }} bordered={false}>
               <SimpleListTable data={currentRecord.reviews} columns={reviewColumns} />

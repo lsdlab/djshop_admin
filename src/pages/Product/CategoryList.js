@@ -34,7 +34,7 @@ const buildOptions = optionData => {
 };
 
 const CreateForm = Form.create()(props => {
-  const { modalVisible, form, handleAdd, handleModalVisible } = props;
+  const { modalVisible, form, categoryData, handleAdd, handleModalVisible } = props;
   const okHandle = () => {
     form.validateFields((err, fieldsValue) => {
       if (err) return;
@@ -66,16 +66,16 @@ const CreateForm = Form.create()(props => {
         })(
           <Select style={{ width: '100%' }} placeholder="类型">
             <Option value="2">一级分类</Option>
-            {/* <Option value="3">二级分类</Option> */}
+            <Option value="3">二级分类</Option>
           </Select>
         )}
       </FormItem>
-      {/* <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="图标链接">
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="图标链接">
         {form.getFieldDecorator('icon', {
           rules: [{ required: true, message: '请输入图标链接！' }],
         })(<Input placeholder="图标链接" />)}
-      </FormItem> */}
-      {/* {categoryData ? (
+      </FormItem>
+      {categoryData ? (
         <FormItem
           labelCol={{ span: 5 }}
           wrapperCol={{ span: 15 }}
@@ -96,7 +96,7 @@ const CreateForm = Form.create()(props => {
             </Select>
           )}
         </FormItem>
-      ) : null} */}
+      ) : null}
     </Modal>
   );
 });
@@ -110,7 +110,7 @@ class UpdateForm extends PureComponent {
       modalFormVals: {
         name: props.values.name,
         category_type: props.values.category_type,
-        // icon: props.values.icon,
+        icon: props.values.icon,
         is_root: props.values.category_type === '2' ? true : false,
         parent_category: props.values.parent_category,
       },
@@ -126,6 +126,7 @@ class UpdateForm extends PureComponent {
     const {
       updateModalVisible,
       form,
+      categoryData,
       handleUpdate,
       handleUpdateModalVisible,
     } = this.props;
@@ -166,12 +167,12 @@ class UpdateForm extends PureComponent {
             </Select>
           )}
         </FormItem>
-        {/* <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="图标链接">
+        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="图标链接">
           {form.getFieldDecorator('icon', {
             rules: [{ required: true, message: '请输入图标链接！' }],
           })(<Input placeholder="图标链接" />)}
-        </FormItem> */}
-        {/* {categoryData ? (
+        </FormItem>
+        {categoryData ? (
           <FormItem
             labelCol={{ span: 5 }}
             wrapperCol={{ span: 15 }}
@@ -192,7 +193,7 @@ class UpdateForm extends PureComponent {
               </Select>
             )}
           </FormItem>
-        ) : null} */}
+        ) : null}
       </Modal>
     );
   }
@@ -238,7 +239,7 @@ class CategoryList extends PureComponent {
       payload: {
         name: fields.name,
         category_type: fields.category_type,
-        // icon: fields.icon,
+        icon: fields.icon,
         is_root: fields.category_type === '2' ? true : false,
         parent_category: fields.parent_category,
       },
@@ -306,6 +307,7 @@ class CategoryList extends PureComponent {
       {
         title: 'ID',
         dataIndex: 'id',
+        width: 120,
       },
       {
         title: '名称',
@@ -318,6 +320,13 @@ class CategoryList extends PureComponent {
       {
         title: '包含商品数量',
         dataIndex: 'products_count',
+        render(text, record) {
+          if (record.category_type == '3') {
+            return text;
+          } else {
+            return '-';
+          }
+        },
       },
       {
         title: '创建时间',
@@ -354,13 +363,14 @@ class CategoryList extends PureComponent {
           </div>
         </Card>
 
-        <CreateForm {...parentMethods} modalVisible={modalVisible}/>
+        <CreateForm {...parentMethods} modalVisible={modalVisible} categoryData={data} />
 
         {currentRecord && Object.keys(currentRecord).length ? (
           <UpdateForm
             {...updateMethods}
             updateModalVisible={updateModalVisible}
             values={currentRecord}
+            categoryData={data}
           />
         ) : null}
       </PageHeaderWrapper>

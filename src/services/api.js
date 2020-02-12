@@ -724,7 +724,7 @@ export async function queryPromotionsProduct(params) {
 // 创建可促销商品
 export async function createPromotionsProduct(params) {
   const token = getToken();
-  return request(`${apiHost}${apiVersion}/bargains/products/`, {
+  return request(`${apiHost}${apiVersion}/promotions/products/`, {
     method: 'POST',
     body: params,
     headers: {
