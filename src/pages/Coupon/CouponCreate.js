@@ -1,22 +1,18 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { formatMessage, FormattedMessage } from 'umi/locale';
 import moment from 'moment';
 import {
-  Row,
-  Col,
   Card,
   Form,
-  Icon,
   Button,
   Input,
   Select,
   InputNumber,
   DatePicker,
   message,
-  Tooltip,
   TreeSelect,
 } from 'antd';
+import router from 'umi/router';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 const FormItem = Form.Item;
@@ -60,6 +56,7 @@ class CouponCreate extends PureComponent {
         }).then(() => {
           message.success('新增优惠卷成功');
           form.resetFields();
+          router.push('/coupon/coupon-list');
         });
       }
     });
