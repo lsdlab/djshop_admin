@@ -502,7 +502,7 @@ class ProductList extends PureComponent {
               loading={loading}
               data={data}
               columns={columns}
-              scroll={{ x: 1360 }}
+              scroll={{ x: 1420 }}
               current={this.state.currentPage}
               onChange={this.handleStandardTableChange}
             />
