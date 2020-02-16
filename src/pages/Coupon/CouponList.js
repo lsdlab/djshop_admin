@@ -196,7 +196,7 @@ class CouponList extends PureComponent {
       {
         title: '是否启用',
         dataIndex: 'in_use',
-        render(text, record, index) {
+        render(text) {
           if (text) {
             return <Badge status="success" text="启用" />;
           } else {
@@ -207,7 +207,7 @@ class CouponList extends PureComponent {
       {
         title: '达到价格',
         dataIndex: 'reach_price',
-        render(text, record) {
+        render(text) {
           if (text) {
             return text;
           } else {
@@ -218,7 +218,7 @@ class CouponList extends PureComponent {
       {
         title: '达到件数',
         dataIndex: 'reach_unit',
-        render(text, record) {
+        render(text) {
           if (text) {
             return text;
           } else {
@@ -241,7 +241,7 @@ class CouponList extends PureComponent {
       {
         title: '所需积分',
         dataIndex: 'points',
-        render(text, record) {
+        render(text) {
           if (text) {
             return text;
           } else {
@@ -260,7 +260,7 @@ class CouponList extends PureComponent {
       {
         title: '操作',
         fixed: 'right',
-        render: (text, record) => (
+        render: (_, record) => (
           <Fragment>
             {record.in_use && record.logged ? (
               <a disabled onClick={() => this.routerPushDetail(record)}>
@@ -285,7 +285,7 @@ class CouponList extends PureComponent {
       {
         title: '领取用户',
         dataIndex: 'user.nickname',
-        render(text, record) {
+        render(text) {
           if (text) {
             return text;
           } else {
@@ -300,7 +300,7 @@ class CouponList extends PureComponent {
       {
         title: '是否使用',
         dataIndex: 'used',
-        render(text, record) {
+        render(text) {
           if (text) {
             return text;
           } else {
@@ -311,7 +311,7 @@ class CouponList extends PureComponent {
       {
         title: '使用时间',
         dataIndex: 'used_datetime',
-        render(text, record) {
+        render(text) {
           if (text) {
             return text;
           } else {
@@ -344,7 +344,7 @@ class CouponList extends PureComponent {
             <p style={{ ...pStyle, marginBottom: 24 }}>优惠卷领取记录</p>
             <Row>
               {logData && Object.keys(logData).length ? (
-                <simplet data={logData} columns={drawerColumns} pagination={false} size={'small'}/>
+                <SimpleTable data={logData} columns={drawerColumns} pagination={false} size={'small'}/>
               ) : null}
             </Row>
           </Drawer>
