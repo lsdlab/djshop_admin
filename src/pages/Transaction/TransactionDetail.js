@@ -5,7 +5,6 @@ import { connect } from 'dva';
 import { Row, Col, Card, Button, Avatar, Steps, Tooltip, message } from 'antd';
 import router from 'umi/router';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import ReactToPrint from 'react-to-print';
 
 import DescriptionList from '@/components/DescriptionList';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
@@ -81,12 +80,6 @@ class TransactionDetail extends PureComponent {
             <Button onClick={() => this.handlePatchModalVisible(true, currentRecord)}>修改</Button>
           ) : (
             <Button disabled>修改</Button>
-          )}
-
-          {currentRecord.status == '4' ? (
-            <ReactToPrint trigger={() => <Button>打印</Button>} content={() => this.componentRef} />
-          ) : (
-            <Button disabled>打印</Button>
           )}
 
           {currentRecord.address && currentRecord.status == '4' ? (
@@ -422,7 +415,7 @@ class TransactionDetail extends PureComponent {
           )}
         </Card>
 
-        <div ref={el => (this.componentRef = el)}>
+        <div>
           {currentRecord.products ? (
             <Card title="订单包含商品" style={{ marginBottom: 24 }} bordered={false}>
               <SimpleListTable data={currentRecord.products} columns={transactionProductColumns} />
