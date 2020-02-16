@@ -67,7 +67,7 @@ class UploadVideo extends PureComponent {
         UploadToOss(this, merchantname + '/' + dir, file).then(data => {
           // console.log(data.res.requestUrls)
           this.setState({ imageUrl: data.res.requestUrls });
-          message.success('上传视频成功。');
+          message.success('上传视频成功');
           message.success(data.res.requestUrls);
         });
       }
@@ -120,11 +120,11 @@ class UploadVideo extends PureComponent {
           </div>
 
           <div style={{ marginTop: 20 }}>
-            <CopyToClipboard text={imageUrl} onCopy={() => message.success('复制成功')} style={{ display: imageUrl ? 'block' : 'none' }}>
-              <Button icon="copy">复制视频地址</Button>
+            <CopyToClipboard text={imageUrl} onCopy={() => message.success('复制视频链接成功')} style={{ display: imageUrl ? 'block' : 'none' }}>
+              <Button icon="copy">复制视频链接</Button>
             </CopyToClipboard>
             <Button block icon="plus" onClick={() => routerImageNewTab(imageUrl)} style={{ display: imageUrl ? 'block' : 'none' }}>
-              新页面打开
+              新页面打开视频链接
             </Button>
           </div>
 

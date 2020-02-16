@@ -37,7 +37,7 @@ class ProductSpecCreate extends React.PureComponent {
             payload: values,
             productID: location.state.productID,
           }).then(() => {
-            message.success('商品规格上架成功！');
+            message.success('商品规格上架成功');
             dispatch({
               type: 'product/clearNewProduct',
             });

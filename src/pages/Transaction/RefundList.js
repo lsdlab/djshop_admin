@@ -174,7 +174,7 @@ class CollectList extends PureComponent {
       payload: fields,
       transactionID: this.state.currentRecord.transaction,
     }).then(() => {
-      message.success('更新成功');
+      message.success('更新退货成功');
       this.handleUpdateModalVisible();
       dispatch({
         type: 'refund/fetch',
@@ -193,7 +193,7 @@ class CollectList extends PureComponent {
       },
       transactionID: transactionID,
     }).then(() => {
-      message.success('允许退货成功！');
+      message.success('审批退货成功');
       dispatch({
         type: 'refund/fetch',
       });
@@ -206,7 +206,7 @@ class CollectList extends PureComponent {
       type: 'refund/withdrawRefund',
       transactionID: transactionID,
     }).then(() => {
-      message.success('撤销退货成功！');
+      message.success('撤销退货成功');
       dispatch({
         type: 'refund/fetch',
       });

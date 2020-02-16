@@ -61,7 +61,7 @@ class Step2 extends React.PureComponent {
             payload: values,
             productID: location.state.productID,
           }).then(() => {
-            message.success('商品上架成功！');
+            message.success('商品上架成功');
             dispatch({
               type: 'product/clearNewProduct',
             });

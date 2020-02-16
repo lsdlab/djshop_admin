@@ -307,7 +307,7 @@ class InvoiceList extends PureComponent {
       payload: fields,
       transactionID: this.state.currentRecord.transaction,
     }).then(() => {
-      message.success('更新成功');
+      message.success('更新开具发票成功');
       this.handleUpdateModalVisible();
       dispatch({
         type: 'invoice/fetch',
@@ -326,7 +326,7 @@ class InvoiceList extends PureComponent {
       },
       recProductID: recProductID,
     }).then(() => {
-      message.success('开具发票成功！');
+      message.success('开具发票成功');
       dispatch({
         type: 'invoice/fetch',
       });
@@ -343,7 +343,7 @@ class InvoiceList extends PureComponent {
       },
       recProductID: recProductID,
     }).then(() => {
-      message.success('发出发票成功！');
+      message.success('发出发票成功');
       dispatch({
         type: 'invoice/fetch',
       });

@@ -87,7 +87,7 @@ class TransactionDetail extends PureComponent {
               text={`${currentRecord.address.name} ${currentRecord.address.mobile} ${
                 currentRecord.address.address
               }`}
-              onCopy={() => message.success('复制成功')}
+              onCopy={() => message.success('复制收货地址成功')}
               style={{ marginTop: 10 }}
             >
               <Button>复制地址</Button>

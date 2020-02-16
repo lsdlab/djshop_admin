@@ -247,7 +247,7 @@ class ProductRecList extends PureComponent {
       type: 'product/createRecProduct',
       payload: fields,
     }).then(data => {
-      message.success('新增成功');
+      message.success('新增推荐商品成功');
       this.handleModalVisible();
       this.props.dispatch({
         type: 'product/fetchRecProduct',
@@ -263,7 +263,7 @@ class ProductRecList extends PureComponent {
       payload: fields,
       recProductID: this.state.currentRecord.id,
     }).then(() => {
-      message.success('更新成功');
+      message.success('更新推荐商品成功');
       this.handleUpdateModalVisible();
       dispatch({
         type: 'product/fetchRecProduct',
@@ -282,7 +282,7 @@ class ProductRecList extends PureComponent {
         },
         recProductID: recProductID,
       }).then(() => {
-        message.success('下架推荐商品成功！');
+        message.success('下架推荐商品成功');
         dispatch({
           type: 'product/fetchRecProduct',
         });
@@ -295,7 +295,7 @@ class ProductRecList extends PureComponent {
         },
         recProductID: recProductID,
       }).then(() => {
-        message.success('上架推荐商品成功！');
+        message.success('上架推荐商品成功');
         dispatch({
           type: 'product/fetchRecProduct',
         });

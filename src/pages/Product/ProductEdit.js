@@ -208,7 +208,7 @@ class ProductEdit extends React.PureComponent {
             payload: values,
             productID: currentRecord.id,
           }).then(() => {
-            message.success('更新商品信息成功！');
+            message.success('更新商品信息成功');
             router.push('/product/product-detail/' + currentRecord.id);
           });
         }

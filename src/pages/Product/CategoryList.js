@@ -262,7 +262,7 @@ class CategoryList extends PureComponent {
       payload: params,
       categoryID: this.state.currentRecord.id,
     }).then(() => {
-      message.success('更新成功');
+      message.success('更新分类成功');
       this.handleUpdateModalVisible();
       dispatch({
         type: 'category/fetch',

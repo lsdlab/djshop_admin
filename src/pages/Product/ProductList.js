@@ -174,7 +174,7 @@ class ProductList extends PureComponent {
         },
         productID: productID,
       }).then(() => {
-        message.success('下架商品成功！');
+        message.success('下架商品成功');
         dispatch({
           type: 'product/fetch',
         });
@@ -188,7 +188,7 @@ class ProductList extends PureComponent {
         },
         productID: productID,
       }).then(() => {
-        message.success('上架商品成功！');
+        message.success('上架商品成功');
         dispatch({
           type: 'product/fetch',
         });

@@ -165,11 +165,11 @@ class UpdateForm extends PureComponent {
           })(<Input placeholder="题图链接" />)}
           <CopyToClipboard
             text={modalFormVals.header_image}
-            onCopy={() => message.success('复制成功')}
+            onCopy={() => message.success('复制图片链接成功')}
             style={{ marginTop: 10 }}
           >
             <Button block icon="copy">
-              复制图片地址
+              复制图片链接
             </Button>
           </CopyToClipboard>
           <Button block icon="plus" onClick={() => this.routerImageNewTab(modalFormVals.header_image)}>
@@ -225,7 +225,7 @@ class ArticleList extends PureComponent {
       type: 'article/fetch',
     });
   }
-  
+
 
   handleStandardTableChange = pagination => {
     const { dispatch } = this.props;

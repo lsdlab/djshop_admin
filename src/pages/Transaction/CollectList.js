@@ -242,7 +242,7 @@ class CollectList extends PureComponent {
       payload: params,
       transactionID: this.state.currentRecord.transaction,
     }).then(() => {
-      message.success('更新成功');
+      message.success('更新自提成功');
       this.handleUpdateModalVisible();
       dispatch({
         type: 'collect/fetch',
@@ -257,7 +257,7 @@ class CollectList extends PureComponent {
       type: 'collect/confirmCollectPickup',
       transactionID: transactionID,
     }).then(() => {
-      message.success('确认自提成功！');
+      message.success('确认自提成功');
       dispatch({
         type: 'collect/fetch',
       });

@@ -403,7 +403,7 @@ class PromotionsProductList extends PureComponent {
       type: 'promotion_product/create',
       payload: payload,
     }).then(data => {
-      message.success('新增成功');
+      message.success('新增促销商品成功');
       this.handleModalVisible();
       this.props.dispatch({
         type: 'promotion_product/fetch',
@@ -426,7 +426,7 @@ class PromotionsProductList extends PureComponent {
       payload: payload,
       promotionProductSpecID: this.state.currentRecord.id,
     }).then(() => {
-      message.success('更新成功');
+      message.success('更新促销商品成功');
       this.handleUpdateModalVisible();
       dispatch({
         type: 'promotion_product/fetch',
@@ -445,7 +445,7 @@ class PromotionsProductList extends PureComponent {
         },
         promotionProductSpecID: promotionProductSpecID,
       }).then(() => {
-        message.success('下架促销商品成功！');
+        message.success('下架促销商品成功');
         dispatch({
           type: 'promotion_product/fetch',
         });
@@ -458,7 +458,7 @@ class PromotionsProductList extends PureComponent {
         },
         promotionProductSpecID: promotionProductSpecID,
       }).then(() => {
-        message.success('上架促销商品成功！');
+        message.success('上架促销商品成功');
         dispatch({
           type: 'promotion_product/fetch',
         });

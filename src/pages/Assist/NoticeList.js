@@ -200,7 +200,7 @@ class NoticeList extends PureComponent {
       type: 'notice/create',
       payload: fields,
     }).then(data => {
-      message.success('新增成功');
+      message.success('新增全网通知成功');
       this.handleModalVisible();
       this.props.dispatch({
         type: 'notice/fetch',

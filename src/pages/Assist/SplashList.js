@@ -143,11 +143,11 @@ class UpdateForm extends PureComponent {
           })(<Input placeholder="图片链接" />)}
           <CopyToClipboard
             text={modalFormVals.splash}
-            onCopy={() => message.success('复制成功')}
+            onCopy={() => message.success('复制图片链接成功')}
             style={{ marginTop: 10 }}
           >
             <Button block icon="copy">
-              复制图片地址
+              复制图片链接
             </Button>
           </CopyToClipboard>
           <Button block icon="plus" onClick={() => this.routerImageNewTab(modalFormVals.splash)}>
@@ -300,7 +300,7 @@ class SplashList extends PureComponent {
       payload: params,
       splashID: this.state.currentRecord.id,
     }).then(() => {
-      message.success('更新成功');
+      message.success('更新开屏广告成功');
       this.handleUpdateModalVisible();
       dispatch({
         type: 'splash/fetch',
@@ -318,7 +318,7 @@ class SplashList extends PureComponent {
       },
       splashID: splashID,
     }).then(() => {
-      message.success('上线开屏广告成功！');
+      message.success('上线开屏广告成功');
       dispatch({
         type: 'splash/fetch',
         payload: {},

@@ -67,7 +67,7 @@ class UploadImage extends PureComponent {
         UploadToOss(this, merchantname + '/' + dir, file).then(data => {
           // console.log(data.res.requestUrls)
           this.setState({ imageUrl: data.res.requestUrls });
-          message.success('上传图片成功。');
+          message.success('上传图片成功');
           message.success(data.res.requestUrls);
         });
       }
@@ -127,14 +127,14 @@ class UploadImage extends PureComponent {
           <div style={{ marginTop: 20 }}>{imageUrl ? <Input value={imageUrl} /> : null}</div>
 
           <div style={{ marginTop: 20 }}>
-            <CopyToClipboard text={imageUrl} onCopy={() => message.success('复制成功')} style={{ display: imageUrl ? 'block' : 'none' }}>
-              <Button icon="copy">复制图片地址</Button>
+            <CopyToClipboard text={imageUrl} onCopy={() => message.success('复制图片链接成功')} style={{ display: imageUrl ? 'block' : 'none' }}>
+              <Button icon="copy">复制图片链接</Button>
             </CopyToClipboard>
           </div>
 
           <div style={{ marginTop: 20 }}>
             <Button block icon="plus" onClick={() => routerImageNewTab(imageUrl)} style={{ display: imageUrl ? 'block' : 'none' }}>
-              新页面打开
+              新页面打开图片链接
             </Button>
           </div>
         </Card>

@@ -158,11 +158,11 @@ class UpdateForm extends PureComponent {
           })(<Input placeholder="图片链接" />)}
           <CopyToClipboard
             text={modalFormVals.banner}
-            onCopy={() => message.success('复制成功')}
+            onCopy={() => message.success('复制图片链接成功')}
             style={{ marginTop: 10 }}
           >
             <Button block icon="copy">
-              复制图片地址
+              复制图片链接
             </Button>
           </CopyToClipboard>
           <Button block icon="plus" onClick={() => this.routerImageNewTab(modalFormVals.banner)}>
@@ -305,7 +305,7 @@ class BannerList extends PureComponent {
       type: 'banner/create',
       payload: params,
     }).then(data => {
-      message.success('新增成功');
+      message.success('新增轮播图成功');
       this.handleModalVisible();
       this.props.dispatch({
         type: 'banner/fetch',
@@ -327,7 +327,7 @@ class BannerList extends PureComponent {
       payload: params,
       bannerID: this.state.currentRecord.id,
     }).then(() => {
-      message.success('更新成功');
+      message.success('更新轮播图成功');
       this.handleUpdateModalVisible();
       dispatch({
         type: 'banner/fetch',
@@ -359,7 +359,7 @@ class BannerList extends PureComponent {
       },
       bannerID: bannerID,
     }).then(() => {
-      message.success('上线成功！');
+      message.success('上线轮播图成功！');
       dispatch({
         type: 'banner/fetch',
         payload: {},
@@ -376,7 +376,7 @@ class BannerList extends PureComponent {
       },
       bannerID: bannerID,
     }).then(() => {
-      message.success('下线成功！');
+      message.success('下线轮播图成功！');
       dispatch({
         type: 'banner/fetch',
         payload: {},
