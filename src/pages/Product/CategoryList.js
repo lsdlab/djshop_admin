@@ -163,7 +163,7 @@ class UpdateForm extends PureComponent {
           })(
             <Select style={{ width: '100%' }} placeholder="类型">
               <Option value="2">一级分类</Option>
-              {/* <Option value="3">二级分类</Option> */}
+              <Option value="3">二级分类</Option>
             </Select>
           )}
         </FormItem>
