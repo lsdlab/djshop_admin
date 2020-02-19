@@ -203,11 +203,11 @@ export default [
           //   name: 'invoice-list',
           //   component: './Transaction/InvoiceList',
           // },
-          {
-            path: '/transaction/refund-list',
-            name: 'refund-list',
-            component: './Transaction/RefundList',
-          },
+          // {
+          //   path: '/transaction/refund-list',
+          //   name: 'refund-list',
+          //   component: './Transaction/RefundList',
+          // },
         ],
       },
       {
