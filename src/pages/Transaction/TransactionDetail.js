@@ -82,7 +82,9 @@ class TransactionDetail extends PureComponent {
             <Button disabled>修改</Button>
           )}
 
-          {currentRecord.address && currentRecord.status == '4' ? (
+          {currentRecord.address && currentRecord.status != '4' ? (
+            <Button disabled>复制地址</Button>
+          ) : (
             <CopyToClipboard
               text={`${currentRecord.address.name} ${currentRecord.address.mobile} ${
                 currentRecord.address.address
@@ -90,10 +92,21 @@ class TransactionDetail extends PureComponent {
               onCopy={() => message.success('复制收货地址成功')}
               style={{ marginTop: 10 }}
             >
-              <Button>复制地址</Button>
+              <Button>复制收获地址</Button>
             </CopyToClipboard>
+          )}
+
+          {currentRecord.express && currentRecord.status != '4' ? (
+            <Button disabled>复制快递信息</Button>
           ) : (
-            <Button disabled>复制地址</Button>
+            <CopyToClipboard
+              text={`${currentRecord.express.shipper} ${currentRecord.express.sn}
+              }`}
+              onCopy={() => message.success('复制收货地址成功')}
+              style={{ marginTop: 10 }}
+            >
+              <Button>复制收获地址</Button>
+            </CopyToClipboard>
           )}
         </ButtonGroup>
 
