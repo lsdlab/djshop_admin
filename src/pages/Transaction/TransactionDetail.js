@@ -399,15 +399,12 @@ class TransactionDetail extends PureComponent {
             <DescriptionList style={{ marginBottom: 24 }} title="快递信息">
               <Description term="状态">{currentRecord.express.status_name}</Description>
               <Description term="快递信息提供商">
-                {currentRecord.express.shipper_info_provider
-                  ? currentRecord.express.shipper_info_provider
+                {currentRecord.express.shipper
+                  ? currentRecord.express.shipper
                   : '-'}
               </Description>
-              <Description term="shipper_code">
-                {currentRecord.address.shipper_code ? currentRecord.address.shipper_code : '-'}
-              </Description>
-              <Description term="shipper_name">
-                {currentRecord.address.shipper_name ? currentRecord.address.shipper_name : '-'}
+              <Description term="shipper_sn">
+                {currentRecord.address.sn ? currentRecord.address.sn : '-'}
               </Description>
             </DescriptionList>
           ) : (
