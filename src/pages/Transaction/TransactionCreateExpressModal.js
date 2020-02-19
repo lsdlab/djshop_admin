@@ -26,6 +26,7 @@ class TransactionCreateExpressModal extends PureComponent {
         shipper: fields.shipper,
         sn: fields.sn,
       },
+      transactionID: transactionID
     }).then(() => {
       message.success('发货成功');
       this.handleModalVisible();

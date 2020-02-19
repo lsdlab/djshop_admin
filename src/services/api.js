@@ -898,9 +898,9 @@ export async function fetchTransactionReviews(transactionID) {
 }
 
 // 发货
-export async function createExpress(params) {
+export async function createExpress(params, transactionID) {
   const token = getToken();
-  return request(`${apiHost}${apiVersion}/express/`, {
+  return request(`${apiHost}${apiVersion}/transactions/${transactionID}/express/`, {
     method: 'POST',
     body: params,
     headers: {
