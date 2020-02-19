@@ -26,7 +26,7 @@ const FormItem = Form.Item;
 const { Option } = Select;
 
 const CreateForm = Form.create()(props => {
-  const { modalVisible, allProductIds, form, handleAdd, handleModalVisible } = props;
+  const { modalVisible, form, handleAdd, handleModalVisible } = props;
   const okHandle = () => {
     form.validateFields((err, fieldsValue) => {
       if (err) return;
@@ -71,7 +71,7 @@ const CreateForm = Form.create()(props => {
         )}
       </FormItem>
 
-      {allProductIds ? (
+      {/* {allProductIds ? (
         <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="商品">
           {form.getFieldDecorator('product', {
             rules: [{ required: false, message: '请选择商品！' }],
@@ -85,7 +85,7 @@ const CreateForm = Form.create()(props => {
             />
           )}
         </Form.Item>
-      ) : null}
+      ) : null} */}
     </Modal>
   );
 });
@@ -101,7 +101,7 @@ class UpdateForm extends PureComponent {
         banner: props.values.banner,
         display_order: props.values.display_order,
         status: props.values.status,
-        product: props.values.product ? props.values.product.id : '',
+        // product: props.values.product ? props.values.product.id : '',
       },
     };
 
@@ -120,7 +120,6 @@ class UpdateForm extends PureComponent {
   render() {
     const {
       updateModalVisible,
-      allProductIds,
       form,
       handleUpdate,
       handleUpdateModalVisible,
@@ -187,7 +186,7 @@ class UpdateForm extends PureComponent {
           )}
         </FormItem>
 
-        {allProductIds ? (
+        {/* {allProductIds ? (
           <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="商品">
             {form.getFieldDecorator('product', {
               initialValue: modalFormVals.product,
@@ -202,7 +201,7 @@ class UpdateForm extends PureComponent {
               />
             )}
           </Form.Item>
-        ) : null}
+        ) : null} */}
       </Modal>
     );
   }
@@ -267,14 +266,14 @@ class BannerList extends PureComponent {
       modalVisible: !!flag,
     });
 
-    if (flag) {
-      this.props.dispatch({
-        type: 'banner/fetchProductAllIds',
-        payload: {
-          none: true,
-        },
-      });
-    }
+    // if (flag) {
+    //   this.props.dispatch({
+    //     type: 'banner/fetchProductAllIds',
+    //     payload: {
+    //       none: true,
+    //     },
+    //   });
+    // }
   };
 
   handleUpdateModalVisible = (flag, record) => {
@@ -283,14 +282,14 @@ class BannerList extends PureComponent {
       currentRecord: record || {},
     });
 
-    if (flag) {
-      this.props.dispatch({
-        type: 'banner/fetchProductAllIds',
-        payload: {
-          none: true,
-        },
-      });
-    }
+    // if (flag) {
+    //   this.props.dispatch({
+    //     type: 'banner/fetchProductAllIds',
+    //     payload: {
+    //       none: true,
+    //     },
+    //   });
+    // }
   };
 
   handleAdd = fields => {
@@ -298,9 +297,9 @@ class BannerList extends PureComponent {
     const params = {
       ...fields,
     };
-    if (params['product'] === '无') {
-      delete params['product'];
-    }
+    // if (params['product'] === '无') {
+    //   delete params['product'];
+    // }
     dispatch({
       type: 'banner/create',
       payload: params,
@@ -319,9 +318,9 @@ class BannerList extends PureComponent {
     const params = {
       ...fields,
     };
-    if (params['product'] === '无') {
-      params['product'] = null;
-    }
+    // if (params['product'] === '无') {
+    //   params['product'] = null;
+    // }
     dispatch({
       type: 'banner/patch',
       payload: params,
@@ -400,7 +399,7 @@ class BannerList extends PureComponent {
 
   render() {
     const {
-      banner: { data, allProductIds },
+      banner: { data },
       loading,
     } = this.props;
     const { modalVisible, updateModalVisible, currentRecord } = this.state;
@@ -427,10 +426,10 @@ class BannerList extends PureComponent {
         title: '显示顺序',
         dataIndex: 'display_order',
       },
-      {
-        title: '商品名称',
-        dataIndex: 'product.name',
-      },
+      // {
+      //   title: '商品名称',
+      //   dataIndex: 'product.name',
+      // },
       {
         title: '状态',
         dataIndex: 'status',
@@ -448,7 +447,7 @@ class BannerList extends PureComponent {
       },
       {
         title: '操作',
-        render: (text, record) => (
+        render: (_, record) => (
           <Fragment>
             <a onClick={() => this.handleUpdateModalVisible(true, record)}>编辑</a>
             <Divider type="vertical" />
@@ -503,14 +502,13 @@ class BannerList extends PureComponent {
           </div>
         </Card>
 
-        <CreateForm {...parentMethods} modalVisible={modalVisible} allProductIds={allProductIds} />
+        <CreateForm {...parentMethods} modalVisible={modalVisible} />
 
         {currentRecord && Object.keys(currentRecord).length ? (
           <UpdateForm
             {...updateMethods}
             updateModalVisible={updateModalVisible}
             values={currentRecord}
-            allProductIds={allProductIds}
           />
         ) : null}
       </PageHeaderWrapper>
