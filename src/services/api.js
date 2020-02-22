@@ -3,7 +3,6 @@ import request from '@/utils/request';
 import router from 'umi/router';
 // const axios = require('axios');
 import defaultSettings from '../defaultSettings';
-import { func } from 'prop-types';
 
 export async function queryProjectNotice() {
   return request('/api/project/notice');

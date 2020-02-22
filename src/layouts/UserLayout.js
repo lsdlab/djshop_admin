@@ -26,7 +26,7 @@ const links = [
 
 const copyright = (
   <Fragment>
-    <p>Copyright &copy; JC 2018-2020 All Rights Reserved</p>
+    <p>Copyright &copy; <a href="https://lab.breakwire.me" target="_blank">BreakWire Lab</a> 2018-2020 All Rights Reserved</p>
   </Fragment>
 );
 
