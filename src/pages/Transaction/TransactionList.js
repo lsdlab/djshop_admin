@@ -141,7 +141,7 @@ class TransactionList extends PureComponent {
 
     const columns = [
       {
-        title: 'sn',
+        title: 'SN',
         dataIndex: 'sn',
       },
       {

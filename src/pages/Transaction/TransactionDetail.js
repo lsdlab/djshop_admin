@@ -140,7 +140,7 @@ class TransactionDetail extends PureComponent {
         <Description term="更新时间">{currentRecord.updated_at}</Description>
         <Description term="过期时间">{currentRecord.expired_datetime}</Description>
 
-        <Description term="sn">{currentRecord.sn}</Description>
+        <Description term="SN">{currentRecord.sn}</Description>
         <Description term="ID">{currentRecord.id}</Description>
         {currentRecord.user ? (
           <Description term="用户">

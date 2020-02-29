@@ -181,7 +181,7 @@ class UserDetail extends PureComponent {
   buildTransactionList(transactionData) {
     const transactionColumns = [
       {
-        title: 'sn',
+        title: 'SN',
         dataIndex: 'sn',
       },
       {
