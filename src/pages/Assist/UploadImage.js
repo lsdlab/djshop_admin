@@ -98,7 +98,7 @@ class UploadImage extends PureComponent {
                   })(<Select style={{ width: '100%' }}>
                       <Option value="tmp">临时文件夹</Option>
                       <Option value="assist">
-                        开屏广告 & 轮播图 & 全网通知配图 & 专题题图
+                        轮播图 & 全网通知配图 & 专题题图
                       </Option>
                       <Option value="product">商品</Option>
                     </Select>)}
@@ -128,7 +128,7 @@ class UploadImage extends PureComponent {
 
           <div style={{ marginTop: 20 }}>
             <CopyToClipboard text={imageUrl} onCopy={() => message.success('复制图片链接成功')} style={{ display: imageUrl ? 'block' : 'none' }}>
-              <Button icon="copy">复制图片链接</Button>
+              <Button block icon="copy">复制图片链接</Button>
             </CopyToClipboard>
           </div>
 

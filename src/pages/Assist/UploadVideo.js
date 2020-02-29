@@ -121,11 +121,8 @@ class UploadVideo extends PureComponent {
 
           <div style={{ marginTop: 20 }}>
             <CopyToClipboard text={imageUrl} onCopy={() => message.success('复制视频链接成功')} style={{ display: imageUrl ? 'block' : 'none' }}>
-              <Button icon="copy">复制视频链接</Button>
+              <Button block icon="copy">复制视频链接</Button>
             </CopyToClipboard>
-            <Button block icon="plus" onClick={() => routerImageNewTab(imageUrl)} style={{ display: imageUrl ? 'block' : 'none' }}>
-              新页面打开视频链接
-            </Button>
           </div>
 
           <div style={{ marginTop: 20 }}>

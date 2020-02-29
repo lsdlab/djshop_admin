@@ -76,39 +76,25 @@ class TransactionDetail extends PureComponent {
     return (
       <Fragment>
         <ButtonGroup>
+          {currentRecord ? (
+            <CopyToClipboard
+              text={`${currentRecord.sn}`}
+              onCopy={() => message.success('复制订单SN')}
+              style={{ marginTop: 10 }}
+            >
+              <Button>复制订单SN</Button>
+            </CopyToClipboard>
+          ) : (
+            <Button disabled>复制订单SN</Button>
+          )}
+
           {currentRecord.status == '1' ? (
-            <Button onClick={() => this.handlePatchModalVisible(true, currentRecord)}>修改</Button>
+            <Button onClick={() => this.handlePatchModalVisible(true, currentRecord)}>修改订单</Button>
           ) : (
-            <Button disabled>修改</Button>
-          )}
-
-          {currentRecord.address ? (
-            <CopyToClipboard
-              text={`${currentRecord.address.name} ${currentRecord.address.mobile} ${
-                currentRecord.address.address
-              }`}
-              onCopy={() => message.success('复制收货地址成功')}
-              style={{ marginTop: 10 }}
-            >
-              <Button>复制收货地址</Button>
-            </CopyToClipboard>
-          ) : (
-            <Button disabled>复制地址</Button>
-          )}
-
-          {currentRecord.express ? (
-            <CopyToClipboard
-              text={`${currentRecord.express.shipper} ${currentRecord.express.sn}`}
-              onCopy={() => message.success('复制快递信息成功')}
-              style={{ marginTop: 10 }}
-            >
-              <Button>复制快递信息</Button>
-            </CopyToClipboard>
-          ) : (
-            <Button disabled>复制快递信息</Button>
+            <Button disabled>修改订单</Button>
           )}
         </ButtonGroup>
-            
+
         {currentRecord.status == '4' ? (
           <Button type="primary" onClick={() => this.handleCreateExpressModalVisible(true)}>
             发货
@@ -398,9 +384,42 @@ class TransactionDetail extends PureComponent {
           )}
         </Card>
 
-        <Card title="地址 & 快递信息" style={{ marginBottom: 24 }} bordered={false}>
+        <Card
+          title="收货地址 & 快递信息"
+          style={{ marginBottom: 24 }}
+          bordered={false}
+          extra={
+            <span>
+              {currentRecord.address ? (
+                <CopyToClipboard
+                  text={`${currentRecord.address.name} ${currentRecord.address.mobile} ${
+                    currentRecord.address.address
+                  }`}
+                  onCopy={() => message.success('复制收货地址成功')}
+                  style={{ marginTop: 10 }}
+                >
+                  <a>复制收货地址</a>
+                </CopyToClipboard>
+              ) : (
+                <a disabled>复制收货地址</a>
+              )}
+
+              {currentRecord.express ? (
+                <CopyToClipboard
+                  text={`${currentRecord.express.shipper} ${currentRecord.express.sn}`}
+                  onCopy={() => message.success('复制快递信息成功')}
+                  style={{ marginTop: 10 }}
+                >
+                  <a> 复制快递信息</a>
+                </CopyToClipboard>
+              ) : (
+                <a disabled> 复制快递信息</a>
+              )}
+            </span>
+          }
+        >
           {currentRecord.address ? (
-            <DescriptionList style={{ marginBottom: 24 }} title="地址">
+            <DescriptionList style={{ marginBottom: 24 }} title="收货地址">
               <Description term="姓名">{currentRecord.address.name}</Description>
               <Description term="手机号">{currentRecord.address.mobile}</Description>
               <Description term="地址">{currentRecord.address.address}</Description>

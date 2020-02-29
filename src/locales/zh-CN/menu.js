@@ -41,6 +41,7 @@ export default {
   'menu.transaction.invoice-list': '发票列表',
   'menu.transaction.refund-list': '退货列表',
   'menu.assist': '辅助',
+  'menu.assist.example': '测试',
   'menu.assist.splash-list': '开屏广告',
   'menu.assist.banner-list': '轮播图',
   'menu.assist.notice-list': '全网通知',

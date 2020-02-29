@@ -220,6 +220,11 @@ export default [
           //   name: 'splash-list',
           //   component: './Assist/SplashList',
           // },
+          // {
+          //   path: '/assist/example',
+          //   name: 'example',
+          //   component: './Assist/Example',
+          // },
           {
             path: '/assist/banner-list',
             name: 'banner-list',
