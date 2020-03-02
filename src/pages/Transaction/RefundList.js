@@ -251,10 +251,6 @@ class CollectList extends PureComponent {
 
     const columns = [
       {
-        title: '退货SN',
-        dataIndex: 'sn',
-      },
-      {
         title: '订单SN',
         dataIndex: 'transaction_sn',
       },
@@ -391,7 +387,7 @@ class CollectList extends PureComponent {
               loading={loading}
               data={data}
               columns={columns}
-              scroll={{ x: 1880 }}
+              scroll={{ x: 1680 }}
               current={this.state.currentPage}
               onChange={this.handleStandardTableChange}
             />
