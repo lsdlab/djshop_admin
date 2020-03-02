@@ -10,6 +10,7 @@ import DescriptionList from '@/components/DescriptionList';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import SimpleListTable from '@/components/SimpleListTable';
 import TransactionCreateExpressModal from './TransactionCreateExpressModal';
+import TransactionCreateRefundModal from './TransactionCreateRefundModal';
 import TransactionPatchModal from './TransactionPatchModal';
 import styles from '../Profile/AdvancedProfile.less';
 
@@ -30,6 +31,7 @@ class TransactionDetail extends PureComponent {
     stepDirection: 'horizontal',
     createExpressModalVisible: false,
     patchModalVisible: false,
+    createRefundModalVisible: false,
   };
 
   componentDidMount() {
@@ -97,15 +99,15 @@ class TransactionDetail extends PureComponent {
 
         <ButtonGroup>
           {currentRecord.status == '4' ? (
-            <Button type="primary" onClick={() => this.handleCreateExpressModalVisible(true)}>
+            <Button onClick={() => this.handleCreateExpressModalVisible(true)}>
               发货
             </Button>
           ) : (
             <Button disabled>发货</Button>
           )}
 
-          {currentRecord.status == '4' ? (
-            <Button type="primary" onClick={() => this.handleCreateExpressModalVisible(true)}>
+          {currentRecord.status == '4' || currentRecord.status == '6' || currentRecord.status == '7' ? (
+            <Button onClick={() => this.handleCreateRefundModalVisible(true)}>
               退货
             </Button>
           ) : (
@@ -209,11 +211,17 @@ class TransactionDetail extends PureComponent {
     }
   };
 
+  handleCreateRefundModalVisible = (flag) => {
+    this.setState({
+      createRefundModalVisible: !!flag,
+    });
+  };
+
   render() {
     const {
       transaction: { currentRecord, userAllAddress },
     } = this.props;
-    const { stepDirection, createExpressModalVisible, patchModalVisible } = this.state;
+    const { stepDirection, createExpressModalVisible, patchModalVisible, createRefundModalVisible } = this.state;
 
     const transactionProductColumns = [
       {
@@ -482,6 +490,13 @@ class TransactionDetail extends PureComponent {
           userAllAddress={userAllAddress}
           mark="detail"
           onCancel={this.handlePatchModalVisible}
+        />
+
+        <TransactionCreateRefundModal
+          createRefundModalVisible={createRefundModalVisible}
+          currentTransaction={currentRecord}
+          mark="detail"
+          onCancel={this.handleCreateRefundModalVisible}
         />
       </PageHeaderWrapper>
     );

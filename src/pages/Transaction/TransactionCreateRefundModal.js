@@ -21,21 +21,20 @@ class TransactionCreateRefundModal extends PureComponent {
     dispatch({
       type: 'refund/create',
       payload: {
-        transaction: transactionID.toString(),
         note: fields.note,
       },
       transactionID: transactionID
     }).then(() => {
-      message.success('发货成功');
+      message.success('创建退货成功');
       this.handleModalVisible();
       if (mark == 'list') {
         dispatch({
-          type: 'transaction/fetch',
+          type: 'refund/fetch',
           payload: {},
         });
       } else if (mark == 'detail') {
         this.props.dispatch({
-          type: 'transaction/fetchDetail',
+          type: 'refund/fetchDetail',
           transactionID: transactionID,
         });
       }
@@ -48,7 +47,7 @@ class TransactionCreateRefundModal extends PureComponent {
   };
 
   render() {
-    const { currentTransaction, createExpressModalVisible, form, mark } = this.props;
+    const { currentTransaction, createRefundModalVisible, form, mark } = this.props;
 
     const okHandle = transactionID => {
       form.validateFields((err, fieldsValue) => {
@@ -64,7 +63,7 @@ class TransactionCreateRefundModal extends PureComponent {
         keyboard
         title="发货"
         width={800}
-        visible={createExpressModalVisible}
+        visible={createRefundModalVisible}
         onOk={() => okHandle(currentTransaction.id, mark)}
         onCancel={() => this.handleModalVisible()}
       >

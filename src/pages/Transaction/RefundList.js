@@ -336,13 +336,10 @@ class CollectList extends PureComponent {
       {
         title: '操作',
         fixed: 'right',
-        render: (text, record) => (
+        render: (_, record) => (
           <Fragment>
             <a onClick={() => this.routerPushDetail(record.transaction)}>订单</a>
             <Divider type="vertical" />
-
-            {/*<a onClick={() => this.routerPushDetail(record.transaction)}>详情</a>
-            <Divider type="vertical" />*/}
 
             {record.audit == '1' ? (
               <a onClick={() => this.handleAuditModalVisible(true, record)}>修改金额</a>
@@ -387,7 +384,7 @@ class CollectList extends PureComponent {
               loading={loading}
               data={data}
               columns={columns}
-              scroll={{ x: 1800 }}
+              scroll={{ x: 1680 }}
               current={this.state.currentPage}
               onChange={this.handleStandardTableChange}
             />
