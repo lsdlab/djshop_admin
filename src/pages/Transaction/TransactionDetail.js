@@ -106,7 +106,7 @@ class TransactionDetail extends PureComponent {
             <Button disabled>发货</Button>
           )}
 
-          {currentRecord.status == '4' || currentRecord.status == '6' || currentRecord.status == '7' ? (
+          {(currentRecord.status == '4' || currentRecord.status == '6' || currentRecord.status == '7') && currentRecord.refunded == false ? (
             <Button onClick={() => this.handleCreateRefundModalVisible(true)}>
               退货
             </Button>
