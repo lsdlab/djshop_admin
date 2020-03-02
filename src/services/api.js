@@ -1094,6 +1094,19 @@ export async function fetchStoreAllIds() {
   });
 }
 
+// 创建退货
+export async function createRefund(params, transactionID) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/transactions/${transactionID}/refund/`, {
+    method: 'POST',
+    body: params,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `JWT ${token}`,
+    },
+  });
+}
+
 // 获取退货列表
 export async function queryRefunds(params) {
   const token = getToken();

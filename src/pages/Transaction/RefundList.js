@@ -37,15 +37,15 @@ class UpdateForm extends PureComponent {
     const {
       updateModalVisible,
       form,
-      handleUpdate,
-      handleUpdateModalVisible,
+      handleAudit,
+      handleAuditModalVisible,
     } = this.props;
     const { modalFormVals } = this.state;
 
     const okHandle = () => {
       form.validateFields((err, fieldsValue) => {
         if (err) return;
-        handleUpdate(fieldsValue);
+        handleAudit(fieldsValue);
       });
     };
 
@@ -58,7 +58,7 @@ class UpdateForm extends PureComponent {
         width={800}
         visible={updateModalVisible}
         onOk={okHandle}
-        onCancel={() => handleUpdateModalVisible()}
+        onCancel={() => handleAuditModalVisible()}
       >
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="退货金额">
           {form.getFieldDecorator('refund_price', {
@@ -153,7 +153,7 @@ class CollectList extends PureComponent {
     });
   };
 
-  handleUpdateModalVisible = (flag, record) => {
+  handleAuditModalVisible = (flag, record) => {
     this.setState({
       updateModalVisible: !!flag,
       currentRecord: record || {},
@@ -166,7 +166,7 @@ class CollectList extends PureComponent {
     }
   };
 
-  handleUpdate = fields => {
+  handleAudit = fields => {
     const { dispatch } = this.props;
     dispatch({
       type: 'refund/auditRefund',
@@ -174,7 +174,7 @@ class CollectList extends PureComponent {
       transactionID: this.state.currentRecord.transaction,
     }).then(() => {
       message.success('更新退货成功');
-      this.handleUpdateModalVisible();
+      this.handleAuditModalVisible();
       dispatch({
         type: 'refund/fetch',
         payload: {},
@@ -245,8 +245,8 @@ class CollectList extends PureComponent {
     const { updateModalVisible, currentRecord } = this.state;
 
     const updateMethods = {
-      handleUpdateModalVisible: this.handleUpdateModalVisible,
-      handleUpdate: this.handleUpdate,
+      handleAuditModalVisible: this.handleAuditModalVisible,
+      handleAudit: this.handleAudit,
     };
 
     const columns = [
@@ -345,9 +345,9 @@ class CollectList extends PureComponent {
             <Divider type="vertical" />*/}
 
             {record.audit == '1' ? (
-              <a onClick={() => this.handleUpdateModalVisible(true, record)}>修改金额</a>
+              <a onClick={() => this.handleAuditModalVisible(true, record)}>修改金额</a>
             ) : (
-              <a disabled onClick={() => this.handleUpdateModalVisible(true, record)}>
+              <a disabled onClick={() => this.handleAuditModalVisible(true, record)}>
                 修改金额
               </a>
             )}
@@ -387,7 +387,7 @@ class CollectList extends PureComponent {
               loading={loading}
               data={data}
               columns={columns}
-              scroll={{ x: 1680 }}
+              scroll={{ x: 1800 }}
               current={this.state.currentPage}
               onChange={this.handleStandardTableChange}
             />

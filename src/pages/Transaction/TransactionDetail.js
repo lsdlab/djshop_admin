@@ -95,13 +95,23 @@ class TransactionDetail extends PureComponent {
           )}
         </ButtonGroup>
 
-        {currentRecord.status == '4' ? (
-          <Button type="primary" onClick={() => this.handleCreateExpressModalVisible(true)}>
-            发货
-          </Button>
-        ) : (
-          <Button disabled>发货</Button>
-        )}
+        <ButtonGroup>
+          {currentRecord.status == '4' ? (
+            <Button type="primary" onClick={() => this.handleCreateExpressModalVisible(true)}>
+              发货
+            </Button>
+          ) : (
+            <Button disabled>发货</Button>
+          )}
+
+          {currentRecord.status == '4' ? (
+            <Button type="primary" onClick={() => this.handleCreateExpressModalVisible(true)}>
+              退货
+            </Button>
+          ) : (
+            <Button disabled>退货</Button>
+          )}
+        </ButtonGroup>
       </Fragment>
     );
   }
@@ -429,13 +439,13 @@ class TransactionDetail extends PureComponent {
           {currentRecord.express ? (
             <DescriptionList style={{ marginBottom: 24 }} title="快递信息">
               <Description term="状态">{currentRecord.express.status_name}</Description>
-              <Description term="快递信息提供商">
+              <Description term="快递名称">
                 {currentRecord.express.shipper
                   ? currentRecord.express.shipper
                   : '-'}
               </Description>
-              <Description term="shipper_sn">
-                {currentRecord.address.sn ? currentRecord.address.sn : '-'}
+              <Description term="快递单号">
+                {currentRecord.express.sn ? currentRecord.express .sn : '-'}
               </Description>
             </DescriptionList>
           ) : (

@@ -1,4 +1,4 @@
-import { queryRefunds, patchRefund, auditRefund, withdrawRefund } from '@/services/api';
+import { createRefund, queryRefunds, patchRefund, auditRefund, withdrawRefund } from '@/services/api';
 
 export default {
   namespace: 'refund',
@@ -11,6 +11,9 @@ export default {
   },
 
   effects: {
+    *create({ payload, transactionID }, { call }) {
+      yield call(createRefund, payload, transactionID);
+    },
     *fetch({ payload }, { call, put }) {
       const response = yield call(queryRefunds, payload);
       yield put({
