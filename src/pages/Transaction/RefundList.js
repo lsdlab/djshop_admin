@@ -36,7 +36,6 @@ class UpdateForm extends PureComponent {
   render() {
     const {
       updateModalVisible,
-      allStoreIds,
       form,
       handleUpdate,
       handleUpdateModalVisible,
@@ -221,7 +220,7 @@ class CollectList extends PureComponent {
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 6, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
-            <FormItem label="sn">{getFieldDecorator('sn')(<Input placeholder="sn" />)}</FormItem>
+            <FormItem label="订单SN">{getFieldDecorator('sn')(<Input placeholder="订单SN" />)}</FormItem>
           </Col>
           <Col md={6} sm={24}>
             <span className={styles.submitButtons}>
@@ -392,7 +391,7 @@ class CollectList extends PureComponent {
               loading={loading}
               data={data}
               columns={columns}
-              scroll={{ x: 1820 }}
+              scroll={{ x: 1880 }}
               current={this.state.currentPage}
               onChange={this.handleStandardTableChange}
             />
