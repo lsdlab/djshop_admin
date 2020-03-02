@@ -193,21 +193,21 @@ export default [
             name: 'transaction-detail',
             component: './Transaction/TransactionDetail',
           },
-          // {
-          //   path: '/transaction/collect-list',
-          //   name: 'collect-list',
-          //   component: './Transaction/CollectList',
-          // },
-          // {
-          //   path: '/transaction/invoice-list',
-          //   name: 'invoice-list',
-          //   component: './Transaction/InvoiceList',
-          // },
-          // {
-          //   path: '/transaction/refund-list',
-          //   name: 'refund-list',
-          //   component: './Transaction/RefundList',
-          // },
+          {
+            path: '/transaction/refund-list',
+            name: 'refund-list',
+            component: './Transaction/RefundList',
+          },
+          {
+            path: '/transaction/collect-list',
+            name: 'collect-list',
+            component: './Transaction/CollectList',
+          },
+          {
+            path: '/transaction/invoice-list',
+            name: 'invoice-list',
+            component: './Transaction/InvoiceList',
+          },
         ],
       },
       {

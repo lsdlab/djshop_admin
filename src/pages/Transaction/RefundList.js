@@ -252,8 +252,8 @@ class CollectList extends PureComponent {
 
     const columns = [
       {
-        title: 'ID',
-        dataIndex: 'id',
+        title: '退货SN',
+        dataIndex: 'sn',
       },
       {
         title: '订单SN',
