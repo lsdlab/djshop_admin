@@ -6,8 +6,9 @@ const FormItem = Form.Item;
 const { Option } = Select;
 
 /* eslint react/no-multi-comp:0 */
-@connect(({ refund, loading }) => ({
+@connect(({ refund, transaction, loading }) => ({
   refund,
+  transaction,
   submitting: loading.effects['refund/create'],
 }))
 @Form.create()
@@ -33,8 +34,8 @@ class TransactionCreateRefundModal extends PureComponent {
           payload: {},
         });
       } else if (mark == 'detail') {
-        this.props.dispatch({
-          type: 'refund/fetchDetail',
+        dispatch({
+          type: 'transaction/fetchDetail',
           transactionID: transactionID,
         });
       }

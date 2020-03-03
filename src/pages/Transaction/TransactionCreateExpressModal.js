@@ -36,7 +36,7 @@ class TransactionCreateExpressModal extends PureComponent {
           payload: {},
         });
       } else if (mark == 'detail') {
-        this.props.dispatch({
+        dispatch({
           type: 'transaction/fetchDetail',
           transactionID: transactionID,
         });

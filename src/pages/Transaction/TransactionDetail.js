@@ -371,7 +371,28 @@ class TransactionDetail extends PureComponent {
           </Steps>
         </Card>
 
-        <Card title="支付信息 & 优惠卷信息" style={{ marginBottom: 24 }} bordered={false}>
+        <Card
+          title="支付信息 & 优惠卷信息"
+          style={{ marginBottom: 24 }}
+          bordered={false}
+          extra={
+            <span>
+              {currentRecord.address ? (
+                <CopyToClipboard
+                  text={`${currentRecord.address.name} ${currentRecord.address.mobile} ${
+                    currentRecord.address.address
+                  }`}
+                  onCopy={() => message.success('复制收货地址成功')}
+                  style={{ marginTop: 10 }}
+                >
+                  <a>复制收货地址</a>
+                </CopyToClipboard>
+              ) : (
+                <a disabled>复制收货地址</a>
+              )}
+            </span>
+          }
+        >
           <DescriptionList style={{ marginBottom: 24 }} title="支付信息">
             <Description term="支付渠道">{currentRecord.payment_name}</Description>
             <Description term="总价">{currentRecord.total_amount}</Description>

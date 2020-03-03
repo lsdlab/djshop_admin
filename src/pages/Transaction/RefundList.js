@@ -12,6 +12,7 @@ import {
   message,
   Divider,
   Popconfirm,
+  Badge,
 } from 'antd';
 import router from 'umi/router';
 import SimpleTable from '@/components/SimpleTable';
@@ -273,6 +274,13 @@ class CollectList extends PureComponent {
       {
         title: '审核进度',
         dataIndex: 'audit_name',
+        render(_, record) {
+          if (record.audit == '1') {
+            return <Badge status="error" text='审核中' />;
+          } else if (record.audit == '2') {
+            return <Badge status="success" text='审核通过' />;
+          }
+        },
       },
       {
         title: '审核时间',

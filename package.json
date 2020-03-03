@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@antv/data-set": "^0.10.0",
+    "@antv/g2": "^4.0.0",
     "@babel/runtime": "^7.1.5",
     "@stomp/stompjs": "^5.4.2",
     "ali-oss": "^6.1.0",
