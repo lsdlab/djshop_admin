@@ -261,6 +261,7 @@ class PromotionList extends PureComponent {
               onChange={this.handleStandardTableChange}
             />
           </div>
+
           <Drawer
             width={800}
             placement="right"

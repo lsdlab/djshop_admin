@@ -6,8 +6,8 @@ import { Row, Col, Card, Button, Avatar, Steps, Tooltip, message } from 'antd';
 import router from 'umi/router';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
-import DescriptionList from '@/components/DescriptionList';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import DescriptionList from '@/components/DescriptionList';
 import SimpleListTable from '@/components/SimpleListTable';
 import TransactionCreateExpressModal from './TransactionCreateExpressModal';
 import TransactionCreateRefundModal from './TransactionCreateRefundModal';

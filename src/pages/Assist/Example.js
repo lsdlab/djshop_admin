@@ -14,14 +14,7 @@ import {
   Badge,
   TreeSelect,
 } from 'antd';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
-import SimpleTable from '@/components/SimpleTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import styles from '../List/TableList.less';
-import Reflv from 'reflv';
-
-
-const FormItem = Form.Item;
 
 
 /* eslint react/no-multi-comp:0 */
@@ -49,11 +42,7 @@ class SplashList extends PureComponent {
       <PageHeaderWrapper title="测试">
         <Card bordered={false}>
           <div className={styles.tableList}>
-            <Reflv
-              url={`http://localhost:7001/live/test`}
-              type="flv"
-              isLive
-            />
+
           </div>
         </Card>
       </PageHeaderWrapper>

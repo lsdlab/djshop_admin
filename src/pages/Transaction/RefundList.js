@@ -13,14 +13,25 @@ import {
   Divider,
   Popconfirm,
   Badge,
+  Drawer
 } from 'antd';
 import router from 'umi/router';
 import SimpleTable from '@/components/SimpleTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import DescriptionList from '@/components/DescriptionList';
 
 import styles from '../List/TableList.less';
 
+const pStyle = {
+  fontSize: 16,
+  color: 'rgba(0,0,0,0.85)',
+  lineHeight: '24px',
+  display: 'block',
+  marginBottom: 16,
+};
+
 const FormItem = Form.Item;
+const { Description } = DescriptionList;
 
 @Form.create()
 class UpdateForm extends PureComponent {
@@ -86,6 +97,7 @@ class CollectList extends PureComponent {
     formValues: {},
     updateModalVisible: false,
     currentRecord: {},
+    visible: false,
   };
 
   componentDidMount() {
@@ -94,6 +106,22 @@ class CollectList extends PureComponent {
       type: 'refund/fetch',
     });
   }
+
+  showDrawer = (flag, currentRecord) => {
+    this.setState({
+      visible: !!flag,
+    });
+
+    if (flag && currentRecord) {
+      this.setState({
+        currentRecord: currentRecord,
+      });
+    } else {
+      this.setState({
+        currentRecord: {},
+      });
+    }
+  };
 
   routerPushDetail = transactionID => {
     router.push('/transaction/transaction-detail/' + transactionID);
@@ -157,7 +185,7 @@ class CollectList extends PureComponent {
   handleAuditModalVisible = (flag, record) => {
     this.setState({
       updateModalVisible: !!flag,
-      currentRecord: record || {},
+      // currentRecord: record || {},
     });
 
     if (flag) {
@@ -213,6 +241,12 @@ class CollectList extends PureComponent {
     });
   };
 
+  onClose = () => {
+    this.setState({
+      visible: false,
+    });
+  };
+
   renderSimpleForm() {
     const {
       form: { getFieldDecorator },
@@ -260,16 +294,12 @@ class CollectList extends PureComponent {
         dataIndex: 'refund_type_name',
       },
       {
-        title: '退货金额',
-        dataIndex: 'refund_price',
-      },
-      {
         title: '用户',
         dataIndex: 'user',
       },
       {
-        title: '审核人',
-        dataIndex: 'auditor',
+        title: '退货金额',
+        dataIndex: 'refund_price',
       },
       {
         title: '审核进度',
@@ -283,59 +313,8 @@ class CollectList extends PureComponent {
         },
       },
       {
-        title: '审核时间',
-        dataIndex: 'audit_datetime',
-        render(text) {
-          if (text) {
-            return text;
-          } else {
-            return '-';
-          }
-        },
-      },
-      {
-        title: '审核备注',
-        dataIndex: 'audit_note',
-        render(text) {
-          if (text) {
-            return text;
-          } else {
-            return '-';
-          }
-        },
-      },
-      {
-        title: '快递',
-        dataIndex: 'shipper',
-        render(text) {
-          if (text) {
-            return text;
-          } else {
-            return '-';
-          }
-        },
-      },
-      {
-        title: '快递单号',
-        dataIndex: 'shipper_sn',
-        render(text) {
-          if (text) {
-            return text;
-          } else {
-            return '-';
-          }
-        },
-      },
-      {
-        title: '退货发出快递时间',
-        dataIndex: 'refund_enter_ship_info_datetime',
-        render(text) {
-          if (text) {
-            return text;
-          } else {
-            return '-';
-          }
-        },
+        title: '审核人',
+        dataIndex: 'auditor',
       },
       {
         title: '创建时间',
@@ -348,36 +327,7 @@ class CollectList extends PureComponent {
           <Fragment>
             <a onClick={() => this.routerPushDetail(record.transaction)}>订单</a>
             <Divider type="vertical" />
-
-            {record.audit == '1' ? (
-              <a onClick={() => this.handleAuditModalVisible(true, record)}>修改金额</a>
-            ) : (
-              <a disabled onClick={() => this.handleAuditModalVisible(true, record)}>
-                修改金额
-              </a>
-            )}
-
-            {record.audit == '1' ? <Divider type="vertical" /> : null}
-
-            {record.audit == '1' ? (
-              <Popconfirm
-                title="是否要允许此退货？"
-                onConfirm={() => this.auditRefund(record.transaction, refundPrice)}
-              >
-                <a>允许</a>
-              </Popconfirm>
-            ) : null}
-
-            {record.audit == '1' ? <Divider type="vertical" /> : null}
-
-            {record.audit == '1' ? (
-              <Popconfirm
-                title="是否要撤销此退货？"
-                onConfirm={() => this.withdrawRefund(record.transaction)}
-              >
-                <a>撤销</a>
-              </Popconfirm>
-            ) : null}
+            <a onClick={() => this.showDrawer(true, record)}>详情</a>
           </Fragment>
         ),
       },
@@ -392,7 +342,7 @@ class CollectList extends PureComponent {
               loading={loading}
               data={data}
               columns={columns}
-              scroll={{ x: 1680 }}
+              scroll={{ x: 1180 }}
               current={this.state.currentPage}
               onChange={this.handleStandardTableChange}
             />
@@ -405,6 +355,90 @@ class CollectList extends PureComponent {
               values={currentRecord}
             />
           ) : null}
+
+          <Drawer
+            width={800}
+            placement="right"
+            closable={true}
+            onClose={this.onClose}
+            visible={this.state.visible}
+          >
+            <Card
+              title="退货操作"
+              style={{ marginBottom: 24 }}
+              bordered={false}
+            >
+              {currentRecord.audit == '1' ? (
+                <Button onClick={() => this.handleAuditModalVisible(true, currentRecord)}>修改金额</Button>
+              ) : (
+                <Button disabled onClick={() => this.handleAuditModalVisible(true, currentRecord)}>
+                  修改金额
+                </Button>
+              )}
+
+              {currentRecord.audit == '1' ? <Divider type="vertical" /> : null}
+
+              {currentRecord.audit == '1' ? (
+                <Popconfirm
+                  title="是否要允许此退货？"
+                  onConfirm={() => this.auditRefund(currentRecord.transaction, refundPrice)}
+                >
+                  <Button>允许</Button>
+                </Popconfirm>
+              ) : null}
+
+              {currentRecord.audit == '1' ? <Divider type="vertical" /> : null}
+
+              {currentRecord.audit == '1' ? (
+                <Popconfirm
+                  title="是否要撤销此退货？"
+                  onConfirm={() => this.withdrawRefund(currentRecord.transaction)}
+                >
+                  <Button>撤销</Button>
+                </Popconfirm>
+              ) : null}
+            </Card>
+
+            <Card
+              title="退货详情"
+              style={{ marginBottom: 24 }}
+              bordered={false}
+            >
+              <DescriptionList style={{ marginBottom: 24 }}>
+                <Col span={12}>
+                  <Description term="审核进度">{currentRecord.audit_name}</Description>
+                </Col>
+                <Col span={12}>
+                  <Description term="审核人">{currentRecord.auditor}</Description>
+                </Col>
+                <Col span={12}>
+                  <Description term="审核时间">{currentRecord.audit_datetime ? currentRecord.audit_datetime : '-' }</Description>
+                </Col>
+                <Col span={12}>
+                  <Description term="审核备注">{currentRecord.audit_note ? currentRecord.audit_note : '-'}</Description>
+                </Col>
+              </DescriptionList>
+              <DescriptionList style={{ marginBottom: 24 }}>
+                <Col span={12}>
+                <Description term="快递名称">{currentRecord.shipper ? currentRecord.shipper : '-'}</Description>
+                </Col>
+                <Col span={12}>
+                <Description term="快递单号">{currentRecord.shipper_sn ? currentRecord.shipper_sn : '-'}</Description>
+                </Col>
+                <Col span={12}>
+                <Description term="快递发出时间">{currentRecord.refund_enter_ship_info_datetime ? currentRecord.refund_enter_ship_info_datetime : '-'}</Description>
+                </Col>
+              </DescriptionList>
+              <DescriptionList style={{ marginBottom: 24 }}>
+                <Col span={12}>
+                  <Description term="创建时间">{currentRecord.created_at}</Description>
+                </Col>
+                <Col span={12}>
+                  <Description term="更新时间">{currentRecord.updated_at}</Description>
+                </Col>
+              </DescriptionList>
+            </Card>
+          </Drawer>
         </Card>
       </PageHeaderWrapper>
     );
