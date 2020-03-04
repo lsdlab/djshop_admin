@@ -462,11 +462,11 @@ class CollectList extends PureComponent {
 
                 {currentRecord.audit == '2' || currentRecord.audit == '5' ? (
                   <Button onClick={this.showChildrenDrawer}>
-                    查看微信支付退款详情
+                    微信支付退款查询
                   </Button>
                 ) : (
                   <Button onClick={this.showChildrenDrawer}>
-                    查看微信支付退款详情
+                    微信支付退款查询
                   </Button>
                 )}
               </Row>
@@ -538,9 +538,7 @@ class CollectList extends PureComponent {
             >
               {wxRefundQueryDetail && Object.keys(wxRefundQueryDetail).length ? (
                 <DescriptionList style={{ marginBottom: 24 }}>
-                  <Col span={12}>
-                    <Description term="退款结果">{wxRefundQueryDetail.return_code == 'SUCCESS' && wxRefundQueryDetail.result_code ? '退款成功' : '退款失败' }</Description>
-                  </Col>
+                  <Description term="退款结果">{wxRefundQueryDetail.return_code == 'SUCCESS' && wxRefundQueryDetail.result_code ? '退款成功' : '退款失败' }</Description>
                 </DescriptionList>
               ) : null}
             </Drawer>
