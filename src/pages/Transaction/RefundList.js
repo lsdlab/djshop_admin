@@ -123,7 +123,7 @@ class CollectList extends PureComponent {
 
   showChildrenDrawer = () => {
     this.props.dispatch({
-      type: 'refund/weixinpaymentRefundQuery',
+      type: 'refund/wxPaymentRefundQuery',
       params: {
         sn: this.state.currentRefundTransactionID,
         refund_sn: this.state.currentRefundTransactionID,
@@ -266,6 +266,20 @@ class CollectList extends PureComponent {
           payload: {},
         });
       });
+    });
+  };
+
+  wxPaymentRefund = () => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'refund/wxPaymentRefundOrder',
+      params: {
+        sn: this.state.currentRefundTransactionID,
+        refund_sn: this.state.currentRefundTransactionID,
+      },
+    }).then(() => {
+      message.success('撤销退货成功');
+
     });
   };
 
@@ -448,7 +462,7 @@ class CollectList extends PureComponent {
                 {currentRecord.audit == '2' ? (
                   <Popconfirm
                     title="是否要退款？"
-                    onConfirm={() => this.auditRefund(currentRecord.transaction)}
+                    onConfirm={() => this.wxPaymentRefund()}
                   >
                     <Button>退款到微信支付（实时）</Button>
                   </Popconfirm>
@@ -537,9 +551,7 @@ class CollectList extends PureComponent {
               visible={this.state.childrenDrawer}
             >
               {wxRefundQueryDetail && Object.keys(wxRefundQueryDetail).length ? (
-                <DescriptionList style={{ marginBottom: 24 }}>
-                  <Description term="退款结果">{wxRefundQueryDetail.return_code == 'SUCCESS' && wxRefundQueryDetail.result_code ? '退款成功' : '退款失败' }</Description>
-                </DescriptionList>
+                <span>{wxRefundQueryDetail.return_code == 'SUCCESS' && wxRefundQueryDetail.result_code ? '退款成功' : '退款失败' }</span>
               ) : null}
             </Drawer>
           </Drawer>

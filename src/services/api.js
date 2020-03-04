@@ -1170,7 +1170,7 @@ export async function withdrawRefund(transactionID) {
 }
 
 // 微信支付退款
-export async function weixinpaymentRefundOrder(params) {
+export async function wxPaymentRefundOrder(params) {
   const token = getToken();
   return request(`${apiHost}${apiVersion}/payment/weixinpayment/refundorder/`, {
     method: 'POST',
@@ -1183,7 +1183,7 @@ export async function weixinpaymentRefundOrder(params) {
 }
 
 // 微信支付查询退款
-export async function weixinpaymentRefundQuery(params) {
+export async function wxPaymentRefundQuery(params) {
   const token = getToken();
   return request(`${apiHost}${apiVersion}/payment/weixinpayment/refundquery/`, {
     method: 'POST',

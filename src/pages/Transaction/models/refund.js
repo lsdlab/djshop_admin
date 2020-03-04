@@ -5,8 +5,8 @@ import {
   patchRefund,
   auditRefund,
   withdrawRefund,
-  weixinpaymentRefundOrder,
-  weixinpaymentRefundQuery,
+  wxPaymentRefundOrder,
+  wxPaymentRefundQuery,
 } from '@/services/api';
 
 export default {
@@ -18,6 +18,7 @@ export default {
       count: undefined,
     },
     currentRecord: {},
+    wxRefundOrderDetail: {},
     wxRefundQueryDetail: {},
   },
 
@@ -48,8 +49,15 @@ export default {
     *withdrawRefund({ transactionID }, { call }) {
       yield call(withdrawRefund, transactionID);
     },
-    *weixinpaymentRefundQuery({ params }, { call, put }) {
-      const response = yield call(weixinpaymentRefundQuery, params);
+    *wxPaymentRefundOrder({ params }, { call, put }) {
+      const response = yield call(wxPaymentRefundOrder, params);
+      yield put({
+        type: 'saveRefundOrderDetail',
+        payload: response,
+      });
+    },
+    *wxPaymentRefundQuery({ params }, { call, put }) {
+      const response = yield call(wxPaymentRefundQuery, params);
       yield put({
         type: 'saveRefundQueryDetail',
         payload: response,
@@ -74,6 +82,12 @@ export default {
       return {
         ...state,
         allStoreIds: action.payload,
+      };
+    },
+    saveRefundOrderDetail(state, action) {
+      return {
+        ...state,
+        wxRefundOrderDetail: action.payload,
       };
     },
     saveRefundQueryDetail(state, action) {
