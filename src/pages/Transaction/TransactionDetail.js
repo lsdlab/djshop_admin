@@ -9,8 +9,8 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import DescriptionList from '@/components/DescriptionList';
 import SimpleListTable from '@/components/SimpleListTable';
-import TransactionCreateExpressModal from './TransactionCreateExpressModal';
-import TransactionCreateRefundModal from './TransactionCreateRefundModal';
+import TransactionDetailCreateExpressModal from './TransactionDetailCreateExpressModal';
+import TransactionDetailCreateRefundModal from './TransactionDetailCreateRefundModal';
 import TransactionPatchModal from './TransactionPatchModal';
 import styles from '../Profile/AdvancedProfile.less';
 
@@ -498,7 +498,7 @@ class TransactionDetail extends PureComponent {
           ) : null}
         </div>
 
-        <TransactionCreateExpressModal
+        <TransactionDetailCreateExpressModal
           createExpressModalVisible={createExpressModalVisible}
           currentTransaction={currentRecord}
           mark="detail"
@@ -513,7 +513,7 @@ class TransactionDetail extends PureComponent {
           onCancel={this.handlePatchModalVisible}
         />
 
-        <TransactionCreateRefundModal
+        <TransactionDetailCreateRefundModal
           createRefundModalVisible={createRefundModalVisible}
           currentTransaction={currentRecord}
           mark="detail"

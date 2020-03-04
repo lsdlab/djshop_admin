@@ -303,7 +303,7 @@ class BannerList extends PureComponent {
     dispatch({
       type: 'banner/create',
       payload: params,
-    }).then(data => {
+    }).then(() => {
       message.success('新增轮播图成功');
       this.handleModalVisible();
       this.props.dispatch({

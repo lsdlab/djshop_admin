@@ -1,4 +1,13 @@
-import { createRefund, queryRefunds, patchRefund, auditRefund, withdrawRefund } from '@/services/api';
+import {
+  createRefund,
+  queryRefunds,
+  fetchRefund,
+  patchRefund,
+  auditRefund,
+  withdrawRefund,
+  weixinpaymentRefundOrder,
+  weixinpaymentRefundQuery,
+} from '@/services/api';
 
 export default {
   namespace: 'refund',
@@ -8,6 +17,8 @@ export default {
       results: [],
       count: undefined,
     },
+    currentRecord: {},
+    wxRefundQueryDetail: {},
   },
 
   effects: {
@@ -21,6 +32,13 @@ export default {
         payload: response,
       });
     },
+    *fetchRefund({ transactionID }, { call, put }) {
+      const response = yield call(fetchRefund, transactionID);
+      yield put({
+        type: 'saveRefund',
+        payload: response,
+      });
+    },
     *patch({ payload, transactionID }, { call }) {
       yield call(patchRefund, payload, transactionID);
     },
@@ -29,6 +47,13 @@ export default {
     },
     *withdrawRefund({ transactionID }, { call }) {
       yield call(withdrawRefund, transactionID);
+    },
+    *weixinpaymentRefundQuery({ params }, { call, put }) {
+      const response = yield call(weixinpaymentRefundQuery, params);
+      yield put({
+        type: 'saveRefundQueryDetail',
+        payload: response,
+      });
     },
   },
 
@@ -39,10 +64,22 @@ export default {
         data: action.payload,
       };
     },
+    saveRefund(state, action) {
+      return {
+        ...state,
+        currentRecord: action.payload,
+      };
+    },
     saveStoreAllIds(state, action) {
       return {
         ...state,
         allStoreIds: action.payload,
+      };
+    },
+    saveRefundQueryDetail(state, action) {
+      return {
+        ...state,
+        wxRefundQueryDetail: action.payload,
       };
     },
   },

@@ -11,7 +11,7 @@ const { Option } = Select;
   submitting: loading.effects['transaction/createExpress'],
 }))
 @Form.create()
-class TransactionCreateExpressModal extends PureComponent {
+class TransactionDetailCreateExpressModal extends PureComponent {
   state = {};
 
   componentDidMount() {}
@@ -102,4 +102,4 @@ class TransactionCreateExpressModal extends PureComponent {
   }
 }
 
-export default TransactionCreateExpressModal;
+export default TransactionDetailCreateExpressModal;

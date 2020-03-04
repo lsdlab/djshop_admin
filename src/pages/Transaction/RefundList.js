@@ -12,7 +12,6 @@ import {
   message,
   Divider,
   Popconfirm,
-  Badge,
   Drawer
 } from 'antd';
 import router from 'umi/router';
@@ -21,14 +20,6 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import DescriptionList from '@/components/DescriptionList';
 
 import styles from '../List/TableList.less';
-
-const pStyle = {
-  fontSize: 16,
-  color: 'rgba(0,0,0,0.85)',
-  lineHeight: '24px',
-  display: 'block',
-  marginBottom: 16,
-};
 
 const FormItem = Form.Item;
 const { Description } = DescriptionList;
@@ -66,7 +57,7 @@ class UpdateForm extends PureComponent {
         destroyOnClose
         centered
         keyboard
-        title="修改退货信息"
+        title="修改退货金额"
         width={800}
         visible={updateModalVisible}
         onOk={okHandle}
@@ -96,8 +87,9 @@ class CollectList extends PureComponent {
     currentPage: 1,
     formValues: {},
     updateModalVisible: false,
-    currentRecord: {},
+    currentRefundTransactionID: '',
     visible: false,
+    childrenDrawer: false,
   };
 
   componentDidMount() {
@@ -107,20 +99,44 @@ class CollectList extends PureComponent {
     });
   }
 
-  showDrawer = (flag, currentRecord) => {
+  showDrawer = (flag, currentRefundTransactionID) => {
     this.setState({
       visible: !!flag,
+      currentRefundTransactionID: currentRefundTransactionID
     });
 
-    if (flag && currentRecord) {
-      this.setState({
-        currentRecord: currentRecord,
-      });
-    } else {
-      this.setState({
-        currentRecord: {},
-      });
+    if (flag && currentRefundTransactionID) {
+      this.props.dispatch({
+        type: 'refund/fetchRefund',
+        transactionID: currentRefundTransactionID,
+      })
     }
+  };
+
+  onClose = () => {
+    this.setState({
+      visible: false,
+    });
+  };
+
+  showChildrenDrawer = () => {
+    this.props.dispatch({
+      type: 'refund/weixinpaymentRefundQuery',
+      params: {
+        sn: this.state.currentRefundTransactionID,
+        refund_sn: this.state.currentRefundTransactionID,
+      },
+    });
+
+    this.setState({
+      childrenDrawer: true,
+    });
+  };
+
+  onChildrenDrawerClose = () => {
+    this.setState({
+      childrenDrawer: false,
+    });
   };
 
   routerPushDetail = transactionID => {
@@ -187,12 +203,6 @@ class CollectList extends PureComponent {
       updateModalVisible: !!flag,
       // currentRecord: record || {},
     });
-
-    if (flag) {
-      this.props.dispatch({
-        type: 'refund/fetchStoreAllIds',
-      });
-    }
   };
 
   handleAudit = fields => {
@@ -200,30 +210,40 @@ class CollectList extends PureComponent {
     dispatch({
       type: 'refund/auditRefund',
       payload: fields,
-      transactionID: this.state.currentRecord.transaction,
+      transactionID: this.state.currentRefundTransactionID,
     }).then(() => {
-      message.success('更新退货成功');
+      message.success('修改退货金额成功');
       this.handleAuditModalVisible();
       dispatch({
-        type: 'refund/fetch',
-        payload: {},
+        type: 'refund/fetchRefund',
+        transactionID: this.state.currentRefundTransactionID,
+      }).then(() => {
+        dispatch({
+          type: 'refund/fetch',
+        });
       });
     });
   };
 
-  auditRefund = (transactionID, refundPrice) => {
+  auditRefund = (transactionID, audit) => {
     const { dispatch } = this.props;
     dispatch({
       type: 'refund/auditRefund',
       payload: {
         auditor: JSON.parse(localStorage.getItem('currentUser'))['userid'],
-        audit: '2',
+        audit: audit,
       },
       transactionID: transactionID,
     }).then(() => {
       message.success('审批退货成功');
       dispatch({
-        type: 'refund/fetch',
+        type: 'refund/fetchRefund',
+        transactionID: this.state.currentRefundTransactionID,
+      }).then(() => {
+        dispatch({
+          type: 'refund/fetch',
+          payload: {},
+        });
       });
     });
   };
@@ -236,14 +256,14 @@ class CollectList extends PureComponent {
     }).then(() => {
       message.success('撤销退货成功');
       dispatch({
-        type: 'refund/fetch',
+        type: 'refund/fetchRefund',
+        transactionID: this.state.currentRefundTransactionID,
+      }).then(() => {
+        dispatch({
+          type: 'refund/fetch',
+          payload: {},
+        });
       });
-    });
-  };
-
-  onClose = () => {
-    this.setState({
-      visible: false,
     });
   };
 
@@ -274,10 +294,10 @@ class CollectList extends PureComponent {
 
   render() {
     const {
-      refund: { data },
+      refund: { data, currentRecord, wxRefundQueryDetail },
       loading,
     } = this.props;
-    const { updateModalVisible, currentRecord } = this.state;
+    const { updateModalVisible } = this.state;
 
     const updateMethods = {
       handleAuditModalVisible: this.handleAuditModalVisible,
@@ -304,11 +324,11 @@ class CollectList extends PureComponent {
       {
         title: '审核进度',
         dataIndex: 'audit_name',
-        render(_, record) {
-          if (record.audit == '1') {
-            return <Badge status="error" text='审核中' />;
-          } else if (record.audit == '2') {
-            return <Badge status="success" text='审核通过' />;
+        render(text, record) {
+          if (record.audit == '1' || record.audit == '3') {
+            return <span style={{ color: 'red' }}>{text}</span>;;
+          } else if (record.audit == '2'|| record.audit == '6'|| record.audit == '4' || record.audit == '5') {
+            return <span style={{ color: 'green' }}>{text}</span>;;
           }
         },
       },
@@ -327,7 +347,7 @@ class CollectList extends PureComponent {
           <Fragment>
             <a onClick={() => this.routerPushDetail(record.transaction)}>订单</a>
             <Divider type="vertical" />
-            <a onClick={() => this.showDrawer(true, record)}>详情</a>
+            <a onClick={() => this.showDrawer(true, record.transaction)}>详情</a>
           </Fragment>
         ),
       },
@@ -368,35 +388,86 @@ class CollectList extends PureComponent {
               style={{ marginBottom: 24 }}
               bordered={false}
             >
-              {currentRecord.audit == '1' ? (
-                <Button onClick={() => this.handleAuditModalVisible(true, currentRecord)}>修改金额</Button>
-              ) : (
-                <Button disabled onClick={() => this.handleAuditModalVisible(true, currentRecord)}>
-                  修改金额
-                </Button>
-              )}
+              <Row>
+                {currentRecord.audit == '1' ? (
+                  <Button onClick={() => this.handleAuditModalVisible(true, currentRecord)}>修改金额</Button>
+                ) : (
+                  <Button disabled>
+                    修改金额
+                  </Button>
+                )}
 
-              {currentRecord.audit == '1' ? <Divider type="vertical" /> : null}
+                <Divider type="vertical" />
 
-              {currentRecord.audit == '1' ? (
-                <Popconfirm
-                  title="是否要允许此退货？"
-                  onConfirm={() => this.auditRefund(currentRecord.transaction, refundPrice)}
-                >
-                  <Button>允许</Button>
-                </Popconfirm>
-              ) : null}
+                {currentRecord.audit == '1' ? (
+                  <Popconfirm
+                    title="是否要允许此退货？"
+                    onConfirm={() => this.auditRefund(currentRecord.transaction, '2')}
+                  >
+                    <Button>允许</Button>
+                  </Popconfirm>
+                ) : (
+                  <Button disabled>
+                    允许
+                  </Button>
+                )}
 
-              {currentRecord.audit == '1' ? <Divider type="vertical" /> : null}
+                <Divider type="vertical" />
 
-              {currentRecord.audit == '1' ? (
-                <Popconfirm
-                  title="是否要撤销此退货？"
-                  onConfirm={() => this.withdrawRefund(currentRecord.transaction)}
-                >
-                  <Button>撤销</Button>
-                </Popconfirm>
-              ) : null}
+                {currentRecord.audit == '1' ? (
+                  <Popconfirm
+                    title="是否要拒绝此退货？"
+                    onConfirm={() => this.auditRefund(currentRecord.transaction, '3')}
+                  >
+                    <Button>拒绝</Button>
+                  </Popconfirm>
+                ) : (
+                  <Button disabled>
+                    拒绝
+                  </Button>
+                )}
+
+                <Divider type="vertical" />
+
+                {currentRecord.audit == '1' ? (
+                  <Popconfirm
+                    title="是否要撤销此退货？"
+                    onConfirm={() => this.withdrawRefund(currentRecord.transaction)}
+                  >
+                    <Button>撤销</Button>
+                  </Popconfirm>
+                ) : (
+                  <Button disabled>
+                    撤销
+                  </Button>
+                )}
+              </Row>
+              <Row style={{ marginTop: 10 }}>
+                {currentRecord.audit == '2' ? (
+                  <Popconfirm
+                    title="是否要退款？"
+                    onConfirm={() => this.auditRefund(currentRecord.transaction)}
+                  >
+                    <Button>退款到微信支付（实时）</Button>
+                  </Popconfirm>
+                ) : (
+                  <Button disabled>
+                    退款到微信支付（实时）
+                  </Button>
+                )}
+
+                <Divider type="vertical" />
+
+                {currentRecord.audit == '2' ? (
+                  <Button onClick={this.showChildrenDrawer}>
+                    查看微信支付退款详情
+                  </Button>
+                ) : (
+                  <Button onClick={this.showChildrenDrawer}>
+                    查看微信支付退款详情
+                  </Button>
+                )}
+              </Row>
             </Card>
 
             <Card
@@ -404,6 +475,23 @@ class CollectList extends PureComponent {
               style={{ marginBottom: 24 }}
               bordered={false}
             >
+              <DescriptionList style={{ marginBottom: 24 }}>
+                <Col span={12}>
+                  <Description term="订单SN">{currentRecord.transaction_sn}</Description>
+                </Col>
+                <Col span={12}>
+                  <Description term="退货SN">{currentRecord.sn}</Description>
+                </Col>
+                <Col span={12}>
+                  <Description term="退货类型">{currentRecord.refund_type_name}</Description>
+                </Col>
+                <Col span={12}>
+                  <Description term="退货金额">{currentRecord.refund_price}</Description>
+                </Col>
+                <Col span={12}>
+                  <Description term="用户">{currentRecord.user}</Description>
+                </Col>
+              </DescriptionList>
               <DescriptionList style={{ marginBottom: 24 }}>
                 <Col span={12}>
                   <Description term="审核进度">{currentRecord.audit_name}</Description>
@@ -438,6 +526,28 @@ class CollectList extends PureComponent {
                 </Col>
               </DescriptionList>
             </Card>
+
+            <Drawer
+              title="微信支付退款查询"
+              width={320}
+              closable={false}
+              onClose={this.onChildrenDrawerClose}
+              visible={this.state.childrenDrawer}
+            >
+              <Card
+                title="退货详情"
+                style={{ marginBottom: 24 }}
+                bordered={false}
+              >
+                {wxRefundQueryDetail && Object.keys(wxRefundQueryDetail).length ? (
+                  <DescriptionList style={{ marginBottom: 24 }}>
+                    <Col span={12}>
+                      <Description term="status">{wxRefundQueryDetail.status}</Description>
+                    </Col>
+                  </DescriptionList>
+                ) : null}
+              </Card>
+            </Drawer>
           </Drawer>
         </Card>
       </PageHeaderWrapper>

@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { Form, Input, Select, Modal, message } from 'antd';
 
@@ -12,7 +12,7 @@ const { Option } = Select;
   submitting: loading.effects['refund/create'],
 }))
 @Form.create()
-class TransactionCreateRefundModal extends PureComponent {
+class TransactionDetailCreateRefundModal extends PureComponent {
   state = {};
 
   componentDidMount() {}
@@ -78,4 +78,4 @@ class TransactionCreateRefundModal extends PureComponent {
   }
 }
 
-export default TransactionCreateRefundModal;
+export default TransactionDetailCreateRefundModal;

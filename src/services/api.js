@@ -1119,6 +1119,18 @@ export async function queryRefunds(params) {
   });
 }
 
+// 获取单个退货详情
+export async function fetchRefund(transactionID) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/transactions/${transactionID}/refund/`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `JWT ${token}`,
+    },
+  });
+}
+
 // 修改退货信息
 export async function patchRefund(params, transactionID) {
   const token = getToken();
@@ -1150,6 +1162,32 @@ export async function withdrawRefund(transactionID) {
   const token = getToken();
   return request(`${apiHost}${apiVersion}/transactions/${transactionID}/refund/withdraw/`, {
     method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `JWT ${token}`,
+    },
+  });
+}
+
+// 微信支付退款
+export async function weixinpaymentRefundOrder(params) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/payment/weixinpayment/refundorder/`, {
+    method: 'POST',
+    body: params,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `JWT ${token}`,
+    },
+  });
+}
+
+// 微信支付查询退款
+export async function weixinpaymentRefundQuery(params) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/payment/weixinpayment/refundquery/`, {
+    method: 'POST',
+    body: params,
     headers: {
       'Content-Type': 'application/json',
       Authorization: `JWT ${token}`,

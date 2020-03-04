@@ -272,7 +272,7 @@ class CollectList extends PureComponent {
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 6, lg: 24, xl: 48 }}>
           <Col md={6} sm={24}>
-            <FormItem label="sn">{getFieldDecorator('sn')(<Input placeholder="sn" />)}</FormItem>
+            <FormItem label="订单SN">{getFieldDecorator('sn')(<Input placeholder="订单SN" />)}</FormItem>
           </Col>
           <Col md={6} sm={24}>
             <FormItem label="手机号">
@@ -312,10 +312,6 @@ class CollectList extends PureComponent {
     };
 
     const columns = [
-      {
-        title: 'ID',
-        dataIndex: 'id',
-      },
       {
         title: '订单SN',
         dataIndex: 'transaction_sn',
@@ -358,7 +354,7 @@ class CollectList extends PureComponent {
       {
         title: '操作',
         fixed: 'right',
-        render: (text, record) => (
+        render: (_, record) => (
           <Fragment>
             <a onClick={() => this.routerPushDetail(record.transaction)}>订单</a>
             <Divider type="vertical" />
