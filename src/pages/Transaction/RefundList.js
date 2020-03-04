@@ -88,6 +88,7 @@ class CollectList extends PureComponent {
     formValues: {},
     updateModalVisible: false,
     currentRefundTransactionID: '',
+    currentRefundID: '',
     visible: false,
     childrenDrawer: false,
   };
@@ -99,10 +100,11 @@ class CollectList extends PureComponent {
     });
   }
 
-  showDrawer = (flag, currentRefundTransactionID) => {
+  showDrawer = (flag, currentRefundTransactionID, currentRefundID) => {
     this.setState({
       visible: !!flag,
-      currentRefundTransactionID: currentRefundTransactionID
+      currentRefundTransactionID: currentRefundTransactionID,
+      currentRefundID: currentRefundID
     });
 
     if (flag && currentRefundTransactionID) {
@@ -347,7 +349,7 @@ class CollectList extends PureComponent {
           <Fragment>
             <a onClick={() => this.routerPushDetail(record.transaction)}>订单</a>
             <Divider type="vertical" />
-            <a onClick={() => this.showDrawer(true, record.transaction)}>详情</a>
+            <a onClick={() => this.showDrawer(true, record.transaction, record.id)}>详情</a>
           </Fragment>
         ),
       },
