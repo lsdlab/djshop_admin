@@ -458,7 +458,7 @@ class CollectList extends PureComponent {
 
                 <Divider type="vertical" />
 
-                {currentRecord.audit == '2' ? (
+                {currentRecord.audit == '2' || currentRecord.audit == '5' ? (
                   <Button onClick={this.showChildrenDrawer}>
                     查看微信支付退款详情
                   </Button>
