@@ -479,7 +479,7 @@ class CollectList extends PureComponent {
                     微信支付退款查询
                   </Button>
                 ) : (
-                  <Button onClick={this.showChildrenDrawer}>
+                  <Button disabled>
                     微信支付退款查询
                   </Button>
                 )}
