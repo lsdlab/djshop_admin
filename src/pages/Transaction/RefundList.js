@@ -536,19 +536,13 @@ class CollectList extends PureComponent {
               onClose={this.onChildrenDrawerClose}
               visible={this.state.childrenDrawer}
             >
-              <Card
-                title="退货详情"
-                style={{ marginBottom: 24 }}
-                bordered={false}
-              >
-                {wxRefundQueryDetail && Object.keys(wxRefundQueryDetail).length ? (
-                  <DescriptionList style={{ marginBottom: 24 }}>
-                    <Col span={12}>
-                      <Description term="status">{wxRefundQueryDetail.status}</Description>
-                    </Col>
-                  </DescriptionList>
-                ) : null}
-              </Card>
+              {wxRefundQueryDetail && Object.keys(wxRefundQueryDetail).length ? (
+                <DescriptionList style={{ marginBottom: 24 }}>
+                  <Col span={12}>
+                    <Description term="退款结果">{wxRefundQueryDetail.return_code == 'SUCCESS' && wxRefundQueryDetail.result_code ? '退款成功' : '退款失败' }</Description>
+                  </Col>
+                </DescriptionList>
+              ) : null}
             </Drawer>
           </Drawer>
         </Card>
