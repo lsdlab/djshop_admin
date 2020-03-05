@@ -79,7 +79,7 @@ class TransactionDetail extends PureComponent {
     if (flag && currentTransactionID) {
       this.props.dispatch({
         type: 'transaction/wxPaymentOrderQuery',
-        paramsparams: {
+        params: {
           sn: this.state.currentTransactionID,
         },
       })
