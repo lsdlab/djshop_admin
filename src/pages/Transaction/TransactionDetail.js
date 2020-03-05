@@ -80,7 +80,7 @@ class TransactionDetail extends PureComponent {
       this.props.dispatch({
         type: 'transaction/wxPaymentOrderQuery',
         params: {
-          sn: this.state.currentTransactionID,
+          sn: currentTransactionID,
         },
       })
     }
@@ -540,11 +540,13 @@ class TransactionDetail extends PureComponent {
           visible={this.state.visible}
         >
           {wxQueryOrderDetail && Object.keys(wxQueryOrderDetail).length ? (
-            <span>{wxQueryOrderDetail.return_code == 'SUCCESS' && wxQueryOrderDetail.result_code ? '支付成功' : '支付失败' }</span>
+            <div>
+              <span>{wxQueryOrderDetail.return_code == 'SUCCESS' && wxQueryOrderDetail.result_code ? '支付成功' : '支付失败' }</span>
+              <span>
+                {wxQueryOrderDetail.trade_state_desc}
+              </span>
+            </div>
           ) : null}
-          <span>
-            {wxQueryOrderDetail.trade_state_desc}
-          </span>
         </Drawer>
       </PageHeaderWrapper>
     );
