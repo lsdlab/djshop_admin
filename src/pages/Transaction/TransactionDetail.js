@@ -236,7 +236,7 @@ class TransactionDetail extends PureComponent {
 
   render() {
     const {
-      transaction: { currentRecord, userAllAddress },
+      transaction: { currentRecord, userAllAddress, wxQueryOrderDetail },
     } = this.props;
     const { stepDirection, createExpressModalVisible, patchModalVisible, createRefundModalVisible } = this.state;
 
