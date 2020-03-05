@@ -5,6 +5,7 @@ import {
   manualCloseTransaction,
   createExpress,
   queryUserAllAddress,
+  wxPaymentOrderQuery,
 } from '@/services/api';
 
 export default {
@@ -17,6 +18,7 @@ export default {
     },
     currentRecord: {},
     userAllAddress: [],
+    wxQueryOrderDetail: {},
   },
 
   effects: {
@@ -50,6 +52,13 @@ export default {
         payload: response,
       });
     },
+    *wxPaymentOrderQuery({ params }, { call, put }) {
+      const response = yield call(wxPaymentOrderQuery, params);
+      yield put({
+        type: 'saveOrderQueryDetail',
+        payload: response,
+      });
+    },
   },
 
   reducers: {
@@ -69,6 +78,12 @@ export default {
       return {
         ...state,
         userAllAddress: action.payload,
+      };
+    },
+    saveOrderQueryDetail(state, action) {
+      return {
+        ...state,
+        wxQueryOrderDetail: action.payload,
       };
     },
   },

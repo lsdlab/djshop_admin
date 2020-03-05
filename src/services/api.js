@@ -1195,6 +1195,19 @@ export async function wxPaymentRefundQuery(params) {
   });
 }
 
+// 微信支付查询订单
+export async function wxPaymentOrderQuery(params) {
+  const token = getToken();
+  return request(`${apiHost}${apiVersion}/payment/weixinpayment/queryorder/`, {
+    method: 'POST',
+    body: params,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `JWT ${token}`,
+    },
+  });
+}
+
 // 获取发票列表
 export async function queryInvoices(params) {
   const token = getToken();

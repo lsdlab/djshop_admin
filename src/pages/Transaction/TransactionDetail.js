@@ -2,7 +2,7 @@ import React, { PureComponent, Fragment } from 'react';
 import Debounce from 'lodash-decorators/debounce';
 import Bind from 'lodash-decorators/bind';
 import { connect } from 'dva';
-import { Row, Col, Card, Button, Avatar, Steps, Tooltip, message } from 'antd';
+import { Row, Col, Card, Button, Avatar, Steps, Tooltip, message, Drawer } from 'antd';
 import router from 'umi/router';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
@@ -32,6 +32,7 @@ class TransactionDetail extends PureComponent {
     createExpressModalVisible: false,
     patchModalVisible: false,
     createRefundModalVisible: false,
+    visible: false,
   };
 
   componentDidMount() {
@@ -69,6 +70,25 @@ class TransactionDetail extends PureComponent {
       });
     }
   }
+
+  showDrawer = (flag, currentTransactionID) => {
+    this.setState({
+      visible: !!flag,
+    });
+
+    if (flag && currentTransactionID) {
+      this.props.dispatch({
+        type: 'transaction/wxPaymentOrderQuery',
+        transactionID: currentTransactionID,
+      })
+    }
+  };
+
+  onClose = () => {
+    this.setState({
+      visible: false,
+    });
+  };
 
   routerPushProductDetail = productID => {
     router.push('/product/product-detail/' + productID);
@@ -374,18 +394,10 @@ class TransactionDetail extends PureComponent {
           bordered={false}
           extra={
             <span>
-              {currentRecord.address ? (
-                <CopyToClipboard
-                  text={`${currentRecord.address.name} ${currentRecord.address.mobile} ${
-                    currentRecord.address.address
-                  }`}
-                  onCopy={() => message.success('复制收货地址成功')}
-                  style={{ marginTop: 10 }}
-                >
-                  <a>复制收货地址</a>
-                </CopyToClipboard>
+              {currentRecord.payment_sn && currentRecord.payment == '2' ? (
+                <a onClick={() => this.showDrawer(true, currentRecord.id)}>微信支付查询订单</a>
               ) : (
-                <a disabled>复制收货地址</a>
+                <a disabled>微信支付查询订单</a>
               )}
             </span>
           }
@@ -516,6 +528,19 @@ class TransactionDetail extends PureComponent {
           mark="detail"
           onCancel={this.handleCreateRefundModalVisible}
         />
+
+        <Drawer
+          title="微信支付查询订单"
+          width={380}
+          placement="right"
+          closable={true}
+          onClose={this.onClose}
+          visible={this.state.visible}
+        >
+          {wxQueryOrderDetail && Object.keys(wxQueryOrderDetail).length ? (
+            <span>{wxQueryOrderDetail.return_code == 'SUCCESS' && wxQueryOrderDetail.result_code ? '支付成功' : '支付失败' }</span>
+          ) : null}
+        </Drawer>
       </PageHeaderWrapper>
     );
   }

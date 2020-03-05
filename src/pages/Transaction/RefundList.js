@@ -545,7 +545,7 @@ class CollectList extends PureComponent {
 
             <Drawer
               title="微信支付退款查询"
-              width={320}
+              width={380}
               closable={false}
               onClose={this.onChildrenDrawerClose}
               visible={this.state.childrenDrawer}
