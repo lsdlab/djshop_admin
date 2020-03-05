@@ -79,7 +79,9 @@ class TransactionDetail extends PureComponent {
     if (flag && currentTransactionID) {
       this.props.dispatch({
         type: 'transaction/wxPaymentOrderQuery',
-        transactionID: currentTransactionID,
+        paramsparams: {
+          sn: this.state.currentTransactionID,
+        },
       })
     }
   };
@@ -540,6 +542,9 @@ class TransactionDetail extends PureComponent {
           {wxQueryOrderDetail && Object.keys(wxQueryOrderDetail).length ? (
             <span>{wxQueryOrderDetail.return_code == 'SUCCESS' && wxQueryOrderDetail.result_code ? '支付成功' : '支付失败' }</span>
           ) : null}
+          <span>
+            {wxQueryOrderDetail.trade_state_desc}
+          </span>
         </Drawer>
       </PageHeaderWrapper>
     );
