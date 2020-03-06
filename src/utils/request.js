@@ -140,7 +140,6 @@ export default function request(url, option) {
         });
         return;
       }
-      // environment should not be used
       if (status === 403) {
         // 如果是 current_user 403 代表 token 过期，跳转重新登录，其他情况是接口权限错误
         if (e.response.url.includes('current_user')) {
