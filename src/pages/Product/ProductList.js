@@ -288,12 +288,12 @@ class ProductList extends PureComponent {
             </FormItem>
           </Col>
           <Col md={6} sm={18}>
-            {categoryData ? (
+            {categoryData.results ? (
               <FormItem label="分类">
                 {getFieldDecorator('category')(
                   <TreeSelect
                     style={{ width: '100%' }}
-                    treeData={categoryData}
+                    treeData={categoryData.results}
                     placeholder="请选择"
                     treeDefaultExpandAll={true}
                     showSearch={true}
