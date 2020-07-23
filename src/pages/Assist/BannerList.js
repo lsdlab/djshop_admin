@@ -14,7 +14,6 @@ import {
   Divider,
   Popconfirm,
   Badge,
-  TreeSelect,
 } from 'antd';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import SimpleTable from '@/components/SimpleTable';
@@ -269,9 +268,6 @@ class BannerList extends PureComponent {
     // if (flag) {
     //   this.props.dispatch({
     //     type: 'banner/fetchProductAllIds',
-    //     payload: {
-    //       none: true,
-    //     },
     //   });
     // }
   };

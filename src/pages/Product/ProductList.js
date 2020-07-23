@@ -129,23 +129,6 @@ class ProductList extends PureComponent {
     router.push('/product/product-detail/' + productID);
   };
 
-  showDrawer = (flag, productID) => {
-    this.setState({
-      visible: !!flag,
-    });
-
-    if (flag && productID) {
-      this.props.dispatch({
-        type: 'product/fetchDetail',
-        productID: productID,
-      });
-    } else {
-      this.setState({
-        currentRecord: {},
-      });
-    }
-  };
-
   showSpecDrawer = (flag, productID) => {
     this.setState({
       specDrawerVisible: !!flag,
