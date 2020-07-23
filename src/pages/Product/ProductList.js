@@ -10,7 +10,6 @@ import {
   Button,
   Divider,
   Badge,
-  Drawer,
   Checkbox,
   Popconfirm,
   message,
@@ -110,8 +109,6 @@ class ProductList extends PureComponent {
   state = {
     currentPage: 1,
     formValues: {},
-    visible: false,
-    specDrawerVisible: false,
   };
 
   componentDidMount() {
@@ -127,23 +124,6 @@ class ProductList extends PureComponent {
 
   routerPushDetail = productID => {
     router.push('/product/product-detail/' + productID);
-  };
-
-  showSpecDrawer = (flag, productID) => {
-    this.setState({
-      specDrawerVisible: !!flag,
-    });
-
-    if (flag && productID) {
-      this.props.dispatch({
-        type: 'product/fetchProductSpecs',
-        productID: productID,
-      });
-    } else {
-      this.setState({
-        specData: {},
-      });
-    }
   };
 
   handleDeleted = (flag, productID) => {
@@ -177,18 +157,6 @@ class ProductList extends PureComponent {
         });
       });
     }
-  };
-
-  onClose = () => {
-    this.setState({
-      visible: false,
-    });
-  };
-
-  onSpecDrawerClose = () => {
-    this.setState({
-      specDrawerVisible: false,
-    });
   };
 
   handleStandardTableChange = pagination => {
@@ -490,113 +458,6 @@ class ProductList extends PureComponent {
               onChange={this.handleStandardTableChange}
             />
           </div>
-          <Drawer
-            width={800}
-            placement="right"
-            closable={true}
-            onClose={this.onClose}
-            visible={this.state.visible}
-          >
-            <p style={pStyle}>商品详情</p>
-            <Row>
-              <Col span={24}>
-                <DescriptionItem title="ID" content={currentRecord.id} />
-              </Col>
-            </Row>
-            <Row>
-              <Col span={24}>
-                <DescriptionItem title="名称" content={currentRecord.name} />
-              </Col>
-            </Row>
-            <Row>
-              <Col span={24}>
-                <DescriptionItem title="副标题" content={currentRecord.subtitle} />
-              </Col>
-            </Row>
-            <Row>
-              <Col span={8}>
-                <DescriptionItem title="上架用户" content={currentRecord.uploader} />
-              </Col>
-              <Col span={8}>
-                {currentRecord.status === '1' ? (
-                  <BadgeItem title="状态" status="success" content="上架" />
-                ) : (
-                  <BadgeItem title="状态" status="error" content="下架" />
-                )}
-              </Col>
-              <Col span={8}>
-                <DescriptionItem title="分类" content={currentRecord.category_name} />
-              </Col>
-            </Row>
-            <Row>
-              <Col span={6}>
-                <DescriptionItem title="单位" content={currentRecord.unit} />
-              </Col>
-              <Col span={6}>
-                <DescriptionItem title="重量" content={currentRecord.weight} />
-              </Col>
-              <Col span={6}>
-                <DescriptionItem title="限购" content={currentRecord.limit} />
-              </Col>
-              <Col span={6}>
-                <DescriptionItem title="库存" content={currentRecord.total_stock} />
-              </Col>
-            </Row>
-            <Row>
-              <Col span={6}>
-                <DescriptionItem title="销量" content={currentRecord.sold} />
-              </Col>
-              <Col span={6}>
-                <DescriptionItem title="浏览量" content={currentRecord.pv} />
-              </Col>
-              <Col span={6}>
-                <DescriptionItem title="收藏量" content={currentRecord.fav} />
-              </Col>
-              <Col span={6}>
-                <DescriptionItem title="评论量" content={currentRecord.review} />
-              </Col>
-            </Row>
-            <Row>
-              <Col span={6}>
-                <CheckboxItem title="可开发票" status={currentRecord.has_invoice} />
-              </Col>
-              <Col span={6}>
-                <CheckboxItem title="免运费" content={currentRecord.shop_free} />
-              </Col>
-              <Col span={6}>
-                <CheckboxItem title="可退货" content={currentRecord.refund} />
-              </Col>
-              <Col span={6}>
-                <CheckboxItem title="新品" content={currentRecord.is_new} />
-              </Col>
-            </Row>
-            <Row>
-              <Col span={24}>
-                <DescriptionItem title="题图" />
-                {currentRecord.header_image ? (
-                  <img style={{ width: '20%', height: '20%' }} src={currentRecord.header_image} />
-                ) : null}
-              </Col>
-            </Row>
-            <Row style={{ marginTop: 20 }}>
-              <Col span={24}>
-                <DescriptionItem title="轮播图" />
-                {this.buildCarousel(currentRecord.carousel)}
-              </Col>
-            </Row>
-            <Divider />
-          </Drawer>
-          <Drawer
-            width={800}
-            placement="right"
-            closable={true}
-            onClose={this.onSpecDrawerClose}
-            visible={this.state.specDrawerVisible}
-          >
-            <p style={pStyle}>规格详情</p>
-            {this.buildSpecs(specData)}
-            <Divider />
-          </Drawer>
         </Card>
       </PageHeaderWrapper>
     );
