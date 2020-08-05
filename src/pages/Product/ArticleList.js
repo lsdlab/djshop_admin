@@ -397,7 +397,7 @@ class ArticleList extends PureComponent {
       },
       {
         title: '操作',
-        render: (text, record) => (
+        render: (_, record) => (
           <Fragment>
             <a onClick={() => this.handleUpdateModalVisible(true, record)}>编辑</a>
             <Divider type="vertical" />

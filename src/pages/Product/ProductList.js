@@ -25,14 +25,6 @@ import styles from '../List/TableList.less';
 const FormItem = Form.Item;
 const { Option } = Select;
 
-const pStyle = {
-  fontSize: 16,
-  color: 'rgba(0,0,0,0.85)',
-  lineHeight: '24px',
-  display: 'block',
-  marginBottom: 16,
-};
-
 const DescriptionItem = ({ title, content }) => (
   <div
     style={{
@@ -52,50 +44,6 @@ const DescriptionItem = ({ title, content }) => (
       {title}:
     </p>
     {content}
-  </div>
-);
-
-const BadgeItem = ({ title, status, content }) => (
-  <div
-    style={{
-      fontSize: 14,
-      lineHeight: '22px',
-      marginBottom: 7,
-      color: 'rgba(0,0,0,0.65)',
-    }}
-  >
-    <p
-      style={{
-        marginRight: 8,
-        display: 'inline-block',
-        color: 'rgba(0,0,0,0.85)',
-      }}
-    >
-      {title}:
-    </p>
-    <Badge status={status} text={content} />
-  </div>
-);
-
-const CheckboxItem = ({ title, status }) => (
-  <div
-    style={{
-      fontSize: 14,
-      lineHeight: '22px',
-      marginBottom: 7,
-      color: 'rgba(0,0,0,0.65)',
-    }}
-  >
-    <p
-      style={{
-        marginRight: 8,
-        display: 'inline-block',
-        color: 'rgba(0,0,0,0.85)',
-      }}
-    >
-      {title}:
-    </p>
-    <Checkbox disabled checked={status} />
   </div>
 );
 
