@@ -75,7 +75,7 @@ class CouponCreate extends PureComponent {
     return <PageHeaderWrapper title="新增优惠卷">
         <Card bordered={false}>
           <Form layout="horizontal" onSubmit={this.handleSubmit} style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: 20, maxWidth: 700 }}>
-            <Form.Item {...formItemLayout} label="类型">
+            <FormItem {...formItemLayout} label="类型">
               {getFieldDecorator('type', {
                 rules: [{ required: true, message: '请选择类型！' }],
               })(<Select placeholder="类型" style={{ width: '100%' }}>
@@ -83,7 +83,7 @@ class CouponCreate extends PureComponent {
                   <Option value="2">积分</Option>
                   <Option value="1">会员</Option>
                 </Select>)}
-            </Form.Item>
+            </FormItem>
 
             <FormItem {...formItemLayout} label="所需积分" style={{ display: form.getFieldValue('type') === '2' ? 'block' : 'none' }}>
               {getFieldDecorator('points', {

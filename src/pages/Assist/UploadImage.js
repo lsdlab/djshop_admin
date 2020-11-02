@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import { Row, Col, Card, Form, Icon, Button, message, Upload, Select, Input } from 'antd';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import oss from 'ali-oss';
@@ -20,11 +20,8 @@ const client = self => {
   });
 };
 
-const uploadPath = (path, file) => {
-  return `${path}/${file.name.split('.')[0]}-${file.uid}.${file.type.split('/')[1]}`;
-};
 const UploadToOss = (self, path, file) => {
-  const url = uploadPath(path, file);
+  const url = `${path}/${file.name.split('.')[0]}-${file.uid}.${file.type.split('/')[1]}`;
   return new Promise((resolve, reject) => {
     client(self)
       .put(url, file)
@@ -65,7 +62,7 @@ class UploadImage extends PureComponent {
       if (localStorage.getItem('currentMerchant') !== null) {
         const merchantname = JSON.parse(localStorage.getItem('currentMerchant')).merchantname;
         UploadToOss(this, merchantname + '/' + dir, file).then(data => {
-          // console.log(data.res.requestUrls)
+          // console.log(data.res.requestUrls);
           this.setState({ imageUrl: data.res.requestUrls });
           message.success('上传图片成功');
           message.success(data.res.requestUrls);
