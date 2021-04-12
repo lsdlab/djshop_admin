@@ -1,4 +1,4 @@
-import { queryActivities, fetchActivityStream, } from '@/services/api';
+import { fetchActivityStream, } from '@/services/api';
 
 export default {
   namespace: 'activities',
@@ -13,7 +13,7 @@ export default {
 
   effects: {
     *fetchList(_, { call, put }) {
-      const response = yield call(queryActivities);
+      const response = yield call(fetchActivityStream);
       yield put({
         type: 'saveList',
         payload: Array.isArray(response) ? response : [],

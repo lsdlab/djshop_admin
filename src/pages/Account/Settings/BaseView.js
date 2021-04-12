@@ -110,7 +110,7 @@ class BaseView extends Component {
                 ],
               })(<Input />)}
             </FormItem>
-            <FormItem label={formatMessage({ id: 'app.settings.basic.profile' })}>
+            {/* <FormItem label={formatMessage({ id: 'app.settings.basic.profile' })}>
               {getFieldDecorator('bio', {
                 rules: [
                   {
@@ -124,8 +124,8 @@ class BaseView extends Component {
                   rows={4}
                 />
               )}
-            </FormItem>
-            <FormItem label={formatMessage({ id: 'app.settings.basic.address' })}>
+            </FormItem> */}
+            {/* <FormItem label={formatMessage({ id: 'app.settings.basic.address' })}>
               {getFieldDecorator('location', {
                 rules: [
                   {
@@ -134,7 +134,7 @@ class BaseView extends Component {
                   },
                 ],
               })(<Input />)}
-            </FormItem>
+            </FormItem> */}
             {/*<FormItem label={formatMessage({ id: 'app.settings.basic.phone' })}>
               {getFieldDecorator('phone', {
                 rules: [
@@ -154,9 +154,9 @@ class BaseView extends Component {
             </Button>
           </Form>
         </div>
-        <div className={styles.right}>
+        {/* <div className={styles.right}>
           <AvatarView avatar={this.getAvatarURL()} />
-        </div>
+        </div> */}
       </div>
     );
   }
