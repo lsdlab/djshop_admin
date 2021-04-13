@@ -4,7 +4,7 @@ if (process.env.APP_TYPE === 'site' || process.env.NODE_ENV !== 'production') {
   apiHost = 'http://localhost:9000';
 } else {
   console.log('======== PRODUCTION BUILD ========');
-  apiHost = 'https://shopapi.mldit.com';
+  apiHost = 'https://shop.breakwire.me';
 }
 
 module.exports = {

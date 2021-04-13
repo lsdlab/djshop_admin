@@ -169,6 +169,7 @@ class UpdateForm extends PureComponent {
         </FormItem>
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="图标链接">
           {form.getFieldDecorator('icon', {
+            initialValue: modalFormVals.icon,
             rules: [{ required: true, message: '请输入图标链接！' }],
           })(<Input placeholder="图标链接" />)}
         </FormItem>
@@ -324,7 +325,7 @@ class CategoryList extends PureComponent {
           if (record.category_type == '3') {
             return text;
           } else {
-            return '-';
+            return '0';
           }
         },
       },
