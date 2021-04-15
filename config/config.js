@@ -57,9 +57,9 @@ export default {
   theme: {
     'primary-color': defaultSettings.primaryColor,
   },
-  externals: {
-    '@antv/data-set': 'DataSet',
-  },
+  // externals: {
+  //   '@antv/data-set': 'DataSet',
+  // },
   // proxy: {
   //   '/server/api/': {
   //     target: 'https://preview.pro.ant.design/',

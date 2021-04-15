@@ -1,8 +1,5 @@
 import { stringify } from 'qs';
 import request from '@/utils/request';
-import router from 'umi/router';
-// const axios = require('axios');
-import defaultSettings from '../defaultSettings';
 
 export async function queryProjectNotice() {
   return request('/api/project/notice');
@@ -120,14 +117,16 @@ export async function fakeRegister(params) {
   });
 }
 
-export async function queryNotices() {
-  return request('/api/notices');
+export async function queryNotices(params = {}) {
+  return request(`/api/notices?${stringify(params)}`);
 }
 
 export async function getFakeCaptcha(mobile) {
   return request(`/api/captcha?mobile=${mobile}`);
 }
 
+// const axios = require('axios');
+import defaultSettings from '../defaultSettings';
 const apiHost = defaultSettings.apiHost;
 const apiVersion = '/api/v1';
 

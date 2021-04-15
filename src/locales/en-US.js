@@ -6,7 +6,7 @@ import login from './en-US/login';
 import menu from './en-US/menu';
 import monitor from './en-US/monitor';
 import result from './en-US/result';
-import settingDrawer from './en-US/settingDrawer';
+// import settingDrawer from './en-US/settingDrawer';
 import settings from './en-US/settings';
 import pwa from './en-US/pwa';
 
@@ -27,7 +27,7 @@ export default {
   ...menu,
   ...monitor,
   ...result,
-  ...settingDrawer,
+  // ...settingDrawer,
   ...settings,
   ...pwa,
 };

@@ -144,42 +144,41 @@ class Analysis extends Component {
             selectDate={this.selectDate}
           />
         </Suspense>
-        <Row gutter={24}>
-          <Col xl={24} lg={24} md={24} sm={24} xs={24}>
-            <Suspense fallback={null}>
-              <TopSearch
-                loading={loading}
-                visitData2={visitData2}
-                selectDate={this.selectDate}
-                searchData={searchData}
-              />
-            </Suspense>
-          </Col>
-        </Row>
-
-        <Row gutter={24}>
-          <Col xl={12} lg={24} md={24} sm={24} xs={24}>
-            <Suspense fallback={null}>
-              <ProportionSales
-                salesType={salesType}
-                loading={loading}
-                salesPieData={salesPieData}
-                handleChangeSalesType={this.handleChangeSalesType}
-              />
-            </Suspense>
-          </Col>
-          <Col xl={12} lg={24} md={24} sm={24} xs={24}>
-            <Suspense fallback={null}>
-              <ProportionSales
-                salesType={salesType}
-                loading={loading}
-                salesPieData={salesPieData}
-                handleChangeSalesType={this.handleChangeSalesType}
-              />
-            </Suspense>
-          </Col>
-        </Row>
-
+        <div className={styles.twoColLayout}>
+          <Row gutter={24}>
+            <Col xl={12} lg={24} md={24} sm={24} xs={24}>
+              <Suspense fallback={null}>
+                <TopSearch
+                  loading={loading}
+                  visitData2={visitData2}
+                  selectDate={this.selectDate}
+                  searchData={searchData}
+                  dropdownGroup={dropdownGroup}
+                />
+              </Suspense>
+            </Col>
+            <Col xl={12} lg={24} md={24} sm={24} xs={24}>
+              <Suspense fallback={null}>
+                <ProportionSales
+                  dropdownGroup={dropdownGroup}
+                  salesType={salesType}
+                  loading={loading}
+                  salesPieData={salesPieData}
+                  handleChangeSalesType={this.handleChangeSalesType}
+                />
+              </Suspense>
+            </Col>
+          </Row>
+        </div>
+        <Suspense fallback={null}>
+          <OfflineData
+            activeKey={activeKey}
+            loading={loading}
+            offlineData={offlineData}
+            offlineChartData={offlineChartData}
+            handleTabChange={this.handleTabChange}
+          />
+        </Suspense>
       </GridContent>
     );
   }
