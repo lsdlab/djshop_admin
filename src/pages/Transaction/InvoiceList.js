@@ -141,7 +141,7 @@ class UpdateForm extends PureComponent {
           {form.getFieldDecorator('note', {
             initialValue: modalFormVals.note,
             rules: [{ required: false, message: '请输入备注！' }],
-          })(<TextArea autosize={{ minRows: 4, maxRows: 8 }} placeholder="备注" />)}
+          })(<TextArea autoSize={{ minRows: 4, maxRows: 8 }} placeholder="备注" />)}
         </FormItem>
       </Modal>
     );

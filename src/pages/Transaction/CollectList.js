@@ -101,7 +101,7 @@ class UpdateForm extends PureComponent {
           {form.getFieldDecorator('note', {
             initialValue: modalFormVals.note,
             rules: [{ required: false, message: '请输入备注！' }],
-          })(<TextArea autosize={{ minRows: 4, maxRows: 8 }} placeholder="备注" />)}
+          })(<TextArea autoSize={{ minRows: 4, maxRows: 8 }} placeholder="备注" />)}
         </FormItem>
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="自提时间">
           {form.getFieldDecorator('pickup_datetime', {

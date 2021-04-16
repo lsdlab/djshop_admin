@@ -63,7 +63,7 @@ const CreateForm = Form.create()(props => {
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="内容">
         {form.getFieldDecorator('md', {
           rules: [{ required: true, message: '请输入内容！' }],
-        })(<TextArea autosize={{ minRows: 8, maxRows: 16 }} placeholder="内容(Markdown)" />)}
+        })(<TextArea autoSize={{ minRows: 8, maxRows: 16 }} placeholder="内容(Markdown)" />)}
       </FormItem>
 
       {allProductIds ? (
@@ -180,7 +180,7 @@ class UpdateForm extends PureComponent {
           {form.getFieldDecorator('md', {
             initialValue: modalFormVals.md,
             rules: [{ required: true, message: '请输入内容！' }],
-          })(<TextArea autosize={{ minRows: 8, maxRows: 16 }} placeholder="内容" />)}
+          })(<TextArea autoSize={{ minRows: 8, maxRows: 16 }} placeholder="内容" />)}
         </FormItem>
 
         {allProductIds ? (

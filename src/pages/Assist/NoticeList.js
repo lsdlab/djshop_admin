@@ -49,7 +49,7 @@ const CreateForm = Form.create()(props => {
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="内容">
         {form.getFieldDecorator('desc', {
           rules: [{ required: true, message: '请输入内容！' }],
-        })(<TextArea autosize={{ minRows: 6, maxRows: 10 }} placeholder="内容(纯文本)" />)}
+        })(<TextArea autoSize={{ minRows: 6, maxRows: 10 }} placeholder="内容(纯文本)" />)}
       </FormItem>
     </Modal>
   );

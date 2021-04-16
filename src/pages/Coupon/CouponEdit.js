@@ -208,7 +208,7 @@ class CouponEdit extends PureComponent {
               {getFieldDecorator('desc', {
                 initialValue: currentRecord.desc,
                 rules: [{ required: true, message: '请输入描述！' }],
-              })(<TextArea autosize={{ minRows: 4, maxRows: 8 }} placeholder="优惠卷描述，长文本" />)}
+              })(<TextArea autoSize={{ minRows: 4, maxRows: 8 }} placeholder="优惠卷描述，长文本" />)}
             </FormItem>
 
             <FormItem {...formItemLayout} label="有效日期">

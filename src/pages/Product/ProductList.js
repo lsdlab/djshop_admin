@@ -10,7 +10,6 @@ import {
   Button,
   Divider,
   Badge,
-  Checkbox,
   Popconfirm,
   message,
   TreeSelect,
@@ -290,6 +289,7 @@ class ProductList extends PureComponent {
     const columns = [
       {
         title: '名称',
+        width: '120px',
         dataIndex: 'name',
         render(text) {
           if (text.length > 12) {
@@ -305,6 +305,7 @@ class ProductList extends PureComponent {
       },
       {
         title: '上架用户',
+        width: '100px',
         dataIndex: 'uploader',
       },
       {
@@ -358,13 +359,15 @@ class ProductList extends PureComponent {
         dataIndex: 'review',
       },
       {
-        title: '创建时间',
+        title: '上架时间',
+        width: '200px',
         dataIndex: 'created_at',
       },
-      {
-        title: '更新时间',
-        dataIndex: 'updated_at',
-      },
+      // {
+      //   title: '更新时间',
+      //   width: '200px',
+      //   dataIndex: 'updated_at',
+      // },
       {
         title: '操作',
         fixed: 'right',
@@ -401,7 +404,7 @@ class ProductList extends PureComponent {
               loading={loading}
               data={data}
               columns={columns}
-              scroll={{ x: 1420 }}
+              scroll={{ x: 1520 }}
               current={this.state.currentPage}
               onChange={this.handleStandardTableChange}
             />

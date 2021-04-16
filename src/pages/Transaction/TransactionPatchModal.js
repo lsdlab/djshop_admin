@@ -106,7 +106,7 @@ class TransactionPatchModal extends PureComponent {
           {form.getFieldDecorator('seller_note', {
             initialValue: currentTransaction.seller_note,
             rules: [{ required: false, message: '请输入卖家备注！' }],
-          })(<TextArea autosize={{ minRows: 4, maxRows: 8 }} placeholder="卖家备注" />)}
+          })(<TextArea autoSize={{ minRows: 4, maxRows: 8 }} placeholder="卖家备注" />)}
         </FormItem>
       </Modal>
     );

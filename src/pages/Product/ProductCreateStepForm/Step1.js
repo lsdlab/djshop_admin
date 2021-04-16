@@ -1,15 +1,9 @@
 import React, { Fragment } from 'react';
 import { connect } from 'dva';
-import { Form, Input, InputNumber, Button, Select, Divider, TreeSelect, Icon, Upload } from 'antd';
-import oss from 'ali-oss';
-import 'braft-editor/dist/index.css';
-import BraftEditor from 'braft-editor';
-import { ContentUtils } from 'braft-utils';
-import { Base64 } from 'js-base64';
+import { Form, Input, InputNumber, Button, Select, Divider, TreeSelect } from 'antd';
 
 import router from 'umi/router';
 import styles from './style.less';
-import defaultSettings from '../../../defaultSettings';
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -22,32 +16,6 @@ const formItemLayout = {
   wrapperCol: {
     span: 20,
   },
-};
-
-const client = self => {
-  return new oss({
-    accessKeyId: Base64.decode(defaultSettings.accessKeyId),
-    accessKeySecret: Base64.decode(defaultSettings.accessKeySecret),
-    region: defaultSettings.region,
-    bucket: Base64.decode(defaultSettings.bucket),
-  });
-};
-
-const uploadPath = (path, file) => {
-  return `${path}/${file.name.split('.')[0]}-${file.uid}.${file.type.split('/')[1]}`;
-};
-const UploadToOss = (self, path, file) => {
-  const url = uploadPath(path, file);
-  return new Promise((resolve, reject) => {
-    client(self)
-      .put(url, file)
-      .then(data => {
-        resolve(data);
-      })
-      .catch(error => {
-        reject(error);
-      });
-  });
 };
 
 @connect(({ product, loading }) => ({
@@ -73,41 +41,11 @@ class Step1 extends React.PureComponent {
     if (location.state && newProduct) {
       setTimeout(() => {
         form.setFieldsValue({
-          desc: BraftEditor.createEditorState(newProduct.desc),
+          desc: newProduct.desc,
         });
-      }, 1000);
+      }, 1500);
     }
   }
-
-  beforeUpload = file => {
-    const isJPG = file.type === 'image/jpeg';
-    const isPNG = file.type === 'image/png';
-    if (!isJPG && !isPNG) {
-      message.error('只能上传 PNG 或者 JPG/JPEG 图片！');
-    }
-    let reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      // 使用ossupload覆盖默认的上传方法
-      if (localStorage.getItem('currentMerchant') !== null) {
-        const merchantname = JSON.parse(localStorage.getItem('currentMerchant')).merchantname;
-        UploadToOss(this, merchantname + '/' + 'product', file).then(data => {
-          // 插入图片
-          const { form } = this.props;
-          const oldEditorValule = form.getFieldsValue()['desc'];
-          form.setFieldsValue({
-            desc: ContentUtils.insertMedias(oldEditorValule, [
-              {
-                type: 'IMAGE',
-                url: data.res.requestUrls,
-              },
-            ]),
-          });
-        });
-      }
-    };
-    return false;
-  };
 
   render() {
     const {
@@ -118,49 +56,6 @@ class Step1 extends React.PureComponent {
       location,
     } = this.props;
     const { getFieldDecorator, validateFields } = form;
-
-    const controls = [
-      'undo',
-      'redo',
-      'separator',
-      'separator',
-      'bold',
-      'italic',
-      'underline',
-      'strike-through',
-      'separator',
-      'remove-styles',
-      'separator',
-      'text-indent',
-      'text-align',
-      'separator',
-      'headings',
-      'list-ul',
-      'list-ol',
-      'blockquote',
-      'code',
-      'hr',
-      'separator',
-      'link',
-      'separator',
-    ];
-    const extendControls = [
-      {
-        key: 'antd-uploader',
-        type: 'component',
-        component: (
-          <Upload accept="image/*" showUploadList={false} beforeUpload={this.beforeUpload}>
-            <button
-              type="button"
-              className="control-item button upload-button"
-              data-title="插入图片"
-            >
-              <Icon type="picture" theme="filled" />
-            </button>
-          </Upload>
-        ),
-      },
-    ];
 
     const onValidateForm = () => {
       validateFields((err, values) => {
@@ -177,8 +72,7 @@ class Step1 extends React.PureComponent {
             newCarousel.push(values['carousel']);
           }
           values['carousel'] = newCarousel;
-          values['desc'] = values.content.toHTML();
-          // console.log(values);
+          console.log(values);
 
           if (!location.state) {
             dispatch({
@@ -195,23 +89,39 @@ class Step1 extends React.PureComponent {
       });
     };
 
-    return <Fragment>
-        <Form layout="horizontal" style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: 20, maxWidth: 740 }}>
-          {categoryData.results ? <Form.Item {...formItemLayout} label="分类">
+    return (
+      <Fragment>
+        <Form
+          layout="horizontal"
+          style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: 20, maxWidth: 740 }}
+        >
+          {categoryData.results ? (
+            <Form.Item {...formItemLayout} label="分类">
               {getFieldDecorator('category', {
                 initialValue: newProduct.category,
                 rules: [{ required: true, message: '请选择分类！' }],
-              })(<TreeSelect style={{ width: '100%' }} treeData={categoryData.results} placeholder="商品分类" treeDefaultExpandAll={true} showSearch={true} />)}
-            </Form.Item> : null}
+              })(
+                <TreeSelect
+                  style={{ width: '100%' }}
+                  treeData={categoryData.results}
+                  placeholder="商品分类"
+                  treeDefaultExpandAll={true}
+                  showSearch={true}
+                />
+              )}
+            </Form.Item>
+          ) : null}
 
           <Form.Item {...formItemLayout} label="上架状态">
             {getFieldDecorator('status', {
               initialValue: newProduct.status,
               rules: [{ required: true, message: '请选择上架状态！' }],
-            })(<Select placeholder="商品上架状态" style={{ width: '100%' }}>
+            })(
+              <Select placeholder="商品上架状态" style={{ width: '100%' }}>
                 <Option value="1">上架</Option>
                 <Option value="2">下架</Option>
-              </Select>)}
+              </Select>
+            )}
           </Form.Item>
 
           <FormItem {...formItemLayout} label="名称">
@@ -242,7 +152,9 @@ class Step1 extends React.PureComponent {
             {getFieldDecorator('limit', {
               initialValue: newProduct.limit,
               rules: [{ required: true, message: '请输入限购数量！' }],
-            })(<InputNumber min={1} max={10} style={{ width: '100%' }} placeholder="商品限购数量" />)}
+            })(
+              <InputNumber min={1} max={10} style={{ width: '100%' }} placeholder="商品限购数量" />
+            )}
           </FormItem>
 
           {/*<FormItem {...formItemLayout} label="是否开发票">
@@ -287,7 +199,12 @@ class Step1 extends React.PureComponent {
             {getFieldDecorator('carousel', {
               initialValue: newProduct.carousel,
               rules: [{ required: true, message: '请输入轮播图链接！' }],
-            })(<TextArea autosize={{ minRows: 3, maxRows: 5 }} placeholder="轮播图链接可填写多个，使用英文逗号 , 进行分隔" />)}
+            })(
+              <TextArea
+                autoSize={{ minRows: 3, maxRows: 5 }}
+                placeholder="轮播图链接可填写多个，使用英文逗号 , 进行分隔"
+              />
+            )}
           </FormItem>
 
           {/* <FormItem {...formItemLayout} label="视频链接">
@@ -296,14 +213,23 @@ class Step1 extends React.PureComponent {
               rules: [{ required: false, message: '请输入视频链接！' }],
             })(<Input placeholder="视频链接，单个链接" />)}
           </FormItem> */}
+
           <FormItem {...formItemLayout} label="商品详情">
             {getFieldDecorator('desc', {
               initialValue: newProduct.desc,
               rules: [{ required: true, message: '请输入商品详情！' }],
-            })(<BraftEditor style={{ height: '420px', border: '1px solid #d9d9d9' }} controls={controls} extendControls={extendControls} placeholder="请输入商品详情" />)}
+            })(
+              <TextArea autoSize={{ minRows: 18, maxRows: 24 }} placeholder="商品详情(Markdown)" />
+            )}
           </FormItem>
 
-          <Form.Item wrapperCol={{ xs: { span: 24, offset: 0 }, sm: { span: formItemLayout.wrapperCol.span, offset: formItemLayout.labelCol.span } }} label="">
+          <Form.Item
+            wrapperCol={{
+              xs: { span: 24, offset: 0 },
+              sm: { span: formItemLayout.wrapperCol.span, offset: formItemLayout.labelCol.span },
+            }}
+            label=""
+          >
             <Button type="primary" onClick={onValidateForm} loading={submitting}>
               下一步
             </Button>
@@ -319,7 +245,8 @@ class Step1 extends React.PureComponent {
           <h4>商品详情</h4>
           <p>商品详情使用富文本编辑器，插入图片使用内置的上传功能</p>
         </div>
-      </Fragment>;
+      </Fragment>
+    );
   }
 }
 

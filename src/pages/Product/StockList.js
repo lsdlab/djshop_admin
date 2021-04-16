@@ -61,7 +61,7 @@ const CreateForm = Form.create()(props => {
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="描述">
         {form.getFieldDecorator('desc', {
           rules: [{ required: false, message: '请输入描述！'}],
-        })(<TextArea autosize={{ minRows: 4, maxRows: 8 }} placeholder="描述" />)}
+        })(<TextArea autoSize={{ minRows: 4, maxRows: 8 }} placeholder="描述" />)}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="数量" >
         {form.getFieldDecorator('nums', {
@@ -124,7 +124,7 @@ class UpdateForm extends PureComponent {
           {form.getFieldDecorator('desc', {
             initialValue: modalFormVals.desc,
             rules: [{ required: false, message: '请输入描述！'}],
-          })(<TextArea autosize={{ minRows: 4, maxRows: 8 }} placeholder="描述" />)}
+          })(<TextArea autoSize={{ minRows: 4, maxRows: 8 }} placeholder="描述" />)}
         </FormItem>
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="数量" >
           {form.getFieldDecorator('nums', {
