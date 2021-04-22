@@ -1,7 +1,7 @@
 var apiHost;
 if (process.env.APP_TYPE === 'site' || process.env.NODE_ENV !== 'production') {
   console.log('========== DEVELOPMENT RUNSERVER ==========');
-  apiHost = 'http://localhost:9000';
+  apiHost = 'http://localhost:8000';
 } else {
   console.log('======== PRODUCTION BUILD ========');
   apiHost = 'https://shop.breakwire.me';
