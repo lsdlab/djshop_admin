@@ -91,7 +91,7 @@ const CreateForm = Form.create()(props => {
             <InputNumber
               min={0.01}
               step={0.01}
-              style={{ width: 150, textAlign: 'center', marginTop: 5 }}
+              style={{ width: 200, textAlign: 'center', marginTop: 5 }}
               placeholder="起始价格"
             />
           )}
@@ -112,7 +112,7 @@ const CreateForm = Form.create()(props => {
             <InputNumber
               min={0.01}
               step={0.01}
-              style={{ width: 150, textAlign: 'center', borderLeft: 0, marginTop: 5 }}
+              style={{ width: 200, textAlign: 'center', borderLeft: 0, marginTop: 5 }}
               placeholder="结束价格"
             />
           )}
@@ -128,7 +128,7 @@ const CreateForm = Form.create()(props => {
               min={5}
               max={50}
               step={1}
-              style={{ width: 150, textAlign: 'center', marginTop: 5 }}
+              style={{ width: 200, textAlign: 'center', marginTop: 5 }}
               placeholder="砍价比例 5%"
             />
           )}
@@ -150,7 +150,7 @@ const CreateForm = Form.create()(props => {
               min={5}
               max={50}
               step={1}
-              style={{ width: 150, textAlign: 'center', borderLeft: 0, marginTop: 5 }}
+              style={{ width: 200, textAlign: 'center', borderLeft: 0, marginTop: 5 }}
               placeholder="砍价比例 50%"
             />
           )}
