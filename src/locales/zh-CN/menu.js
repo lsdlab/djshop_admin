@@ -44,7 +44,7 @@ export default {
   'menu.assist.example': '测试',
   'menu.assist.splash-list': '开屏广告',
   'menu.assist.banner-list': '轮播图',
-  'menu.assist.notice-list': '全网通知',
+  'menu.assist.notice-list': '通知',
   'menu.assist.upload-image': '上传图片',
   'menu.assist.upload-video': '上传视频',
   'menu.assist.user-list': '用户列表',
