@@ -77,6 +77,12 @@ const CreateForm = Form.create()(props => {
       onOk={okHandle}
       onCancel={() => handleModalVisible()}
     >
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="促销库存">
+        {form.getFieldDecorator('promotion_stock', {
+          rules: [{ required: true, message: '请选择促销库存！' }],
+        })(<InputNumber min={1} style={{ width: '100%' }} placeholder="促销库存" />)}
+      </FormItem>
+
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="价格区间">
         <InputGroup compact>
           {form.getFieldDecorator('start_price', {
@@ -85,7 +91,7 @@ const CreateForm = Form.create()(props => {
             <InputNumber
               min={0.01}
               step={0.01}
-              style={{ width: 150, textAlign: 'center', marginTop: 5 }}
+              style={{ width: 200, textAlign: 'center', marginTop: 5 }}
               placeholder="起始价格"
             />
           )}
@@ -106,7 +112,7 @@ const CreateForm = Form.create()(props => {
             <InputNumber
               min={0.01}
               step={0.01}
-              style={{ width: 150, textAlign: 'center', borderLeft: 0, marginTop: 5 }}
+              style={{ width: 200, textAlign: 'center', borderLeft: 0, marginTop: 5 }}
               placeholder="结束价格"
             />
           )}
@@ -122,7 +128,7 @@ const CreateForm = Form.create()(props => {
               min={5}
               max={50}
               step={1}
-              style={{ width: 150, textAlign: 'center', marginTop: 5 }}
+              style={{ width: 200, textAlign: 'center', marginTop: 5 }}
               placeholder="砍价比例 5%"
             />
           )}
@@ -144,7 +150,7 @@ const CreateForm = Form.create()(props => {
               min={5}
               max={50}
               step={1}
-              style={{ width: 150, textAlign: 'center', borderLeft: 0, marginTop: 5 }}
+              style={{ width: 200, textAlign: 'center', borderLeft: 0, marginTop: 5 }}
               placeholder="砍价比例 50%"
             />
           )}
@@ -182,6 +188,12 @@ const CreateFormGroupon = Form.create()(props => {
       onOk={okHandle}
       onCancel={() => handleModalVisibleGroupon()}
     >
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="促销库存">
+        {form.getFieldDecorator('promotion_stock', {
+          rules: [{ required: true, message: '请选择促销库存！' }],
+        })(<InputNumber min={5} style={{ width: '100%' }} placeholder="促销库存" />)}
+      </FormItem>
+
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="团购价格">
         {form.getFieldDecorator('groupon_price', {
           rules: [{ required: true, message: '请输入结束价格！' }],
@@ -344,6 +356,7 @@ class ProductDetail extends PureComponent {
     const { dispatch } = this.props;
     const payload = {
       product_spec: productSpecId,
+      promotion_stock: fields.promotion_stock,
       start_price: fields.start_price,
       end_price: fields.end_price,
       bargain_percent_range:
@@ -369,6 +382,7 @@ class ProductDetail extends PureComponent {
     const { dispatch } = this.props;
     const payload = {
       product_spec: productSpecId,
+      promotion_stock: fields.promotion_stock,
       groupon_price: fields.groupon_price,
       limit: fields.limit,
     };

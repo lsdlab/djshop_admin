@@ -173,6 +173,9 @@ class UpdateForm extends PureComponent {
             rules: [{ required: true, message: '请输入图标链接！' }],
           })(<Input placeholder="图标链接" />)}
         </FormItem>
+        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="图标">
+          <img src={modalFormVals.icon} alt="logo" width="48" />
+        </FormItem>
         {categoryData ? (
           <FormItem
             labelCol={{ span: 5 }}
@@ -321,13 +324,6 @@ class CategoryList extends PureComponent {
       {
         title: '包含商品数量',
         dataIndex: 'products_count',
-        render(text, record) {
-          if (record.category_type == '3') {
-            return text;
-          } else {
-            return '0';
-          }
-        },
       },
       {
         title: '创建时间',

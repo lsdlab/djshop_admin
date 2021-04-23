@@ -35,7 +35,7 @@ const CreateForm = Form.create()(props => {
       destroyOnClose
       centered
       keyboard
-      title="新增全网通知"
+      title="新增通知"
       width={800}
       visible={modalVisible}
       onOk={okHandle}
@@ -86,7 +86,7 @@ class UpdateForm extends PureComponent {
         destroyOnClose
         centered
         keyboard
-        title="全网通知"
+        title="通知"
         width={800}
         visible={updateModalVisible}
         footer={null}
@@ -200,7 +200,7 @@ class NoticeList extends PureComponent {
       type: 'notice/create',
       payload: fields,
     }).then(data => {
-      message.success('新增全网通知成功');
+      message.success('新增通知成功');
       this.handleModalVisible();
       this.props.dispatch({
         type: 'notice/fetch',
@@ -215,7 +215,7 @@ class NoticeList extends PureComponent {
       type: 'notice/delete',
       noticeID: noticeID,
     }).then(() => {
-      message.success('删除全网通知成功');
+      message.success('删除通知成功');
       dispatch({
         type: 'notice/fetch',
         payload: {},
@@ -229,7 +229,7 @@ class NoticeList extends PureComponent {
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
             <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
-              新增全网通知
+              新增通知
             </Button>
           </Col>
         </Row>
@@ -306,14 +306,14 @@ class NoticeList extends PureComponent {
             <Divider type="vertical" />
             {record.deleted ? (
               <Popconfirm
-                title="是否要删除此全网通知？"
+                title="是否要删除此通知？"
                 onConfirm={() => this.handleDeleted(record.id)}
               >
                 <a disabled>删除</a>
               </Popconfirm>
             ) : (
               <Popconfirm
-                title="是否要删除此全网通知？"
+                title="是否要删除此通知？"
                 onConfirm={() => this.handleDeleted(record.id)}
               >
                 <a>删除</a>
@@ -325,7 +325,7 @@ class NoticeList extends PureComponent {
     ];
 
     return (
-      <PageHeaderWrapper title="全网通知">
+      <PageHeaderWrapper title="通知">
         <Card bordered={false}>
           <div className={styles.tableList}>
             <div className={styles.tableListForm}>{this.renderSimpleForm()}</div>

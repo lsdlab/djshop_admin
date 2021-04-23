@@ -79,17 +79,17 @@ class CouponCreate extends PureComponent {
               {getFieldDecorator('type', {
                 rules: [{ required: true, message: '请选择类型！' }],
               })(<Select placeholder="类型" style={{ width: '100%' }}>
-                  <Option value="3">普通</Option>
-                  <Option value="2">积分</Option>
-                  <Option value="1">会员</Option>
+                  <Option value="2">普通</Option>
+                  <Option value="1">积分</Option>
+                  <Option value="3">会员</Option>
                 </Select>)}
             </FormItem>
 
-            <FormItem {...formItemLayout} label="所需积分" style={{ display: form.getFieldValue('type') === '2' ? 'block' : 'none' }}>
+            <FormItem {...formItemLayout} label="所需积分" style={{ display: form.getFieldValue('type') === '1' ? 'block' : 'none' }}>
               {getFieldDecorator('points', {
                 rules: [
                   {
-                    required: form.getFieldValue('type') === '2' ? true : false,
+                    required: form.getFieldValue('type') === '1' ? true : false,
                     message: '请输入所需积分',
                   },
                 ],

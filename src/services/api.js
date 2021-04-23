@@ -360,7 +360,7 @@ export async function deleteBanner(bannerID) {
   });
 }
 
-// 获取全网通知列表
+// 获取通知列表
 export async function queryNotice(params) {
   const token = getToken();
   return request(`${apiHost}${apiVersion}/assist/notices/?${stringify(params)}`, {
@@ -372,7 +372,7 @@ export async function queryNotice(params) {
   });
 }
 
-// 创建全网通知
+// 创建通知
 export async function createNotice(params) {
   const token = getToken();
   return request(`${apiHost}${apiVersion}/assist/notices/`, {
@@ -385,7 +385,7 @@ export async function createNotice(params) {
   });
 }
 
-// 删除全网通知
+// 删除通知
 export async function deleteNotice(noticesID) {
   const token = getToken();
   return request(`${apiHost}${apiVersion}/assist/notices/${noticesID}/`, {
