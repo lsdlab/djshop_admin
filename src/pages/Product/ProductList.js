@@ -70,7 +70,7 @@ class ProductList extends PureComponent {
   }
 
   routerPushDetail = productID => {
-    router.push('/product/product-detail/' + productID);
+    formValues/product/product-detail/' + productID);
   };
 
   handleDeleted = (flag, productID) => {
