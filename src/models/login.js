@@ -1,6 +1,6 @@
 import { routerRedux } from 'dva/router';
 import { stringify } from 'qs';
-import { jwtToken, getFakeCaptcha } from '@/services/api';
+import { signin, getFakeCaptcha } from '@/services/api';
 import { setAuthority } from '@/utils/authority';
 import { getPageQuery } from '@/utils/utils';
 import { reloadAuthorized } from '@/utils/Authorized';
@@ -14,15 +14,14 @@ export default {
 
   effects: {
     *login({ payload }, { call, put }) {
-      const responseJSON = yield call(jwtToken, payload);
+      const responseJSON = yield call(signin, payload);
       let response;
       if (responseJSON) {
-        localStorage.setItem('token', responseJSON.token);
-        localStorage.setItem('now', new Date().getTime());
         response = {
           status: 'ok',
           type: 'account',
           currentAuthority: 'admin',
+          currentUser: responseJSON
         };
       } else {
         response = {
@@ -83,7 +82,7 @@ export default {
 
   reducers: {
     changeLoginStatus(state, { payload }) {
-      setAuthority(payload.currentAuthority);
+      setAuthority(payload.currentAuthority, payload.currentUser);
       return {
         ...state,
         status: payload.status,

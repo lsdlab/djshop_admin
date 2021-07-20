@@ -158,7 +158,7 @@ function getToken() {
   }
 }
 
-export async function jwtToken(params) {
+export async function signin(params) {
   return request(`${apiHost}${apiVersion}/users/username_password_signin/`, {
     method: 'POST',
     body: params,
